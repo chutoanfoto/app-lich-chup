@@ -52,34 +52,60 @@
             letter-spacing: 1px; margin-bottom: 12px; text-transform: uppercase;
         }
 
-        /* CARD ACCORDION */
+        /* --- XỔ LỊCH THÁNG & NGÀY --- */
+        .month-header {
+            padding: 14px 16px; background: rgba(212, 175, 55, 0.15); color: var(--accent-gold);
+            font-weight: 700; font-size: 15px; border-radius: 12px; margin: 15px 0 5px 0;
+            border-left: 4px solid var(--accent-gold); cursor: pointer;
+            display: flex; justify-content: space-between; align-items: center;
+            transition: background 0.2s;
+        }
+        .month-header:active { background: rgba(212, 175, 55, 0.25); }
+        .month-content { display: none; padding-left: 4px; animation: fadeIn 0.3s ease; }
+        .month-content.show { display: block; }
+
+        .day-header {
+            padding: 12px 16px; background: rgba(10, 132, 255, 0.15); color: #60a5fa;
+            font-weight: 700; font-size: 15px; /* Font Ngày to bằng font Tháng */ 
+            border-radius: 10px; margin: 10px 0 8px 10px;
+            border-left: 3px solid #60a5fa; cursor: pointer;
+            display: flex; justify-content: space-between; align-items: center;
+            transition: background 0.2s;
+        }
+        .day-header:active { background: rgba(10, 132, 255, 0.25); }
+        .day-content { display: none; padding-left: 10px; animation: fadeIn 0.3s ease; }
+        .day-content.show { display: block; }
+
+        .toggle-icon { transition: transform 0.3s ease; font-size: 12px; }
+
+        /* --- CARD ACCORDION --- */
         .card {
             background: var(--glass-bg-card); backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px); border: 1px solid var(--glass-border);
-            border-radius: 20px; padding: 18px; margin-bottom: 14px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border-radius: 16px; padding: 16px; margin-bottom: 12px;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
             cursor: pointer; transition: transform 0.15s ease;
         }
         .card:active { transform: scale(0.99); }
         .card-header {
             display: flex; justify-content: space-between; align-items: flex-start;
-            margin-bottom: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); padding-bottom: 10px;
+            margin-bottom: 8px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); padding-bottom: 8px;
         }
-        .client-name { font-size: 17px; font-weight: 600; color: var(--accent-gold); margin: 0 0 4px 0; }
+        .client-name { font-size: 16px; font-weight: 600; color: var(--accent-gold); margin: 0 0 4px 0; }
         .package-name { font-size: 13px; color: var(--text-sub); margin: 0; }
-        .shoot-date { font-size: 12px; background: rgba(255,255,255,0.08); padding: 4px 8px; border-radius: 10px; }
+        .shoot-time { font-size: 12px; background: rgba(255,255,255,0.08); padding: 4px 8px; border-radius: 8px; color: #fff;}
         .details-row { display: flex; margin-bottom: 6px; font-size: 13px; }
         .details-label { color: var(--text-sub); width: 85px; flex-shrink: 0; }
         
         .money-status {
-            margin-top: 12px; padding-top: 10px; border-top: 1px dashed rgba(255,255,255,0.1);
-            display: flex; justify-content: space-between; font-weight: 600; font-size: 14px;
+            margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(255,255,255,0.1);
+            display: flex; justify-content: space-between; font-weight: 600; font-size: 13px;
         }
         .debt { color: var(--alert-red); }
         .paid { color: var(--success-green); }
 
         .card-expanded-content {
-            display: none; margin-top: 12px; padding-top: 12px;
+            display: none; margin-top: 10px; padding-top: 10px;
             border-top: 1px solid rgba(255, 255, 255, 0.08); animation: fadeIn 0.2s ease;
         }
         .card-expanded-content.show { display: block; }
@@ -95,7 +121,7 @@
         .action-link-btn.drive { background: rgba(48, 209, 88, 0.2); border-color: rgba(48, 209, 88, 0.4); color: #86efac; }
         
         .card-btns-row {
-            display: flex; gap: 8px; margin-top: 14px; padding-top: 10px;
+            display: flex; gap: 8px; margin-top: 12px; padding-top: 10px;
             border-top: 1px dashed rgba(255,255,255,0.08);
         }
         .btn-card-action {
@@ -105,6 +131,7 @@
         .btn-edit { background: rgba(255,255,255,0.12); color: #fff; }
         .btn-delete { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3); }
 
+        /* --- DASHBOARD STATS --- */
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
         .stat-card {
             background: var(--glass-bg-card); backdrop-filter: blur(16px);
@@ -117,6 +144,7 @@
         .stat-value.green { color: var(--success-green); }
         .stat-value.red { color: var(--alert-red); }
 
+        /* --- FAB & MODAL --- */
         .fab {
             position: fixed; bottom: 24px; right: 24px; width: 58px; height: 58px;
             background: var(--blue-accent); border-radius: 50%;
@@ -179,7 +207,7 @@
         <div class="section-title">LỊCH CHỤP</div>
         <div id="bookingList"><div class="loader">Đang tải dữ liệu...</div></div>
 
-        <!-- THỐNG KÊ DOANH THU & BỘ LỌC -->
+        <!-- THỐNG KÊ DOANH THU -->
         <div class="section-title" style="margin-top: 40px;">THỐNG KÊ DOANH THU</div>
         <div style="display: flex; gap: 10px; margin-bottom: 15px;">
             <select id="filterYear" class="form-select" style="padding: 10px; font-size: 14px; background: rgba(255,255,255,0.08); flex: 1;" onchange="updateStatsUI()">
@@ -187,18 +215,10 @@
             </select>
             <select id="filterMonth" class="form-select" style="padding: 10px; font-size: 14px; background: rgba(255,255,255,0.08); flex: 1;" onchange="updateStatsUI()">
                 <option value="ALL">Tổng cả năm</option>
-                <option value="0">Tháng 1</option>
-                <option value="1">Tháng 2</option>
-                <option value="2">Tháng 3</option>
-                <option value="3">Tháng 4</option>
-                <option value="4">Tháng 5</option>
-                <option value="5">Tháng 6</option>
-                <option value="6">Tháng 7</option>
-                <option value="7">Tháng 8</option>
-                <option value="8">Tháng 9</option>
-                <option value="9">Tháng 10</option>
-                <option value="10">Tháng 11</option>
-                <option value="11">Tháng 12</option>
+                <option value="0">Tháng 1</option><option value="1">Tháng 2</option><option value="2">Tháng 3</option>
+                <option value="3">Tháng 4</option><option value="4">Tháng 5</option><option value="5">Tháng 6</option>
+                <option value="6">Tháng 7</option><option value="7">Tháng 8</option><option value="8">Tháng 9</option>
+                <option value="9">Tháng 10</option><option value="10">Tháng 11</option><option value="11">Tháng 12</option>
             </select>
         </div>
 
@@ -237,6 +257,7 @@
                 <div class="segment" onclick="switchTab('update')">CẬP NHẬT THANH TOÁN</div>
             </div>
             
+            <!-- TẠO LỊCH MỚI -->
             <div id="tab-create" class="tab-panel active">
                 <form id="formCreate" onsubmit="submitCreate(event)">
                     <div class="form-group"><label>Ngày chụp:</label><input type="date" id="c_ngay" class="form-control" required></div>
@@ -264,6 +285,7 @@
                 </form>
             </div>
 
+            <!-- CẬP NHẬT THANH TOÁN -->
             <div id="tab-update" class="tab-panel">
                 <div style="text-align: center; margin-bottom: 20px; font-weight: 600; font-size: 14px;">TÌM VÀ CẬP NHẬT TRẠNG THÁI THANH TOÁN</div>
                 <form id="formUpdate" onsubmit="submitUpdate(event)">
@@ -274,6 +296,7 @@
                 </form>
             </div>
 
+            <!-- SỬA LỊCH -->
             <div id="tab-edit" class="tab-panel">
                 <div style="text-align: center; margin-bottom: 15px; font-weight: 600; font-size: 15px; color: var(--accent-gold);" id="edit-client-header">Khách: ...</div>
                 <form id="formEdit" onsubmit="submitEdit(event)">
@@ -352,8 +375,6 @@
                 let selected = (y.toString() === currentSelectedYear) ? 'selected' : '';
                 yearSelect.insertAdjacentHTML('beforeend', `<option value="${y}" ${selected}>Năm ${y}</option>`); 
             });
-
-            // Chọn mặc định là Năm hiện tại (Tổng cả năm) khi load lần đầu
             if (isFirstLoad) {
                 let currentY = new Date().getFullYear().toString();
                 if (years.includes(parseInt(currentY))) { yearSelect.value = currentY; }
@@ -361,96 +382,125 @@
                 isFirstLoad = false;
             }
 
-            let currentMonthYear = '';
-
-            // Render Danh sách Lịch chụp (luôn hiện đầy đủ)
-            validData.forEach((row) => {
-                let gia = parseNum(row['Giá gói']), phi = parseNum(row['Phí đi lại']);
-                let coc = parseNum(row['Cọc']), tt = parseNum(row['Thanh toán thêm']);
-                let conLai = parseNum(row['Còn lại']);
-                let rowIndex = row['_rowIndex'];
-
+            // GOM NHÓM DATA: THÁNG -> NGÀY -> JOB
+            let groupedData = {};
+            validData.forEach(row => {
                 let dObj = row._dateObj;
                 let monthYear = dObj ? `Tháng ${dObj.getMonth() + 1} - ${dObj.getFullYear()}` : 'Lịch Chưa Xác Định';
-                let displayDate = dObj ? formatDateDisplay(dObj) : (row['Ngày chụp'] || '--');
+                let displayDate = dObj ? formatDateDisplay(dObj) : (row['Ngày chụp'] || 'Không rõ ngày');
                 
-                if (monthYear !== currentMonthYear) {
-                    list.insertAdjacentHTML('beforeend', `
-                        <div style="padding: 8px 12px; background: rgba(212, 175, 55, 0.1); color: var(--accent-gold); 
-                        font-weight: 700; font-size: 13px; border-radius: 8px; margin: 20px 0 10px 0; border-left: 3px solid var(--accent-gold);">
-                            📅 ${monthYear}
-                        </div>
-                    `);
-                    currentMonthYear = monthYear;
-                }
-
-                let moneyClass = conLai > 0 ? 'debt' : 'paid';
-                let moneyText = conLai > 0 ? `Cần thu: ${formatMoney(conLai)}` : 'Đã tất toán ✓';
-
-                let mapsBtn = row['Link Maps'] ? `<a href="${row['Link Maps']}" target="_blank" class="action-link-btn maps" onclick="event.stopPropagation()">📍 Xem Chỉ Đường Maps</a>` : '';
-                let driveBtn = row['Link Drive'] ? `<a href="${row['Link Drive']}" target="_blank" class="action-link-btn drive" onclick="event.stopPropagation()">📁 Mở Link Drive Ảnh</a>` : '';
-
-                list.insertAdjacentHTML('beforeend', `
-                    <div class="card" onclick="toggleCard(${rowIndex})">
-                        <div class="card-header">
-                            <div><h2 class="client-name">${row['Khách hàng']}</h2><p class="package-name">${row['Nội dung'] || 'Chưa ghi'}</p></div>
-                            <div class="shoot-date">${displayDate}</div>
-                        </div>
-                        <div class="details-row"><span class="details-label">Thời gian:</span><span>${row['Thời gian'] || '--'}</span></div>
-                        <div class="details-row"><span class="details-label">Địa điểm:</span><span>${row['Địa điểm'] || '--'}</span></div>
-                        
-                        <div class="money-status ${moneyClass}">
-                            <span>Tổng gói: ${formatMoney(gia + phi)}</span>
-                            <span>${moneyText}</span>
-                        </div>
-
-                        <div class="card-expanded-content" id="expanded-${rowIndex}">
-                            <div class="details-row"><span class="details-label">Phí di chuyển:</span><span>${formatMoney(phi)}</span></div>
-                            <div class="details-row"><span class="details-label">Tiền cọc:</span><span>${formatMoney(coc)}</span></div>
-                            <div class="details-row"><span class="details-label">Đã trả thêm:</span><span>${formatMoney(tt)}</span></div>
-                            ${row['Thư mục PC'] ? `<div class="details-row"><span class="details-label">Thư mục PC:</span><span>${row['Thư mục PC']}</span></div>` : ''}
-                            ${row['Ghi chú'] ? `<div class="details-row"><span class="details-label">Ghi chú:</span><span>${row['Ghi chú']}</span></div>` : ''}
-                            
-                            <div style="margin-top: 8px;">
-                                ${mapsBtn}
-                                ${driveBtn}
-                            </div>
-
-                            <div class="card-btns-row" onclick="event.stopPropagation()">
-                                <button class="btn-card-action btn-edit" onclick="openEditModal(${rowIndex})">✏️ Sửa / Thêm Link Drive</button>
-                                <button class="btn-card-action btn-delete" onclick="deleteBooking(${rowIndex}, '${row['Khách hàng']}')">🗑️ Xóa Lịch</button>
-                            </div>
-                        </div>
-                    </div>
-                `);
+                if (!groupedData[monthYear]) groupedData[monthYear] = {};
+                if (!groupedData[monthYear][displayDate]) groupedData[monthYear][displayDate] = [];
+                groupedData[monthYear][displayDate].push(row);
             });
 
-            // Cập nhật thẻ thống kê
+            // RENDER HTML LỒNG NHAU (NESTED ACCORDION)
+            let htmlStr = '';
+            let mIndex = 0;
+            
+            for (let monthYear in groupedData) {
+                htmlStr += `
+                    <div class="month-header" onclick="toggleSection('month-content-${mIndex}', this)">
+                        <span>📅 ${monthYear}</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="month-content" id="month-content-${mIndex}">
+                `;
+                
+                let dIndex = 0;
+                for (let dateStr in groupedData[monthYear]) {
+                    htmlStr += `
+                        <div class="day-header" onclick="toggleSection('day-content-${mIndex}-${dIndex}', this)">
+                            <span>🗓️ ${dateStr}</span>
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="day-content" id="day-content-${mIndex}-${dIndex}">
+                    `;
+                    
+                    groupedData[monthYear][dateStr].forEach(row => {
+                        let gia = parseNum(row['Giá gói']), phi = parseNum(row['Phí đi lại']);
+                        let coc = parseNum(row['Cọc']), tt = parseNum(row['Thanh toán thêm']);
+                        let conLai = parseNum(row['Còn lại']);
+                        let rowIndex = row['_rowIndex'];
+
+                        let moneyClass = conLai > 0 ? 'debt' : 'paid';
+                        let moneyText = conLai > 0 ? `Cần thu: ${formatMoney(conLai)}` : 'Đã tất toán ✓';
+
+                        let mapsBtn = row['Link Maps'] ? `<a href="${row['Link Maps']}" target="_blank" class="action-link-btn maps" onclick="event.stopPropagation()">📍 Xem Chỉ Đường Maps</a>` : '';
+                        let driveBtn = row['Link Drive'] ? `<a href="${row['Link Drive']}" target="_blank" class="action-link-btn drive" onclick="event.stopPropagation()">📁 Mở Link Drive Ảnh</a>` : '';
+
+                        htmlStr += `
+                            <div class="card" onclick="toggleSection('expanded-${rowIndex}', this, true)">
+                                <div class="card-header">
+                                    <div><h2 class="client-name">${row['Khách hàng']}</h2><p class="package-name">${row['Nội dung'] || 'Chưa ghi'}</p></div>
+                                    <div class="shoot-time">${row['Thời gian'] || '--'}</div>
+                                </div>
+                                <div class="details-row"><span class="details-label">Địa điểm:</span><span>${row['Địa điểm'] || '--'}</span></div>
+                                <div class="money-status ${moneyClass}">
+                                    <span>Tổng gói: ${formatMoney(gia + phi)}</span>
+                                    <span>${moneyText}</span>
+                                </div>
+
+                                <div class="card-expanded-content" id="expanded-${rowIndex}">
+                                    <div class="details-row"><span class="details-label">Phí đi lại:</span><span>${formatMoney(phi)}</span></div>
+                                    <div class="details-row"><span class="details-label">Tiền cọc:</span><span>${formatMoney(coc)}</span></div>
+                                    <div class="details-row"><span class="details-label">Đã trả thêm:</span><span>${formatMoney(tt)}</span></div>
+                                    ${row['Thư mục PC'] ? `<div class="details-row"><span class="details-label">Thư mục PC:</span><span>${row['Thư mục PC']}</span></div>` : ''}
+                                    ${row['Ghi chú'] ? `<div class="details-row"><span class="details-label">Ghi chú:</span><span>${row['Ghi chú']}</span></div>` : ''}
+                                    
+                                    <div style="margin-top: 8px;">
+                                        ${mapsBtn}
+                                        ${driveBtn}
+                                    </div>
+
+                                    <div class="card-btns-row" onclick="event.stopPropagation()">
+                                        <button class="btn-card-action btn-edit" onclick="openEditModal(${rowIndex})">✏️ Sửa / Thêm Link Drive</button>
+                                        <button class="btn-card-action btn-delete" onclick="deleteBooking(${rowIndex}, '${row['Khách hàng']}')">🗑️ Xóa Lịch</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    htmlStr += `</div>`; // Đóng day-content
+                    dIndex++;
+                }
+                htmlStr += `</div>`; // Đóng month-content
+                mIndex++;
+            }
+            
+            list.innerHTML = htmlStr;
             updateStatsUI();
         }
 
-        // HÀM TÍNH TOÁN THỐNG KÊ THEO BỘ LỌC
+        /* HÀM TOGGLE XỔ RA (Dùng chung cho Tháng, Ngày, và Thẻ) */
+        function toggleSection(id, headerEl, isCard = false) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.classList.toggle('show');
+                if (!isCard) { // Đổi chiều mũi tên nếu là tiêu đề Tháng/Ngày
+                    const icon = headerEl.querySelector('.toggle-icon');
+                    icon.style.transform = el.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)';
+                }
+            }
+        }
+
         function updateStatsUI() {
             let fYear = document.getElementById('filterYear').value;
             let fMonth = document.getElementById('filterMonth').value;
-
             let tRev = 0, tPaid = 0, tDebt = 0, tShows = 0;
 
             allValidData.forEach(row => {
                 let dObj = row._dateObj;
                 let matchY = true;
                 let matchM = true;
-
                 if (fYear !== "ALL") { if (!dObj || dObj.getFullYear().toString() !== fYear) matchY = false; }
                 if (fMonth !== "ALL") { if (!dObj || dObj.getMonth().toString() !== fMonth) matchM = false; }
 
                 if (matchY && matchM) {
                     let gia = parseNum(row['Giá gói']), phi = parseNum(row['Phí đi lại']);
                     let coc = parseNum(row['Cọc']), tt = parseNum(row['Thanh toán thêm']);
-                    tRev += (gia + phi);
-                    tPaid += (coc + tt);
-                    tDebt += parseNum(row['Còn lại']);
-                    tShows++;
+                    tRev += (gia + phi); tPaid += (coc + tt); tDebt += parseNum(row['Còn lại']); tShows++;
                 }
             });
 
@@ -461,11 +511,6 @@
         }
         
         loadData(); 
-
-        function toggleCard(index) {
-            const el = document.getElementById(`expanded-${index}`);
-            if (el) el.classList.toggle('show');
-        }
 
         function openModal() {
             document.getElementById('modalTabs').style.display = 'flex';
@@ -516,19 +561,13 @@
             e.preventDefault();
             const btn = document.getElementById('btnCreate');
             btn.innerText = "Đang đồng bộ..."; btn.style.opacity = 0.7; btn.disabled = true;
-
             const payload = {
                 action: "CREATE",
-                ngayChup: document.getElementById('c_ngay').value,
-                thoiGian: document.getElementById('c_thoigian').value,
-                khachHang: document.getElementById('c_khach').value,
-                diaDiem: document.getElementById('c_diadiem').value,
-                linkMaps: document.getElementById('c_linkmaps').value,
-                noiDung: document.getElementById('c_noidung').value,
-                giaGoi: parseNum(document.getElementById('c_gia').value),
-                phiDiLai: parseNum(document.getElementById('c_phi').value),
-                coc: parseNum(document.getElementById('c_coc').value),
-                ghiChu: document.getElementById('c_ghichu').value,
+                ngayChup: document.getElementById('c_ngay').value, thoiGian: document.getElementById('c_thoigian').value,
+                khachHang: document.getElementById('c_khach').value, diaDiem: document.getElementById('c_diadiem').value,
+                linkMaps: document.getElementById('c_linkmaps').value, noiDung: document.getElementById('c_noidung').value,
+                giaGoi: parseNum(document.getElementById('c_gia').value), phiDiLai: parseNum(document.getElementById('c_phi').value),
+                coc: parseNum(document.getElementById('c_coc').value), ghiChu: document.getElementById('c_ghichu').value,
                 thuMucPC: document.getElementById('c_thumuc').value
             };
             await sendData(payload, btn, "⚡ TẠO LỊCH & ĐỒNG BỘ PRO");
@@ -539,11 +578,9 @@
             e.preventDefault();
             const btn = document.getElementById('btnUpdate');
             btn.innerText = "Đang xử lý..."; btn.style.opacity = 0.7; btn.disabled = true;
-
             const payload = {
                 action: "UPDATE",
-                ngayChup: document.getElementById('u_ngay').value,
-                khachHang: document.getElementById('u_khach').value,
+                ngayChup: document.getElementById('u_ngay').value, khachHang: document.getElementById('u_khach').value,
                 traThem: parseNum(document.getElementById('u_trathem').value)
             };
             await sendData(payload, btn, "✔ XÁC NHẬN ĐÃ THANH TOÁN");
@@ -554,12 +591,9 @@
             e.preventDefault();
             const btn = document.getElementById('btnEdit');
             btn.innerText = "Đang lưu..."; btn.style.opacity = 0.7; btn.disabled = true;
-
             const payload = {
-                action: "EDIT_ROW",
-                rowIndex: document.getElementById('e_rowindex').value,
-                linkDrive: document.getElementById('e_linkdrive').value,
-                linkMaps: document.getElementById('e_linkmaps').value,
+                action: "EDIT_ROW", rowIndex: document.getElementById('e_rowindex').value,
+                linkDrive: document.getElementById('e_linkdrive').value, linkMaps: document.getElementById('e_linkmaps').value,
                 ghiChu: document.getElementById('e_ghichu').value
             };
             await sendData(payload, btn, "💾 LƯU CẬP NHẬT");
@@ -567,12 +601,10 @@
 
         async function deleteBooking(rowIndex, name) {
             if (!confirm(`Bạn có chắc chắn muốn XÓA lịch của khách "${name}" không? Thao tác này không thể hoàn tác.`)) return;
-            const payload = { action: "DELETE_ROW", rowIndex: rowIndex };
             try {
                 await fetch(API_URL, {
-                    method: 'POST', mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                    method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: "DELETE_ROW", rowIndex: rowIndex })
                 });
                 setTimeout(loadData, 1500);
             } catch (err) { alert("Lỗi khi xóa lịch!"); }
@@ -581,12 +613,10 @@
         async function sendData(payload, btn, originalText) {
             try {
                 await fetch(API_URL, {
-                    method: 'POST', mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
+                    method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-                closeModal(); 
-                setTimeout(loadData, 1500); 
+                closeModal(); setTimeout(loadData, 1500); 
             } catch (err) { alert("Lỗi khi lưu dữ liệu!"); } 
             finally { btn.innerText = originalText; btn.style.opacity = 1; btn.disabled = false; }
         }
