@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Studio Manager Pro</title>
+    
+    <style>
+        :root {
+            /* Tone màu tối, điểm xuyết ánh vàng sang trọng tương tự web báo giá của bạn */
+            --glass-bg: rgba(25, 25, 25, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
+            --text-sub: #a1a1aa;
+            --accent-gold: #d4af37;
+            --alert-red: #ef4444;
+            --success-green: #10b981;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #000;
+            /* Hiệu ứng nền có các quầng sáng tối mờ ảo */
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(212, 175, 55, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.05), transparent 25%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        .header {
+            padding: 40px 20px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .container {
+            padding: 0 15px;
+        }
+
+        /* LIQUID GLASS CARD */
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease;
+        }
+
+        .card:active {
+            transform: scale(0.98);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 12px;
+        }
+
+        .client-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--accent-gold);
+            margin: 0 0 5px 0;
+        }
+
+        .package-name {
+            font-size: 14px;
+            color: var(--text-sub);
+            margin: 0;
+        }
+
+        .shoot-date {
+            font-size: 13px;
+            background: rgba(255,255,255,0.1);
+            padding: 4px 10px;
+            border-radius: 12px;
+            white-space: nowrap;
+        }
+
+        .details-row {
+            display: flex;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .details-label {
+            color: var(--text-sub);
+            width: 80px;
+        }
+
+        .money-status {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+        }
+
+        .debt { color: var(--alert-red); }
+        .paid { color: var(--success-green); }
+
+        .loader {
+            text-align: center;
+            padding: 50px;
+            color: var(--text-sub);
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Lịch Trình Studio</h1>
+    </div>
+
+    <div class="container" id="app">
+        <div class="loader">Đang đồng bộ dữ liệu từ hệ thống...</div>
+    </div>
+
+    <script>
+        // === ĐIỀN LINK API CỦA BẠN VÀO ĐÂY ===
+        const API_URL = "https://script.google.com/macros/s/AKfycbxbamIQUH0iVTL9_oTTvE4uk1oiaA130murs_w0EpoFBl4VuOglimbqXSmzNq9GUjbb/exec";
+
+        async function fetchData() {
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                renderCards(data);
+            } catch (error) {
+                document.getElementById('app').innerHTML = '<div class="loader" style="color: red;">Lỗi kết nối dữ liệu. Vui lòng thử lại.</div>';
+            }
+        }
+
+        function renderCards(data) {
+            const app = document.getElementById('app');
+            app.innerHTML = '';
+
+            if (data.length === 0) {
+                app.innerHTML = '<div class="loader">Chưa có lịch chụp nào.</div>';
+                return;
+            }
+
+            // Sắp xếp ngày gần nhất lên trên
+            data.reverse().forEach(row => {
+                // Xử lý chuỗi tiền (xóa ký tự thừa, parse số để so sánh)
+                let remainingStr = row['Còn lại'] || "0";
+                let remainingNum = parseInt(remainingStr.toString().replace(/,/g, '').replace(/\./g, '').replace('đ', '').trim()) || 0;
+                
+                let moneyClass = remainingNum > 0 ? 'debt' : 'paid';
+                let moneyText = remainingNum > 0 ? `Cần thu: ${row['Còn lại']}` : 'Đã tất toán ✓';
+
+                const cardHTML = `
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h2 class="client-name">${row['Khách hàng']}</h2>
+                                <p class="package-name">${row['Nội dung']}</p>
+                            </div>
+                            <div class="shoot-date">${row['Ngày chụp']}</div>
+                        </div>
+                        
+                        <div class="details-row">
+                            <span class="details-label">Thời gian:</span>
+                            <span>${row['Thời gian']}</span>
+                        </div>
+                        <div class="details-row">
+                            <span class="details-label">Địa điểm:</span>
+                            <span>${row['Địa điểm']}</span>
+                        </div>
+                        
+                        <div class="money-status ${moneyClass}">
+                            <span>Trạng thái:</span>
+                            <span>${moneyText}</span>
+                        </div>
+                    </div>
+                `;
+                app.insertAdjacentHTML('beforeend', cardHTML);
+            });
+        }
+
+        // Chạy hàm lấy dữ liệu khi load trang
+        fetchData();
+    </script>
+</body>
+</html>
