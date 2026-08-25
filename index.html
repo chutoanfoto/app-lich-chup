@@ -11,7 +11,7 @@
         :root {
             --bg-main: #050505;
             --glass-bg-card: rgba(22, 22, 22, 0.75);
-            --glass-bg-modal: rgba(25, 25, 28, 0.85);
+            --glass-bg-modal: rgba(25, 25, 28, 0.9);
             --glass-border: rgba(255, 255, 255, 0.1);
             --text-main: #ffffff;
             --text-sub: #a1a1aa;
@@ -36,39 +36,32 @@
 
         /* HEADER */
         .header {
-            padding: 16px 20px;
-            position: sticky; top: 0; z-index: 50;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            padding: 16px 20px; position: sticky; top: 0; z-index: 50;
+            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--glass-border);
             display: flex; justify-content: space-between; align-items: center;
         }
-        
-        .header img {
-            height: 34px;
-            object-fit: contain;
-        }
-
+        .header img { height: 34px; object-fit: contain; }
         .status-dot {
-            display: inline-block; width: 8px; height: 8px; 
-            background: var(--success-green); border-radius: 50%; 
-            box-shadow: 0 0 8px var(--success-green); margin-right: 6px;
+            display: inline-block; width: 8px; height: 8px; background: var(--success-green);
+            border-radius: 50%; box-shadow: 0 0 8px var(--success-green); margin-right: 6px;
         }
 
         .container { padding: 15px; max-width: 600px; margin: 0 auto; }
-        
         .section-title {
             font-size: 13px; font-weight: 700; color: var(--text-sub); 
             letter-spacing: 1px; margin-bottom: 12px; text-transform: uppercase;
         }
 
-        /* CARDS */
+        /* CARD ACCORDION */
         .card {
             background: var(--glass-bg-card); backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px); border: 1px solid var(--glass-border);
             border-radius: 20px; padding: 18px; margin-bottom: 14px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            cursor: pointer; transition: transform 0.15s ease;
         }
+        .card:active { transform: scale(0.99); }
         .card-header {
             display: flex; justify-content: space-between; align-items: flex-start;
             margin-bottom: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); padding-bottom: 10px;
@@ -77,7 +70,8 @@
         .package-name { font-size: 13px; color: var(--text-sub); margin: 0; }
         .shoot-date { font-size: 12px; background: rgba(255,255,255,0.08); padding: 4px 8px; border-radius: 10px; }
         .details-row { display: flex; margin-bottom: 6px; font-size: 13px; }
-        .details-label { color: var(--text-sub); width: 75px; }
+        .details-label { color: var(--text-sub); width: 85px; flex-shrink: 0; }
+        
         .money-status {
             margin-top: 12px; padding-top: 10px; border-top: 1px dashed rgba(255,255,255,0.1);
             display: flex; justify-content: space-between; font-weight: 600; font-size: 14px;
@@ -85,7 +79,38 @@
         .debt { color: var(--alert-red); }
         .paid { color: var(--success-green); }
 
-        /* THỐNG KÊ KẾ TOÁN */
+        /* NỘI DUNG XỔ RA (ACCORDION) */
+        .card-expanded-content {
+            display: none;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            animation: fadeIn 0.2s ease;
+        }
+        .card-expanded-content.show { display: block; }
+        
+        .action-link-btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 7px 12px; background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
+            color: #fff; text-decoration: none; font-size: 12px; font-weight: 600;
+            margin-top: 6px; margin-right: 6px;
+        }
+        .action-link-btn.maps { background: rgba(10, 132, 255, 0.2); border-color: rgba(10, 132, 255, 0.4); color: #60a5fa; }
+        .action-link-btn.drive { background: rgba(48, 209, 88, 0.2); border-color: rgba(48, 209, 88, 0.4); color: #86efac; }
+        
+        .card-btns-row {
+            display: flex; gap: 8px; margin-top: 14px; padding-top: 10px;
+            border-top: 1px dashed rgba(255,255,255,0.08);
+        }
+        .btn-card-action {
+            flex: 1; padding: 9px 0; border: none; border-radius: 10px;
+            font-size: 12px; font-weight: 600; cursor: pointer;
+        }
+        .btn-edit { background: rgba(255,255,255,0.12); color: #fff; }
+        .btn-delete { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+        /* DASHBOARD STATS */
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
         .stat-card {
             background: var(--glass-bg-card); backdrop-filter: blur(16px);
@@ -129,28 +154,28 @@
         .close-btn { font-size: 26px; color: var(--text-sub); cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.1); border-radius: 50%;}
         
         .segmented-control { display: flex; background: rgba(118, 118, 128, 0.24); border-radius: 9px; padding: 3px; margin-bottom: 20px; }
-        .segment { flex: 1; text-align: center; padding: 8px 0; font-size: 13px; font-weight: 600; color: var(--text-main); border-radius: 7px; cursor: pointer; transition: background 0.2s ease, box-shadow 0.2s ease; }
-        .segment.active { background: rgba(99, 99, 102, 0.8); box-shadow: 0 3px 8px rgba(0,0,0,0.12), 0 3px 1px rgba(0,0,0,0.04); }
+        .segment { flex: 1; text-align: center; padding: 8px 0; font-size: 13px; font-weight: 600; color: var(--text-main); border-radius: 7px; cursor: pointer; }
+        .segment.active { background: rgba(99, 99, 102, 0.8); box-shadow: 0 3px 8px rgba(0,0,0,0.12); }
         .tab-panel { display: none; animation: fadeIn 0.3s ease; }
         .tab-panel.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         
         .form-group { margin-bottom: 14px; display: flex; flex-direction: column; }
         .form-group label { font-size: 13px; color: var(--text-sub); margin-bottom: 6px; margin-left: 4px; }
-        .form-control, .form-select { width: 100%; padding: 14px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; color: #fff; box-sizing: border-box; font-size: 15px; outline: none; transition: border 0.3s ease, background 0.3s ease; }
+        .form-control, .form-select { width: 100%; padding: 14px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; color: #fff; box-sizing: border-box; font-size: 15px; outline: none; }
         .form-control:focus, .form-select:focus { border-color: var(--blue-accent); background: rgba(255, 255, 255, 0.08); }
         input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); opacity: 0.6; }
         
-        .btn { width: 100%; padding: 16px; border: none; border-radius: 14px; font-weight: 600; font-size: 15px; color: #fff; margin-top: 10px; cursor: pointer; transition: transform 0.1s ease; }
+        .btn { width: 100%; padding: 16px; border: none; border-radius: 14px; font-weight: 600; font-size: 15px; color: #fff; margin-top: 10px; cursor: pointer; }
         .btn:active { transform: scale(0.97); }
         .btn-blue { background: var(--blue-accent); box-shadow: 0 4px 15px rgba(10, 132, 255, 0.3); }
-        .btn-green { background: var(--success-green); box-shadow: 0 4px 15px rgba(48, 209, 88, 0.2); color: #000; }
+        .btn-green { background: var(--success-green); color: #000; }
         .loader { text-align: center; padding: 40px; color: var(--text-sub); }
     </style>
 </head>
 <body>
 
-    <!-- HEADER VỚI LOGO -->
+    <!-- HEADER -->
     <div class="header">
         <img src="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png" alt="ChuToan Foto Logo">
         <div style="font-size: 12px; color: var(--success-green); display: flex; align-items: center;">
@@ -160,11 +185,11 @@
 
     <!-- MAIN CONTAINER -->
     <div class="container">
-        <!-- PHẦN 1: LỊCH CHỤP (ĐƯA LÊN ĐẦU) -->
+        <!-- PHẦN 1: LỊCH CHỤP -->
         <div class="section-title">LỊCH CHỤP</div>
         <div id="bookingList"><div class="loader">Đang tải dữ liệu...</div></div>
 
-        <!-- PHẦN 2: THỐNG KÊ TỔNG QUAN (XUỐNG DƯỚI) -->
+        <!-- PHẦN 2: THỐNG KÊ TỔNG QUAN -->
         <div class="section-title" style="margin-top: 40px;">THỐNG KÊ TỔNG QUAN</div>
         <div class="stats-grid">
             <div class="stat-card">
@@ -189,14 +214,14 @@
     <!-- NÚT TẠO LỊCH (+) -->
     <div class="fab" onclick="openModal()">+</div>
 
-    <!-- MODAL POPUP FORM (IOS 27 LIQUID GLASS) -->
+    <!-- MODAL POPUP FORM -->
     <div class="modal" id="modalForm">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Thao Tác Dữ Liệu</h3>
+                <h3 id="modalTitle">Thao Tác Dữ Liệu</h3>
                 <span class="close-btn" onclick="closeModal()">&times;</span>
             </div>
-            <div class="segmented-control">
+            <div class="segmented-control" id="modalTabs">
                 <div class="segment active" onclick="switchTab('create')">TẠO LỊCH MỚI</div>
                 <div class="segment" onclick="switchTab('update')">CẬP NHẬT THANH TOÁN</div>
             </div>
@@ -208,6 +233,7 @@
                     <div class="form-group"><label>Thời gian (Sáng/Chiều):</label><input type="text" id="c_thoigian" class="form-control" placeholder="Sáng"></div>
                     <div class="form-group"><label>Khách hàng (Tên):</label><input type="text" id="c_khach" class="form-control" required placeholder="Bắt buộc nhập đúng để dễ tìm"></div>
                     <div class="form-group"><label>Địa điểm chụp:</label><input type="text" id="c_diadiem" class="form-control"></div>
+                    <div class="form-group"><label>Link Google Maps (Vị trí):</label><input type="url" id="c_linkmaps" class="form-control" placeholder="https://maps.app.goo.gl/..."></div>
                     <div class="form-group">
                         <label>Gói dịch vụ:</label>
                         <select id="c_noidung" class="form-select">
@@ -238,12 +264,26 @@
                     <button type="submit" class="btn btn-green" id="btnUpdate">✔ XÁC NHẬN ĐÃ THANH TOÁN</button>
                 </form>
             </div>
+
+            <!-- TAB 3: CHỈNH SỬA LỊCH / LINK DRIVE -->
+            <div id="tab-edit" class="tab-panel">
+                <div style="text-align: center; margin-bottom: 15px; font-weight: 600; font-size: 15px; color: var(--accent-gold);" id="edit-client-header">Khách: ...</div>
+                <form id="formEdit" onsubmit="submitEdit(event)">
+                    <input type="hidden" id="e_rowindex">
+                    <div class="form-group"><label>Link Ảnh Google Drive (Bàn giao):</label><input type="url" id="e_linkdrive" class="form-control" placeholder="https://drive.google.com/drive/..."></div>
+                    <div class="form-group"><label>Link Google Maps:</label><input type="url" id="e_linkmaps" class="form-control" placeholder="https://maps.app.goo.gl/..."></div>
+                    <div class="form-group"><label>Ghi chú thêm:</label><input type="text" id="e_ghichu" class="form-control"></div>
+                    <button type="submit" class="btn btn-blue" id="btnEdit">💾 LƯU CẬP NHẬT</button>
+                </form>
+            </div>
         </div>
     </div>
 
     <script>
-        // API URL ĐÃ ĐƯỢC ĐIỀN CHÍNH XÁC
+        // LINK API MỚI ĐÃ ĐƯỢC CẬP NHẬT
         const API_URL = "https://script.google.com/macros/s/AKfycbyiFlBtGKqz0TbUSIraSrSP81aq0Uos3dLKdF5uzoyZTBGGeArOzQ3fjp8a551HGnm0/exec";
+
+        let allDataCache = [];
 
         function formatMoney(num) { return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(num); }
         function parseNum(val) { if (!val) return 0; return parseInt(val.toString().replace(/\./g, '').replace(/,/g, '').replace('đ', '').trim()) || 0; }
@@ -252,6 +292,7 @@
             try {
                 const res = await fetch(API_URL);
                 const data = await res.json();
+                allDataCache = data;
                 renderUI(data);
             } catch (e) { document.getElementById('bookingList').innerHTML = '<div class="loader" style="color:red">Lỗi tải dữ liệu.</div>'; }
         }
@@ -263,22 +304,21 @@
             
             if (data.length === 0) { list.innerHTML = '<div class="loader">Chưa có lịch chụp nào.</div>'; return; }
 
-            // Lọc và Sắp xếp lịch theo ngày
             let validData = data.filter(r => r['Khách hàng']);
             validData.sort((a, b) => new Date(a['Ngày chụp']) - new Date(b['Ngày chụp'])); 
 
             let currentMonthYear = '';
 
-            validData.forEach(row => {
+            validData.forEach((row) => {
                 let gia = parseNum(row['Giá gói']), phi = parseNum(row['Phí đi lại']);
                 let coc = parseNum(row['Cọc']), tt = parseNum(row['Thanh toán thêm']);
                 let conLai = parseNum(row['Còn lại']);
+                let rowIndex = row['_rowIndex'];
 
                 totalRev += (gia + phi);
                 totalPaid += (coc + tt);
                 totalDebt += conLai;
 
-                // Tự động phân tách theo Tháng / Năm
                 let dateObj = new Date(row['Ngày chụp']);
                 let monthYear = isNaN(dateObj.getTime()) ? 'Lịch Chưa Xác Định' : `Tháng ${dateObj.getMonth() + 1} - ${dateObj.getFullYear()}`;
                 
@@ -295,17 +335,39 @@
                 let moneyClass = conLai > 0 ? 'debt' : 'paid';
                 let moneyText = conLai > 0 ? `Cần thu: ${formatMoney(conLai)}` : 'Đã tất toán ✓';
 
+                let mapsBtn = row['Link Maps'] ? `<a href="${row['Link Maps']}" target="_blank" class="action-link-btn maps" onclick="event.stopPropagation()">📍 Xem Chỉ Đường Maps</a>` : '';
+                let driveBtn = row['Link Drive'] ? `<a href="${row['Link Drive']}" target="_blank" class="action-link-btn drive" onclick="event.stopPropagation()">📁 Mở Link Drive Ảnh</a>` : '';
+
                 list.insertAdjacentHTML('beforeend', `
-                    <div class="card">
+                    <div class="card" onclick="toggleCard(${rowIndex})">
                         <div class="card-header">
                             <div><h2 class="client-name">${row['Khách hàng']}</h2><p class="package-name">${row['Nội dung'] || 'Chưa ghi'}</p></div>
                             <div class="shoot-date">${row['Ngày chụp']}</div>
                         </div>
                         <div class="details-row"><span class="details-label">Thời gian:</span><span>${row['Thời gian'] || '--'}</span></div>
                         <div class="details-row"><span class="details-label">Địa điểm:</span><span>${row['Địa điểm'] || '--'}</span></div>
+                        
                         <div class="money-status ${moneyClass}">
                             <span>Tổng gói: ${formatMoney(gia + phi)}</span>
                             <span>${moneyText}</span>
+                        </div>
+
+                        <div class="card-expanded-content" id="expanded-${rowIndex}">
+                            <div class="details-row"><span class="details-label">Phí di chuyển:</span><span>${formatMoney(phi)}</span></div>
+                            <div class="details-row"><span class="details-label">Tiền cọc:</span><span>${formatMoney(coc)}</span></div>
+                            <div class="details-row"><span class="details-label">Đã trả thêm:</span><span>${formatMoney(tt)}</span></div>
+                            ${row['Thư mục PC'] ? `<div class="details-row"><span class="details-label">Thư mục PC:</span><span>${row['Thư mục PC']}</span></div>` : ''}
+                            ${row['Ghi chú'] ? `<div class="details-row"><span class="details-label">Ghi chú:</span><span>${row['Ghi chú']}</span></div>` : ''}
+                            
+                            <div style="margin-top: 8px;">
+                                ${mapsBtn}
+                                ${driveBtn}
+                            </div>
+
+                            <div class="card-btns-row" onclick="event.stopPropagation()">
+                                <button class="btn-card-action btn-edit" onclick="openEditModal(${rowIndex})">✏️ Sửa / Thêm Link Drive</button>
+                                <button class="btn-card-action btn-delete" onclick="deleteBooking(${rowIndex}, '${row['Khách hàng']}')">🗑️ Xóa Lịch</button>
+                            </div>
                         </div>
                     </div>
                 `);
@@ -318,19 +380,46 @@
         
         loadData(); 
 
-        /* MODAL & FORM */
-        function openModal() { document.getElementById('modalForm').style.display = 'flex'; }
+        function toggleCard(index) {
+            const el = document.getElementById(`expanded-${index}`);
+            if (el) el.classList.toggle('show');
+        }
+
+        function openModal() {
+            document.getElementById('modalTabs').style.display = 'flex';
+            document.getElementById('modalTitle').innerText = "Thao Tác Dữ Liệu";
+            switchTab('create');
+            document.getElementById('modalForm').style.display = 'flex';
+        }
+
         function closeModal() { document.getElementById('modalForm').style.display = 'none'; }
+
         function switchTab(tab) {
             document.querySelectorAll('.segment').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-panel').forEach(el => el.classList.remove('active'));
             if(tab === 'create') {
                 document.querySelectorAll('.segment')[0].classList.add('active');
                 document.getElementById('tab-create').classList.add('active');
-            } else {
+            } else if(tab === 'update') {
                 document.querySelectorAll('.segment')[1].classList.add('active');
                 document.getElementById('tab-update').classList.add('active');
+            } else if(tab === 'edit') {
+                document.getElementById('tab-edit').classList.add('active');
             }
+        }
+
+        function openEditModal(rowIndex) {
+            const item = allDataCache.find(r => r._rowIndex === rowIndex);
+            if (!item) return;
+            document.getElementById('modalTabs').style.display = 'none';
+            document.getElementById('modalTitle').innerText = "Chỉnh Sửa Lịch Chụp";
+            document.getElementById('edit-client-header').innerText = `Khách hàng: ${item['Khách hàng']} (${item['Ngày chụp']})`;
+            document.getElementById('e_rowindex').value = rowIndex;
+            document.getElementById('e_linkdrive').value = item['Link Drive'] || '';
+            document.getElementById('e_linkmaps').value = item['Link Maps'] || '';
+            document.getElementById('e_ghichu').value = item['Ghi chú'] || '';
+            switchTab('edit');
+            document.getElementById('modalForm').style.display = 'flex';
         }
 
         document.querySelectorAll('.money-input').forEach(input => {
@@ -352,6 +441,7 @@
                 thoiGian: document.getElementById('c_thoigian').value,
                 khachHang: document.getElementById('c_khach').value,
                 diaDiem: document.getElementById('c_diadiem').value,
+                linkMaps: document.getElementById('c_linkmaps').value,
                 noiDung: document.getElementById('c_noidung').value,
                 giaGoi: parseNum(document.getElementById('c_gia').value),
                 phiDiLai: parseNum(document.getElementById('c_phi').value),
@@ -376,6 +466,34 @@
             };
             await sendData(payload, btn, "✔ XÁC NHẬN ĐÃ THANH TOÁN");
             document.getElementById('formUpdate').reset();
+        }
+
+        async function submitEdit(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnEdit');
+            btn.innerText = "Đang lưu..."; btn.style.opacity = 0.7; btn.disabled = true;
+
+            const payload = {
+                action: "EDIT_ROW",
+                rowIndex: document.getElementById('e_rowindex').value,
+                linkDrive: document.getElementById('e_linkdrive').value,
+                linkMaps: document.getElementById('e_linkmaps').value,
+                ghiChu: document.getElementById('e_ghichu').value
+            };
+            await sendData(payload, btn, "💾 LƯU CẬP NHẬT");
+        }
+
+        async function deleteBooking(rowIndex, name) {
+            if (!confirm(`Bạn có chắc chắn muốn XÓA lịch của khách "${name}" không? Thao tác này không thể hoàn tác.`)) return;
+            const payload = { action: "DELETE_ROW", rowIndex: rowIndex };
+            try {
+                await fetch(API_URL, {
+                    method: 'POST', mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                setTimeout(loadData, 1500);
+            } catch (err) { alert("Lỗi khi xóa lịch!"); }
         }
 
         async function sendData(payload, btn, originalText) {
