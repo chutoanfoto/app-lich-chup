@@ -3,16 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#000000">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Studio Manager Pro</title>
-    
     <style>
         :root {
-            /* Tone màu tối, điểm xuyết ánh vàng sang trọng tương tự web báo giá của bạn */
-            --glass-bg: rgba(25, 25, 25, 0.65);
-            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(22, 22, 22, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.1);
             --text-main: #ffffff;
             --text-sub: #a1a1aa;
             --accent-gold: #d4af37;
@@ -23,192 +18,443 @@
         body {
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #000;
-            /* Hiệu ứng nền có các quầng sáng tối mờ ảo */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #050505;
             background-image: 
-                radial-gradient(circle at 15% 50%, rgba(212, 175, 55, 0.08), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.05), transparent 25%);
+                radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.08), transparent 30%),
+                radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.05), transparent 30%);
             background-attachment: fixed;
             color: var(--text-main);
-            min-height: 100vh;
-            padding-bottom: 80px;
+            padding-bottom: 100px;
         }
 
         .header {
-            padding: 40px 20px 20px;
+            padding: 24px 20px;
             position: sticky;
             top: 0;
-            z-index: 100;
-            background: rgba(0, 0, 0, 0.5);
+            z-index: 50;
+            background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--glass-border);
-            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .header h1 {
             margin: 0;
-            font-size: 24px;
-            font-weight: 600;
+            font-size: 20px;
+            font-weight: 700;
             letter-spacing: 0.5px;
         }
 
         .container {
-            padding: 0 15px;
+            padding: 15px;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        /* LIQUID GLASS CARD */
+        /* DASHBOARD KẾ TOÁN */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 14px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-sub);
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .stat-value.gold { color: var(--accent-gold); }
+        .stat-value.green { color: var(--success-green); }
+        .stat-value.red { color: var(--alert-red); }
+
+        /* DANH SÁCH THẺ CARD LIQUID GLASS */
         .card {
             background: var(--glass-bg);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-            transition: transform 0.2s ease;
-        }
-
-        .card:active {
-            transform: scale(0.98);
+            padding: 18px;
+            margin-bottom: 14px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding-bottom: 12px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding-bottom: 10px;
         }
 
         .client-name {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 600;
             color: var(--accent-gold);
-            margin: 0 0 5px 0;
+            margin: 0 0 4px 0;
         }
 
         .package-name {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-sub);
             margin: 0;
         }
 
         .shoot-date {
-            font-size: 13px;
-            background: rgba(255,255,255,0.1);
-            padding: 4px 10px;
-            border-radius: 12px;
-            white-space: nowrap;
+            font-size: 12px;
+            background: rgba(255,255,255,0.08);
+            padding: 4px 8px;
+            border-radius: 10px;
         }
 
         .details-row {
             display: flex;
-            margin-bottom: 8px;
-            font-size: 14px;
+            margin-bottom: 6px;
+            font-size: 13px;
         }
 
         .details-label {
             color: var(--text-sub);
-            width: 80px;
+            width: 75px;
         }
 
         .money-status {
-            margin-top: 15px;
-            padding-top: 15px;
+            margin-top: 12px;
+            padding-top: 10px;
             border-top: 1px dashed rgba(255,255,255,0.1);
             display: flex;
             justify-content: space-between;
             font-weight: 600;
+            font-size: 14px;
         }
 
         .debt { color: var(--alert-red); }
         .paid { color: var(--success-green); }
 
+        /* NÚT THÊM (+) */
+        .fab {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 58px;
+            height: 58px;
+            background: var(--accent-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-size: 30px;
+            font-weight: bold;
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+            cursor: pointer;
+            z-index: 90;
+        }
+
+        /* MODAL POPUP FORM */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 100;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        .modal-content {
+            background: #18181b;
+            border-top: 1px solid var(--glass-border);
+            border-radius: 24px 24px 0 0;
+            width: 100%;
+            max-width: 600px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            color: var(--text-sub);
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            background: #27272a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: #fff;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: var(--accent-gold);
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            color: #000;
+            font-size: 15px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
         .loader {
             text-align: center;
-            padding: 50px;
+            padding: 40px;
             color: var(--text-sub);
-            font-style: italic;
         }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>Lịch Chụp Ảnh</h1>
+        <h1>Studio Manager</h1>
+        <div style="font-size: 12px; color: var(--accent-gold);">● Đồng bộ Google Sheets</div>
     </div>
 
-    <div class="container" id="app">
-        <div class="loader">Đang đồng bộ dữ liệu từ hệ thống...</div>
+    <div class="container">
+        <!-- BẢNG THỐNG KÊ KẾ TOÁN -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Tổng Doanh Thu</div>
+                <div class="stat-value gold" id="totalRevenue">0 đ</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Đã Thu Thực Tế</div>
+                <div class="stat-value green" id="totalCollected">0 đ</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Tổng Nợ Chưa Thu</div>
+                <div class="stat-value red" id="totalDebt">0 đ</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Tổng Số Show</div>
+                <div class="stat-value" id="totalShows">0</div>
+            </div>
+        </div>
+
+        <div style="font-size: 14px; font-weight: 600; margin-bottom: 12px; color: var(--text-sub);">LỊCH TRÌNH & HỢP ĐỒNG</div>
+
+        <div id="bookingList">
+            <div class="loader">Đang tải dữ liệu...</div>
+        </div>
+    </div>
+
+    <!-- NÚT TẠO LỊCH (+) -->
+    <div class="fab" onclick="openModal()">+</div>
+
+    <!-- FORM POPUP NHẬP THÔNG TIN -->
+    <div class="modal" id="modalForm">
+        <div class="modal-content">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 15px;">
+                <h3 style="margin:0; font-size:18px;">Thêm Lịch Chụp Mới</h3>
+                <span onclick="closeModal()" style="font-size:24px; cursor:pointer; color:var(--text-sub);">&times;</span>
+            </div>
+
+            <form id="bookingForm" onsubmit="saveBooking(event)">
+                <div class="form-group">
+                    <label>Tên khách hàng (*)</label>
+                    <input type="text" id="khachHang" class="form-control" required placeholder="Ví dụ: Hoàng Yến - Minh Tuấn">
+                </div>
+                <div class="form-group" style="display:flex; gap:10px;">
+                    <div style="flex:1;">
+                        <label>Ngày chụp (*)</label>
+                        <input type="date" id="ngayChup" class="form-control" required>
+                    </div>
+                    <div style="flex:1;">
+                        <label>Thời gian</label>
+                        <input type="text" id="thoiGian" class="form-control" placeholder="07:30 - 11:30">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Gói chụp / Nội dung</label>
+                    <input type="text" id="noiDung" class="form-control" placeholder="Phóng Sự Cưới / Ăn Hỏi...">
+                </div>
+                <div class="form-group">
+                    <label>Địa điểm</label>
+                    <input type="text" id="diaDiem" class="form-control" placeholder="Khách sạn / Nhà gái...">
+                </div>
+                <div class="form-group" style="display:flex; gap:10px;">
+                    <div style="flex:1;">
+                        <label>Giá gói (VNĐ)</label>
+                        <input type="number" id="giaGoi" class="form-control" placeholder="0">
+                    </div>
+                    <div style="flex:1;">
+                        <label>Phí đi lại (VNĐ)</label>
+                        <input type="number" id="phiDiLai" class="form-control" placeholder="0">
+                    </div>
+                </div>
+                <div class="form-group" style="display:flex; gap:10px;">
+                    <div style="flex:1;">
+                        <label>Tiền cọc (VNĐ)</label>
+                        <input type="number" id="coc" class="form-control" placeholder="0">
+                    </div>
+                    <div style="flex:1;">
+                        <label>Thanh toán thêm (VNĐ)</label>
+                        <input type="number" id="thanhToanThem" class="form-control" placeholder="0">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Ghi chú</label>
+                    <input type="text" id="ghiChu" class="form-control" placeholder="Yêu cầu thêm...">
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitBtn">LƯU LỊCH CHỤP</button>
+            </form>
+        </div>
     </div>
 
     <script>
-        // === ĐIỀN LINK API CỦA BẠN VÀO ĐÂY ===
-        const API_URL = "https://script.google.com/macros/s/AKfycbwOSfhBIWPuNQR9ViPzgaiEc8JpyMifiihcUAMFe3WZhNqNNe2CJ-P-cv8HdDlT3WQ/exec";
+        // THAY LINK WEB APP CỦA BẠN VÀO ĐÂY
+        const API_URL = "YOUR_API_LINK_HERE";
 
-        async function fetchData() {
+        function formatMoney(num) {
+            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(num);
+        }
+
+        function parseNum(val) {
+            if (!val) return 0;
+            return parseInt(val.toString().replace(/,/g, '').replace(/\./g, '').replace('đ', '').trim()) || 0;
+        }
+
+        async function loadData() {
             try {
-                const response = await fetch(API_URL);
-                const data = await response.json();
-                renderCards(data);
-            } catch (error) {
-                document.getElementById('app').innerHTML = '<div class="loader" style="color: red;">Lỗi kết nối dữ liệu. Vui lòng thử lại.</div>';
+                const res = await fetch(API_URL);
+                const data = await res.json();
+                renderUI(data);
+            } catch (e) {
+                document.getElementById('bookingList').innerHTML = '<div class="loader" style="color:red">Lỗi tải dữ liệu.</div>';
             }
         }
 
-        function renderCards(data) {
-            const app = document.getElementById('app');
-            app.innerHTML = '';
+        function renderUI(data) {
+            let totalRev = 0, totalPaid = 0, totalDebt = 0;
+
+            const list = document.getElementById('bookingList');
+            list.innerHTML = '';
 
             if (data.length === 0) {
-                app.innerHTML = '<div class="loader">Chưa có lịch chụp nào.</div>';
-                return;
+                list.innerHTML = '<div class="loader">Chưa có lịch chụp nào.</div>';
             }
 
-            // Sắp xếp ngày gần nhất lên trên
-            data.reverse().forEach(row => {
-                // Xử lý chuỗi tiền (xóa ký tự thừa, parse số để so sánh)
-                let remainingStr = row['Còn lại'] || "0";
-                let remainingNum = parseInt(remainingStr.toString().replace(/,/g, '').replace(/\./g, '').replace('đ', '').trim()) || 0;
-                
-                let moneyClass = remainingNum > 0 ? 'debt' : 'paid';
-                let moneyText = remainingNum > 0 ? `Cần thu: ${row['Còn lại']}` : 'Đã tất toán ✓';
+            data.slice().reverse().forEach(row => {
+                let gia = parseNum(row['Giá gói']);
+                let phi = parseNum(row['Phí đi lại']);
+                let coc = parseNum(row['Cọc']);
+                let tt = parseNum(row['Thanh toán thêm']);
+                let conLai = parseNum(row['Còn lại']);
 
-                const cardHTML = `
+                totalRev += (gia + phi);
+                totalPaid += (coc + tt);
+                totalDebt += conLai;
+
+                let moneyClass = conLai > 0 ? 'debt' : 'paid';
+                let moneyText = conLai > 0 ? `Cần thu: ${formatMoney(conLai)}` : 'Đã tất toán ✓';
+
+                list.insertAdjacentHTML('beforeend', `
                     <div class="card">
                         <div class="card-header">
                             <div>
                                 <h2 class="client-name">${row['Khách hàng']}</h2>
-                                <p class="package-name">${row['Nội dung']}</p>
+                                <p class="package-name">${row['Nội dung'] || 'Chưa ghi'}</p>
                             </div>
                             <div class="shoot-date">${row['Ngày chụp']}</div>
                         </div>
-                        
-                        <div class="details-row">
-                            <span class="details-label">Thời gian:</span>
-                            <span>${row['Thời gian']}</span>
-                        </div>
-                        <div class="details-row">
-                            <span class="details-label">Địa điểm:</span>
-                            <span>${row['Địa điểm']}</span>
-                        </div>
-                        
+                        <div class="details-row"><span class="details-label">Thời gian:</span><span>${row['Thời gian'] || '--'}</span></div>
+                        <div class="details-row"><span class="details-label">Địa điểm:</span><span>${row['Địa điểm'] || '--'}</span></div>
                         <div class="money-status ${moneyClass}">
-                            <span>Trạng thái:</span>
+                            <span>Tổng gói: ${formatMoney(gia + phi)}</span>
                             <span>${moneyText}</span>
                         </div>
                     </div>
-                `;
-                app.insertAdjacentHTML('beforeend', cardHTML);
+                `);
             });
+
+            // Gán số liệu thống kê
+            document.getElementById('totalRevenue').innerText = formatMoney(totalRev);
+            document.getElementById('totalCollected').innerText = formatMoney(totalPaid);
+            document.getElementById('totalDebt').innerText = formatMoney(totalDebt);
+            document.getElementById('totalShows').innerText = data.length;
         }
 
-        // Chạy hàm lấy dữ liệu khi load trang
-        fetchData();
+        function openModal() { document.getElementById('modalForm').style.display = 'flex'; }
+        function closeModal() { document.getElementById('modalForm').style.display = 'none'; }
+
+        async function saveBooking(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.innerText = "Đang lưu vào Sheet...";
+            btn.disabled = true;
+
+            const payload = {
+                khachHang: document.getElementById('khachHang').value,
+                ngayChup: document.getElementById('ngayChup').value,
+                thoiGian: document.getElementById('thoiGian').value,
+                noiDung: document.getElementById('noiDung').value,
+                diaDiem: document.getElementById('diaDiem').value,
+                giaGoi: document.getElementById('giaGoi').value,
+                phiDiLai: document.getElementById('phiDiLai').value,
+                coc: document.getElementById('coc').value,
+                thanhToanThem: document.getElementById('thanhToanThem').value,
+                ghiChu: document.getElementById('ghiChu').value
+            };
+
+            try {
+                await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                closeModal();
+                document.getElementById('bookingForm').reset();
+                setTimeout(loadData, 1500); // Tải lại sau 1.5s
+            } catch (err) {
+                alert("Lỗi khi lưu dữ liệu!");
+            } finally {
+                btn.innerText = "LƯU LỊCH CHỤP";
+                btn.disabled = false;
+            }
+        }
+
+        loadData();
     </script>
 </body>
 </html>
