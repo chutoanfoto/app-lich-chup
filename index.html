@@ -3,458 +3,298 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Studio Manager Pro</title>
+    <title>Hệ Thống Quản Lý Lịch Chụp</title>
     <style>
         :root {
-            --glass-bg: rgba(22, 22, 22, 0.75);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --ios-bg: #000000;
+            --glass-bg: rgba(30, 30, 30, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.08);
             --text-main: #ffffff;
-            --text-sub: #a1a1aa;
-            --accent-gold: #d4af37;
-            --alert-red: #ef4444;
-            --success-green: #10b981;
+            --text-sub: #ebebf599;
+            --blue-accent: #0A84FF;
+            --green-accent: #30D158;
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #050505;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.08), transparent 30%),
-                radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.05), transparent 30%);
-            background-attachment: fixed;
+            margin: 0; padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+            background-color: var(--ios-bg);
             color: var(--text-main);
-            padding-bottom: 100px;
+            min-height: 100vh;
+            /* Hiệu ứng quầng sáng Aurora */
+            background-image: 
+                radial-gradient(circle at 15% 30%, rgba(10, 132, 255, 0.15), transparent 40%),
+                radial-gradient(circle at 85% 70%, rgba(48, 209, 88, 0.1), transparent 40%);
+            background-attachment: fixed;
+            padding-bottom: 50px;
         }
 
+        /* LIQUID GLASS HEADER */
         .header {
-            padding: 24px 20px;
+            text-align: center;
+            padding: 30px 20px 15px;
             position: sticky;
             top: 0;
-            z-index: 50;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--glass-border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(40px) saturate(200%);
+            -webkit-backdrop-filter: blur(40px) saturate(200%);
+            border-bottom: 0.5px solid var(--glass-border);
         }
-
+        
         .header h1 {
-            margin: 0;
-            font-size: 20px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
+            margin: 0; font-size: 20px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            background: linear-gradient(90deg, #0A84FF, #5E5CE6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .container {
-            padding: 15px;
+            padding: 20px;
             max-width: 600px;
             margin: 0 auto;
         }
 
-        /* DASHBOARD KẾ TOÁN */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
+        /* SEGMENTED CONTROL (TABS) */
+        .segmented-control {
+            display: flex;
+            background: rgba(118, 118, 128, 0.24);
+            border-radius: 9px;
+            padding: 2px;
+            margin-bottom: 30px;
+        }
+        .segment {
+            flex: 1;
+            text-align: center;
+            padding: 6px 0;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-main);
+            border-radius: 7px;
+            cursor: pointer;
+            transition: background 0.2s ease, box-shadow 0.2s ease;
+        }
+        .segment.active {
+            background: rgba(99, 99, 102, 0.8);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.12), 0 3px 1px rgba(0,0,0,0.04);
         }
 
-        .stat-card {
+        /* GLASS FORM CONTAINER */
+        .glass-panel {
             background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 14px;
-        }
-
-        .stat-label {
-            font-size: 12px;
-            color: var(--text-sub);
-            margin-bottom: 4px;
-        }
-
-        .stat-value {
-            font-size: 17px;
-            font-weight: 700;
-        }
-
-        .stat-value.gold { color: var(--accent-gold); }
-        .stat-value.green { color: var(--success-green); }
-        .stat-value.red { color: var(--alert-red); }
-
-        /* DANH SÁCH THẺ CARD LIQUID GLASS */
-        .card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
-            padding: 18px;
-            margin-bottom: 14px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            padding-bottom: 10px;
-        }
-
-        .client-name {
-            font-size: 17px;
-            font-weight: 600;
-            color: var(--accent-gold);
-            margin: 0 0 4px 0;
-        }
-
-        .package-name {
-            font-size: 13px;
-            color: var(--text-sub);
-            margin: 0;
-        }
-
-        .shoot-date {
-            font-size: 12px;
-            background: rgba(255,255,255,0.08);
-            padding: 4px 8px;
-            border-radius: 10px;
-        }
-
-        .details-row {
-            display: flex;
-            margin-bottom: 6px;
-            font-size: 13px;
-        }
-
-        .details-label {
-            color: var(--text-sub);
-            width: 75px;
-        }
-
-        .money-status {
-            margin-top: 12px;
-            padding-top: 10px;
-            border-top: 1px dashed rgba(255,255,255,0.1);
-            display: flex;
-            justify-content: space-between;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .debt { color: var(--alert-red); }
-        .paid { color: var(--success-green); }
-
-        /* NÚT THÊM (+) */
-        .fab {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            width: 58px;
-            height: 58px;
-            background: var(--accent-gold);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #000;
-            font-size: 30px;
-            font-weight: bold;
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
-            cursor: pointer;
-            z-index: 90;
-        }
-
-        /* MODAL POPUP FORM */
-        .modal {
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
             display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            z-index: 100;
-            justify-content: center;
-            align-items: flex-end;
+            animation: fadeIn 0.4s ease;
         }
+        .glass-panel.active { display: block; }
 
-        .modal-content {
-            background: #18181b;
-            border-top: 1px solid var(--glass-border);
-            border-radius: 24px 24px 0 0;
-            width: 100%;
-            max-width: 600px;
-            max-height: 85vh;
-            overflow-y: auto;
-            padding: 20px;
-            box-sizing: border-box;
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* FORM INPUTS */
         .form-group {
-            margin-bottom: 14px;
+            margin-bottom: 16px;
+            display: flex;
+            flex-direction: column;
         }
-
         .form-group label {
-            display: block;
-            font-size: 12px;
+            font-size: 13px;
             color: var(--text-sub);
             margin-bottom: 6px;
+            margin-left: 4px;
         }
-
-        .form-control {
+        .form-control, .form-select {
             width: 100%;
-            padding: 12px;
-            background: #27272a;
-            border: 1px solid rgba(255,255,255,0.1);
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 12px;
             color: #fff;
             box-sizing: border-box;
-            font-size: 14px;
-        }
-
-        .btn-submit {
-            width: 100%;
-            padding: 14px;
-            background: var(--accent-gold);
-            border: none;
-            border-radius: 12px;
-            font-weight: 700;
-            color: #000;
             font-size: 15px;
-            margin-top: 10px;
-            cursor: pointer;
+            transition: border 0.3s ease, background 0.3s ease;
+            outline: none;
         }
+        .form-control:focus, .form-select:focus {
+            border-color: var(--blue-accent);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        /* DATE PICKER IOS FIX */
+        input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); opacity: 0.6; }
 
-        .loader {
-            text-align: center;
-            padding: 40px;
-            color: var(--text-sub);
+        /* BUTTONS */
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 16px;
+            color: #fff;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: transform 0.1s ease, filter 0.2s ease;
         }
+        .btn:active { transform: scale(0.97); }
+        .btn-blue { background: var(--blue-accent); box-shadow: 0 4px 15px rgba(10, 132, 255, 0.3); }
+        .btn-green { background: var(--green-accent); box-shadow: 0 4px 15px rgba(48, 209, 88, 0.2); color: #000; }
+
+        .loader { text-align: center; padding: 20px; font-size: 14px; color: var(--text-sub); display: none;}
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>Studio Manager</h1>
-        <div style="font-size: 12px; color: var(--accent-gold);">● Đồng bộ Google Sheets</div>
+        <h1>Hệ Thống Quản Lý Lịch Chụp</h1>
     </div>
 
     <div class="container">
-        <!-- BẢNG THỐNG KÊ KẾ TOÁN -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-label">Tổng Doanh Thu</div>
-                <div class="stat-value gold" id="totalRevenue">0 đ</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Đã Thu Thực Tế</div>
-                <div class="stat-value green" id="totalCollected">0 đ</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Tổng Nợ Chưa Thu</div>
-                <div class="stat-value red" id="totalDebt">0 đ</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Tổng Số Show</div>
-                <div class="stat-value" id="totalShows">0</div>
-            </div>
+        <!-- TABS -->
+        <div class="segmented-control">
+            <div class="segment active" onclick="switchTab('create')">TẠO LỊCH MỚI</div>
+            <div class="segment" onclick="switchTab('update')">CẬP NHẬT THANH TOÁN</div>
         </div>
 
-        <div style="font-size: 14px; font-weight: 600; margin-bottom: 12px; color: var(--text-sub);">LỊCH TRÌNH & HỢP ĐỒNG</div>
+        <div id="loader" class="loader">Đang đồng bộ dữ liệu...</div>
 
-        <div id="bookingList">
-            <div class="loader">Đang tải dữ liệu...</div>
+        <!-- FORM 1: TẠO LỊCH MỚI -->
+        <div id="tab-create" class="glass-panel active">
+            <form id="formCreate" onsubmit="submitCreate(event)">
+                <div class="form-group"><label>Ngày chụp:</label><input type="date" id="c_ngay" class="form-control" required></div>
+                <div class="form-group"><label>Thời gian (Sáng/Chiều):</label><input type="text" id="c_thoigian" class="form-control" placeholder="Sáng"></div>
+                <div class="form-group"><label>Khách hàng (Tên):</label><input type="text" id="c_khach" class="form-control" required placeholder="Bắt buộc nhập đúng để dễ tìm"></div>
+                <div class="form-group"><label>Địa điểm chụp:</label><input type="text" id="c_diadiem" class="form-control"></div>
+                
+                <div class="form-group">
+                    <label>Gói dịch vụ:</label>
+                    <select id="c_noidung" class="form-select">
+                        <option value="Phóng Sự Cưới">Phóng Sự Cưới</option>
+                        <option value="Ăn Hỏi">Ăn Hỏi</option>
+                        <option value="Chụp Studio">Chụp Studio</option>
+                        <option value="Khác">Khác</option>
+                    </select>
+                </div>
+                
+                <div class="form-group"><label>Giá gói chụp (VNĐ):</label><input type="text" id="c_gia" class="form-control money-input" placeholder="1.500.000"></div>
+                <div class="form-group"><label>Phí đi lại (VNĐ):</label><input type="text" id="c_phi" class="form-control money-input" placeholder="0"></div>
+                <div class="form-group"><label>Tiền cọc (VNĐ):</label><input type="text" id="c_coc" class="form-control money-input" placeholder="0"></div>
+                <div class="form-group"><label>Ghi chú thêm:</label><input type="text" id="c_ghichu" class="form-control"></div>
+                <div class="form-group"><label>Thư mục PC:</label><input type="text" id="c_thumuc" class="form-control" placeholder="D:\DuLieuChup\"></div>
+                
+                <button type="submit" class="btn btn-blue" id="btnCreate">⚡ TẠO LỊCH & ĐỒNG BỘ PRO</button>
+            </form>
         </div>
-    </div>
 
-    <!-- NÚT TẠO LỊCH (+) -->
-    <div class="fab" onclick="openModal()">+</div>
-
-    <!-- FORM POPUP NHẬP THÔNG TIN -->
-    <div class="modal" id="modalForm">
-        <div class="modal-content">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 15px;">
-                <h3 style="margin:0; font-size:18px;">Thêm Lịch Chụp Mới</h3>
-                <span onclick="closeModal()" style="font-size:24px; cursor:pointer; color:var(--text-sub);">&times;</span>
-            </div>
-
-            <form id="bookingForm" onsubmit="saveBooking(event)">
-                <div class="form-group">
-                    <label>Tên khách hàng (*)</label>
-                    <input type="text" id="khachHang" class="form-control" required placeholder="Ví dụ: Hoàng Yến - Minh Tuấn">
-                </div>
-                <div class="form-group" style="display:flex; gap:10px;">
-                    <div style="flex:1;">
-                        <label>Ngày chụp (*)</label>
-                        <input type="date" id="ngayChup" class="form-control" required>
-                    </div>
-                    <div style="flex:1;">
-                        <label>Thời gian</label>
-                        <input type="text" id="thoiGian" class="form-control" placeholder="07:30 - 11:30">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Gói chụp / Nội dung</label>
-                    <input type="text" id="noiDung" class="form-control" placeholder="Phóng Sự Cưới / Ăn Hỏi...">
-                </div>
-                <div class="form-group">
-                    <label>Địa điểm</label>
-                    <input type="text" id="diaDiem" class="form-control" placeholder="Khách sạn / Nhà gái...">
-                </div>
-                <div class="form-group" style="display:flex; gap:10px;">
-                    <div style="flex:1;">
-                        <label>Giá gói (VNĐ)</label>
-                        <input type="number" id="giaGoi" class="form-control" placeholder="0">
-                    </div>
-                    <div style="flex:1;">
-                        <label>Phí đi lại (VNĐ)</label>
-                        <input type="number" id="phiDiLai" class="form-control" placeholder="0">
-                    </div>
-                </div>
-                <div class="form-group" style="display:flex; gap:10px;">
-                    <div style="flex:1;">
-                        <label>Tiền cọc (VNĐ)</label>
-                        <input type="number" id="coc" class="form-control" placeholder="0">
-                    </div>
-                    <div style="flex:1;">
-                        <label>Thanh toán thêm (VNĐ)</label>
-                        <input type="number" id="thanhToanThem" class="form-control" placeholder="0">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Ghi chú</label>
-                    <input type="text" id="ghiChu" class="form-control" placeholder="Yêu cầu thêm...">
-                </div>
-
-                <button type="submit" class="btn-submit" id="submitBtn">LƯU LỊCH CHỤP</button>
+        <!-- FORM 2: CẬP NHẬT THANH TOÁN -->
+        <div id="tab-update" class="glass-panel">
+            <div style="text-align: center; margin-bottom: 20px; font-weight: 600; font-size: 14px;">TÌM VÀ CẬP NHẬT TRẠNG THÁI THANH TOÁN</div>
+            <form id="formUpdate" onsubmit="submitUpdate(event)">
+                <div class="form-group"><label style="text-align: center;">Chọn Ngày/Tháng của Lịch chụp:</label><input type="date" id="u_ngay" class="form-control" required></div>
+                <div class="form-group"><label style="text-align: center;">Tên Khách Hàng (Nhập chính xác):</label><input type="text" id="u_khach" class="form-control" required></div>
+                <div class="form-group"><label style="text-align: center;">Số tiền khách trả thêm (VNĐ):</label><input type="text" id="u_trathem" class="form-control money-input" required placeholder="Để trống nếu thanh toán hết (gõ số tiền)"></div>
+                
+                <button type="submit" class="btn btn-green" id="btnUpdate">✔ XÁC NHẬN ĐÃ THANH TOÁN</button>
             </form>
         </div>
     </div>
 
     <script>
-        // THAY LINK WEB APP CỦA BẠN VÀO ĐÂY
+        // === ĐIỀN LINK WEB APP MỚI CỦA BẠN VÀO ĐÂY ===
         const API_URL = "YOUR_API_LINK_HERE";
 
-        function formatMoney(num) {
-            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(num);
-        }
-
-        function parseNum(val) {
-            if (!val) return 0;
-            return parseInt(val.toString().replace(/,/g, '').replace(/\./g, '').replace('đ', '').trim()) || 0;
-        }
-
-        async function loadData() {
-            try {
-                const res = await fetch(API_URL);
-                const data = await res.json();
-                renderUI(data);
-            } catch (e) {
-                document.getElementById('bookingList').innerHTML = '<div class="loader" style="color:red">Lỗi tải dữ liệu.</div>';
+        // Logic chuyển Tab
+        function switchTab(tab) {
+            document.querySelectorAll('.segment').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.glass-panel').forEach(el => el.classList.remove('active'));
+            
+            if(tab === 'create') {
+                document.querySelectorAll('.segment')[0].classList.add('active');
+                document.getElementById('tab-create').classList.add('active');
+            } else {
+                document.querySelectorAll('.segment')[1].classList.add('active');
+                document.getElementById('tab-update').classList.add('active');
             }
         }
 
-        function renderUI(data) {
-            let totalRev = 0, totalPaid = 0, totalDebt = 0;
-
-            const list = document.getElementById('bookingList');
-            list.innerHTML = '';
-
-            if (data.length === 0) {
-                list.innerHTML = '<div class="loader">Chưa có lịch chụp nào.</div>';
-            }
-
-            data.slice().reverse().forEach(row => {
-                let gia = parseNum(row['Giá gói']);
-                let phi = parseNum(row['Phí đi lại']);
-                let coc = parseNum(row['Cọc']);
-                let tt = parseNum(row['Thanh toán thêm']);
-                let conLai = parseNum(row['Còn lại']);
-
-                totalRev += (gia + phi);
-                totalPaid += (coc + tt);
-                totalDebt += conLai;
-
-                let moneyClass = conLai > 0 ? 'debt' : 'paid';
-                let moneyText = conLai > 0 ? `Cần thu: ${formatMoney(conLai)}` : 'Đã tất toán ✓';
-
-                list.insertAdjacentHTML('beforeend', `
-                    <div class="card">
-                        <div class="card-header">
-                            <div>
-                                <h2 class="client-name">${row['Khách hàng']}</h2>
-                                <p class="package-name">${row['Nội dung'] || 'Chưa ghi'}</p>
-                            </div>
-                            <div class="shoot-date">${row['Ngày chụp']}</div>
-                        </div>
-                        <div class="details-row"><span class="details-label">Thời gian:</span><span>${row['Thời gian'] || '--'}</span></div>
-                        <div class="details-row"><span class="details-label">Địa điểm:</span><span>${row['Địa điểm'] || '--'}</span></div>
-                        <div class="money-status ${moneyClass}">
-                            <span>Tổng gói: ${formatMoney(gia + phi)}</span>
-                            <span>${moneyText}</span>
-                        </div>
-                    </div>
-                `);
+        // Định dạng số tiền có dấu chấm (vd: 1.500.000)
+        document.querySelectorAll('.money-input').forEach(input => {
+            input.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\./g, '').replace(/\D/g, '');
+                if (value !== '') {
+                    e.target.value = new Intl.NumberFormat('vi-VN').format(value).replace(/,/g, '.');
+                } else { e.target.value = ''; }
             });
+        });
 
-            // Gán số liệu thống kê
-            document.getElementById('totalRevenue').innerText = formatMoney(totalRev);
-            document.getElementById('totalCollected').innerText = formatMoney(totalPaid);
-            document.getElementById('totalDebt').innerText = formatMoney(totalDebt);
-            document.getElementById('totalShows').innerText = data.length;
+        // Hàm chuyển chuỗi "1.500.000" về số 1500000
+        function parseNum(val) {
+            return parseInt(val.replace(/\./g, '')) || 0;
         }
 
-        function openModal() { document.getElementById('modalForm').style.display = 'flex'; }
-        function closeModal() { document.getElementById('modalForm').style.display = 'none'; }
-
-        async function saveBooking(e) {
+        // Tạo lịch mới
+        async function submitCreate(e) {
             e.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            btn.innerText = "Đang lưu vào Sheet...";
-            btn.disabled = true;
+            const btn = document.getElementById('btnCreate');
+            btn.innerText = "Đang xử lý..."; btn.style.opacity = 0.7;
 
             const payload = {
-                khachHang: document.getElementById('khachHang').value,
-                ngayChup: document.getElementById('ngayChup').value,
-                thoiGian: document.getElementById('thoiGian').value,
-                noiDung: document.getElementById('noiDung').value,
-                diaDiem: document.getElementById('diaDiem').value,
-                giaGoi: document.getElementById('giaGoi').value,
-                phiDiLai: document.getElementById('phiDiLai').value,
-                coc: document.getElementById('coc').value,
-                thanhToanThem: document.getElementById('thanhToanThem').value,
-                ghiChu: document.getElementById('ghiChu').value
+                action: "CREATE",
+                ngayChup: document.getElementById('c_ngay').value,
+                thoiGian: document.getElementById('c_thoigian').value,
+                khachHang: document.getElementById('c_khach').value,
+                diaDiem: document.getElementById('c_diadiem').value,
+                noiDung: document.getElementById('c_noidung').value,
+                giaGoi: parseNum(document.getElementById('c_gia').value),
+                phiDiLai: parseNum(document.getElementById('c_phi').value),
+                coc: parseNum(document.getElementById('c_coc').value),
+                ghiChu: document.getElementById('c_ghichu').value,
+                thuMucPC: document.getElementById('c_thumuc').value
             };
 
+            await sendData(payload, btn, "⚡ TẠO LỊCH & ĐỒNG BỘ PRO");
+            document.getElementById('formCreate').reset();
+        }
+
+        // Cập nhật thanh toán
+        async function submitUpdate(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnUpdate');
+            btn.innerText = "Đang xử lý..."; btn.style.opacity = 0.7;
+
+            const payload = {
+                action: "UPDATE",
+                ngayChup: document.getElementById('u_ngay').value,
+                khachHang: document.getElementById('u_khach').value,
+                traThem: parseNum(document.getElementById('u_trathem').value)
+            };
+
+            await sendData(payload, btn, "✔ XÁC NHẬN ĐÃ THANH TOÁN");
+            document.getElementById('formUpdate').reset();
+        }
+
+        // Gửi API
+        async function sendData(payload, btn, originalText) {
             try {
-                await fetch(API_URL, {
+                const res = await fetch(API_URL, {
                     method: 'POST',
                     mode: 'no-cors',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-                closeModal();
-                document.getElementById('bookingForm').reset();
-                setTimeout(loadData, 1500); // Tải lại sau 1.5s
+                alert("✅ Thao tác thành công! Dữ liệu đã được đồng bộ lên Google Sheets.");
             } catch (err) {
-                alert("Lỗi khi lưu dữ liệu!");
+                alert("❌ Có lỗi xảy ra, vui lòng kiểm tra kết nối mạng.");
             } finally {
-                btn.innerText = "LƯU LỊCH CHỤP";
-                btn.disabled = false;
+                btn.innerText = originalText;
+                btn.style.opacity = 1;
             }
         }
-
-        loadData();
     </script>
 </body>
 </html>
