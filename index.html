@@ -66,7 +66,7 @@
 
         .day-header {
             padding: 12px 16px; background: rgba(10, 132, 255, 0.15); color: #60a5fa;
-            font-weight: 700; font-size: 15px; /* Font Ngày to bằng font Tháng */ 
+            font-weight: 700; font-size: 15px;
             border-radius: 10px; margin: 10px 0 8px 10px;
             border-left: 3px solid #60a5fa; cursor: pointer;
             display: flex; justify-content: space-between; align-items: center;
@@ -366,7 +366,7 @@
             
             allValidData = validData;
 
-            // Xử lý bộ lọc Năm cho Thống kê
+            // Xử lý bộ lọc Năm & Tháng
             let years = [...new Set(allValidData.map(r => r._dateObj ? r._dateObj.getFullYear() : null).filter(y => y !== null))].sort((a,b) => b-a);
             let yearSelect = document.getElementById('filterYear');
             let currentSelectedYear = yearSelect.value;
@@ -375,10 +375,17 @@
                 let selected = (y.toString() === currentSelectedYear) ? 'selected' : '';
                 yearSelect.insertAdjacentHTML('beforeend', `<option value="${y}" ${selected}>Năm ${y}</option>`); 
             });
+
+            // MẶC ĐỊNH LẤY NĂM VÀ THÁNG HIỆN TẠI (THỰC TẾ) KHI VỪA MỞ APP
             if (isFirstLoad) {
-                let currentY = new Date().getFullYear().toString();
-                if (years.includes(parseInt(currentY))) { yearSelect.value = currentY; }
-                document.getElementById('filterMonth').value = 'ALL';
+                const now = new Date();
+                let currentY = now.getFullYear().toString();
+                let currentM = now.getMonth().toString(); // 0 = Tháng 1, 7 = Tháng 8
+
+                if (years.includes(parseInt(currentY))) { 
+                    yearSelect.value = currentY; 
+                }
+                document.getElementById('filterMonth').value = currentM; // Mặc định chọn đúng tháng hiện tại
                 isFirstLoad = false;
             }
 
@@ -462,10 +469,10 @@
                         `;
                     });
                     
-                    htmlStr += `</div>`; // Đóng day-content
+                    htmlStr += `</div>`;
                     dIndex++;
                 }
-                htmlStr += `</div>`; // Đóng month-content
+                htmlStr += `</div>`;
                 mIndex++;
             }
             
@@ -473,12 +480,11 @@
             updateStatsUI();
         }
 
-        /* HÀM TOGGLE XỔ RA (Dùng chung cho Tháng, Ngày, và Thẻ) */
         function toggleSection(id, headerEl, isCard = false) {
             const el = document.getElementById(id);
             if (el) {
                 el.classList.toggle('show');
-                if (!isCard) { // Đổi chiều mũi tên nếu là tiêu đề Tháng/Ngày
+                if (!isCard) {
                     const icon = headerEl.querySelector('.toggle-icon');
                     icon.style.transform = el.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)';
                 }
