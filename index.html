@@ -8,39 +8,76 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>ChuToan Foto - Quản Lý Lịch Chụp</title>
     <style>
+        /* --- BIẾN MÀU SẮC CHẾ ĐỘ SÁNG (LIGHT MODE MẶC ĐỊNH) --- */
         :root {
-            --bg-main: #050505;
-            --glass-bg-card: rgba(22, 22, 22, 0.75);
-            --glass-bg-modal: rgba(25, 25, 28, 0.9);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --text-main: #ffffff;
-            --text-sub: #a1a1aa;
-            --accent-gold: #d4af37;
-            --alert-red: #ef4444;
-            --success-green: #30D158;
-            --blue-accent: #0A84FF;
+            --bg-main: #f2f2f7;
+            --glass-bg-card: rgba(255, 255, 255, 0.55);
+            --glass-bg-modal: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --glass-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+            --inner-glow: inset 0 1px 1px rgba(255, 255, 255, 0.9);
+            --text-main: #1c1c1e;
+            --text-sub: #8e8e93;
+            --accent-gold: #c59b27;
+            --alert-red: #ff3b30;
+            --success-green: #34c759;
+            --blue-accent: #007aff;
+            --input-bg: rgba(0, 0, 0, 0.04);
+            --btn-action-bg: rgba(0, 0, 0, 0.05);
+            --calendar-filter: opacity(0.6);
+            --logo-filter: invert(1);
+            --mesh-gradient: 
+                radial-gradient(circle at 10% 20%, rgba(0, 122, 255, 0.1), transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(212, 175, 55, 0.15), transparent 40%);
         }
 
+        /* --- BIẾN MÀU SẮC CHẾ ĐỘ TỐI (DARK MODE TỰ ĐỘNG) --- */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-main: #000000;
+                --glass-bg-card: rgba(28, 28, 30, 0.55);
+                --glass-bg-modal: rgba(28, 28, 30, 0.85);
+                --glass-border: rgba(255, 255, 255, 0.12);
+                --glass-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+                --inner-glow: inset 0 1px 1px rgba(255, 255, 255, 0.15);
+                --text-main: #f2f2f7;
+                --text-sub: #a1a1aa;
+                --accent-gold: #ffd60a;
+                --alert-red: #ff453a;
+                --success-green: #30d158;
+                --blue-accent: #0a84ff;
+                --input-bg: rgba(255, 255, 255, 0.08);
+                --btn-action-bg: rgba(255, 255, 255, 0.1);
+                --calendar-filter: invert(1) opacity(0.8);
+                --logo-filter: none;
+                --mesh-gradient: 
+                    radial-gradient(circle at 10% 20%, rgba(10, 132, 255, 0.15), transparent 40%),
+                    radial-gradient(circle at 90% 80%, rgba(212, 175, 55, 0.15), transparent 40%);
+            }
+        }
+
+        /* --- CẤU TRÚC CHUNG --- */
         body {
             margin: 0; padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg-main);
             color: var(--text-main);
             min-height: 100vh;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.08), transparent 30%),
-                radial-gradient(circle at 90% 80%, rgba(10, 132, 255, 0.08), transparent 30%);
+            background-image: var(--mesh-gradient);
             background-attachment: fixed;
             padding-bottom: 90px;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
         .header {
             padding: 16px 20px; position: sticky; top: 0; z-index: 50;
-            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            background: var(--glass-bg-card);
+            backdrop-filter: blur(30px) saturate(200%); -webkit-backdrop-filter: blur(30px) saturate(200%);
             border-bottom: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
             display: flex; justify-content: space-between; align-items: center;
         }
-        .header img { height: 34px; object-fit: contain; }
+        .header img { height: 34px; object-fit: contain; filter: var(--logo-filter); transition: filter 0.4s ease; }
         .status-dot {
             display: inline-block; width: 8px; height: 8px; background: var(--success-green);
             border-radius: 50%; box-shadow: 0 0 8px var(--success-green); margin-right: 6px;
@@ -52,53 +89,63 @@
             letter-spacing: 1px; margin-bottom: 12px; text-transform: uppercase;
         }
 
-        /* --- XỔ LỊCH THÁNG & NGÀY --- */
+        /* --- XỔ LỊCH THÁNG & NGÀY (LIQUID GLASS) --- */
         .month-header {
-            padding: 14px 16px; background: rgba(212, 175, 55, 0.15); color: var(--accent-gold);
-            font-weight: 700; font-size: 15px; border-radius: 12px; margin: 15px 0 5px 0;
-            border-left: 4px solid var(--accent-gold); cursor: pointer;
+            padding: 14px 18px; 
+            background: var(--glass-bg-card);
+            backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow), var(--inner-glow);
+            color: var(--accent-gold);
+            font-weight: 700; font-size: 15px; border-radius: 16px; margin: 15px 0 8px 0;
+            border-left: 5px solid var(--accent-gold); cursor: pointer;
             display: flex; justify-content: space-between; align-items: center;
-            transition: background 0.2s;
+            transition: transform 0.2s;
         }
-        .month-header:active { background: rgba(212, 175, 55, 0.25); }
-        .month-content { display: none; padding-left: 4px; animation: fadeIn 0.3s ease; }
+        .month-header:active { transform: scale(0.98); }
+        .month-content { display: none; padding-left: 6px; animation: fadeIn 0.3s ease; }
         .month-content.show { display: block; }
 
         .day-header {
-            padding: 12px 16px; background: rgba(10, 132, 255, 0.15); color: #60a5fa;
+            padding: 12px 16px; 
+            background: var(--glass-bg-card);
+            backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow), var(--inner-glow);
+            color: var(--blue-accent);
             font-weight: 700; font-size: 15px;
-            border-radius: 10px; margin: 10px 0 8px 10px;
-            border-left: 3px solid #60a5fa; cursor: pointer;
+            border-radius: 14px; margin: 10px 0 8px 10px;
+            border-left: 4px solid var(--blue-accent); cursor: pointer;
             display: flex; justify-content: space-between; align-items: center;
-            transition: background 0.2s;
+            transition: transform 0.2s;
         }
-        .day-header:active { background: rgba(10, 132, 255, 0.25); }
+        .day-header:active { transform: scale(0.98); }
         .day-content { display: none; padding-left: 10px; animation: fadeIn 0.3s ease; }
         .day-content.show { display: block; }
-
         .toggle-icon { transition: transform 0.3s ease; font-size: 12px; }
 
-        /* --- CARD ACCORDION --- */
+        /* --- CARD ACCORDION (LIQUID GLASS) --- */
         .card {
-            background: var(--glass-bg-card); backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px); border: 1px solid var(--glass-border);
-            border-radius: 16px; padding: 16px; margin-bottom: 12px;
-            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
-            cursor: pointer; transition: transform 0.15s ease;
+            background: var(--glass-bg-card);
+            backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow), var(--inner-glow);
+            border-radius: 20px; padding: 18px; margin-bottom: 14px;
+            cursor: pointer; transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        .card:active { transform: scale(0.99); }
+        .card:active { transform: scale(0.97); }
         .card-header {
             display: flex; justify-content: space-between; align-items: flex-start;
-            margin-bottom: 8px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); padding-bottom: 8px;
+            margin-bottom: 8px; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;
         }
-        .client-name { font-size: 16px; font-weight: 600; color: var(--accent-gold); margin: 0 0 4px 0; }
+        .client-name { font-size: 17px; font-weight: 600; color: var(--accent-gold); margin: 0 0 4px 0; }
         .package-name { font-size: 13px; color: var(--text-sub); margin: 0; }
-        .shoot-time { font-size: 12px; background: rgba(255,255,255,0.08); padding: 4px 8px; border-radius: 8px; color: #fff;}
+        .shoot-time { font-size: 12px; background: var(--btn-action-bg); padding: 5px 10px; border-radius: 10px; color: var(--text-main); font-weight: 600;}
         .details-row { display: flex; margin-bottom: 6px; font-size: 13px; }
         .details-label { color: var(--text-sub); width: 85px; flex-shrink: 0; }
         
         .money-status {
-            margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(255,255,255,0.1);
+            margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--glass-border);
             display: flex; justify-content: space-between; font-weight: 600; font-size: 13px;
         }
         .debt { color: var(--alert-red); }
@@ -106,87 +153,92 @@
 
         .card-expanded-content {
             display: none; margin-top: 10px; padding-top: 10px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08); animation: fadeIn 0.2s ease;
+            border-top: 1px solid var(--glass-border); animation: fadeIn 0.3s ease;
         }
         .card-expanded-content.show { display: block; }
         
         .action-link-btn {
             display: inline-flex; align-items: center; gap: 6px;
-            padding: 7px 12px; background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
-            color: #fff; text-decoration: none; font-size: 12px; font-weight: 600;
-            margin-top: 6px; margin-right: 6px;
+            padding: 8px 14px; background: var(--btn-action-bg);
+            border: 1px solid var(--glass-border); border-radius: 12px;
+            color: var(--text-main); text-decoration: none; font-size: 12px; font-weight: 600;
+            margin-top: 6px; margin-right: 6px; transition: background 0.2s;
         }
-        .action-link-btn.maps { background: rgba(10, 132, 255, 0.2); border-color: rgba(10, 132, 255, 0.4); color: #60a5fa; }
-        .action-link-btn.drive { background: rgba(48, 209, 88, 0.2); border-color: rgba(48, 209, 88, 0.4); color: #86efac; }
+        .action-link-btn.maps { color: var(--blue-accent); }
+        .action-link-btn.drive { color: var(--success-green); }
         
         .card-btns-row {
-            display: flex; gap: 8px; margin-top: 12px; padding-top: 10px;
-            border-top: 1px dashed rgba(255,255,255,0.08);
+            display: flex; gap: 10px; margin-top: 14px; padding-top: 12px;
+            border-top: 1px dashed var(--glass-border);
         }
         .btn-card-action {
-            flex: 1; padding: 9px 0; border: none; border-radius: 10px;
-            font-size: 12px; font-weight: 600; cursor: pointer;
+            flex: 1; padding: 10px 0; border: none; border-radius: 12px;
+            font-size: 12px; font-weight: 600; cursor: pointer; transition: transform 0.2s;
         }
-        .btn-edit { background: rgba(255,255,255,0.12); color: #fff; }
-        .btn-delete { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3); }
+        .btn-edit { background: var(--btn-action-bg); color: var(--text-main); }
+        .btn-delete { background: rgba(255, 59, 48, 0.15); color: var(--alert-red); }
 
         /* --- DASHBOARD STATS --- */
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
         .stat-card {
-            background: var(--glass-bg-card); backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px); border: 1px solid var(--glass-border);
-            border-radius: 16px; padding: 14px;
+            background: var(--glass-bg-card);
+            backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow), var(--inner-glow);
+            border-radius: 20px; padding: 16px;
         }
-        .stat-label { font-size: 12px; color: var(--text-sub); margin-bottom: 4px; }
-        .stat-value { font-size: 17px; font-weight: 700; }
+        .stat-label { font-size: 12px; color: var(--text-sub); margin-bottom: 6px; font-weight: 500;}
+        .stat-value { font-size: 18px; font-weight: 700; }
         .stat-value.gold { color: var(--accent-gold); }
         .stat-value.green { color: var(--success-green); }
         .stat-value.red { color: var(--alert-red); }
 
         /* --- FAB & MODAL --- */
         .fab {
-            position: fixed; bottom: 24px; right: 24px; width: 58px; height: 58px;
+            position: fixed; bottom: 30px; right: 24px; width: 60px; height: 60px;
             background: var(--blue-accent); border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            color: #fff; font-size: 30px; font-weight: bold;
-            box-shadow: 0 6px 20px rgba(10, 132, 255, 0.4);
-            cursor: pointer; z-index: 90; transition: transform 0.2s ease;
+            color: #fff; font-size: 32px; font-weight: 300;
+            box-shadow: 0 10px 25px rgba(0, 122, 255, 0.4);
+            cursor: pointer; z-index: 90; transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        .fab:active { transform: scale(0.9); }
+        .fab:active { transform: scale(0.85); }
 
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px); z-index: 100;
+            background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px); z-index: 100;
             justify-content: center; align-items: flex-end; animation: fadeInModal 0.3s ease;
         }
         @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
         .modal-content {
-            background: var(--glass-bg-modal); border-top: 1px solid var(--glass-border);
-            border-radius: 28px 28px 0 0; width: 100%; max-width: 600px;
-            max-height: 90vh; overflow-y: auto; padding: 25px 20px; box-sizing: border-box;
-            box-shadow: 0 -10px 40px rgba(0,0,0,0.5); animation: slideUp 0.3s ease;
+            background: var(--glass-bg-modal);
+            backdrop-filter: blur(40px) saturate(200%); -webkit-backdrop-filter: blur(40px) saturate(200%);
+            border-top: 1px solid var(--glass-border);
+            box-shadow: 0 -20px 50px rgba(0,0,0,0.3), var(--inner-glow);
+            border-radius: 32px 32px 0 0; width: 100%; max-width: 600px;
+            max-height: 92vh; overflow-y: auto; padding: 30px 20px; box-sizing: border-box;
+            animation: slideUp 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .modal-header h3 { margin: 0; font-size: 18px; color: #fff; }
-        .close-btn { font-size: 26px; color: var(--text-sub); cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.1); border-radius: 50%;}
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .modal-header h3 { margin: 0; font-size: 20px; color: var(--text-main); font-weight: 700; }
+        .close-btn { font-size: 24px; color: var(--text-sub); cursor: pointer; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; background: var(--btn-action-bg); border-radius: 50%; transition: background 0.2s;}
         
         .tab-panel { display: none; animation: fadeIn 0.3s ease; }
         .tab-panel.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         
-        .form-group { margin-bottom: 14px; display: flex; flex-direction: column; }
-        .form-group label { font-size: 13px; color: var(--text-sub); margin-bottom: 6px; margin-left: 4px; }
-        .form-control, .form-select { width: 100%; padding: 14px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; color: #fff; box-sizing: border-box; font-size: 15px; outline: none; }
-        .form-control:focus, .form-select:focus { border-color: var(--blue-accent); background: rgba(255, 255, 255, 0.08); }
-        input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); opacity: 0.6; }
+        .form-group { margin-bottom: 16px; display: flex; flex-direction: column; }
+        .form-group label { font-size: 13px; color: var(--text-sub); margin-bottom: 8px; margin-left: 6px; font-weight: 500;}
+        .form-control, .form-select { width: 100%; padding: 16px; background: var(--input-bg); border: 1px solid var(--glass-border); border-radius: 16px; color: var(--text-main); box-sizing: border-box; font-size: 16px; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+        .form-control:focus, .form-select:focus { border-color: var(--blue-accent); box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2); }
+        input[type="date"]::-webkit-calendar-picker-indicator { filter: var(--calendar-filter); }
         
-        .btn { width: 100%; padding: 16px; border: none; border-radius: 14px; font-weight: 600; font-size: 15px; color: #fff; margin-top: 10px; cursor: pointer; }
-        .btn:active { transform: scale(0.97); }
-        .btn-blue { background: var(--blue-accent); box-shadow: 0 4px 15px rgba(10, 132, 255, 0.3); }
-        .btn-green { background: var(--success-green); color: #000; box-shadow: 0 4px 15px rgba(48, 209, 88, 0.2); }
+        .btn { width: 100%; padding: 18px; border: none; border-radius: 16px; font-weight: 600; font-size: 16px; color: #fff; margin-top: 12px; cursor: pointer; transition: transform 0.2s; }
+        .btn:active { transform: scale(0.96); }
+        .btn-blue { background: var(--blue-accent); box-shadow: 0 6px 20px rgba(0, 122, 255, 0.3); }
+        .btn-green { background: var(--success-green); color: #fff; box-shadow: 0 6px 20px rgba(52, 199, 89, 0.3); }
         .loader { text-align: center; padding: 40px; color: var(--text-sub); }
     </style>
 </head>
@@ -194,7 +246,7 @@
 
     <div class="header">
         <img src="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png" alt="ChuToan Foto Logo">
-        <div style="font-size: 12px; color: var(--success-green); display: flex; align-items: center;">
+        <div style="font-size: 13px; color: var(--success-green); display: flex; align-items: center; font-weight: 600;">
             <span class="status-dot"></span> Đã kết nối
         </div>
     </div>
@@ -206,11 +258,11 @@
 
         <!-- THỐNG KÊ DOANH THU -->
         <div class="section-title" style="margin-top: 40px;">THỐNG KÊ DOANH THU</div>
-        <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-            <select id="filterYear" class="form-select" style="padding: 10px; font-size: 14px; background: rgba(255,255,255,0.08); flex: 1;" onchange="updateStatsUI()">
+        <div style="display: flex; gap: 12px; margin-bottom: 18px;">
+            <select id="filterYear" class="form-select" style="padding: 12px; font-size: 15px; flex: 1;" onchange="updateStatsUI()">
                 <option value="ALL">Tất cả các năm</option>
             </select>
-            <select id="filterMonth" class="form-select" style="padding: 10px; font-size: 14px; background: rgba(255,255,255,0.08); flex: 1;" onchange="updateStatsUI()">
+            <select id="filterMonth" class="form-select" style="padding: 12px; font-size: 15px; flex: 1;" onchange="updateStatsUI()">
                 <option value="ALL">Tổng cả năm</option>
                 <option value="0">Tháng 1</option><option value="1">Tháng 2</option><option value="2">Tháng 3</option>
                 <option value="3">Tháng 4</option><option value="4">Tháng 5</option><option value="5">Tháng 6</option>
@@ -247,7 +299,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 id="modalTitle">Tạo Lịch Mới</h3>
-                <span class="close-btn" onclick="closeModal()">&times;</span>
+                <span class="close-btn" onclick="closeModal()">✕</span>
             </div>
             
             <!-- TẠO LỊCH MỚI -->
@@ -416,8 +468,8 @@
                         let paidBtnHTML = '';
                         if (conLai > 0) {
                             paidBtnHTML = `
-                                <div style="margin-top: 12px; margin-bottom: 4px;" onclick="event.stopPropagation()">
-                                    <button class="btn btn-green" style="padding: 10px; margin-top: 0; font-size: 13px; width: 100%; border-radius: 10px;" onclick="markPaid(${rowIndex}, '${row['Khách hàng']}')">
+                                <div style="margin-top: 14px; margin-bottom: 6px;" onclick="event.stopPropagation()">
+                                    <button class="btn btn-green" style="padding: 12px; margin-top: 0; font-size: 14px; width: 100%; border-radius: 12px;" onclick="markPaid(${rowIndex}, '${row['Khách hàng']}')">
                                         Đã Thanh Toán
                                     </button>
                                 </div>
@@ -443,7 +495,7 @@
                                     ${row['Thư mục PC'] ? `<div class="details-row"><span class="details-label">Thư mục PC:</span><span>${row['Thư mục PC']}</span></div>` : ''}
                                     ${row['Ghi chú'] ? `<div class="details-row"><span class="details-label">Ghi chú:</span><span>${row['Ghi chú']}</span></div>` : ''}
                                     
-                                    <div style="margin-top: 8px;">
+                                    <div style="margin-top: 10px;">
                                         ${mapsBtn}
                                         ${driveBtn}
                                     </div>
