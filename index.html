@@ -11,12 +11,10 @@
         /* --- HỆ THỐNG BIẾN - CHẾ ĐỘ SÁNG (LIGHT MODE) --- */
         :root {
             --bg-base: #f0f2f5;
-            /* Tạo hình nền loang màu nhẹ để hiệu ứng kính hiển thị rõ */
             --bg-mesh: 
                 radial-gradient(circle at 15% 50%, rgba(0, 122, 255, 0.08), transparent 40%),
                 radial-gradient(circle at 85% 30%, rgba(212, 175, 55, 0.08), transparent 40%);
             
-            /* THÔNG SỐ KÍNH LỎNG (LIQUID GLASS) */
             --glass-bg: rgba(255, 255, 255, 0.45);
             --glass-border: rgba(255, 255, 255, 0.6);
             --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
@@ -38,12 +36,10 @@
         @media (prefers-color-scheme: dark) {
             :root {
                 --bg-base: #000000;
-                /* Nền tối có chút loang màu sang trọng */
                 --bg-mesh: 
                     radial-gradient(circle at 20% 40%, rgba(10, 132, 255, 0.12), transparent 45%),
                     radial-gradient(circle at 80% 60%, rgba(212, 175, 55, 0.12), transparent 45%);
                 
-                /* KÍNH LỎNG CHUẨN IOS DARK MODE (Đen mờ trong suốt) */
                 --glass-bg: rgba(40, 40, 40, 0.35); 
                 --glass-border: rgba(255, 255, 255, 0.15);
                 --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
@@ -373,17 +369,37 @@
             return `${day}/${month}/${year}`;
         }
 
-        async function loadData() {
+        // HÀM TẢI DỮ LIỆU CÓ CACHE THÔNG MINH
+        async function loadData(ignoreCache = false) {
+            if (!ignoreCache) {
+                // 1. Tải nhanh từ Local Storage (0 giây)
+                const cachedData = localStorage.getItem('chutoanFotoCache');
+                if (cachedData) {
+                    try { renderUI(JSON.parse(cachedData)); } catch(e) {}
+                }
+            } else {
+                // Đang đồng bộ thao tác chỉnh sửa
+                document.getElementById('bookingList').innerHTML = '<div class="loader">Đang đồng bộ dữ liệu mới nhất...</div>';
+            }
+
+            // 2. Tải ngầm từ Google Sheet
             try {
                 const res = await fetch(API_URL);
                 const data = await res.json();
+                localStorage.setItem('chutoanFotoCache', JSON.stringify(data));
                 renderUI(data);
-            } catch (e) { document.getElementById('bookingList').innerHTML = '<div class="loader" style="color:red">Lỗi tải dữ liệu.</div>'; }
+            } catch (e) { 
+                if (!localStorage.getItem('chutoanFotoCache')) {
+                    document.getElementById('bookingList').innerHTML = '<div class="loader" style="color:var(--alert-red)">Lỗi mạng. Vui lòng kiểm tra lại!</div>'; 
+                }
+            }
         }
 
         function renderUI(data) {
             const list = document.getElementById('bookingList');
-            list.innerHTML = '';
+            if (!document.getElementById('bookingList').innerHTML.includes('card')) {
+                list.innerHTML = '';
+            }
             
             if (data.length === 0) { list.innerHTML = '<div class="loader">Chưa có lịch chụp nào.</div>'; return; }
 
@@ -555,6 +571,7 @@
             document.getElementById('totalShows').innerText = tShows;
         }
         
+        // Khởi chạy App
         loadData(); 
 
         function openModal() {
@@ -597,7 +614,8 @@
                     method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ action: "MARK_PAID", rowIndex: rowIndex })
                 });
-                setTimeout(loadData, 1500);
+                // Tải lại dữ liệu mới (bỏ qua cache) để thấy cập nhật ngay
+                setTimeout(() => loadData(true), 1000);
             } catch (err) { alert("Lỗi kết nối!"); }
         }
 
@@ -637,7 +655,7 @@
                     method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ action: "DELETE_ROW", rowIndex: rowIndex })
                 });
-                setTimeout(loadData, 1500);
+                setTimeout(() => loadData(true), 1000);
             } catch (err) { alert("Lỗi khi xóa lịch!"); }
         }
 
@@ -647,7 +665,8 @@
                     method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-                closeModal(); setTimeout(loadData, 1500); 
+                closeModal(); 
+                setTimeout(() => loadData(true), 1000); 
             } catch (err) { alert("Lỗi khi lưu dữ liệu!"); } 
             finally { btn.innerText = originalText; btn.style.opacity = 1; btn.disabled = false; }
         }
