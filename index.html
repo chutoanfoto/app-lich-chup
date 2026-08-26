@@ -200,7 +200,6 @@
                     <div class="form-group"><label>Giá gói chụp (VNĐ):</label><input type="text" id="e_gia" class="form-control money-input"></div>
                     <div class="form-group"><label>Phí đi lại (VNĐ):</label><input type="text" id="e_phi" class="form-control money-input"></div>
                     <div class="form-group"><label>Tiền cọc (VNĐ):</label><input type="text" id="e_coc" class="form-control money-input"></div>
-                    <div class="form-group"><label>Khách đã trả thêm (VNĐ):</label><input type="text" id="e_trathem" class="form-control money-input"></div>
                     <div class="form-group"><label>Ghi chú thêm:</label><input type="text" id="e_ghichu" class="form-control"></div>
                     <button type="submit" class="btn btn-blue" id="btnEdit">💾 LƯU CẬP NHẬT</button>
                 </form>
@@ -209,7 +208,7 @@
     </div>
 
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbyiFlBtGKqz0TbUSIraSrSP81aq0Uos3dLKdF5uzoyZTBGGeArOzQ3fjp8a551HGnm0/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbyxTm4XHr7HF1WujMPs9oWARimjrmkUV50hbV0ko59oj1njSyWg7rQd1T4PryjGbeJm/exec";
 
         let allValidData = [];
         let isFirstLoad = true;
@@ -307,7 +306,7 @@
                 for (let dateStr in groupedData[monthYear]) {
                     htmlStr += `<div class="day-header glass-panel" id="dh-${mIndex}-${dIndex}" onclick="toggleSection('day-content-${mIndex}-${dIndex}', this)"><span>🗓️ ${dateStr}</span><span class="toggle-icon">▼</span></div><div class="day-content" id="day-content-${mIndex}-${dIndex}">`;
                     groupedData[monthYear][dateStr].forEach(row => {
-                        let gia = parseNum(findVal(row, 'giá')); let phi = parseNum(findVal(row, 'phí')); let coc = parseNum(findVal(row, 'cọc')); let tt = parseNum(findVal(row, 'thanh toán thêm'));
+                        let gia = parseNum(findVal(row, 'giá')); let phi = parseNum(findVal(row, 'phí')); let coc = parseNum(findVal(row, 'cọc'));
                         let conLai = parseNum(findVal(row, 'còn lại')); let rowIndex = row['_rowIndex'];
                         
                         let mapsVal = findVal(row, 'maps') || row['Link Maps'] || '';
@@ -334,7 +333,6 @@
                                 <div class="card-expanded-content" id="expanded-${rowIndex}">
                                     <div class="details-row"><span class="details-label">Phí đi lại:</span><span>${formatMoney(phi)}</span></div>
                                     <div class="details-row"><span class="details-label">Tiền cọc:</span><span>${formatMoney(coc)}</span></div>
-                                    <div class="details-row"><span class="details-label">Đã trả thêm:</span><span>${formatMoney(tt)}</span></div>
                                     ${noteVal ? `<div class="details-row"><span class="details-label">Ghi chú:</span><span>${noteVal}</span></div>` : ''}
                                     ${paidBtnHTML}
                                     <div class="card-btns-row" onclick="event.stopPropagation()">
@@ -366,7 +364,10 @@
                 if (fYear !== "ALL") { if (!dObj || dObj.getFullYear().toString() !== fYear) matchY = false; }
                 if (fMonth !== "ALL") { if (!dObj || dObj.getMonth().toString() !== fMonth) matchM = false; }
                 if (matchY && matchM) {
-                    let gia = parseNum(findVal(row, 'giá')); let phi = parseNum(findVal(row, 'phí')); let coc = parseNum(findVal(row, 'cọc')); let tt = parseNum(findVal(row, 'thanh toán thêm')); let conLai = parseNum(findVal(row, 'còn lại'));
+                    let gia = parseNum(findVal(row, 'giá')); let phi = parseNum(findVal(row, 'phí')); let coc = parseNum(findVal(row, 'cọc')); 
+                    let tt = parseNum(findVal(row, 'thanh toán thêm')) || 0;
+                    let conLai = parseNum(findVal(row, 'còn lại'));
+                    
                     tRev += (gia + phi); tPaid += (coc + tt); tDebt += conLai; tShows++;
                 }
             });
@@ -392,7 +393,7 @@
             document.getElementById('e_diadiem').value = findVal(item, 'địa điểm'); document.getElementById('e_noidung').value = findVal(item, 'nội dung') || 'Khác';
 
             document.getElementById('e_gia').value = formatInputMoney(findVal(item, 'giá')); document.getElementById('e_phi').value = formatInputMoney(findVal(item, 'phí'));
-            document.getElementById('e_coc').value = formatInputMoney(findVal(item, 'cọc')); document.getElementById('e_trathem').value = formatInputMoney(findVal(item, 'thanh toán thêm'));
+            document.getElementById('e_coc').value = formatInputMoney(findVal(item, 'cọc')); 
 
             document.getElementById('e_linkmaps').value = findVal(item, 'maps') || item['Link Maps'] || '';
             document.getElementById('e_linkdrive').value = findVal(item, 'drive') || item['Link Drive'] || '';
@@ -423,7 +424,7 @@
 
         async function submitEdit(e) {
             e.preventDefault(); const btn = document.getElementById('btnEdit'); btn.innerText = "Đang lưu..."; btn.style.opacity = 0.7; btn.disabled = true;
-            const payload = { action: "EDIT_ROW", rowIndex: document.getElementById('e_rowindex').value, ngayChup: document.getElementById('e_ngay').value, thoiGian: document.getElementById('e_thoigian').value, khachHang: document.getElementById('e_khach').value, noiDung: document.getElementById('e_noidung').value, diaDiem: document.getElementById('e_diadiem').value, linkMaps: document.getElementById('e_linkmaps').value, linkDrive: document.getElementById('e_linkdrive').value, giaGoi: parseNum(document.getElementById('e_gia').value), phiDiLai: parseNum(document.getElementById('e_phi').value), coc: parseNum(document.getElementById('e_coc').value), traThem: parseNum(document.getElementById('e_trathem').value), ghiChu: document.getElementById('e_ghichu').value };
+            const payload = { action: "EDIT_ROW", rowIndex: document.getElementById('e_rowindex').value, ngayChup: document.getElementById('e_ngay').value, thoiGian: document.getElementById('e_thoigian').value, khachHang: document.getElementById('e_khach').value, noiDung: document.getElementById('e_noidung').value, diaDiem: document.getElementById('e_diadiem').value, linkMaps: document.getElementById('e_linkmaps').value, linkDrive: document.getElementById('e_linkdrive').value, giaGoi: parseNum(document.getElementById('e_gia').value), phiDiLai: parseNum(document.getElementById('e_phi').value), coc: parseNum(document.getElementById('e_coc').value), ghiChu: document.getElementById('e_ghichu').value };
             
             let item = allValidData.find(r => r._rowIndex == payload.rowIndex);
             if (item) {
@@ -437,8 +438,9 @@
                 item[keys.find(k=>k.toLowerCase().includes('giá')) || 'Giá gói'] = payload.giaGoi;
                 item[keys.find(k=>k.toLowerCase().includes('phí')) || 'Phí đi lại'] = payload.phiDiLai;
                 item[keys.find(k=>k.toLowerCase().includes('cọc')) || 'Cọc'] = payload.coc;
-                item[keys.find(k=>k.toLowerCase().includes('thêm')) || 'Thanh toán thêm'] = payload.traThem;
-                item[keys.find(k=>k.toLowerCase().includes('còn lại')) || 'Còn lại'] = (payload.giaGoi + payload.phiDiLai) - (payload.coc + payload.traThem);
+                
+                let tt = parseNum(findVal(item, 'thanh toán thêm')) || 0;
+                item[keys.find(k=>k.toLowerCase().includes('còn lại')) || 'Còn lại'] = (payload.giaGoi + payload.phiDiLai) - (payload.coc + tt);
                 item[keys.find(k=>k.toLowerCase().includes('ghi chú')) || 'Ghi chú'] = payload.ghiChu;
                 item._dateObj = parseDateCustom(payload.ngayChup);
             }
@@ -458,4 +460,3 @@
     </script>
 </body>
 </html>
-</details>
