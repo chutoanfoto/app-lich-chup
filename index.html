@@ -8,6 +8,11 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>ChuToan Foto - Quản Lý Lịch Chụp</title>
     <style>
+        /* --- KHÓA TRỤC NGANG & CHỐNG TRÀN VIỀN TẬN GỐC --- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
         /* --- THEME COLORS --- */
         :root {
             --bg-base: #f0f2f5;
@@ -52,6 +57,8 @@
 
         html, body {
             margin: 0; padding: 0;
+            width: 100%; max-width: 100%;
+            overflow-x: hidden; /* Đảm bảo tuyệt đối không trượt ngang */
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg-base);
             background-image: var(--bg-mesh);
@@ -69,6 +76,7 @@
         }
 
         .header {
+            width: 100%;
             padding: 16px 20px; position: sticky; top: 0; z-index: 50;
             background: var(--glass-bg);
             backdrop-filter: blur(28px) saturate(180%); -webkit-backdrop-filter: blur(28px) saturate(180%);
@@ -81,7 +89,10 @@
             border-radius: 50%; box-shadow: 0 0 8px var(--success-green); margin-right: 6px;
         }
 
-        .container { padding: 15px; max-width: 600px; margin: 0 auto; padding-bottom: 100px; }
+        .container { 
+            width: 100%; padding: 15px; max-width: 600px; margin: 0 auto; padding-bottom: 100px; 
+            overflow-x: hidden; 
+        }
         .section-title {
             font-size: 13px; font-weight: 700; color: var(--text-sub); 
             letter-spacing: 1px; margin-bottom: 12px; text-transform: uppercase; margin-left: 4px;
@@ -131,6 +142,16 @@
         .details-row { display: flex; margin-bottom: 6px; font-size: 14px; }
         .details-label { color: var(--text-sub); width: 85px; flex-shrink: 0; }
         
+        .action-link-btn {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 7px 12px; background: var(--btn-bg);
+            border-radius: 10px; color: var(--text-main); 
+            text-decoration: none; font-size: 12px; font-weight: 600;
+            margin-right: 6px; margin-top: 6px;
+        }
+        .action-link-btn.maps { color: var(--blue-accent); }
+        .action-link-btn.drive { color: var(--success-green); }
+        
         .money-status {
             margin-top: 12px; padding-top: 12px; border-top: 1px dashed rgba(150, 150, 150, 0.2);
             display: flex; justify-content: space-between; font-weight: 600; font-size: 14px;
@@ -175,21 +196,21 @@
         }
         .fab:active { transform: scale(0.9); }
 
-        /* --- MODAL POPUP --- */
+        /* --- MODAL --- */
         .modal {
             display: none; position: fixed; inset: 0; z-index: 100;
             background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             justify-content: center; align-items: flex-end;
-            overscroll-behavior: contain;
+            overscroll-behavior: contain; width: 100%;
         }
         .modal-content {
             background: var(--glass-bg);
             backdrop-filter: blur(40px) saturate(200%); -webkit-backdrop-filter: blur(40px) saturate(200%);
             border-top: 1px solid var(--glass-border);
             border-radius: 28px 28px 0 0; width: 100%; max-width: 600px;
-            max-height: 85vh; overflow-y: auto; -webkit-overflow-scrolling: touch;
-            padding: 24px 20px 40px 20px; box-sizing: border-box;
+            max-height: 85vh; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch;
+            padding: 24px 20px 40px 20px;
             box-shadow: 0 -15px 40px rgba(0,0,0,0.3);
             animation: slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
@@ -203,12 +224,12 @@
         .tab-panel { display: none; }
         .tab-panel.active { display: block; }
         
-        .form-group { margin-bottom: 14px; display: flex; flex-direction: column; }
+        .form-group { margin-bottom: 14px; display: flex; flex-direction: column; width: 100%; }
         .form-group label { font-size: 13px; color: var(--text-sub); margin-bottom: 6px; margin-left: 4px; font-weight: 500;}
         .form-control, .form-select { 
             width: 100%; padding: 14px; background: var(--input-bg); 
             border: 1px solid rgba(150, 150, 150, 0.2); border-radius: 14px; 
-            color: var(--text-main); box-sizing: border-box; font-size: 16px; outline: none; 
+            color: var(--text-main); font-size: 16px; outline: none; 
             backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
         }
         .form-control:focus, .form-select:focus { border-color: var(--blue-accent); }
@@ -287,6 +308,10 @@
                     <div class="form-group"><label>Thời gian (Sáng/Chiều):</label><input type="text" id="c_thoigian" class="form-control" placeholder="Sáng"></div>
                     <div class="form-group"><label>Khách hàng (Tên):</label><input type="text" id="c_khach" class="form-control" required placeholder="Tên khách hàng"></div>
                     <div class="form-group"><label>Địa điểm chụp:</label><input type="text" id="c_diadiem" class="form-control"></div>
+                    
+                    <div class="form-group"><label>Link Maps (Vị trí):</label><input type="url" id="c_linkmaps" class="form-control" placeholder="https://maps.app.goo.gl/..."></div>
+                    <div class="form-group"><label>Link Drive (Bàn giao):</label><input type="url" id="c_linkdrive" class="form-control" placeholder="https://drive.google.com/..."></div>
+
                     <div class="form-group">
                         <label>Gói dịch vụ:</label>
                         <select id="c_noidung" class="form-select">
@@ -318,6 +343,10 @@
                     <div class="form-group"><label>Thời gian (Sáng/Chiều):</label><input type="text" id="e_thoigian" class="form-control"></div>
                     <div class="form-group"><label>Khách hàng (Tên):</label><input type="text" id="e_khach" class="form-control" required></div>
                     <div class="form-group"><label>Địa điểm chụp:</label><input type="text" id="e_diadiem" class="form-control"></div>
+                    
+                    <div class="form-group"><label>Link Maps (Vị trí):</label><input type="url" id="e_linkmaps" class="form-control" placeholder="https://maps.app.goo.gl/..."></div>
+                    <div class="form-group"><label>Link Drive (Bàn giao):</label><input type="url" id="e_linkdrive" class="form-control" placeholder="https://drive.google.com/..."></div>
+
                     <div class="form-group">
                         <label>Gói dịch vụ:</label>
                         <select id="e_noidung" class="form-select">
@@ -502,12 +531,19 @@
                         let conLai = parseNum(findVal(row, 'còn lại'));
                         let rowIndex = row['_rowIndex'];
 
+                        let mapsVal = findVal(row, 'maps');
+                        let driveVal = findVal(row, 'drive');
                         let noteVal = findVal(row, 'ghi chú');
                         let folderVal = findVal(row, 'thư mục');
                         let clientName = row['Khách hàng'] || findVal(row, 'khách');
 
                         let moneyClass = conLai > 0 ? 'debt' : 'paid';
                         let moneyText = conLai > 0 ? `Cần thu: ${formatMoney(conLai)}` : 'Đã tất toán ✓';
+
+                        // Hiển thị nút Maps và Drive ngay dưới dòng địa điểm
+                        let mapsBtn = mapsVal ? `<a href="${mapsVal}" target="_blank" class="action-link-btn maps" onclick="event.stopPropagation()">📍 Maps</a>` : '';
+                        let driveBtn = driveVal ? `<a href="${driveVal}" target="_blank" class="action-link-btn drive" onclick="event.stopPropagation()">📁 Drive</a>` : '';
+                        let linkButtonsHTML = (mapsBtn || driveBtn) ? `<div style="margin-top: 4px; margin-bottom: 6px;">${mapsBtn}${driveBtn}</div>` : '';
 
                         let paidBtnHTML = '';
                         if (conLai > 0) {
@@ -527,7 +563,10 @@
                                     <div class="shoot-time">${findVal(row, 'thời gian') || '--'}</div>
                                 </div>
                                 
-                                <div class="details-row"><span class="details-label">Địa điểm:</span><span>${findVal(row, 'địa điểm') || '--'}</span></div>
+                                <div class="details-row" style="flex-direction: column;">
+                                    <div style="display:flex;"><span class="details-label">Địa điểm:</span><span>${findVal(row, 'địa điểm') || '--'}</span></div>
+                                    ${linkButtonsHTML}
+                                </div>
 
                                 <div class="money-status ${moneyClass}">
                                     <span>Tổng: ${formatMoney(gia + phi)}</span>
@@ -629,11 +668,14 @@
             document.getElementById('e_diadiem').value = findVal(item, 'địa điểm');
             document.getElementById('e_noidung').value = findVal(item, 'nội dung') || 'Khác';
 
+            // Gọi đúng hàm formatInputMoney để hiện lại số tiền và tránh lỗi NaN
             document.getElementById('e_gia').value = formatInputMoney(findVal(item, 'giá'));
             document.getElementById('e_phi').value = formatInputMoney(findVal(item, 'phí'));
             document.getElementById('e_coc').value = formatInputMoney(findVal(item, 'cọc'));
             document.getElementById('e_trathem').value = formatInputMoney(findVal(item, 'thanh toán thêm'));
 
+            document.getElementById('e_linkmaps').value = findVal(item, 'maps');
+            document.getElementById('e_linkdrive').value = findVal(item, 'drive');
             document.getElementById('e_ghichu').value = findVal(item, 'ghi chú');
             document.getElementById('e_thumuc').value = findVal(item, 'thư mục');
             
@@ -673,6 +715,8 @@
                 thoiGian: document.getElementById('c_thoigian').value,
                 khachHang: document.getElementById('c_khach').value, 
                 diaDiem: document.getElementById('c_diadiem').value,
+                linkMaps: document.getElementById('c_linkmaps').value,
+                linkDrive: document.getElementById('c_linkdrive').value,
                 noiDung: document.getElementById('c_noidung').value,
                 giaGoi: parseNum(document.getElementById('c_gia').value), 
                 phiDiLai: parseNum(document.getElementById('c_phi').value),
@@ -702,6 +746,8 @@
                 khachHang: document.getElementById('e_khach').value,
                 noiDung: document.getElementById('e_noidung').value,
                 diaDiem: document.getElementById('e_diadiem').value,
+                linkMaps: document.getElementById('e_linkmaps').value,
+                linkDrive: document.getElementById('e_linkdrive').value,
                 giaGoi: parseNum(document.getElementById('e_gia').value),
                 phiDiLai: parseNum(document.getElementById('e_phi').value),
                 coc: parseNum(document.getElementById('e_coc').value),
