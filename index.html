@@ -15,9 +15,10 @@
                 radial-gradient(circle at 15% 50%, rgba(0, 122, 255, 0.08), transparent 40%),
                 radial-gradient(circle at 85% 30%, rgba(212, 175, 55, 0.08), transparent 40%);
             
-            --glass-bg: rgba(255, 255, 255, 0.45);
-            --glass-border: rgba(255, 255, 255, 0.6);
-            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            /* KÍNH TRONG HƠN (LIQUID GLASS OPTIMIZED) */
+            --glass-bg: rgba(255, 255, 255, 0.25); 
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
             
             --text-main: #000000;
             --text-sub: rgba(60, 60, 67, 0.6);
@@ -26,8 +27,8 @@
             --success-green: #34c759;
             --blue-accent: #007aff;
             
-            --btn-bg: rgba(0, 0, 0, 0.05);
-            --input-bg: rgba(255, 255, 255, 0.5);
+            --btn-bg: rgba(0, 0, 0, 0.04);
+            --input-bg: rgba(255, 255, 255, 0.4);
             --logo-filter: invert(1);
             --radius-card: 24px;
         }
@@ -40,9 +41,10 @@
                     radial-gradient(circle at 20% 40%, rgba(10, 132, 255, 0.12), transparent 45%),
                     radial-gradient(circle at 80% 60%, rgba(212, 175, 55, 0.12), transparent 45%);
                 
-                --glass-bg: rgba(40, 40, 40, 0.35); 
-                --glass-border: rgba(255, 255, 255, 0.15);
-                --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+                /* KÍNH TRONG HƠN Ở CHẾ ĐỘ TỐI */
+                --glass-bg: rgba(30, 30, 30, 0.18); 
+                --glass-border: rgba(255, 255, 255, 0.12);
+                --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
                 
                 --text-main: #ffffff;
                 --text-sub: rgba(235, 235, 245, 0.6);
@@ -52,7 +54,7 @@
                 --blue-accent: #0a84ff;
                 
                 --btn-bg: rgba(255, 255, 255, 0.1);
-                --input-bg: rgba(0, 0, 0, 0.3);
+                --input-bg: rgba(0, 0, 0, 0.25);
                 --logo-filter: none;
             }
         }
@@ -94,7 +96,7 @@
         /* --- LỚP KÍNH CHUNG CHO THẺ (CARDS) --- */
         .glass-panel {
             background: var(--glass-bg);
-            backdrop-filter: blur(30px) saturate(180%); -webkit-backdrop-filter: blur(30px) saturate(180%);
+            backdrop-filter: blur(28px) saturate(200%); -webkit-backdrop-filter: blur(28px) saturate(200%);
             border: 1px solid var(--glass-border);
             box-shadow: var(--glass-shadow);
             border-radius: var(--radius-card);
@@ -311,8 +313,11 @@
                             <option value="Phóng Sự Cưới">Phóng Sự Cưới</option>
                             <option value="Ăn Hỏi">Ăn Hỏi</option>
                             <option value="Chụp Studio">Chụp Studio</option>
-                            <option value="Kỷ Yếu">Kỷ Yếu</option>
                             <option value="Sự Kiện">Sự Kiện</option>
+                            <option value="Tốt Nghiệp">Tốt Nghiệp</option>
+                            <option value="Kỷ Yếu Đơn">Kỷ Yếu Đơn</option>
+                            <option value="Kỷ Yếu Nhóm 2">Kỷ Yếu Nhóm 2</option>
+                            <option value="Kỷ Yếu Nhóm 3">Kỷ Yếu Nhóm 3</option>
                             <option value="Khác">Khác</option>
                         </select>
                     </div>
@@ -346,6 +351,12 @@
         function formatMoney(num) { return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(num); }
         function parseNum(val) { if (!val) return 0; return parseInt(val.toString().replace(/\./g, '').replace(/,/g, '').replace('đ', '').trim()) || 0; }
 
+        // THUẬT TOÁN DÒ TÌM TỪ KHÓA THÔNG MINH BẤT CHẤP TÊN CỘT BỊ SAI
+        function getMatchedKey(obj, keyword) {
+            if (!obj) return null;
+            return Object.keys(obj).find(k => k.toLowerCase().includes(keyword.toLowerCase()));
+        }
+
         function parseDateCustom(str) {
             if (!str) return null;
             str = str.toString().trim();
@@ -369,20 +380,17 @@
             return `${day}/${month}/${year}`;
         }
 
-        // HÀM TẢI DỮ LIỆU CÓ CACHE THÔNG MINH
+        // TẢI DỮ LIỆU BỀN BỈ TỪ CACHE (KHÔNG ĐỘ TRỄ)
         async function loadData(ignoreCache = false) {
             if (!ignoreCache) {
-                // 1. Tải nhanh từ Local Storage (0 giây)
                 const cachedData = localStorage.getItem('chutoanFotoCache');
                 if (cachedData) {
                     try { renderUI(JSON.parse(cachedData)); } catch(e) {}
                 }
             } else {
-                // Đang đồng bộ thao tác chỉnh sửa
                 document.getElementById('bookingList').innerHTML = '<div class="loader">Đang đồng bộ dữ liệu mới nhất...</div>';
             }
 
-            // 2. Tải ngầm từ Google Sheet
             try {
                 const res = await fetch(API_URL);
                 const data = await res.json();
@@ -400,7 +408,6 @@
             if (!document.getElementById('bookingList').innerHTML.includes('card')) {
                 list.innerHTML = '';
             }
-            
             if (data.length === 0) { list.innerHTML = '<div class="loader">Chưa có lịch chụp nào.</div>'; return; }
 
             let validData = data.filter(r => r['Khách hàng']);
@@ -427,9 +434,7 @@
                 let currentY = now.getFullYear().toString();
                 let currentM = now.getMonth().toString();
 
-                if (years.includes(parseInt(currentY))) { 
-                    yearSelect.value = currentY; 
-                }
+                if (years.includes(parseInt(currentY))) { yearSelect.value = currentY; }
                 document.getElementById('filterMonth').value = currentM;
                 isFirstLoad = false;
             }
@@ -456,7 +461,6 @@
                     </div>
                     <div class="month-content" id="month-content-${mIndex}">
                 `;
-                
                 let dIndex = 0;
                 for (let dateStr in groupedData[monthYear]) {
                     htmlStr += `
@@ -466,18 +470,35 @@
                         </div>
                         <div class="day-content" id="day-content-${mIndex}-${dIndex}">
                     `;
-                    
                     groupedData[monthYear][dateStr].forEach(row => {
-                        let gia = parseNum(row['Giá gói']), phi = parseNum(row['Phí đi lại']);
-                        let coc = parseNum(row['Cọc']), tt = parseNum(row['Thanh toán thêm']);
-                        let conLai = parseNum(row['Còn lại']);
+                        // SỬ DỤNG DÒ TÌM TỪ KHÓA THAY VÌ TÊN CHUẨN ĐỂ CHỐNG LỖI TÊN CỘT
+                        let giaKey = getMatchedKey(row, 'giá');
+                        let phiKey = getMatchedKey(row, 'phí');
+                        let cocKey = getMatchedKey(row, 'cọc');
+                        let ttKey = getMatchedKey(row, 'thanh toán thêm');
+                        let conLaiKey = getMatchedKey(row, 'còn lại') || getMatchedKey(row, 'con lai');
+                        let mapsKey = getMatchedKey(row, 'maps');
+                        let driveKey = getMatchedKey(row, 'drive');
+                        let noteKey = getMatchedKey(row, 'ghi chú') || getMatchedKey(row, 'ghi chu');
+                        let folderKey = getMatchedKey(row, 'thư mục') || getMatchedKey(row, 'thu muc');
+
+                        let gia = giaKey ? parseNum(row[giaKey]) : 0;
+                        let phi = phiKey ? parseNum(row[phiKey]) : 0;
+                        let coc = cocKey ? parseNum(row[cocKey]) : 0;
+                        let tt = ttKey ? parseNum(row[ttKey]) : 0;
+                        let conLai = conLaiKey ? parseNum(row[conLaiKey]) : 0;
                         let rowIndex = row['_rowIndex'];
+
+                        let mapsVal = mapsKey ? row[mapsKey] : '';
+                        let driveVal = driveKey ? row[driveKey] : '';
+                        let noteVal = noteKey ? row[noteKey] : '';
+                        let folderVal = folderKey ? row[folderKey] : '';
 
                         let moneyClass = conLai > 0 ? 'debt' : 'paid';
                         let moneyText = conLai > 0 ? `Cần thu: ${formatMoney(conLai)}` : 'Đã tất toán ✓';
 
-                        let mapsBtn = row['Link Maps'] ? `<a href="${row['Link Maps']}" target="_blank" class="action-link-btn maps" onclick="event.stopPropagation()">📍 Maps</a>` : '';
-                        let driveBtn = row['Link Drive'] ? `<a href="${row['Link Drive']}" target="_blank" class="action-link-btn drive" onclick="event.stopPropagation()">📁 Drive</a>` : '';
+                        let mapsBtn = mapsVal ? `<a href="${mapsVal}" target="_blank" class="action-link-btn maps" onclick="event.stopPropagation()">📍 Maps</a>` : '';
+                        let driveBtn = driveVal ? `<a href="${driveVal}" target="_blank" class="action-link-btn drive" onclick="event.stopPropagation()">📁 Drive</a>` : '';
 
                         let paidBtnHTML = '';
                         if (conLai > 0) {
@@ -506,8 +527,8 @@
                                     <div class="details-row"><span class="details-label">Phí đi lại:</span><span>${formatMoney(phi)}</span></div>
                                     <div class="details-row"><span class="details-label">Tiền cọc:</span><span>${formatMoney(coc)}</span></div>
                                     <div class="details-row"><span class="details-label">Đã trả thêm:</span><span>${formatMoney(tt)}</span></div>
-                                    ${row['Thư mục PC'] ? `<div class="details-row"><span class="details-label">Thư mục PC:</span><span>${row['Thư mục PC']}</span></div>` : ''}
-                                    ${row['Ghi chú'] ? `<div class="details-row"><span class="details-label">Ghi chú:</span><span>${row['Ghi chú']}</span></div>` : ''}
+                                    ${folderVal ? `<div class="details-row"><span class="details-label">Thư mục PC:</span><span>${folderVal}</span></div>` : ''}
+                                    ${noteVal ? `<div class="details-row"><span class="details-label">Ghi chú:</span><span>${noteVal}</span></div>` : ''}
                                     
                                     <div style="margin-top: 12px;">
                                         ${mapsBtn}
@@ -524,7 +545,6 @@
                             </div>
                         `;
                     });
-                    
                     htmlStr += `</div>`;
                     dIndex++;
                 }
@@ -559,9 +579,18 @@
                 if (fMonth !== "ALL") { if (!dObj || dObj.getMonth().toString() !== fMonth) matchM = false; }
 
                 if (matchY && matchM) {
-                    let gia = parseNum(row['Giá gói']), phi = parseNum(row['Phí đi lại']);
-                    let coc = parseNum(row['Cọc']), tt = parseNum(row['Thanh toán thêm']);
-                    tRev += (gia + phi); tPaid += (coc + tt); tDebt += parseNum(row['Còn lại']); tShows++;
+                    let giaKey = getMatchedKey(row, 'giá');
+                    let phiKey = getMatchedKey(row, 'phí');
+                    let cocKey = getMatchedKey(row, 'cọc');
+                    let ttKey = getMatchedKey(row, 'thanh toán thêm');
+                    let conLaiKey = getMatchedKey(row, 'còn lại') || getMatchedKey(row, 'con lai');
+
+                    let gia = giaKey ? parseNum(row[giaKey]) : 0;
+                    let phi = phiKey ? parseNum(row[phiKey]) : 0;
+                    let coc = cocKey ? parseNum(row[cocKey]) : 0;
+                    let tt = ttKey ? parseNum(row[ttKey]) : 0;
+                    
+                    tRev += (gia + phi); tPaid += (coc + tt); tDebt += (conLaiKey ? parseNum(row[conLaiKey]) : 0); tShows++;
                 }
             });
 
@@ -571,7 +600,6 @@
             document.getElementById('totalShows').innerText = tShows;
         }
         
-        // Khởi chạy App
         loadData(); 
 
         function openModal() {
@@ -588,9 +616,14 @@
             if (!item) return;
             document.getElementById('modalTitle').innerText = `Sửa Lịch: ${name}`;
             document.getElementById('e_rowindex').value = rowIndex;
-            document.getElementById('e_linkdrive').value = item['Link Drive'] || '';
-            document.getElementById('e_linkmaps').value = item['Link Maps'] || '';
-            document.getElementById('e_ghichu').value = item['Ghi chú'] || '';
+            
+            let mapsKey = getMatchedKey(item, 'maps');
+            let driveKey = getMatchedKey(item, 'drive');
+            let noteKey = getMatchedKey(item, 'ghi chú') || getMatchedKey(item, 'ghi chu');
+
+            document.getElementById('e_linkdrive').value = driveKey ? item[driveKey] : '';
+            document.getElementById('e_linkmaps').value = mapsKey ? item[mapsKey] : '';
+            document.getElementById('e_ghichu').value = noteKey ? item[noteKey] : '';
             
             document.getElementById('tab-create').classList.remove('active');
             document.getElementById('tab-edit').classList.add('active');
@@ -605,18 +638,57 @@
             });
         });
 
+        // 1. TỐI ƯU CẬP NHẬT TỨC THÌ (OPTIMISTIC UI): SỬA LỊCH 0 GIÂY
+        async function submitEdit(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnEdit');
+            btn.innerText = "Đang lưu..."; btn.style.opacity = 0.7; btn.disabled = true;
+            
+            const rowIndex = document.getElementById('e_rowindex').value;
+            const newDrive = document.getElementById('e_linkdrive').value;
+            const newMaps = document.getElementById('e_linkmaps').value;
+            const newNote = document.getElementById('e_ghichu').value;
+
+            // Xử lý gửi Data ngầm không bắt người dùng đợi
+            const payload = { action: "EDIT_ROW", rowIndex: rowIndex, linkDrive: newDrive, linkMaps: newMaps, ghiChu: newNote };
+            fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+                .then(() => { loadData(false); }); // Cập nhật ngầm lại sau
+
+            // Nhảy số tức thì trên giao diện
+            let item = allValidData.find(r => r._rowIndex == rowIndex);
+            if (item) {
+                let driveKey = getMatchedKey(item, 'drive') || 'Link Drive';
+                let mapsKey = getMatchedKey(item, 'maps') || 'Link Maps';
+                let noteKey = getMatchedKey(item, 'ghi chú') || getMatchedKey(item, 'ghi chu') || 'Ghi chú';
+                
+                item[driveKey] = newDrive;
+                item[mapsKey] = newMaps;
+                item[noteKey] = newNote;
+                
+                localStorage.setItem('chutoanFotoCache', JSON.stringify(allValidData));
+                renderUI(allValidData);
+            }
+
+            closeModal();
+            btn.innerText = "💾 LƯU CẬP NHẬT"; btn.style.opacity = 1; btn.disabled = false;
+        }
+
+        // 2. TỐI ƯU CẬP NHẬT TỨC THÌ (OPTIMISTIC UI): THANH TOÁN 0 GIÂY
         async function markPaid(rowIndex, name) {
             if (!confirm(`Xác nhận khách hàng "${name}" đã thanh toán toàn bộ số tiền còn lại?`)) return;
-            try {
-                let btn = event.target;
-                btn.innerText = "Đang đồng bộ..."; btn.disabled = true;
-                await fetch(API_URL, {
-                    method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: "MARK_PAID", rowIndex: rowIndex })
-                });
-                // Tải lại dữ liệu mới (bỏ qua cache) để thấy cập nhật ngay
-                setTimeout(() => loadData(true), 1000);
-            } catch (err) { alert("Lỗi kết nối!"); }
+            
+            // Nhảy số tức thì trên giao diện
+            let item = allValidData.find(r => r._rowIndex == rowIndex);
+            if (item) {
+                let conLaiKey = getMatchedKey(item, 'còn lại') || getMatchedKey(item, 'con lai') || 'Còn lại';
+                item[conLaiKey] = 0; // Chuyển Nợ về 0
+                localStorage.setItem('chutoanFotoCache', JSON.stringify(allValidData));
+                renderUI(allValidData);
+            }
+
+            // Gửi xử lý ngầm
+            fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: "MARK_PAID", rowIndex: rowIndex }) })
+                .then(() => { loadData(false); });
         }
 
         async function submitCreate(e) {
@@ -632,43 +704,19 @@
                 coc: parseNum(document.getElementById('c_coc').value), ghiChu: document.getElementById('c_ghichu').value,
                 thuMucPC: document.getElementById('c_thumuc').value
             };
-            await sendData(payload, btn, "⚡ TẠO LỊCH & ĐỒNG BỘ PRO");
-            document.getElementById('formCreate').reset();
-        }
-
-        async function submitEdit(e) {
-            e.preventDefault();
-            const btn = document.getElementById('btnEdit');
-            btn.innerText = "Đang lưu..."; btn.style.opacity = 0.7; btn.disabled = true;
-            const payload = {
-                action: "EDIT_ROW", rowIndex: document.getElementById('e_rowindex').value,
-                linkDrive: document.getElementById('e_linkdrive').value, linkMaps: document.getElementById('e_linkmaps').value,
-                ghiChu: document.getElementById('e_ghichu').value
-            };
-            await sendData(payload, btn, "💾 LƯU CẬP NHẬT");
+            try {
+                await fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                closeModal(); setTimeout(() => loadData(true), 500); 
+            } catch (err) { alert("Lỗi kết nối!"); } 
+            finally { btn.innerText = "⚡ TẠO LỊCH & ĐỒNG BỘ PRO"; btn.style.opacity = 1; btn.disabled = false; }
         }
 
         async function deleteBooking(rowIndex, name) {
             if (!confirm(`Bạn có chắc chắn muốn XÓA lịch của khách "${name}" không? Thao tác này không thể hoàn tác.`)) return;
             try {
-                await fetch(API_URL, {
-                    method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: "DELETE_ROW", rowIndex: rowIndex })
-                });
-                setTimeout(() => loadData(true), 1000);
+                await fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: "DELETE_ROW", rowIndex: rowIndex }) });
+                setTimeout(() => loadData(true), 500);
             } catch (err) { alert("Lỗi khi xóa lịch!"); }
-        }
-
-        async function sendData(payload, btn, originalText) {
-            try {
-                await fetch(API_URL, {
-                    method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                closeModal(); 
-                setTimeout(() => loadData(true), 1000); 
-            } catch (err) { alert("Lỗi khi lưu dữ liệu!"); } 
-            finally { btn.innerText = originalText; btn.style.opacity = 1; btn.disabled = false; }
         }
     </script>
 </body>
