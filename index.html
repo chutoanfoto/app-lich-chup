@@ -15,7 +15,6 @@
                 radial-gradient(circle at 15% 50%, rgba(0, 122, 255, 0.08), transparent 40%),
                 radial-gradient(circle at 85% 30%, rgba(212, 175, 55, 0.08), transparent 40%);
             
-            /* KÍNH TRONG HƠN (LIQUID GLASS OPTIMIZED) */
             --glass-bg: rgba(255, 255, 255, 0.25); 
             --glass-border: rgba(255, 255, 255, 0.5);
             --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
@@ -41,7 +40,6 @@
                     radial-gradient(circle at 20% 40%, rgba(10, 132, 255, 0.12), transparent 45%),
                     radial-gradient(circle at 80% 60%, rgba(212, 175, 55, 0.12), transparent 45%);
                 
-                /* KÍNH TRONG HƠN Ở CHẾ ĐỘ TỐI */
                 --glass-bg: rgba(30, 30, 30, 0.18); 
                 --glass-border: rgba(255, 255, 255, 0.12);
                 --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
@@ -93,7 +91,6 @@
             letter-spacing: 1px; margin-bottom: 12px; text-transform: uppercase; margin-left: 4px;
         }
 
-        /* --- LỚP KÍNH CHUNG CHO THẺ (CARDS) --- */
         .glass-panel {
             background: var(--glass-bg);
             backdrop-filter: blur(28px) saturate(200%); -webkit-backdrop-filter: blur(28px) saturate(200%);
@@ -125,7 +122,7 @@
         
         .toggle-icon { transition: transform 0.3s ease; font-size: 12px; opacity: 0.6;}
 
-        /* --- THẺ LỊCH CHỤP (JOB CARD) --- */
+        /* --- THẺ LỊCH CHỤP --- */
         .card {
             padding: 20px; margin-bottom: 14px; cursor: pointer;
             transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -140,7 +137,7 @@
         .package-name { font-size: 14px; color: var(--accent-gold); margin: 0; font-weight: 500;}
         .shoot-time { font-size: 12px; background: var(--btn-bg); padding: 6px 12px; border-radius: 12px; font-weight: 600; color: var(--text-main);}
         
-        .details-row { display: flex; margin-bottom: 8px; font-size: 14px; }
+        .details-row { display: flex; margin-bottom: 8px; font-size: 14px; align-items: flex-start;}
         .details-label { color: var(--text-sub); width: 90px; flex-shrink: 0; }
         
         .money-status {
@@ -161,7 +158,7 @@
             padding: 8px 14px; background: var(--btn-bg);
             border-radius: 12px; color: var(--text-main); 
             text-decoration: none; font-size: 13px; font-weight: 600;
-            margin-top: 8px; margin-right: 8px;
+            margin-right: 8px; transition: background 0.2s;
         }
         .action-link-btn.maps { color: var(--blue-accent); }
         .action-link-btn.drive { color: var(--success-green); }
@@ -300,13 +297,13 @@
                 <span class="close-btn" onclick="closeModal()">✕</span>
             </div>
             
+            <!-- TẠO LỊCH MỚI -->
             <div id="tab-create" class="tab-panel active">
                 <form id="formCreate" onsubmit="submitCreate(event)">
                     <div class="form-group"><label>Ngày chụp:</label><input type="date" id="c_ngay" class="form-control" required></div>
                     <div class="form-group"><label>Thời gian (Sáng/Chiều):</label><input type="text" id="c_thoigian" class="form-control" placeholder="Sáng"></div>
                     <div class="form-group"><label>Khách hàng (Tên):</label><input type="text" id="c_khach" class="form-control" required placeholder="Bắt buộc nhập đúng để dễ tìm"></div>
                     <div class="form-group"><label>Địa điểm chụp:</label><input type="text" id="c_diadiem" class="form-control"></div>
-                    <div class="form-group"><label>Link Google Maps (Vị trí):</label><input type="url" id="c_linkmaps" class="form-control" placeholder="https://maps.app.goo.gl/..."></div>
                     <div class="form-group">
                         <label>Gói dịch vụ:</label>
                         <select id="c_noidung" class="form-select">
@@ -326,16 +323,42 @@
                     <div class="form-group"><label>Tiền cọc (VNĐ):</label><input type="text" id="c_coc" class="form-control money-input" placeholder="0"></div>
                     <div class="form-group"><label>Ghi chú thêm:</label><input type="text" id="c_ghichu" class="form-control"></div>
                     <div class="form-group"><label>Thư mục PC:</label><input type="text" id="c_thumuc" class="form-control" placeholder="D:\DuLieuChup\"></div>
+                    <div class="form-group"><label>Link Maps (Vị trí):</label><input type="url" id="c_linkmaps" class="form-control" placeholder="https://maps.app.goo.gl/..."></div>
+                    <div class="form-group"><label>Link Drive (Bàn giao):</label><input type="url" id="c_linkdrive" class="form-control" placeholder="https://drive.google.com/..."></div>
                     <button type="submit" class="btn btn-blue" id="btnCreate">⚡ TẠO LỊCH & ĐỒNG BỘ PRO</button>
                 </form>
             </div>
 
+            <!-- SỬA LỊCH -->
             <div id="tab-edit" class="tab-panel">
                 <form id="formEdit" onsubmit="submitEdit(event)">
                     <input type="hidden" id="e_rowindex">
-                    <div class="form-group"><label>Link Ảnh Google Drive (Bàn giao):</label><input type="url" id="e_linkdrive" class="form-control" placeholder="https://drive.google.com/drive/..."></div>
-                    <div class="form-group"><label>Link Google Maps:</label><input type="url" id="e_linkmaps" class="form-control" placeholder="https://maps.app.goo.gl/..."></div>
+                    <div class="form-group"><label>Ngày chụp:</label><input type="date" id="e_ngay" class="form-control" required></div>
+                    <div class="form-group"><label>Thời gian (Sáng/Chiều):</label><input type="text" id="e_thoigian" class="form-control"></div>
+                    <div class="form-group"><label>Khách hàng (Tên):</label><input type="text" id="e_khach" class="form-control" required></div>
+                    <div class="form-group"><label>Địa điểm chụp:</label><input type="text" id="e_diadiem" class="form-control"></div>
+                    <div class="form-group">
+                        <label>Gói dịch vụ:</label>
+                        <select id="e_noidung" class="form-select">
+                            <option value="Phóng Sự Cưới">Phóng Sự Cưới</option>
+                            <option value="Ăn Hỏi">Ăn Hỏi</option>
+                            <option value="Chụp Studio">Chụp Studio</option>
+                            <option value="Sự Kiện">Sự Kiện</option>
+                            <option value="Tốt Nghiệp">Tốt Nghiệp</option>
+                            <option value="Kỷ Yếu Đơn">Kỷ Yếu Đơn</option>
+                            <option value="Kỷ Yếu Nhóm 2">Kỷ Yếu Nhóm 2</option>
+                            <option value="Kỷ Yếu Nhóm 3">Kỷ Yếu Nhóm 3</option>
+                            <option value="Khác">Khác</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Giá gói chụp (VNĐ):</label><input type="text" id="e_gia" class="form-control money-input"></div>
+                    <div class="form-group"><label>Phí đi lại (VNĐ):</label><input type="text" id="e_phi" class="form-control money-input"></div>
+                    <div class="form-group"><label>Tiền cọc (VNĐ):</label><input type="text" id="e_coc" class="form-control money-input"></div>
+                    <div class="form-group"><label>Khách đã trả thêm (VNĐ):</label><input type="text" id="e_trathem" class="form-control money-input" placeholder="0"></div>
                     <div class="form-group"><label>Ghi chú thêm:</label><input type="text" id="e_ghichu" class="form-control"></div>
+                    <div class="form-group"><label>Thư mục PC:</label><input type="text" id="e_thumuc" class="form-control"></div>
+                    <div class="form-group"><label>Link Maps (Vị trí):</label><input type="url" id="e_linkmaps" class="form-control"></div>
+                    <div class="form-group"><label>Link Drive (Bàn giao):</label><input type="url" id="e_linkdrive" class="form-control"></div>
                     <button type="submit" class="btn btn-blue" id="btnEdit">💾 LƯU CẬP NHẬT</button>
                 </form>
             </div>
@@ -351,7 +374,6 @@
         function formatMoney(num) { return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(num); }
         function parseNum(val) { if (!val) return 0; return parseInt(val.toString().replace(/\./g, '').replace(/,/g, '').replace('đ', '').trim()) || 0; }
 
-        // THUẬT TOÁN DÒ TÌM TỪ KHÓA THÔNG MINH BẤT CHẤP TÊN CỘT BỊ SAI
         function getMatchedKey(obj, keyword) {
             if (!obj) return null;
             return Object.keys(obj).find(k => k.toLowerCase().includes(keyword.toLowerCase()));
@@ -379,8 +401,15 @@
             let year = d.getFullYear();
             return `${day}/${month}/${year}`;
         }
+        
+        function dateToISO(dObj) {
+            if (!dObj) return '';
+            let year = dObj.getFullYear();
+            let month = ("0" + (dObj.getMonth() + 1)).slice(-2);
+            let day = ("0" + dObj.getDate()).slice(-2);
+            return `${year}-${month}-${day}`;
+        }
 
-        // TẢI DỮ LIỆU BỀN BỈ TỪ CACHE (KHÔNG ĐỘ TRỄ)
         async function loadData(ignoreCache = false) {
             if (!ignoreCache) {
                 const cachedData = localStorage.getItem('chutoanFotoCache');
@@ -471,7 +500,6 @@
                         <div class="day-content" id="day-content-${mIndex}-${dIndex}">
                     `;
                     groupedData[monthYear][dateStr].forEach(row => {
-                        // SỬ DỤNG DÒ TÌM TỪ KHÓA THAY VÌ TÊN CHUẨN ĐỂ CHỐNG LỖI TÊN CỘT
                         let giaKey = getMatchedKey(row, 'giá');
                         let phiKey = getMatchedKey(row, 'phí');
                         let cocKey = getMatchedKey(row, 'cọc');
@@ -497,8 +525,10 @@
                         let moneyClass = conLai > 0 ? 'debt' : 'paid';
                         let moneyText = conLai > 0 ? `Cần thu: ${formatMoney(conLai)}` : 'Đã tất toán ✓';
 
+                        // 📍 ĐƯA 2 NÚT MAPS VÀ DRIVE XUỐNG DƯỚI DÒNG ĐỊA ĐIỂM
                         let mapsBtn = mapsVal ? `<a href="${mapsVal}" target="_blank" class="action-link-btn maps" onclick="event.stopPropagation()">📍 Maps</a>` : '';
                         let driveBtn = driveVal ? `<a href="${driveVal}" target="_blank" class="action-link-btn drive" onclick="event.stopPropagation()">📁 Drive</a>` : '';
+                        let linkButtonsHTML = (mapsBtn || driveBtn) ? `<div style="margin-top: 6px; margin-bottom: 8px;">${mapsBtn}${driveBtn}</div>` : '';
 
                         let paidBtnHTML = '';
                         if (conLai > 0) {
@@ -517,7 +547,12 @@
                                     <div><h2 class="client-name">${row['Khách hàng']}</h2><p class="package-name">${row['Nội dung'] || 'Chưa ghi'}</p></div>
                                     <div class="shoot-time">${row['Thời gian'] || '--'}</div>
                                 </div>
-                                <div class="details-row"><span class="details-label">Địa điểm:</span><span>${row['Địa điểm'] || '--'}</span></div>
+                                
+                                <div class="details-row" style="flex-direction: column;">
+                                    <div style="display:flex;"><span class="details-label">Địa điểm:</span><span>${row['Địa điểm'] || '--'}</span></div>
+                                    ${linkButtonsHTML}
+                                </div>
+
                                 <div class="money-status ${moneyClass}">
                                     <span>Tổng: ${formatMoney(gia + phi)}</span>
                                     <span>${moneyText}</span>
@@ -530,11 +565,6 @@
                                     ${folderVal ? `<div class="details-row"><span class="details-label">Thư mục PC:</span><span>${folderVal}</span></div>` : ''}
                                     ${noteVal ? `<div class="details-row"><span class="details-label">Ghi chú:</span><span>${noteVal}</span></div>` : ''}
                                     
-                                    <div style="margin-top: 12px;">
-                                        ${mapsBtn}
-                                        ${driveBtn}
-                                    </div>
-
                                     ${paidBtnHTML}
 
                                     <div class="card-btns-row" onclick="event.stopPropagation()">
@@ -551,7 +581,6 @@
                 htmlStr += `</div>`;
                 mIndex++;
             }
-            
             list.innerHTML = htmlStr;
             updateStatsUI();
         }
@@ -617,13 +646,33 @@
             document.getElementById('modalTitle').innerText = `Sửa Lịch: ${name}`;
             document.getElementById('e_rowindex').value = rowIndex;
             
+            let dObj = item._dateObj;
+            document.getElementById('e_ngay').value = dObj ? dateToISO(dObj) : '';
+            
+            document.getElementById('e_thoigian').value = item['Thời gian'] || '';
+            document.getElementById('e_khach').value = item['Khách hàng'] || '';
+            document.getElementById('e_diadiem').value = item['Địa điểm'] || '';
+            document.getElementById('e_noidung').value = item['Nội dung'] || 'Khác';
+
+            let giaKey = getMatchedKey(item, 'giá');
+            let phiKey = getMatchedKey(item, 'phí');
+            let cocKey = getMatchedKey(item, 'cọc');
+            let ttKey = getMatchedKey(item, 'thanh toán thêm');
+            
+            document.getElementById('e_gia').value = giaKey && item[giaKey] ? new Intl.NumberFormat('vi-VN').format(item[giaKey]) : '';
+            document.getElementById('e_phi').value = phiKey && item[phiKey] ? new Intl.NumberFormat('vi-VN').format(item[phiKey]) : '';
+            document.getElementById('e_coc').value = cocKey && item[cocKey] ? new Intl.NumberFormat('vi-VN').format(item[cocKey]) : '';
+            document.getElementById('e_trathem').value = ttKey && item[ttKey] ? new Intl.NumberFormat('vi-VN').format(item[ttKey]) : '';
+
             let mapsKey = getMatchedKey(item, 'maps');
             let driveKey = getMatchedKey(item, 'drive');
             let noteKey = getMatchedKey(item, 'ghi chú') || getMatchedKey(item, 'ghi chu');
+            let folderKey = getMatchedKey(item, 'thư mục') || getMatchedKey(item, 'thu muc');
 
             document.getElementById('e_linkdrive').value = driveKey ? item[driveKey] : '';
             document.getElementById('e_linkmaps').value = mapsKey ? item[mapsKey] : '';
             document.getElementById('e_ghichu').value = noteKey ? item[noteKey] : '';
+            document.getElementById('e_thumuc').value = folderKey ? item[folderKey] : '';
             
             document.getElementById('tab-create').classList.remove('active');
             document.getElementById('tab-edit').classList.add('active');
@@ -638,55 +687,15 @@
             });
         });
 
-        // 1. TỐI ƯU CẬP NHẬT TỨC THÌ (OPTIMISTIC UI): SỬA LỊCH 0 GIÂY
-        async function submitEdit(e) {
-            e.preventDefault();
-            const btn = document.getElementById('btnEdit');
-            btn.innerText = "Đang lưu..."; btn.style.opacity = 0.7; btn.disabled = true;
-            
-            const rowIndex = document.getElementById('e_rowindex').value;
-            const newDrive = document.getElementById('e_linkdrive').value;
-            const newMaps = document.getElementById('e_linkmaps').value;
-            const newNote = document.getElementById('e_ghichu').value;
-
-            // Xử lý gửi Data ngầm không bắt người dùng đợi
-            const payload = { action: "EDIT_ROW", rowIndex: rowIndex, linkDrive: newDrive, linkMaps: newMaps, ghiChu: newNote };
-            fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
-                .then(() => { loadData(false); }); // Cập nhật ngầm lại sau
-
-            // Nhảy số tức thì trên giao diện
-            let item = allValidData.find(r => r._rowIndex == rowIndex);
-            if (item) {
-                let driveKey = getMatchedKey(item, 'drive') || 'Link Drive';
-                let mapsKey = getMatchedKey(item, 'maps') || 'Link Maps';
-                let noteKey = getMatchedKey(item, 'ghi chú') || getMatchedKey(item, 'ghi chu') || 'Ghi chú';
-                
-                item[driveKey] = newDrive;
-                item[mapsKey] = newMaps;
-                item[noteKey] = newNote;
-                
-                localStorage.setItem('chutoanFotoCache', JSON.stringify(allValidData));
-                renderUI(allValidData);
-            }
-
-            closeModal();
-            btn.innerText = "💾 LƯU CẬP NHẬT"; btn.style.opacity = 1; btn.disabled = false;
-        }
-
-        // 2. TỐI ƯU CẬP NHẬT TỨC THÌ (OPTIMISTIC UI): THANH TOÁN 0 GIÂY
         async function markPaid(rowIndex, name) {
             if (!confirm(`Xác nhận khách hàng "${name}" đã thanh toán toàn bộ số tiền còn lại?`)) return;
-            
-            // Nhảy số tức thì trên giao diện
             let item = allValidData.find(r => r._rowIndex == rowIndex);
             if (item) {
                 let conLaiKey = getMatchedKey(item, 'còn lại') || getMatchedKey(item, 'con lai') || 'Còn lại';
-                item[conLaiKey] = 0; // Chuyển Nợ về 0
+                item[conLaiKey] = 0;
                 localStorage.setItem('chutoanFotoCache', JSON.stringify(allValidData));
                 renderUI(allValidData);
             }
-
-            // Gửi xử lý ngầm
             fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: "MARK_PAID", rowIndex: rowIndex }) })
                 .then(() => { loadData(false); });
         }
@@ -702,20 +711,51 @@
                 linkMaps: document.getElementById('c_linkmaps').value, noiDung: document.getElementById('c_noidung').value,
                 giaGoi: parseNum(document.getElementById('c_gia').value), phiDiLai: parseNum(document.getElementById('c_phi').value),
                 coc: parseNum(document.getElementById('c_coc').value), ghiChu: document.getElementById('c_ghichu').value,
-                thuMucPC: document.getElementById('c_thumuc').value
+                thuMucPC: document.getElementById('c_thumuc').value, linkDrive: document.getElementById('c_linkdrive').value
             };
             try {
                 await fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                closeModal(); setTimeout(() => loadData(true), 500); 
+                closeModal(); setTimeout(() => loadData(true), 1500); 
             } catch (err) { alert("Lỗi kết nối!"); } 
             finally { btn.innerText = "⚡ TẠO LỊCH & ĐỒNG BỘ PRO"; btn.style.opacity = 1; btn.disabled = false; }
+        }
+
+        async function submitEdit(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnEdit');
+            btn.innerText = "Đang lưu..."; btn.style.opacity = 0.7; btn.disabled = true;
+            
+            const payload = {
+                action: "EDIT_ROW", 
+                rowIndex: document.getElementById('e_rowindex').value,
+                ngayChup: document.getElementById('e_ngay').value,
+                thoiGian: document.getElementById('e_thoigian').value,
+                khachHang: document.getElementById('e_khach').value,
+                noiDung: document.getElementById('e_noidung').value,
+                diaDiem: document.getElementById('e_diadiem').value,
+                giaGoi: parseNum(document.getElementById('e_gia').value),
+                phiDiLai: parseNum(document.getElementById('e_phi').value),
+                coc: parseNum(document.getElementById('e_coc').value),
+                traThem: parseNum(document.getElementById('e_trathem').value),
+                linkDrive: document.getElementById('e_linkdrive').value, 
+                linkMaps: document.getElementById('e_linkmaps').value, 
+                ghiChu: document.getElementById('e_ghichu').value,
+                thuMucPC: document.getElementById('e_thumuc').value
+            };
+
+            fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+                .then(() => { 
+                    closeModal();
+                    setTimeout(() => loadData(true), 1500); 
+                    btn.innerText = "💾 LƯU CẬP NHẬT"; btn.style.opacity = 1; btn.disabled = false;
+                });
         }
 
         async function deleteBooking(rowIndex, name) {
             if (!confirm(`Bạn có chắc chắn muốn XÓA lịch của khách "${name}" không? Thao tác này không thể hoàn tác.`)) return;
             try {
                 await fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: "DELETE_ROW", rowIndex: rowIndex }) });
-                setTimeout(() => loadData(true), 500);
+                setTimeout(() => loadData(true), 1500);
             } catch (err) { alert("Lỗi khi xóa lịch!"); }
         }
     </script>
