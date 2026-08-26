@@ -8,17 +8,11 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>ChuToan Foto - Quản Lý Lịch Chụp</title>
     <style>
-        /* --- KHÓA TRỤC NGANG & CHỐNG TRÀN VIỀN TẬN GỐC --- */
-        *, *::before, *::after {
-            box-sizing: border-box;
-        }
+        *, *::before, *::after { box-sizing: border-box; }
 
-        /* --- THEME COLORS --- */
         :root {
             --bg-base: #f0f2f5;
-            --bg-mesh: 
-                radial-gradient(circle at 15% 50%, rgba(0, 122, 255, 0.08), transparent 40%),
-                radial-gradient(circle at 85% 30%, rgba(212, 175, 55, 0.08), transparent 40%);
+            --bg-mesh: radial-gradient(circle at 15% 50%, rgba(0, 122, 255, 0.08), transparent 40%), radial-gradient(circle at 85% 30%, rgba(212, 175, 55, 0.08), transparent 40%);
             --glass-bg: rgba(255, 255, 255, 0.35); 
             --glass-border: rgba(255, 255, 255, 0.6);
             --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
@@ -37,9 +31,7 @@
         @media (prefers-color-scheme: dark) {
             :root {
                 --bg-base: #000000;
-                --bg-mesh: 
-                    radial-gradient(circle at 20% 40%, rgba(10, 132, 255, 0.12), transparent 45%),
-                    radial-gradient(circle at 80% 60%, rgba(212, 175, 55, 0.12), transparent 45%);
+                --bg-mesh: radial-gradient(circle at 20% 40%, rgba(10, 132, 255, 0.12), transparent 45%), radial-gradient(circle at 80% 60%, rgba(212, 175, 55, 0.12), transparent 45%);
                 --glass-bg: rgba(30, 30, 30, 0.25); 
                 --glass-border: rgba(255, 255, 255, 0.14);
                 --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
@@ -57,84 +49,39 @@
 
         html, body {
             margin: 0; padding: 0;
-            width: 100%; max-width: 100%;
-            overflow-x: hidden; /* Đảm bảo tuyệt đối không trượt ngang */
+            width: 100vw; max-width: 100%;
+            overflow-x: hidden; overscroll-behavior-x: none;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg-base);
-            background-image: var(--bg-mesh);
-            background-attachment: fixed;
-            color: var(--text-main);
-            min-height: 100vh;
+            background-color: var(--bg-base); background-image: var(--bg-mesh); background-attachment: fixed;
+            color: var(--text-main); min-height: 100vh;
             -webkit-tap-highlight-color: transparent;
         }
 
-        body.modal-open {
-            overflow: hidden;
-            position: fixed;
-            width: 100%;
-            height: 100%;
-        }
+        body.modal-open { overflow: hidden; position: fixed; width: 100%; height: 100%; }
 
         .header {
-            width: 100%;
-            padding: 16px 20px; position: sticky; top: 0; z-index: 50;
-            background: var(--glass-bg);
-            backdrop-filter: blur(28px) saturate(180%); -webkit-backdrop-filter: blur(28px) saturate(180%);
-            border-bottom: 1px solid var(--glass-border);
-            display: flex; justify-content: space-between; align-items: center;
+            width: 100%; padding: 16px 20px; position: sticky; top: 0; z-index: 50;
+            background: var(--glass-bg); backdrop-filter: blur(28px) saturate(180%); -webkit-backdrop-filter: blur(28px) saturate(180%);
+            border-bottom: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center;
         }
         .header img { height: 32px; object-fit: contain; filter: var(--logo-filter); }
-        .status-dot {
-            display: inline-block; width: 8px; height: 8px; background: var(--success-green);
-            border-radius: 50%; box-shadow: 0 0 8px var(--success-green); margin-right: 6px;
-        }
+        .status-dot { display: inline-block; width: 8px; height: 8px; background: var(--success-green); border-radius: 50%; box-shadow: 0 0 8px var(--success-green); margin-right: 6px; }
 
-        .container { 
-            width: 100%; padding: 15px; max-width: 600px; margin: 0 auto; padding-bottom: 100px; 
-            overflow-x: hidden; 
-        }
-        .section-title {
-            font-size: 13px; font-weight: 700; color: var(--text-sub); 
-            letter-spacing: 1px; margin-bottom: 12px; text-transform: uppercase; margin-left: 4px;
-        }
+        .container { width: 100%; padding: 15px; max-width: 600px; margin: 0 auto; padding-bottom: 100px; overflow-x: hidden; }
+        .section-title { font-size: 13px; font-weight: 700; color: var(--text-sub); letter-spacing: 1px; margin-bottom: 12px; text-transform: uppercase; margin-left: 4px; }
 
-        .glass-panel {
-            background: var(--glass-bg);
-            backdrop-filter: blur(25px) saturate(180%); -webkit-backdrop-filter: blur(25px) saturate(180%);
-            border: 1px solid var(--glass-border);
-            box-shadow: var(--glass-shadow);
-            border-radius: var(--radius-card);
-        }
+        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(25px) saturate(180%); -webkit-backdrop-filter: blur(25px) saturate(180%); border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow); border-radius: var(--radius-card); }
 
-        /* --- ACCORDION THÁNG & NGÀY --- */
-        .month-header {
-            padding: 16px 20px; margin: 15px 0 8px 0;
-            color: var(--accent-gold); font-weight: 700; font-size: 16px; 
-            cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-        }
-        .month-content { display: none; animation: fadeIn 0.25s ease; }
-        .month-content.show { display: block; }
+        .month-header { padding: 16px 20px; margin: 15px 0 8px 0; color: var(--accent-gold); font-weight: 700; font-size: 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .month-content { display: none; } .month-content.show { display: block; animation: fadeIn 0.25s ease; }
 
-        .day-header {
-            padding: 14px 18px; margin: 10px 0 8px 0; border-radius: 18px;
-            color: var(--blue-accent); font-weight: 700; font-size: 15px;
-            cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-        }
-        .day-content { display: none; animation: fadeIn 0.25s ease; }
-        .day-content.show { display: block; }
+        .day-header { padding: 14px 18px; margin: 10px 0 8px 0; border-radius: 18px; color: var(--blue-accent); font-weight: 700; font-size: 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .day-content { display: none; } .day-content.show { display: block; animation: fadeIn 0.25s ease; }
         .toggle-icon { transition: transform 0.3s ease; font-size: 12px; opacity: 0.7;}
 
-        /* --- JOB CARD --- */
-        .card {
-            padding: 18px; margin-bottom: 14px; cursor: pointer;
-            transition: transform 0.15s ease;
-        }
+        .card { padding: 18px; margin-bottom: 14px; cursor: pointer; transition: transform 0.15s ease; }
         .card:active { transform: scale(0.98); }
-        
-        .card-header {
-            display: flex; justify-content: space-between; align-items: flex-start;
-            margin-bottom: 8px; border-bottom: 1px solid rgba(150, 150, 150, 0.15); padding-bottom: 10px;
-        }
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; border-bottom: 1px solid rgba(150, 150, 150, 0.15); padding-bottom: 10px; }
         .client-name { font-size: 18px; font-weight: 600; color: var(--text-main); margin: 0 0 4px 0; }
         .package-name { font-size: 14px; color: var(--accent-gold); margin: 0; font-weight: 500;}
         .shoot-time { font-size: 12px; background: var(--btn-bg); padding: 5px 10px; border-radius: 10px; font-weight: 600;}
@@ -142,102 +89,35 @@
         .details-row { display: flex; margin-bottom: 6px; font-size: 14px; }
         .details-label { color: var(--text-sub); width: 85px; flex-shrink: 0; }
         
-        .action-link-btn {
-            display: inline-flex; align-items: center; gap: 4px;
-            padding: 7px 12px; background: var(--btn-bg);
-            border-radius: 10px; color: var(--text-main); 
-            text-decoration: none; font-size: 12px; font-weight: 600;
-            margin-right: 6px; margin-top: 6px;
-        }
-        .action-link-btn.maps { color: var(--blue-accent); }
-        .action-link-btn.drive { color: var(--success-green); }
+        .action-link-btn { display: inline-flex; align-items: center; gap: 4px; padding: 7px 12px; background: var(--btn-bg); border-radius: 10px; color: var(--text-main); text-decoration: none; font-size: 12px; font-weight: 600; margin-right: 6px; margin-top: 6px; }
+        .action-link-btn.maps { color: var(--blue-accent); } .action-link-btn.drive { color: var(--success-green); }
         
-        .money-status {
-            margin-top: 12px; padding-top: 12px; border-top: 1px dashed rgba(150, 150, 150, 0.2);
-            display: flex; justify-content: space-between; font-weight: 600; font-size: 14px;
-        }
-        .debt { color: var(--alert-red); }
-        .paid { color: var(--success-green); }
+        .money-status { margin-top: 12px; padding-top: 12px; border-top: 1px dashed rgba(150, 150, 150, 0.2); display: flex; justify-content: space-between; font-weight: 600; font-size: 14px; }
+        .debt { color: var(--alert-red); } .paid { color: var(--success-green); }
 
-        .card-expanded-content {
-            display: none; margin-top: 12px; padding-top: 12px;
-            border-top: 1px solid rgba(150, 150, 150, 0.15); animation: fadeIn 0.2s ease;
-        }
-        .card-expanded-content.show { display: block; }
+        .card-expanded-content { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(150, 150, 150, 0.15); }
+        .card-expanded-content.show { display: block; animation: fadeIn 0.2s ease; }
         
-        .card-btns-row {
-            display: flex; gap: 10px; margin-top: 14px; padding-top: 14px;
-            border-top: 1px dashed rgba(150, 150, 150, 0.2);
-        }
-        .btn-card-action {
-            flex: 1; padding: 11px 0; border: none; border-radius: 12px;
-            font-size: 13px; font-weight: 600; cursor: pointer;
-        }
-        .btn-edit { background: var(--btn-bg); color: var(--text-main); }
-        .btn-delete { background: rgba(255, 59, 48, 0.1); color: var(--alert-red); }
+        .card-btns-row { display: flex; gap: 10px; margin-top: 14px; padding-top: 14px; border-top: 1px dashed rgba(150, 150, 150, 0.2); }
+        .btn-card-action { flex: 1; padding: 11px 0; border: none; border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; }
+        .btn-edit { background: var(--btn-bg); color: var(--text-main); } .btn-delete { background: rgba(255, 59, 48, 0.1); color: var(--alert-red); }
 
-        /* --- STATS --- */
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-        .stat-card { padding: 16px; }
-        .stat-label { font-size: 12px; color: var(--text-sub); margin-bottom: 4px; }
-        .stat-value { font-size: 18px; font-weight: 700; }
-        .stat-value.gold { color: var(--accent-gold); }
-        .stat-value.green { color: var(--success-green); }
-        .stat-value.red { color: var(--alert-red); }
+        .stat-card { padding: 16px; } .stat-label { font-size: 12px; color: var(--text-sub); margin-bottom: 4px; } .stat-value { font-size: 18px; font-weight: 700; }
+        .stat-value.gold { color: var(--accent-gold); } .stat-value.green { color: var(--success-green); } .stat-value.red { color: var(--alert-red); }
 
-        /* --- NÚT FAB --- */
-        .fab {
-            position: fixed; bottom: 26px; right: 20px; width: 58px; height: 58px;
-            background: var(--blue-accent); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            color: #fff; font-size: 30px; font-weight: 300;
-            box-shadow: 0 8px 24px rgba(0, 122, 255, 0.4);
-            cursor: pointer; z-index: 80;
-        }
+        .fab { position: fixed; bottom: 26px; right: 20px; width: 58px; height: 58px; background: var(--blue-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 30px; font-weight: 300; box-shadow: 0 8px 24px rgba(0, 122, 255, 0.4); cursor: pointer; z-index: 80; }
         .fab:active { transform: scale(0.9); }
 
-        /* --- MODAL --- */
-        .modal {
-            display: none; position: fixed; inset: 0; z-index: 100;
-            background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            justify-content: center; align-items: flex-end;
-            overscroll-behavior: contain; width: 100%;
-        }
-        .modal-content {
-            background: var(--glass-bg);
-            backdrop-filter: blur(40px) saturate(200%); -webkit-backdrop-filter: blur(40px) saturate(200%);
-            border-top: 1px solid var(--glass-border);
-            border-radius: 28px 28px 0 0; width: 100%; max-width: 600px;
-            max-height: 85vh; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch;
-            padding: 24px 20px 40px 20px;
-            box-shadow: 0 -15px 40px rgba(0,0,0,0.3);
-            animation: slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
+        .modal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); justify-content: center; align-items: flex-end; overscroll-behavior: contain; width: 100vw; }
+        .modal-content { background: var(--glass-bg); backdrop-filter: blur(40px) saturate(200%); -webkit-backdrop-filter: blur(40px) saturate(200%); border-top: 1px solid var(--glass-border); border-radius: 28px 28px 0 0; width: 100%; max-width: 600px; max-height: 85vh; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; padding: 24px 20px 40px 20px; box-shadow: 0 -15px 40px rgba(0,0,0,0.3); animation: slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .modal-header h3 { margin: 0; font-size: 19px; color: var(--text-main); font-weight: 700; }
-        .close-btn { font-size: 22px; color: var(--text-sub); cursor: pointer; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: var(--btn-bg); border-radius: 50%; }
-
-        .tab-panel { display: none; }
-        .tab-panel.active { display: block; }
-        
-        .form-group { margin-bottom: 14px; display: flex; flex-direction: column; width: 100%; }
-        .form-group label { font-size: 13px; color: var(--text-sub); margin-bottom: 6px; margin-left: 4px; font-weight: 500;}
-        .form-control, .form-select { 
-            width: 100%; padding: 14px; background: var(--input-bg); 
-            border: 1px solid rgba(150, 150, 150, 0.2); border-radius: 14px; 
-            color: var(--text-main); font-size: 16px; outline: none; 
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-        }
-        .form-control:focus, .form-select:focus { border-color: var(--blue-accent); }
-        
-        .btn { width: 100%; padding: 16px; border: none; border-radius: 14px; font-weight: 600; font-size: 15px; color: #fff; margin-top: 10px; cursor: pointer; }
-        .btn:active { transform: scale(0.98); }
-        .btn-blue { background: var(--blue-accent); }
-        .btn-green { background: var(--success-green); color: #fff; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; } .modal-header h3 { margin: 0; font-size: 19px; color: var(--text-main); font-weight: 700; } .close-btn { font-size: 22px; color: var(--text-sub); cursor: pointer; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: var(--btn-bg); border-radius: 50%; }
+        .tab-panel { display: none; } .tab-panel.active { display: block; }
+        .form-group { margin-bottom: 14px; display: flex; flex-direction: column; width: 100%; } .form-group label { font-size: 13px; color: var(--text-sub); margin-bottom: 6px; margin-left: 4px; font-weight: 500;} .form-control, .form-select { width: 100%; padding: 14px; background: var(--input-bg); border: 1px solid rgba(150, 150, 150, 0.2); border-radius: 14px; color: var(--text-main); font-size: 16px; outline: none; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); } .form-control:focus, .form-select:focus { border-color: var(--blue-accent); }
+        .btn { width: 100%; padding: 16px; border: none; border-radius: 14px; font-weight: 600; font-size: 15px; color: #fff; margin-top: 10px; cursor: pointer; } .btn:active { transform: scale(0.98); } .btn-blue { background: var(--blue-accent); } .btn-green { background: var(--success-green); color: #fff; }
         .loader { text-align: center; padding: 40px; color: var(--text-sub); }
     </style>
 </head>
@@ -245,9 +125,7 @@
 
     <div class="header">
         <img src="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png" alt="ChuToan Foto Logo">
-        <div style="font-size: 13px; color: var(--success-green); display: flex; align-items: center; font-weight: 600;">
-            <span class="status-dot"></span> Đã kết nối
-        </div>
+        <div style="font-size: 13px; color: var(--success-green); display: flex; align-items: center; font-weight: 600;"><span class="status-dot"></span> Đã kết nối</div>
     </div>
 
     <div class="container">
@@ -258,35 +136,17 @@
         <!-- THỐNG KÊ DOANH THU -->
         <div class="section-title" style="margin-top: 36px;">THỐNG KÊ DOANH THU</div>
         <div style="display: flex; gap: 10px; margin-bottom: 16px;">
-            <select id="filterYear" class="form-select glass-panel" style="padding: 12px; font-size: 14px; flex: 1; border: 1px solid var(--glass-border); outline: none;" onchange="updateStatsUI()">
-                <option value="ALL">Tất cả các năm</option>
-            </select>
+            <select id="filterYear" class="form-select glass-panel" style="padding: 12px; font-size: 14px; flex: 1; border: 1px solid var(--glass-border); outline: none;" onchange="updateStatsUI()"><option value="ALL">Tất cả các năm</option></select>
             <select id="filterMonth" class="form-select glass-panel" style="padding: 12px; font-size: 14px; flex: 1; border: 1px solid var(--glass-border); outline: none;" onchange="updateStatsUI()">
-                <option value="ALL">Tổng cả năm</option>
-                <option value="0">Tháng 1</option><option value="1">Tháng 2</option><option value="2">Tháng 3</option>
-                <option value="3">Tháng 4</option><option value="4">Tháng 5</option><option value="5">Tháng 6</option>
-                <option value="6">Tháng 7</option><option value="7">Tháng 8</option><option value="8">Tháng 9</option>
-                <option value="9">Tháng 10</option><option value="10">Tháng 11</option><option value="11">Tháng 12</option>
+                <option value="ALL">Tổng cả năm</option><option value="0">Tháng 1</option><option value="1">Tháng 2</option><option value="2">Tháng 3</option><option value="3">Tháng 4</option><option value="4">Tháng 5</option><option value="5">Tháng 6</option><option value="6">Tháng 7</option><option value="7">Tháng 8</option><option value="8">Tháng 9</option><option value="9">Tháng 10</option><option value="10">Tháng 11</option><option value="11">Tháng 12</option>
             </select>
         </div>
 
         <div class="stats-grid">
-            <div class="stat-card glass-panel">
-                <div class="stat-label">Tổng Doanh Thu</div>
-                <div class="stat-value gold" id="totalRevenue">0 đ</div>
-            </div>
-            <div class="stat-card glass-panel">
-                <div class="stat-label">Đã Thu Thực Tế</div>
-                <div class="stat-value green" id="totalCollected">0 đ</div>
-            </div>
-            <div class="stat-card glass-panel">
-                <div class="stat-label">Chưa Thanh Toán</div>
-                <div class="stat-value red" id="totalDebt">0 đ</div>
-            </div>
-            <div class="stat-card glass-panel">
-                <div class="stat-label">Tổng số Job</div>
-                <div class="stat-value" id="totalShows">0</div>
-            </div>
+            <div class="stat-card glass-panel"><div class="stat-label">Tổng Doanh Thu</div><div class="stat-value gold" id="totalRevenue">0 đ</div></div>
+            <div class="stat-card glass-panel"><div class="stat-label">Đã Thu Thực Tế</div><div class="stat-value green" id="totalCollected">0 đ</div></div>
+            <div class="stat-card glass-panel"><div class="stat-label">Chưa Thanh Toán</div><div class="stat-value red" id="totalDebt">0 đ</div></div>
+            <div class="stat-card glass-panel"><div class="stat-label">Tổng số Job</div><div class="stat-value" id="totalShows">0</div></div>
         </div>
     </div>
 
@@ -296,10 +156,7 @@
     <!-- MODAL POPUP -->
     <div class="modal" id="modalForm" onclick="if(event.target === this) closeModal()">
         <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="modalTitle">Tạo Lịch Mới</h3>
-                <span class="close-btn" onclick="closeModal()">✕</span>
-            </div>
+            <div class="modal-header"><h3 id="modalTitle">Tạo Lịch Mới</h3><span class="close-btn" onclick="closeModal()">✕</span></div>
             
             <!-- FORM TẠO LỊCH -->
             <div id="tab-create" class="tab-panel active">
@@ -308,29 +165,18 @@
                     <div class="form-group"><label>Thời gian (Sáng/Chiều):</label><input type="text" id="c_thoigian" class="form-control" placeholder="Sáng"></div>
                     <div class="form-group"><label>Khách hàng (Tên):</label><input type="text" id="c_khach" class="form-control" required placeholder="Tên khách hàng"></div>
                     <div class="form-group"><label>Địa điểm chụp:</label><input type="text" id="c_diadiem" class="form-control"></div>
-                    
                     <div class="form-group"><label>Link Maps (Vị trí):</label><input type="url" id="c_linkmaps" class="form-control" placeholder="https://maps.app.goo.gl/..."></div>
                     <div class="form-group"><label>Link Drive (Bàn giao):</label><input type="url" id="c_linkdrive" class="form-control" placeholder="https://drive.google.com/..."></div>
-
                     <div class="form-group">
                         <label>Gói dịch vụ:</label>
                         <select id="c_noidung" class="form-select">
-                            <option value="Phóng Sự Cưới">Phóng Sự Cưới</option>
-                            <option value="Ăn Hỏi">Ăn Hỏi</option>
-                            <option value="Chụp Studio">Chụp Studio</option>
-                            <option value="Sự Kiện">Sự Kiện</option>
-                            <option value="Tốt Nghiệp">Tốt Nghiệp</option>
-                            <option value="Kỷ Yếu Đơn">Kỷ Yếu Đơn</option>
-                            <option value="Kỷ Yếu Nhóm 2">Kỷ Yếu Nhóm 2</option>
-                            <option value="Kỷ Yếu Nhóm 3">Kỷ Yếu Nhóm 3</option>
-                            <option value="Khác">Khác</option>
+                            <option value="Phóng Sự Cưới">Phóng Sự Cưới</option><option value="Ăn Hỏi">Ăn Hỏi</option><option value="Chụp Studio">Chụp Studio</option><option value="Sự Kiện">Sự Kiện</option><option value="Tốt Nghiệp">Tốt Nghiệp</option><option value="Kỷ Yếu Đơn">Kỷ Yếu Đơn</option><option value="Kỷ Yếu Nhóm 2">Kỷ Yếu Nhóm 2</option><option value="Kỷ Yếu Nhóm 3">Kỷ Yếu Nhóm 3</option><option value="Khác">Khác</option>
                         </select>
                     </div>
                     <div class="form-group"><label>Giá gói chụp (VNĐ):</label><input type="text" id="c_gia" class="form-control money-input" placeholder="0"></div>
                     <div class="form-group"><label>Phí đi lại (VNĐ):</label><input type="text" id="c_phi" class="form-control money-input" placeholder="0"></div>
                     <div class="form-group"><label>Tiền cọc (VNĐ):</label><input type="text" id="c_coc" class="form-control money-input" placeholder="0"></div>
                     <div class="form-group"><label>Ghi chú thêm:</label><input type="text" id="c_ghichu" class="form-control"></div>
-                    <div class="form-group"><label>Thư mục PC:</label><input type="text" id="c_thumuc" class="form-control" placeholder="D:\DuLieuChup\"></div>
                     <button type="submit" class="btn btn-blue" id="btnCreate">⚡ TẠO LỊCH & ĐỒNG BỘ PRO</button>
                 </form>
             </div>
@@ -343,22 +189,12 @@
                     <div class="form-group"><label>Thời gian (Sáng/Chiều):</label><input type="text" id="e_thoigian" class="form-control"></div>
                     <div class="form-group"><label>Khách hàng (Tên):</label><input type="text" id="e_khach" class="form-control" required></div>
                     <div class="form-group"><label>Địa điểm chụp:</label><input type="text" id="e_diadiem" class="form-control"></div>
-                    
                     <div class="form-group"><label>Link Maps (Vị trí):</label><input type="url" id="e_linkmaps" class="form-control" placeholder="https://maps.app.goo.gl/..."></div>
                     <div class="form-group"><label>Link Drive (Bàn giao):</label><input type="url" id="e_linkdrive" class="form-control" placeholder="https://drive.google.com/..."></div>
-
                     <div class="form-group">
                         <label>Gói dịch vụ:</label>
                         <select id="e_noidung" class="form-select">
-                            <option value="Phóng Sự Cưới">Phóng Sự Cưới</option>
-                            <option value="Ăn Hỏi">Ăn Hỏi</option>
-                            <option value="Chụp Studio">Chụp Studio</option>
-                            <option value="Sự Kiện">Sự Kiện</option>
-                            <option value="Tốt Nghiệp">Tốt Nghiệp</option>
-                            <option value="Kỷ Yếu Đơn">Kỷ Yếu Đơn</option>
-                            <option value="Kỷ Yếu Nhóm 2">Kỷ Yếu Nhóm 2</option>
-                            <option value="Kỷ Yếu Nhóm 3">Kỷ Yếu Nhóm 3</option>
-                            <option value="Khác">Khác</option>
+                            <option value="Phóng Sự Cưới">Phóng Sự Cưới</option><option value="Ăn Hỏi">Ăn Hỏi</option><option value="Chụp Studio">Chụp Studio</option><option value="Sự Kiện">Sự Kiện</option><option value="Tốt Nghiệp">Tốt Nghiệp</option><option value="Kỷ Yếu Đơn">Kỷ Yếu Đơn</option><option value="Kỷ Yếu Nhóm 2">Kỷ Yếu Nhóm 2</option><option value="Kỷ Yếu Nhóm 3">Kỷ Yếu Nhóm 3</option><option value="Khác">Khác</option>
                         </select>
                     </div>
                     <div class="form-group"><label>Giá gói chụp (VNĐ):</label><input type="text" id="e_gia" class="form-control money-input"></div>
@@ -366,7 +202,6 @@
                     <div class="form-group"><label>Tiền cọc (VNĐ):</label><input type="text" id="e_coc" class="form-control money-input"></div>
                     <div class="form-group"><label>Khách đã trả thêm (VNĐ):</label><input type="text" id="e_trathem" class="form-control money-input"></div>
                     <div class="form-group"><label>Ghi chú thêm:</label><input type="text" id="e_ghichu" class="form-control"></div>
-                    <div class="form-group"><label>Thư mục PC:</label><input type="text" id="e_thumuc" class="form-control"></div>
                     <button type="submit" class="btn btn-blue" id="btnEdit">💾 LƯU CẬP NHẬT</button>
                 </form>
             </div>
@@ -379,116 +214,79 @@
         let allValidData = [];
         let isFirstLoad = true;
 
-        // XỬ LÝ TIỀN AN TOÀN TRÁNH LỖI NaN
-        function parseNum(val) { 
-            if (val === undefined || val === null) return 0;
-            let str = val.toString().replace(/\D/g, ''); 
-            return parseInt(str, 10) || 0;
-        }
-
-        function formatMoney(num) { 
-            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(parseNum(num)); 
-        }
-
-        function formatInputMoney(num) {
-            let n = parseNum(num);
-            return n === 0 ? '' : new Intl.NumberFormat('vi-VN').format(n);
-        }
-
-        function findVal(row, keyword) {
-            if (!row) return '';
-            let key = Object.keys(row).find(k => k.toLowerCase().includes(keyword.toLowerCase()));
-            return key ? row[key] : '';
-        }
+        function parseNum(val) { if (val === undefined || val === null) return 0; let str = val.toString().replace(/\D/g, ''); return parseInt(str, 10) || 0; }
+        function formatMoney(num) { return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(parseNum(num)); }
+        function formatInputMoney(num) { let n = parseNum(num); return n === 0 ? '' : new Intl.NumberFormat('vi-VN').format(n); }
+        function findVal(row, keyword) { if (!row) return ''; let key = Object.keys(row).find(k => k.toLowerCase().includes(keyword.toLowerCase())); return key ? row[key] : ''; }
 
         function parseDateCustom(str) {
-            if (!str) return null;
-            str = str.toString().trim();
-            if (/^\d{4}-\d{1,2}-\d{1,2}/.test(str)) {
-                let parts = str.split('T')[0].split('-');
-                return new Date(parts[0], parts[1] - 1, parts[2]);
-            }
-            if (/^\d{1,2}\/\d{1,2}\/\d{4}/.test(str)) {
-                let parts = str.split('/');
-                return new Date(parts[2], parts[1] - 1, parts[0]);
-            }
-            let d = new Date(str);
-            return isNaN(d.getTime()) ? null : d;
+            if (!str) return null; str = str.toString().trim();
+            if (/^\d{4}-\d{1,2}-\d{1,2}/.test(str)) { let parts = str.split('T')[0].split('-'); return new Date(parts[0], parts[1] - 1, parts[2]); }
+            if (/^\d{1,2}\/\d{1,2}\/\d{4}/.test(str)) { let parts = str.split('/'); return new Date(parts[2], parts[1] - 1, parts[0]); }
+            let d = new Date(str); return isNaN(d.getTime()) ? null : d;
         }
 
         function formatDateDisplay(d) {
-            if (!d) return '--';
-            let day = ("0" + d.getDate()).slice(-2);
-            let month = ("0" + (d.getMonth() + 1)).slice(-2);
-            let year = d.getFullYear();
-            return `${day}/${month}/${year}`;
+            if (!d) return '--'; let day = ("0" + d.getDate()).slice(-2); let month = ("0" + (d.getMonth() + 1)).slice(-2); let year = d.getFullYear(); return `${day}/${month}/${year}`;
         }
         
         function dateToISO(dObj) {
-            if (!dObj) return '';
-            let year = dObj.getFullYear();
-            let month = ("0" + (dObj.getMonth() + 1)).slice(-2);
-            let day = ("0" + dObj.getDate()).slice(-2);
-            return `${year}-${month}-${day}`;
+            if (!dObj) return ''; let year = dObj.getFullYear(); let month = ("0" + (dObj.getMonth() + 1)).slice(-2); let day = ("0" + dObj.getDate()).slice(-2); return `${year}-${month}-${day}`;
         }
 
-        async function loadData(ignoreCache = false) {
-            if (!ignoreCache) {
-                const cachedData = localStorage.getItem('chutoanFotoCache');
-                if (cachedData) {
-                    try { renderUI(JSON.parse(cachedData)); } catch(e) {}
-                }
-            } else {
-                document.getElementById('bookingList').innerHTML = '<div class="loader">Đang đồng bộ dữ liệu mới nhất...</div>';
-            }
+        function getOpenStates() {
+            return {
+                months: Array.from(document.querySelectorAll('.month-content.show')).map(el => el.id),
+                days: Array.from(document.querySelectorAll('.day-content.show')).map(el => el.id),
+                cards: Array.from(document.querySelectorAll('.card-expanded-content.show')).map(el => el.id)
+            };
+        }
+
+        function restoreStates(states) {
+            states.months.forEach(id => { let el = document.getElementById(id); if(el) { el.classList.add('show'); el.previousElementSibling.querySelector('.toggle-icon').style.transform = 'rotate(180deg)'; }});
+            states.days.forEach(id => { let el = document.getElementById(id); if(el) { el.classList.add('show'); el.previousElementSibling.querySelector('.toggle-icon').style.transform = 'rotate(180deg)'; }});
+            states.cards.forEach(id => { let el = document.getElementById(id); if(el) el.classList.add('show'); });
+        }
+
+        async function loadData() {
+            const cachedData = localStorage.getItem('chutoanFotoCache');
+            if (cachedData && isFirstLoad) { try { renderUI(JSON.parse(cachedData)); } catch(e) {} }
 
             try {
                 const res = await fetch(API_URL);
                 const data = await res.json();
                 localStorage.setItem('chutoanFotoCache', JSON.stringify(data));
+                
+                let states = getOpenStates();
                 renderUI(data);
+                if (!isFirstLoad) restoreStates(states);
             } catch (e) { 
-                if (!localStorage.getItem('chutoanFotoCache')) {
-                    document.getElementById('bookingList').innerHTML = '<div class="loader" style="color:var(--alert-red)">Lỗi mạng. Vui lòng kiểm tra lại!</div>'; 
-                }
+                if (!localStorage.getItem('chutoanFotoCache')) document.getElementById('bookingList').innerHTML = '<div class="loader" style="color:var(--alert-red)">Lỗi mạng. Vui lòng kiểm tra lại!</div>'; 
             }
+        }
+
+        function silentFetchData() {
+            fetch(API_URL).then(res => res.json()).then(data => { localStorage.setItem('chutoanFotoCache', JSON.stringify(data)); }).catch(e => console.log(e));
         }
 
         function renderUI(data) {
             const list = document.getElementById('bookingList');
-            if (!document.getElementById('bookingList').innerHTML.includes('card')) {
-                list.innerHTML = '';
-            }
-            if (!data || data.length === 0) { list.innerHTML = '<div class="loader">Chưa có lịch chụp nào.</div>'; return; }
+            if (data.length === 0) { list.innerHTML = '<div class="loader">Chưa có lịch chụp nào.</div>'; return; }
 
             let validData = data.filter(r => r['Khách hàng'] || findVal(r, 'khách'));
-            validData.forEach(r => { 
-                let dateStr = r['Ngày chụp'] || findVal(r, 'ngày');
-                r._dateObj = parseDateCustom(dateStr); 
-            });
-            validData.sort((a, b) => {
-                if (!a._dateObj) return 1;
-                if (!b._dateObj) return -1;
-                return a._dateObj - b._dateObj;
-            }); 
-            
+            validData.forEach(r => { let dateStr = r['Ngày chụp'] || findVal(r, 'ngày'); r._dateObj = parseDateCustom(dateStr); });
+            validData.sort((a, b) => { if (!a._dateObj) return 1; if (!b._dateObj) return -1; return a._dateObj - b._dateObj; }); 
             allValidData = validData;
 
             let years = [...new Set(allValidData.map(r => r._dateObj ? r._dateObj.getFullYear() : null).filter(y => y !== null))].sort((a,b) => b-a);
             let yearSelect = document.getElementById('filterYear');
             let currentSelectedYear = yearSelect.value;
             yearSelect.innerHTML = `<option value="ALL">Tất cả các năm</option>`;
-            years.forEach(y => { 
-                let selected = (y.toString() === currentSelectedYear) ? 'selected' : '';
-                yearSelect.insertAdjacentHTML('beforeend', `<option value="${y}" ${selected}>Năm ${y}</option>`); 
-            });
+            years.forEach(y => { let selected = (y.toString() === currentSelectedYear) ? 'selected' : ''; yearSelect.insertAdjacentHTML('beforeend', `<option value="${y}" ${selected}>Năm ${y}</option>`); });
 
             if (isFirstLoad) {
-                const now = new Date();
-                let currentY = now.getFullYear().toString();
-                let currentM = now.getMonth().toString();
-                if (years.includes(parseInt(currentY))) { yearSelect.value = currentY; }
-                document.getElementById('filterMonth').value = currentM;
+                const now = new Date(); let currentY = now.getFullYear().toString(); let currentM = now.getMonth().toString();
+                if (years.includes(parseInt(currentY))) { yearSelect.value = currentY; } document.getElementById('filterMonth').value = currentM;
                 isFirstLoad = false;
             }
 
@@ -497,200 +295,114 @@
                 let dObj = row._dateObj;
                 let monthYear = dObj ? `Tháng ${dObj.getMonth() + 1} - ${dObj.getFullYear()}` : 'Lịch Chưa Xác Định';
                 let displayDate = dObj ? formatDateDisplay(dObj) : (findVal(row, 'ngày') || 'Không rõ ngày');
-                
                 if (!groupedData[monthYear]) groupedData[monthYear] = {};
                 if (!groupedData[monthYear][displayDate]) groupedData[monthYear][displayDate] = [];
                 groupedData[monthYear][displayDate].push(row);
             });
 
-            let htmlStr = '';
-            let mIndex = 0;
-            
+            let htmlStr = ''; let mIndex = 0;
             for (let monthYear in groupedData) {
-                htmlStr += `
-                    <div class="month-header glass-panel" onclick="toggleSection('month-content-${mIndex}', this)">
-                        <span>📅 ${monthYear}</span>
-                        <span class="toggle-icon">▼</span>
-                    </div>
-                    <div class="month-content" id="month-content-${mIndex}">
-                `;
+                htmlStr += `<div class="month-header glass-panel" id="mh-${mIndex}" onclick="toggleSection('month-content-${mIndex}', this)"><span>📅 ${monthYear}</span><span class="toggle-icon">▼</span></div><div class="month-content" id="month-content-${mIndex}">`;
                 let dIndex = 0;
                 for (let dateStr in groupedData[monthYear]) {
-                    htmlStr += `
-                        <div class="day-header glass-panel" onclick="toggleSection('day-content-${mIndex}-${dIndex}', this)">
-                            <span>🗓️ ${dateStr}</span>
-                            <span class="toggle-icon">▼</span>
-                        </div>
-                        <div class="day-content" id="day-content-${mIndex}-${dIndex}">
-                    `;
+                    htmlStr += `<div class="day-header glass-panel" id="dh-${mIndex}-${dIndex}" onclick="toggleSection('day-content-${mIndex}-${dIndex}', this)"><span>🗓️ ${dateStr}</span><span class="toggle-icon">▼</span></div><div class="day-content" id="day-content-${mIndex}-${dIndex}">`;
                     groupedData[monthYear][dateStr].forEach(row => {
-                        let gia = parseNum(findVal(row, 'giá'));
-                        let phi = parseNum(findVal(row, 'phí'));
-                        let coc = parseNum(findVal(row, 'cọc'));
-                        let tt = parseNum(findVal(row, 'thanh toán thêm'));
-                        let conLai = parseNum(findVal(row, 'còn lại'));
-                        let rowIndex = row['_rowIndex'];
-
-                        let mapsVal = findVal(row, 'maps');
-                        let driveVal = findVal(row, 'drive');
+                        let gia = parseNum(findVal(row, 'giá')); let phi = parseNum(findVal(row, 'phí')); let coc = parseNum(findVal(row, 'cọc')); let tt = parseNum(findVal(row, 'thanh toán thêm'));
+                        let conLai = parseNum(findVal(row, 'còn lại')); let rowIndex = row['_rowIndex'];
+                        
+                        let mapsVal = findVal(row, 'maps') || row['Link Maps'] || '';
+                        let driveVal = findVal(row, 'drive') || row['Link Drive'] || '';
                         let noteVal = findVal(row, 'ghi chú');
-                        let folderVal = findVal(row, 'thư mục');
                         let clientName = row['Khách hàng'] || findVal(row, 'khách');
 
-                        let moneyClass = conLai > 0 ? 'debt' : 'paid';
-                        let moneyText = conLai > 0 ? `Cần thu: ${formatMoney(conLai)}` : 'Đã tất toán ✓';
+                        let moneyClass = conLai > 0 ? 'debt' : 'paid'; let moneyText = conLai > 0 ? `Cần thu: ${formatMoney(conLai)}` : 'Đã tất toán ✓';
 
-                        // Hiển thị nút Maps và Drive ngay dưới dòng địa điểm
                         let mapsBtn = mapsVal ? `<a href="${mapsVal}" target="_blank" class="action-link-btn maps" onclick="event.stopPropagation()">📍 Maps</a>` : '';
                         let driveBtn = driveVal ? `<a href="${driveVal}" target="_blank" class="action-link-btn drive" onclick="event.stopPropagation()">📁 Drive</a>` : '';
                         let linkButtonsHTML = (mapsBtn || driveBtn) ? `<div style="margin-top: 4px; margin-bottom: 6px;">${mapsBtn}${driveBtn}</div>` : '';
 
                         let paidBtnHTML = '';
                         if (conLai > 0) {
-                            paidBtnHTML = `
-                                <div style="margin-top: 14px; margin-bottom: 4px;" onclick="event.stopPropagation()">
-                                    <button class="btn btn-green" style="padding: 12px; margin-top: 0; font-size: 14px; width: 100%; border-radius: 12px;" onclick="markPaid(${rowIndex}, '${clientName}')">
-                                        Đã Thanh Toán
-                                    </button>
-                                </div>
-                            `;
+                            paidBtnHTML = `<div style="margin-top: 14px; margin-bottom: 4px;" onclick="event.stopPropagation()"><button class="btn btn-green" style="padding: 12px; margin-top: 0; font-size: 14px; width: 100%; border-radius: 12px;" onclick="markPaid(${rowIndex}, '${clientName}')">Đã Thanh Toán</button></div>`;
                         }
 
                         htmlStr += `
                             <div class="card glass-panel" onclick="toggleSection('expanded-${rowIndex}', this, true)">
-                                <div class="card-header">
-                                    <div><h2 class="client-name">${clientName}</h2><p class="package-name">${findVal(row, 'nội dung') || 'Chưa ghi'}</p></div>
-                                    <div class="shoot-time">${findVal(row, 'thời gian') || '--'}</div>
-                                </div>
-                                
-                                <div class="details-row" style="flex-direction: column;">
-                                    <div style="display:flex;"><span class="details-label">Địa điểm:</span><span>${findVal(row, 'địa điểm') || '--'}</span></div>
-                                    ${linkButtonsHTML}
-                                </div>
-
-                                <div class="money-status ${moneyClass}">
-                                    <span>Tổng: ${formatMoney(gia + phi)}</span>
-                                    <span>${moneyText}</span>
-                                </div>
-
+                                <div class="card-header"><div><h2 class="client-name">${clientName}</h2><p class="package-name">${findVal(row, 'nội dung') || 'Chưa ghi'}</p></div><div class="shoot-time">${findVal(row, 'thời gian') || '--'}</div></div>
+                                <div class="details-row" style="flex-direction: column;"><div style="display:flex;"><span class="details-label">Địa điểm:</span><span>${findVal(row, 'địa điểm') || '--'}</span></div>${linkButtonsHTML}</div>
+                                <div class="money-status ${moneyClass}"><span>Tổng: ${formatMoney(gia + phi)}</span><span>${moneyText}</span></div>
                                 <div class="card-expanded-content" id="expanded-${rowIndex}">
                                     <div class="details-row"><span class="details-label">Phí đi lại:</span><span>${formatMoney(phi)}</span></div>
                                     <div class="details-row"><span class="details-label">Tiền cọc:</span><span>${formatMoney(coc)}</span></div>
                                     <div class="details-row"><span class="details-label">Đã trả thêm:</span><span>${formatMoney(tt)}</span></div>
-                                    ${folderVal ? `<div class="details-row"><span class="details-label">Thư mục PC:</span><span>${folderVal}</span></div>` : ''}
                                     ${noteVal ? `<div class="details-row"><span class="details-label">Ghi chú:</span><span>${noteVal}</span></div>` : ''}
-                                    
                                     ${paidBtnHTML}
-
                                     <div class="card-btns-row" onclick="event.stopPropagation()">
                                         <button class="btn-card-action btn-edit" onclick="openEditModal(${rowIndex}, '${clientName}')">✏️ Sửa Lịch</button>
                                         <button class="btn-card-action btn-delete" onclick="deleteBooking(${rowIndex}, '${clientName}')">🗑️ Xóa Lịch</button>
                                     </div>
                                 </div>
-                            </div>
-                        `;
+                            </div>`;
                     });
-                    htmlStr += `</div>`;
-                    dIndex++;
+                    htmlStr += `</div>`; dIndex++;
                 }
-                htmlStr += `</div>`;
-                mIndex++;
+                htmlStr += `</div>`; mIndex++;
             }
-            list.innerHTML = htmlStr;
-            updateStatsUI();
+            list.innerHTML = htmlStr; updateStatsUI();
         }
 
         function toggleSection(id, headerEl, isCard = false) {
             const el = document.getElementById(id);
             if (el) {
                 el.classList.toggle('show');
-                if (!isCard) {
-                    const icon = headerEl.querySelector('.toggle-icon');
-                    icon.style.transform = el.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)';
-                }
+                if (!isCard) { const icon = headerEl.querySelector('.toggle-icon'); icon.style.transform = el.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)'; }
             }
         }
 
         function updateStatsUI() {
-            let fYear = document.getElementById('filterYear').value;
-            let fMonth = document.getElementById('filterMonth').value;
-            let tRev = 0, tPaid = 0, tDebt = 0, tShows = 0;
-
+            let fYear = document.getElementById('filterYear').value; let fMonth = document.getElementById('filterMonth').value; let tRev = 0, tPaid = 0, tDebt = 0, tShows = 0;
             allValidData.forEach(row => {
-                let dObj = row._dateObj;
-                let matchY = true, matchM = true;
+                let dObj = row._dateObj; let matchY = true, matchM = true;
                 if (fYear !== "ALL") { if (!dObj || dObj.getFullYear().toString() !== fYear) matchY = false; }
                 if (fMonth !== "ALL") { if (!dObj || dObj.getMonth().toString() !== fMonth) matchM = false; }
-
                 if (matchY && matchM) {
-                    let gia = parseNum(findVal(row, 'giá'));
-                    let phi = parseNum(findVal(row, 'phí'));
-                    let coc = parseNum(findVal(row, 'cọc'));
-                    let tt = parseNum(findVal(row, 'thanh toán thêm'));
-                    let conLai = parseNum(findVal(row, 'còn lại'));
-                    
+                    let gia = parseNum(findVal(row, 'giá')); let phi = parseNum(findVal(row, 'phí')); let coc = parseNum(findVal(row, 'cọc')); let tt = parseNum(findVal(row, 'thanh toán thêm')); let conLai = parseNum(findVal(row, 'còn lại'));
                     tRev += (gia + phi); tPaid += (coc + tt); tDebt += conLai; tShows++;
                 }
             });
-
-            document.getElementById('totalRevenue').innerText = formatMoney(tRev);
-            document.getElementById('totalCollected').innerText = formatMoney(tPaid);
-            document.getElementById('totalDebt').innerText = formatMoney(tDebt);
-            document.getElementById('totalShows').innerText = tShows;
+            document.getElementById('totalRevenue').innerText = formatMoney(tRev); document.getElementById('totalCollected').innerText = formatMoney(tPaid); document.getElementById('totalDebt').innerText = formatMoney(tDebt); document.getElementById('totalShows').innerText = tShows;
         }
         
         loadData(); 
 
         function openModal() {
             document.getElementById('modalTitle').innerText = "Tạo Lịch Mới";
-            document.getElementById('tab-create').classList.add('active');
-            document.getElementById('tab-edit').classList.remove('active');
-            document.body.classList.add('modal-open');
-            document.getElementById('modalForm').style.display = 'flex';
+            document.getElementById('tab-create').classList.add('active'); document.getElementById('tab-edit').classList.remove('active');
+            document.body.classList.add('modal-open'); document.getElementById('modalForm').style.display = 'flex';
         }
 
-        function closeModal() { 
-            document.body.classList.remove('modal-open');
-            document.getElementById('modalForm').style.display = 'none'; 
-        }
+        function closeModal() { document.body.classList.remove('modal-open'); document.getElementById('modalForm').style.display = 'none'; }
 
         function openEditModal(rowIndex, name) {
-            const item = allValidData.find(r => r._rowIndex === rowIndex);
-            if (!item) return;
-            document.getElementById('modalTitle').innerText = `Sửa Lịch: ${name}`;
-            document.getElementById('e_rowindex').value = rowIndex;
+            const item = allValidData.find(r => r._rowIndex === rowIndex); if (!item) return;
+            document.getElementById('modalTitle').innerText = `Sửa Lịch: ${name}`; document.getElementById('e_rowindex').value = rowIndex;
             
-            let dObj = item._dateObj;
-            document.getElementById('e_ngay').value = dObj ? dateToISO(dObj) : '';
-            
-            document.getElementById('e_thoigian').value = findVal(item, 'thời gian');
-            document.getElementById('e_khach').value = item['Khách hàng'] || findVal(item, 'khách');
-            document.getElementById('e_diadiem').value = findVal(item, 'địa điểm');
-            document.getElementById('e_noidung').value = findVal(item, 'nội dung') || 'Khác';
+            let dObj = item._dateObj; document.getElementById('e_ngay').value = dObj ? dateToISO(dObj) : '';
+            document.getElementById('e_thoigian').value = findVal(item, 'thời gian'); document.getElementById('e_khach').value = item['Khách hàng'] || findVal(item, 'khách');
+            document.getElementById('e_diadiem').value = findVal(item, 'địa điểm'); document.getElementById('e_noidung').value = findVal(item, 'nội dung') || 'Khác';
 
-            // Gọi đúng hàm formatInputMoney để hiện lại số tiền và tránh lỗi NaN
-            document.getElementById('e_gia').value = formatInputMoney(findVal(item, 'giá'));
-            document.getElementById('e_phi').value = formatInputMoney(findVal(item, 'phí'));
-            document.getElementById('e_coc').value = formatInputMoney(findVal(item, 'cọc'));
-            document.getElementById('e_trathem').value = formatInputMoney(findVal(item, 'thanh toán thêm'));
+            document.getElementById('e_gia').value = formatInputMoney(findVal(item, 'giá')); document.getElementById('e_phi').value = formatInputMoney(findVal(item, 'phí'));
+            document.getElementById('e_coc').value = formatInputMoney(findVal(item, 'cọc')); document.getElementById('e_trathem').value = formatInputMoney(findVal(item, 'thanh toán thêm'));
 
-            document.getElementById('e_linkmaps').value = findVal(item, 'maps');
-            document.getElementById('e_linkdrive').value = findVal(item, 'drive');
+            document.getElementById('e_linkmaps').value = findVal(item, 'maps') || item['Link Maps'] || '';
+            document.getElementById('e_linkdrive').value = findVal(item, 'drive') || item['Link Drive'] || '';
             document.getElementById('e_ghichu').value = findVal(item, 'ghi chú');
-            document.getElementById('e_thumuc').value = findVal(item, 'thư mục');
             
-            document.getElementById('tab-create').classList.remove('active');
-            document.getElementById('tab-edit').classList.add('active');
-            document.body.classList.add('modal-open');
-            document.getElementById('modalForm').style.display = 'flex';
+            document.getElementById('tab-create').classList.remove('active'); document.getElementById('tab-edit').classList.add('active');
+            document.body.classList.add('modal-open'); document.getElementById('modalForm').style.display = 'flex';
         }
 
-        document.querySelectorAll('.money-input').forEach(input => {
-            input.addEventListener('input', function(e) {
-                let value = e.target.value.replace(/\D/g, '');
-                e.target.value = value !== '' ? new Intl.NumberFormat('vi-VN').format(value) : '';
-            });
-        });
+        document.querySelectorAll('.money-input').forEach(input => { input.addEventListener('input', function(e) { let value = e.target.value.replace(/\D/g, ''); e.target.value = value !== '' ? new Intl.NumberFormat('vi-VN').format(value) : ''; }); });
 
         async function markPaid(rowIndex, name) {
             if (!confirm(`Xác nhận khách hàng "${name}" đã thanh toán toàn bộ số tiền còn lại?`)) return;
@@ -698,78 +410,50 @@
             if (item) {
                 let conLaiKey = Object.keys(item).find(k => k.toLowerCase().includes('còn lại')) || 'Còn lại';
                 item[conLaiKey] = 0;
-                localStorage.setItem('chutoanFotoCache', JSON.stringify(allValidData));
-                renderUI(allValidData);
+                let states = getOpenStates(); renderUI(allValidData); restoreStates(states);
             }
-            fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: "MARK_PAID", rowIndex: rowIndex }) })
-                .then(() => { loadData(false); });
+            fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: "MARK_PAID", rowIndex: rowIndex }) }).then(() => silentFetchData());
         }
 
         async function submitCreate(e) {
-            e.preventDefault();
-            const btn = document.getElementById('btnCreate');
-            btn.innerText = "Đang đồng bộ..."; btn.style.opacity = 0.7; btn.disabled = true;
-            const payload = {
-                action: "CREATE",
-                ngayChup: document.getElementById('c_ngay').value, 
-                thoiGian: document.getElementById('c_thoigian').value,
-                khachHang: document.getElementById('c_khach').value, 
-                diaDiem: document.getElementById('c_diadiem').value,
-                linkMaps: document.getElementById('c_linkmaps').value,
-                linkDrive: document.getElementById('c_linkdrive').value,
-                noiDung: document.getElementById('c_noidung').value,
-                giaGoi: parseNum(document.getElementById('c_gia').value), 
-                phiDiLai: parseNum(document.getElementById('c_phi').value),
-                coc: parseNum(document.getElementById('c_coc').value), 
-                ghiChu: document.getElementById('c_ghichu').value,
-                thuMucPC: document.getElementById('c_thumuc').value
-            };
-            try {
-                await fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                closeModal(); 
-                document.getElementById('formCreate').reset();
-                setTimeout(() => loadData(true), 1200); 
-            } catch (err) { alert("Lỗi kết nối!"); } 
-            finally { btn.innerText = "⚡ TẠO LỊCH & ĐỒNG BỘ PRO"; btn.style.opacity = 1; btn.disabled = false; }
+            e.preventDefault(); const btn = document.getElementById('btnCreate'); btn.innerText = "Đang đồng bộ..."; btn.style.opacity = 0.7; btn.disabled = true;
+            const payload = { action: "CREATE", ngayChup: document.getElementById('c_ngay').value, thoiGian: document.getElementById('c_thoigian').value, khachHang: document.getElementById('c_khach').value, diaDiem: document.getElementById('c_diadiem').value, linkMaps: document.getElementById('c_linkmaps').value, linkDrive: document.getElementById('c_linkdrive').value, noiDung: document.getElementById('c_noidung').value, giaGoi: parseNum(document.getElementById('c_gia').value), phiDiLai: parseNum(document.getElementById('c_phi').value), coc: parseNum(document.getElementById('c_coc').value), ghiChu: document.getElementById('c_ghichu').value };
+            try { await fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); closeModal(); document.getElementById('formCreate').reset(); loadData(); } catch (err) { alert("Lỗi kết nối!"); } finally { btn.innerText = "⚡ TẠO LỊCH & ĐỒNG BỘ PRO"; btn.style.opacity = 1; btn.disabled = false; }
         }
 
         async function submitEdit(e) {
-            e.preventDefault();
-            const btn = document.getElementById('btnEdit');
-            btn.innerText = "Đang lưu..."; btn.style.opacity = 0.7; btn.disabled = true;
+            e.preventDefault(); const btn = document.getElementById('btnEdit'); btn.innerText = "Đang lưu..."; btn.style.opacity = 0.7; btn.disabled = true;
+            const payload = { action: "EDIT_ROW", rowIndex: document.getElementById('e_rowindex').value, ngayChup: document.getElementById('e_ngay').value, thoiGian: document.getElementById('e_thoigian').value, khachHang: document.getElementById('e_khach').value, noiDung: document.getElementById('e_noidung').value, diaDiem: document.getElementById('e_diadiem').value, linkMaps: document.getElementById('e_linkmaps').value, linkDrive: document.getElementById('e_linkdrive').value, giaGoi: parseNum(document.getElementById('e_gia').value), phiDiLai: parseNum(document.getElementById('e_phi').value), coc: parseNum(document.getElementById('e_coc').value), traThem: parseNum(document.getElementById('e_trathem').value), ghiChu: document.getElementById('e_ghichu').value };
             
-            const payload = {
-                action: "EDIT_ROW", 
-                rowIndex: document.getElementById('e_rowindex').value,
-                ngayChup: document.getElementById('e_ngay').value,
-                thoiGian: document.getElementById('e_thoigian').value,
-                khachHang: document.getElementById('e_khach').value,
-                noiDung: document.getElementById('e_noidung').value,
-                diaDiem: document.getElementById('e_diadiem').value,
-                linkMaps: document.getElementById('e_linkmaps').value,
-                linkDrive: document.getElementById('e_linkdrive').value,
-                giaGoi: parseNum(document.getElementById('e_gia').value),
-                phiDiLai: parseNum(document.getElementById('e_phi').value),
-                coc: parseNum(document.getElementById('e_coc').value),
-                traThem: parseNum(document.getElementById('e_trathem').value),
-                ghiChu: document.getElementById('e_ghichu').value,
-                thuMucPC: document.getElementById('e_thumuc').value
-            };
+            let item = allValidData.find(r => r._rowIndex == payload.rowIndex);
+            if (item) {
+                let keys = Object.keys(item);
+                item[keys.find(k=>k.toLowerCase().includes('ngày')) || 'Ngày chụp'] = payload.ngayChup;
+                item[keys.find(k=>k.toLowerCase().includes('thời gian')) || 'Thời gian'] = payload.thoiGian;
+                item[keys.find(k=>k.toLowerCase().includes('khách')) || 'Khách hàng'] = payload.khachHang;
+                item[keys.find(k=>k.toLowerCase().includes('địa điểm')) || 'Địa điểm'] = payload.diaDiem;
+                item['Link Maps'] = payload.linkMaps; item['Link Drive'] = payload.linkDrive;
+                item[keys.find(k=>k.toLowerCase().includes('nội dung')) || 'Nội dung'] = payload.noiDung;
+                item[keys.find(k=>k.toLowerCase().includes('giá')) || 'Giá gói'] = payload.giaGoi;
+                item[keys.find(k=>k.toLowerCase().includes('phí')) || 'Phí đi lại'] = payload.phiDiLai;
+                item[keys.find(k=>k.toLowerCase().includes('cọc')) || 'Cọc'] = payload.coc;
+                item[keys.find(k=>k.toLowerCase().includes('thêm')) || 'Thanh toán thêm'] = payload.traThem;
+                item[keys.find(k=>k.toLowerCase().includes('còn lại')) || 'Còn lại'] = (payload.giaGoi + payload.phiDiLai) - (payload.coc + payload.traThem);
+                item[keys.find(k=>k.toLowerCase().includes('ghi chú')) || 'Ghi chú'] = payload.ghiChu;
+                item._dateObj = parseDateCustom(payload.ngayChup);
+            }
+            
+            let states = getOpenStates(); renderUI(allValidData); restoreStates(states); closeModal();
+            btn.innerText = "💾 LƯU CẬP NHẬT"; btn.style.opacity = 1; btn.disabled = false;
 
-            try {
-                await fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                closeModal();
-                setTimeout(() => loadData(true), 1200); 
-            } catch (err) { alert("Lỗi lưu dữ liệu!"); }
-            finally { btn.innerText = "💾 LƯU CẬP NHẬT"; btn.style.opacity = 1; btn.disabled = false; }
+            fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).then(() => silentFetchData());
         }
 
         async function deleteBooking(rowIndex, name) {
             if (!confirm(`Bạn có chắc chắn muốn XÓA lịch của khách "${name}" không? Thao tác này không thể hoàn tác.`)) return;
-            try {
-                await fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: "DELETE_ROW", rowIndex: rowIndex }) });
-                setTimeout(() => loadData(true), 1200);
-            } catch (err) { alert("Lỗi khi xóa lịch!"); }
+            allValidData = allValidData.filter(r => r._rowIndex != rowIndex);
+            let states = getOpenStates(); renderUI(allValidData); restoreStates(states);
+            fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: "DELETE_ROW", rowIndex: rowIndex }) }).then(() => silentFetchData());
         }
     </script>
 </body>
