@@ -110,7 +110,15 @@
 
         .card-expanded-content { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--divider-line); }
         .card-expanded-content.show { display: block; animation: fadeIn 0.2s ease; }
-        .detail-item { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; color: var(--text-muted); } .detail-item span:last-child { font-weight: 600; color: var(--text-main); }
+        
+        .detail-item { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; color: var(--text-muted); } 
+        .detail-item span:last-child { font-weight: 600; color: var(--text-main); }
+        
+        /* CSS MỚI CHO GHI CHÚ / TIMELINE */
+        .detail-note { margin-top: 10px; padding: 12px; background: var(--input-bg); border-radius: 12px; border: 1px solid var(--input-border); }
+        .detail-note-label { font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; display: flex; align-items: center; gap: 4px; text-transform: uppercase; letter-spacing: 0.5px;}
+        .detail-note-content { font-size: 13.5px; font-weight: 500; color: var(--text-main); line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
+
         .card-btns-row { display: flex; gap: 8px; margin-top: 14px; }
         .btn-card-action { flex: 1; padding: 11px 0; border: none; border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid var(--input-border); }
         .btn-edit { background: var(--btn-secondary-bg); color: var(--text-main); } .btn-delete { background: var(--alert-bg); color: var(--alert-red); border-color: transparent;}
@@ -132,7 +140,11 @@
 
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; } .modal-header h3 { margin: 0; font-size: 18px; color: var(--text-main); font-weight: 700; } .close-btn { font-size: 18px; color: var(--text-main); cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: var(--btn-secondary-bg); border-radius: 50%; border: 1px solid var(--input-border); }
         .tab-panel { display: none; } .tab-panel.active { display: block; }
-        .form-group { margin-bottom: 12px; display: flex; flex-direction: column; width: 100%; } .form-group label { font-size: 12.5px; color: var(--text-muted); margin-bottom: 5px; margin-left: 2px; font-weight: 600;} .form-control, .form-select { width: 100%; padding: 14px; background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 14px; color: var(--text-main); font-size: 15px; outline: none; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); } .form-control:focus, .form-select:focus { border-color: var(--accent-primary); }
+        .form-group { margin-bottom: 12px; display: flex; flex-direction: column; width: 100%; } .form-group label { font-size: 12.5px; color: var(--text-muted); margin-bottom: 5px; margin-left: 2px; font-weight: 600;} 
+        .form-control, .form-select { width: 100%; padding: 14px; background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 14px; color: var(--text-main); font-size: 15px; outline: none; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); } 
+        .form-control:focus, .form-select:focus { border-color: var(--accent-primary); }
+        textarea.form-control { resize: vertical; min-height: 80px; font-family: inherit; line-height: 1.5; } /* Style rieng cho text area */
+
         .btn-submit { width: 100%; padding: 16px; border: none; border-radius: 14px; font-weight: 700; font-size: 15px; color: #fff; margin-top: 10px; cursor: pointer; background: var(--accent-primary); box-shadow: 0 4px 14px rgba(0, 122, 255, 0.3);} .btn-submit:active { transform: scale(0.98); }
         .btn-pay { background: var(--success-green); color: #fff; width: 100%; padding: 14px; border: none; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 14px rgba(52, 199, 89, 0.3);} .btn-pay:active { transform: scale(0.98); }
         .loader { text-align: center; padding: 40px; color: var(--text-muted); font-weight: 500; font-size: 14px; }
@@ -200,7 +212,8 @@
                     <div class="form-group"><label>Giá gói chụp (VNĐ)</label><input type="text" id="c_gia" class="form-control money-input" placeholder="0"></div>
                     <div class="form-group"><label>Phí đi lại (VNĐ)</label><input type="text" id="c_phi" class="form-control money-input" placeholder="0"></div>
                     <div class="form-group"><label>Tiền cọc (VNĐ)</label><input type="text" id="c_coc" class="form-control money-input" placeholder="0"></div>
-                    <div class="form-group"><label>Ghi chú thêm</label><input type="text" id="c_ghichu" class="form-control"></div>
+                    <!-- Nâng cấp textarea cho tạo lịch -->
+                    <div class="form-group"><label>Ghi chú / Timeline</label><textarea id="c_ghichu" class="form-control" rows="3" placeholder="Ví dụ: 07h00 nhà trai..."></textarea></div>
                     <button type="submit" class="btn-submit" id="btnCreate">Tạo Lịch & Đồng Bộ</button>
                 </form>
             </div>
@@ -231,7 +244,8 @@
                     <div class="form-group"><label>Giá gói chụp (VNĐ)</label><input type="text" id="e_gia" class="form-control money-input"></div>
                     <div class="form-group"><label>Phí đi lại (VNĐ)</label><input type="text" id="e_phi" class="form-control money-input"></div>
                     <div class="form-group"><label>Tiền cọc (VNĐ)</label><input type="text" id="e_coc" class="form-control money-input"></div>
-                    <div class="form-group"><label>Ghi chú thêm</label><input type="text" id="e_ghichu" class="form-control"></div>
+                    <!-- Nâng cấp textarea cho sửa lịch -->
+                    <div class="form-group"><label>Ghi chú / Timeline</label><textarea id="e_ghichu" class="form-control" rows="3"></textarea></div>
                     <button type="submit" class="btn-submit" id="btnEdit">Lưu Cập Nhật</button>
                 </form>
             </div>
@@ -376,7 +390,16 @@
 
                         let paidBtnHTML = '';
                         if (conLai > 0) {
-                            paidBtnHTML = `<div style="margin-top: 12px;" onclick="event.stopPropagation()"><button class="btn-pay" onclick="markPaid(${rowIndex}, '${rawClientName}')">✓ Đã Thanh Toán</button></div>`;
+                            paidBtnHTML = `<div style="margin-top: 14px; margin-bottom: 4px;" onclick="event.stopPropagation()"><button class="btn-pay" onclick="markPaid(${rowIndex}, '${rawClientName}')">✓ Đã Thanh Toán</button></div>`;
+                        }
+
+                        // KHỐI GHI CHÚ ĐƯỢC TÁCH RIÊNG XUỐNG DÒNG
+                        let noteHTML = '';
+                        if (noteVal) {
+                            noteHTML = `<div class="detail-note">
+                                <div class="detail-note-label">📝 Ghi chú / Timeline</div>
+                                <div class="detail-note-content">${noteVal}</div>
+                            </div>`;
                         }
 
                         htmlStr += `
@@ -404,7 +427,9 @@
                                 <div class="card-expanded-content" id="expanded-${rowIndex}">
                                     <div class="detail-item"><span>Phí đi lại</span><span>${formatMoney(phi)}</span></div>
                                     <div class="detail-item"><span>Tiền cọc</span><span>${formatMoney(coc)}</span></div>
-                                    ${noteVal ? `<div class="detail-item"><span>Ghi chú</span><span>${noteVal}</span></div>` : ''}
+                                    
+                                    ${noteHTML}
+
                                     ${paidBtnHTML}
                                     <div class="card-btns-row" onclick="event.stopPropagation()">
                                         <button class="btn-card-action btn-edit" onclick="openEditModal(${rowIndex}, '${rawClientName}')">✏️ Sửa Lịch</button>
