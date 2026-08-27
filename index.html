@@ -10,150 +10,76 @@
     <style>
         *, *::before, *::after { box-sizing: border-box; }
 
-        /* --- THEME SÁNG (LIQUID GLASS CHUẨN IOS) --- */
         :root {
             --bg-base: #f1f3f6;
-            /* Dải màu loang ở nền để hiệu ứng kính nhìn thấy rõ ràng */
-            --bg-mesh: 
-                radial-gradient(circle at 10% 20%, rgba(10, 132, 255, 0.12), transparent 50%),
-                radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.1), transparent 50%),
-                radial-gradient(circle at 50% 90%, rgba(255, 59, 48, 0.08), transparent 50%);
-            
-            /* THÔNG SỐ KÍNH LỎNG - PHA LÊ TRONG SUỐT */
+            --bg-mesh: radial-gradient(circle at 10% 20%, rgba(10, 132, 255, 0.12), transparent 50%), radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.1), transparent 50%), radial-gradient(circle at 50% 90%, rgba(255, 59, 48, 0.08), transparent 50%);
             --card-bg: rgba(255, 255, 255, 0.45); 
             --card-border: rgba(255, 255, 255, 0.7);
-            /* Đổ bóng ngoài + Viền hắt sáng bên trong tạo độ nổi 3D */
             --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 1px 2px rgba(255, 255, 255, 0.9);
-            
-            --text-main: #000000;
-            --text-muted: #5c5c62;
-            --text-sub: #8e8e93;
-            
-            --accent-primary: #007aff;
-            --accent-gold: #c59b27;
-            --tag-gold-bg: rgba(197, 155, 39, 0.15);
-            --tag-gold-text: #92400e;
-            
-            --alert-red: #ff3b30;
-            --alert-bg: rgba(255, 59, 48, 0.12);
-            --success-green: #34c759;
-            --success-bg: rgba(52, 199, 89, 0.15);
-            
-            --btn-secondary-bg: rgba(255, 255, 255, 0.6);
-            --btn-secondary-text: #1c1c1e;
-            --input-bg: rgba(255, 255, 255, 0.5);
-            --input-border: rgba(255, 255, 255, 0.8);
+            --text-main: #000000; --text-muted: #5c5c62; --text-sub: #8e8e93;
+            --accent-primary: #007aff; --accent-gold: #c59b27;
+            --tag-gold-bg: rgba(197, 155, 39, 0.15); --tag-gold-text: #92400e;
+            --alert-red: #ff3b30; --alert-bg: rgba(255, 59, 48, 0.12);
+            --success-green: #34c759; --success-bg: rgba(52, 199, 89, 0.15);
+            --btn-secondary-bg: rgba(255, 255, 255, 0.6); --btn-secondary-text: #1c1c1e;
+            --input-bg: rgba(255, 255, 255, 0.5); --input-border: rgba(255, 255, 255, 0.8);
             --divider-line: rgba(0, 0, 0, 0.06);
-            
-            --header-bg: rgba(255, 255, 255, 0.35);
-            --logo-filter: invert(1);
-            --radius-card: 22px;
+            --header-bg: rgba(255, 255, 255, 0.35); --logo-filter: invert(1); --radius-card: 22px;
         }
 
-        /* --- THEME TỐI (DARK LIQUID GLASS) --- */
         @media (prefers-color-scheme: dark) {
             :root {
                 --bg-base: #000000;
-                --bg-mesh: 
-                    radial-gradient(circle at 10% 20%, rgba(10, 132, 255, 0.15), transparent 50%),
-                    radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.12), transparent 50%),
-                    radial-gradient(circle at 50% 90%, rgba(255, 55, 95, 0.1), transparent 50%);
-                
-                --card-bg: rgba(30, 30, 32, 0.45); 
-                --card-border: rgba(255, 255, 255, 0.1);
+                --bg-mesh: radial-gradient(circle at 10% 20%, rgba(10, 132, 255, 0.15), transparent 50%), radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.12), transparent 50%), radial-gradient(circle at 50% 90%, rgba(255, 55, 95, 0.1), transparent 50%);
+                --card-bg: rgba(30, 30, 32, 0.45); --card-border: rgba(255, 255, 255, 0.1);
                 --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.15);
-                
-                --text-main: #ffffff;
-                --text-muted: #94a3b8;
-                --text-sub: rgba(235, 235, 245, 0.6);
-                
-                --accent-primary: #0a84ff;
-                --accent-gold: #ffd60a;
-                --tag-gold-bg: rgba(255, 214, 10, 0.15);
-                --tag-gold-text: #fbbf24;
-                
-                --alert-red: #ff453a;
-                --alert-bg: rgba(255, 69, 58, 0.15);
-                --success-green: #30d158;
-                --success-bg: rgba(48, 209, 88, 0.15);
-                
-                --btn-secondary-bg: rgba(255, 255, 255, 0.1);
-                --btn-secondary-text: #e2e8f0;
-                --input-bg: rgba(255, 255, 255, 0.08);
-                --input-border: rgba(255, 255, 255, 0.12);
+                --text-main: #ffffff; --text-muted: #94a3b8; --text-sub: rgba(235, 235, 245, 0.6);
+                --accent-primary: #0a84ff; --accent-gold: #ffd60a;
+                --tag-gold-bg: rgba(255, 214, 10, 0.15); --tag-gold-text: #fbbf24;
+                --alert-red: #ff453a; --alert-bg: rgba(255, 69, 58, 0.15);
+                --success-green: #30d158; --success-bg: rgba(48, 209, 88, 0.15);
+                --btn-secondary-bg: rgba(255, 255, 255, 0.1); --btn-secondary-text: #e2e8f0;
+                --input-bg: rgba(255, 255, 255, 0.08); --input-border: rgba(255, 255, 255, 0.12);
                 --divider-line: rgba(255, 255, 255, 0.08);
-                
-                --header-bg: rgba(20, 20, 22, 0.5);
-                --logo-filter: none;
+                --header-bg: rgba(20, 20, 22, 0.5); --logo-filter: none;
             }
         }
 
         html, body {
-            margin: 0; padding: 0;
-            width: 100vw; max-width: 100%;
-            overflow-x: hidden; overscroll-behavior-x: none;
+            margin: 0; padding: 0; width: 100vw; max-width: 100%; overflow-x: hidden; overscroll-behavior-x: none;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg-base); background-image: var(--bg-mesh); background-attachment: fixed;
-            color: var(--text-main); min-height: 100vh;
-            -webkit-tap-highlight-color: transparent;
+            color: var(--text-main); min-height: 100vh; -webkit-tap-highlight-color: transparent;
         }
 
         body.modal-open { overflow: hidden; position: fixed; width: 100%; height: 100%; }
 
-        /* HỖ TRỢ HIỆU ỨNG KÍNH CHO MỌI TRÌNH DUYỆT */
-        .glass-fx {
-            background: var(--card-bg); border: 1px solid var(--card-border);
-            backdrop-filter: blur(25px) saturate(200%); -webkit-backdrop-filter: blur(25px) saturate(200%);
-            box-shadow: var(--card-shadow);
-        }
+        .glass-fx { background: var(--card-bg); border: 1px solid var(--card-border); backdrop-filter: blur(25px) saturate(200%); -webkit-backdrop-filter: blur(25px) saturate(200%); box-shadow: var(--card-shadow); }
 
-        .header {
-            width: 100%; padding: 14px 20px; position: sticky; top: 0; z-index: 50;
-            background: var(--header-bg); backdrop-filter: blur(35px) saturate(200%); -webkit-backdrop-filter: blur(35px) saturate(200%);
-            border-bottom: 1px solid var(--divider-line); display: flex; justify-content: space-between; align-items: center;
-        }
+        .header { width: 100%; padding: 14px 20px; position: sticky; top: 0; z-index: 50; background: var(--header-bg); backdrop-filter: blur(35px) saturate(200%); -webkit-backdrop-filter: blur(35px) saturate(200%); border-bottom: 1px solid var(--divider-line); display: flex; justify-content: space-between; align-items: center; }
         .header img { height: 30px; object-fit: contain; filter: var(--logo-filter); }
-        .status-badge {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 4px 10px; border-radius: 20px; background: var(--success-bg);
-            color: var(--success-green); font-size: 12px; font-weight: 600;
-        }
+        .status-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 20px; background: var(--success-bg); color: var(--success-green); font-size: 12px; font-weight: 600; }
         .status-dot { width: 7px; height: 7px; background: var(--success-green); border-radius: 50%; }
 
         .container { width: 100%; padding: 16px; max-width: 580px; margin: 0 auto; padding-bottom: 110px; }
         .section-title { font-size: 12px; font-weight: 800; color: var(--text-muted); letter-spacing: 1.2px; margin-bottom: 12px; text-transform: uppercase; margin-left: 4px; }
 
-        /* --- ACCORDIONS --- */
-        .month-header {
-            padding: 14px 18px; margin: 16px 0 8px 0; border-radius: 18px;
-            border-left: 4px solid var(--accent-gold);
-            color: var(--accent-gold); font-weight: 700; font-size: 15px;
-            cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-        }
-        .month-content { display: none; }
-        .month-content.show { display: block; animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+        .month-header { padding: 14px 18px; margin: 16px 0 8px 0; border-radius: 18px; border-left: 4px solid var(--accent-gold); color: var(--accent-gold); font-weight: 700; font-size: 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .month-content { display: none; } .month-content.show { display: block; animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
 
-        .day-header {
-            padding: 12px 16px; margin: 8px 0 8px 6px; border-radius: 16px;
-            border-left: 3px solid var(--accent-primary);
-            color: var(--accent-primary);
-            font-weight: 700; font-size: 14px; cursor: pointer;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .day-content { display: none; }
-        .day-content.show { display: block; animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+        .day-header { padding: 12px 16px; margin: 8px 0 8px 6px; border-radius: 16px; border-left: 3px solid var(--accent-primary); color: var(--accent-primary); font-weight: 700; font-size: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .day-content { display: none; } .day-content.show { display: block; animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
         .toggle-icon { transition: transform 0.25s ease; font-size: 11px; opacity: 0.6; }
 
-        /* --- THẺ LỊCH CHỤP (LIQUID GLASS CARD) --- */
-        .card {
-            border-radius: var(--radius-card); padding: 18px; margin: 0 0 12px 6px; cursor: pointer;
-            transition: transform 0.15s ease;
-        }
+        .card { border-radius: var(--radius-card); padding: 18px; margin: 0 0 12px 6px; cursor: pointer; transition: transform 0.15s ease; }
         .card:active { transform: scale(0.985); }
-        
         .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
-        .client-name { font-size: 17px; font-weight: 700; color: var(--text-main); margin: 0 0 6px 0; letter-spacing: -0.2px; }
+        .client-name { font-size: 17px; font-weight: 700; color: var(--text-main); margin: 0 0 6px 0; letter-spacing: -0.2px; display:flex; align-items:center; gap: 6px; }
         
+        /* Hiệu ứng link facebook gắn vào tên */
+        .fb-link { color: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: opacity 0.2s; }
+        .fb-link:active { opacity: 0.5; }
+
         .tag-package { display: inline-block; padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 600; background: var(--tag-gold-bg); color: var(--tag-gold-text); }
         .tag-session { font-size: 12px; font-weight: 600; background: var(--btn-secondary-bg); color: var(--text-main); padding: 5px 10px; border-radius: 8px; border: 1px solid var(--input-border); }
 
@@ -169,87 +95,37 @@
             .action-link-btn.drive { background: rgba(22, 163, 74, 0.25); color: #4ade80; border-color: rgba(74, 222, 128, 0.2); }
         }
 
-        .money-bar {
-            background: var(--btn-secondary-bg); border-radius: 12px; border: 1px solid var(--input-border);
-            padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; font-size: 13.5px;
-        }
-        .money-bar .total { font-weight: 600; color: var(--text-muted); }
-        .money-bar .total-num { color: var(--text-main); font-weight: 700; }
-        .money-bar .debt { color: var(--alert-red); font-weight: 700; }
-        .money-bar .paid { color: var(--success-green); font-weight: 700; }
+        .money-bar { background: var(--btn-secondary-bg); border-radius: 12px; border: 1px solid var(--input-border); padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; font-size: 13.5px; }
+        .money-bar .total { font-weight: 600; color: var(--text-muted); } .money-bar .total-num { color: var(--text-main); font-weight: 700; }
+        .money-bar .debt { color: var(--alert-red); font-weight: 700; } .money-bar .paid { color: var(--success-green); font-weight: 700; }
 
         .card-expanded-content { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--divider-line); }
         .card-expanded-content.show { display: block; animation: fadeIn 0.2s ease; }
-
-        .detail-item { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; color: var(--text-muted); }
-        .detail-item span:last-child { font-weight: 600; color: var(--text-main); }
-
+        .detail-item { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; color: var(--text-muted); } .detail-item span:last-child { font-weight: 600; color: var(--text-main); }
         .card-btns-row { display: flex; gap: 8px; margin-top: 14px; }
         .btn-card-action { flex: 1; padding: 11px 0; border: none; border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid var(--input-border); }
-        .btn-edit { background: var(--btn-secondary-bg); color: var(--text-main); }
-        .btn-delete { background: var(--alert-bg); color: var(--alert-red); border-color: transparent;}
+        .btn-edit { background: var(--btn-secondary-bg); color: var(--text-main); } .btn-delete { background: var(--alert-bg); color: var(--alert-red); border-color: transparent;}
 
-        /* --- STATS DASHBOARD --- */
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
         .stat-card { border-radius: 18px; padding: 14px 16px; }
         .stat-label { font-size: 11.5px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; }
         .stat-value { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; }
         .stat-value.gold { color: var(--accent-gold); } .stat-value.green { color: var(--success-green); } .stat-value.red { color: var(--alert-red); }
 
-        /* --- CONTROLS --- */
-        .select-filter {
-            width: 100%; padding: 12px 14px; border-radius: 14px;
-            color: var(--text-main); font-size: 14px; font-weight: 600; outline: none;
-        }
+        .select-filter { width: 100%; padding: 12px 14px; border-radius: 14px; color: var(--text-main); font-size: 14px; font-weight: 600; outline: none; }
 
-        .fab {
-            position: fixed; bottom: 28px; right: 20px; width: 56px; height: 56px;
-            background: var(--accent-primary); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            color: #ffffff; font-size: 28px; font-weight: 300;
-            box-shadow: 0 8px 24px rgba(2, 132, 199, 0.4); cursor: pointer; z-index: 80;
-        }
+        .fab { position: fixed; bottom: 28px; right: 20px; width: 56px; height: 56px; background: var(--accent-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 28px; font-weight: 300; box-shadow: 0 8px 24px rgba(2, 132, 199, 0.4); cursor: pointer; z-index: 80; }
         .fab:active { transform: scale(0.92); }
 
-        /* --- POPUP MODAL --- */
-        .modal {
-            display: none; position: fixed; inset: 0; z-index: 100;
-            background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-            justify-content: center; align-items: flex-end; overscroll-behavior: contain;
-        }
-        .modal-content {
-            background: var(--card-bg); border-top: 1px solid var(--card-border);
-            backdrop-filter: blur(40px) saturate(200%); -webkit-backdrop-filter: blur(40px) saturate(200%);
-            border-radius: 28px 28px 0 0; width: 100%; max-width: 580px;
-            max-height: 88vh; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch;
-            padding: 20px 20px 36px 20px; box-shadow: 0 -10px 40px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255, 255, 255, 0.5);
-            animation: slideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .modal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); justify-content: center; align-items: flex-end; overscroll-behavior: contain; width: 100vw; }
+        .modal-content { background: var(--card-bg); border-top: 1px solid var(--card-border); backdrop-filter: blur(40px) saturate(200%); -webkit-backdrop-filter: blur(40px) saturate(200%); border-radius: 28px 28px 0 0; width: 100%; max-width: 580px; max-height: 88vh; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; padding: 20px 20px 36px 20px; box-shadow: 0 -10px 40px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255, 255, 255, 0.5); animation: slideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } } @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-        .modal-header h3 { margin: 0; font-size: 18px; color: var(--text-main); font-weight: 700; }
-        .close-btn { font-size: 18px; color: var(--text-main); cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: var(--btn-secondary-bg); border-radius: 50%; border: 1px solid var(--input-border); }
-
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; } .modal-header h3 { margin: 0; font-size: 18px; color: var(--text-main); font-weight: 700; } .close-btn { font-size: 18px; color: var(--text-main); cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: var(--btn-secondary-bg); border-radius: 50%; border: 1px solid var(--input-border); }
         .tab-panel { display: none; } .tab-panel.active { display: block; }
-        
-        .form-group { margin-bottom: 12px; display: flex; flex-direction: column; width: 100%; }
-        .form-group label { font-size: 12.5px; color: var(--text-muted); margin-bottom: 5px; margin-left: 2px; font-weight: 600;}
-        .form-control, .form-select {
-            width: 100%; padding: 14px; background: var(--input-bg);
-            border: 1px solid var(--input-border); border-radius: 14px;
-            color: var(--text-main); font-size: 15px; outline: none;
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-        }
-        .form-control:focus, .form-select:focus { border-color: var(--accent-primary); }
-        
-        .btn-submit { width: 100%; padding: 16px; border: none; border-radius: 14px; font-weight: 700; font-size: 15px; color: #fff; margin-top: 10px; cursor: pointer; background: var(--accent-primary); box-shadow: 0 4px 14px rgba(0, 122, 255, 0.3);}
-        .btn-submit:active { transform: scale(0.98); }
-        
-        .btn-pay { background: var(--success-green); color: #fff; width: 100%; padding: 14px; border: none; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 14px rgba(52, 199, 89, 0.3);}
-        .btn-pay:active { transform: scale(0.98); }
-        
+        .form-group { margin-bottom: 12px; display: flex; flex-direction: column; width: 100%; } .form-group label { font-size: 12.5px; color: var(--text-muted); margin-bottom: 5px; margin-left: 2px; font-weight: 600;} .form-control, .form-select { width: 100%; padding: 14px; background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 14px; color: var(--text-main); font-size: 15px; outline: none; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); } .form-control:focus, .form-select:focus { border-color: var(--accent-primary); }
+        .btn-submit { width: 100%; padding: 16px; border: none; border-radius: 14px; font-weight: 700; font-size: 15px; color: #fff; margin-top: 10px; cursor: pointer; background: var(--accent-primary); box-shadow: 0 4px 14px rgba(0, 122, 255, 0.3);} .btn-submit:active { transform: scale(0.98); }
+        .btn-pay { background: var(--success-green); color: #fff; width: 100%; padding: 14px; border: none; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 14px rgba(52, 199, 89, 0.3);} .btn-pay:active { transform: scale(0.98); }
         .loader { text-align: center; padding: 40px; color: var(--text-muted); font-weight: 500; font-size: 14px; }
     </style>
 </head>
@@ -296,6 +172,9 @@
                     <div class="form-group"><label>Ngày chụp</label><input type="date" id="c_ngay" class="form-control" required></div>
                     <div class="form-group"><label>Thời gian (Sáng/Chiều)</label><input type="text" id="c_thoigian" class="form-control" placeholder="Sáng"></div>
                     <div class="form-group"><label>Khách hàng (Tên)</label><input type="text" id="c_khach" class="form-control" required placeholder="Tên khách hàng"></div>
+                    <!-- THÊM LINK FACEBOOK -->
+                    <div class="form-group"><label>Link Facebook (Tùy chọn)</label><input type="url" id="c_linkfb" class="form-control" placeholder="https://facebook.com/..."></div>
+                    
                     <div class="form-group"><label>Địa điểm chụp</label><input type="text" id="c_diadiem" class="form-control"></div>
                     <div class="form-group"><label>Link Maps (Vị trí)</label><input type="url" id="c_linkmaps" class="form-control" placeholder="https://maps.app.goo.gl/..."></div>
                     <div class="form-group"><label>Link Drive (Bàn giao)</label><input type="url" id="c_linkdrive" class="form-control" placeholder="https://drive.google.com/..."></div>
@@ -320,6 +199,9 @@
                     <div class="form-group"><label>Ngày chụp</label><input type="date" id="e_ngay" class="form-control" required></div>
                     <div class="form-group"><label>Thời gian (Sáng/Chiều)</label><input type="text" id="e_thoigian" class="form-control"></div>
                     <div class="form-group"><label>Khách hàng (Tên)</label><input type="text" id="e_khach" class="form-control" required></div>
+                    <!-- THÊM LINK FACEBOOK -->
+                    <div class="form-group"><label>Link Facebook (Tùy chọn)</label><input type="url" id="e_linkfb" class="form-control" placeholder="https://facebook.com/..."></div>
+                    
                     <div class="form-group"><label>Địa điểm chụp</label><input type="text" id="e_diadiem" class="form-control"></div>
                     <div class="form-group"><label>Link Maps (Vị trí)</label><input type="url" id="e_linkmaps" class="form-control" placeholder="https://maps.app.goo.gl/..."></div>
                     <div class="form-group"><label>Link Drive (Bàn giao)</label><input type="url" id="e_linkdrive" class="form-control" placeholder="https://drive.google.com/..."></div>
@@ -344,6 +226,8 @@
 
         let allValidData = [];
         let isFirstLoad = true;
+
+        const FB_ICON = `<svg width="15" height="15" viewBox="0 0 24 24" fill="#1877F2" style="flex-shrink:0"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>`;
 
         function parseNum(val) { if (val === undefined || val === null) return 0; let str = val.toString().replace(/\D/g, ''); return parseInt(str, 10) || 0; }
         function formatMoney(num) { return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(parseNum(num)); }
@@ -443,8 +327,14 @@
                         
                         let mapsVal = findVal(row, 'maps') || row['Link Maps'] || '';
                         let driveVal = findVal(row, 'drive') || row['Link Drive'] || '';
+                        let fbVal = findVal(row, 'facebook') || row['Link Facebook'] || '';
                         let noteVal = findVal(row, 'ghi chú');
-                        let clientName = row['Khách hàng'] || findVal(row, 'khách');
+                        let rawClientName = row['Khách hàng'] || findVal(row, 'khách');
+
+                        // CHÈN LINK FACEBOOK VÀO TÊN
+                        let clientNameHTML = fbVal 
+                            ? `<a href="${fbVal}" target="_blank" class="fb-link" onclick="event.stopPropagation()">${rawClientName} ${FB_ICON}</a>`
+                            : rawClientName;
 
                         let moneyStatusHTML = conLai > 0 
                             ? `<span class="debt">Còn nợ: ${formatMoney(conLai)}</span>` 
@@ -456,14 +346,14 @@
 
                         let paidBtnHTML = '';
                         if (conLai > 0) {
-                            paidBtnHTML = `<div style="margin-top: 12px;" onclick="event.stopPropagation()"><button class="btn-pay" onclick="markPaid(${rowIndex}, '${clientName}')">✓ Đã Thanh Toán</button></div>`;
+                            paidBtnHTML = `<div style="margin-top: 12px;" onclick="event.stopPropagation()"><button class="btn-pay" onclick="markPaid(${rowIndex}, '${rawClientName}')">✓ Đã Thanh Toán</button></div>`;
                         }
 
                         htmlStr += `
                             <div class="card glass-fx" onclick="toggleSection('expanded-${rowIndex}', this, true)">
                                 <div class="card-header">
                                     <div>
-                                        <h2 class="client-name">${clientName}</h2>
+                                        <h2 class="client-name">${clientNameHTML}</h2>
                                         <span class="tag-package">${findVal(row, 'nội dung') || 'Gói Chụp'}</span>
                                     </div>
                                     <span class="tag-session">${findVal(row, 'thời gian') || 'Cả ngày'}</span>
@@ -487,8 +377,8 @@
                                     ${noteVal ? `<div class="detail-item"><span>Ghi chú</span><span>${noteVal}</span></div>` : ''}
                                     ${paidBtnHTML}
                                     <div class="card-btns-row" onclick="event.stopPropagation()">
-                                        <button class="btn-card-action btn-edit" onclick="openEditModal(${rowIndex}, '${clientName}')">✏️ Sửa Lịch</button>
-                                        <button class="btn-card-action btn-delete" onclick="deleteBooking(${rowIndex}, '${clientName}')">🗑️ Xóa Lịch</button>
+                                        <button class="btn-card-action btn-edit" onclick="openEditModal(${rowIndex}, '${rawClientName}')">✏️ Sửa Lịch</button>
+                                        <button class="btn-card-action btn-delete" onclick="deleteBooking(${rowIndex}, '${rawClientName}')">🗑️ Xóa Lịch</button>
                                     </div>
                                 </div>
                             </div>`;
@@ -541,6 +431,7 @@
             
             let dObj = item._dateObj; document.getElementById('e_ngay').value = dObj ? dateToISO(dObj) : '';
             document.getElementById('e_thoigian').value = findVal(item, 'thời gian'); document.getElementById('e_khach').value = item['Khách hàng'] || findVal(item, 'khách');
+            document.getElementById('e_linkfb').value = findVal(item, 'facebook') || item['Link Facebook'] || '';
             document.getElementById('e_diadiem').value = findVal(item, 'địa điểm'); document.getElementById('e_noidung').value = findVal(item, 'nội dung') || 'Khác';
 
             document.getElementById('e_gia').value = formatInputMoney(findVal(item, 'giá')); document.getElementById('e_phi').value = formatInputMoney(findVal(item, 'phí'));
@@ -569,13 +460,13 @@
 
         async function submitCreate(e) {
             e.preventDefault(); const btn = document.getElementById('btnCreate'); btn.innerText = "Đang đồng bộ..."; btn.style.opacity = 0.7; btn.disabled = true;
-            const payload = { action: "CREATE", ngayChup: document.getElementById('c_ngay').value, thoiGian: document.getElementById('c_thoigian').value, khachHang: document.getElementById('c_khach').value, diaDiem: document.getElementById('c_diadiem').value, linkMaps: document.getElementById('c_linkmaps').value, linkDrive: document.getElementById('c_linkdrive').value, noiDung: document.getElementById('c_noidung').value, giaGoi: parseNum(document.getElementById('c_gia').value), phiDiLai: parseNum(document.getElementById('c_phi').value), coc: parseNum(document.getElementById('c_coc').value), ghiChu: document.getElementById('c_ghichu').value };
+            const payload = { action: "CREATE", ngayChup: document.getElementById('c_ngay').value, thoiGian: document.getElementById('c_thoigian').value, khachHang: document.getElementById('c_khach').value, linkFacebook: document.getElementById('c_linkfb').value, diaDiem: document.getElementById('c_diadiem').value, linkMaps: document.getElementById('c_linkmaps').value, linkDrive: document.getElementById('c_linkdrive').value, noiDung: document.getElementById('c_noidung').value, giaGoi: parseNum(document.getElementById('c_gia').value), phiDiLai: parseNum(document.getElementById('c_phi').value), coc: parseNum(document.getElementById('c_coc').value), ghiChu: document.getElementById('c_ghichu').value };
             try { await fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); closeModal(); document.getElementById('formCreate').reset(); silentFetchData(); } catch (err) { alert("Lỗi kết nối!"); } finally { btn.innerText = "Tạo Lịch & Đồng Bộ"; btn.style.opacity = 1; btn.disabled = false; }
         }
 
         async function submitEdit(e) {
             e.preventDefault(); const btn = document.getElementById('btnEdit'); btn.innerText = "Đang lưu..."; btn.style.opacity = 0.7; btn.disabled = true;
-            const payload = { action: "EDIT_ROW", rowIndex: document.getElementById('e_rowindex').value, ngayChup: document.getElementById('e_ngay').value, thoiGian: document.getElementById('e_thoigian').value, khachHang: document.getElementById('e_khach').value, noiDung: document.getElementById('e_noidung').value, diaDiem: document.getElementById('e_diadiem').value, linkMaps: document.getElementById('e_linkmaps').value, linkDrive: document.getElementById('e_linkdrive').value, giaGoi: parseNum(document.getElementById('e_gia').value), phiDiLai: parseNum(document.getElementById('e_phi').value), coc: parseNum(document.getElementById('e_coc').value), ghiChu: document.getElementById('e_ghichu').value };
+            const payload = { action: "EDIT_ROW", rowIndex: document.getElementById('e_rowindex').value, ngayChup: document.getElementById('e_ngay').value, thoiGian: document.getElementById('e_thoigian').value, khachHang: document.getElementById('e_khach').value, linkFacebook: document.getElementById('e_linkfb').value, noiDung: document.getElementById('e_noidung').value, diaDiem: document.getElementById('e_diadiem').value, linkMaps: document.getElementById('e_linkmaps').value, linkDrive: document.getElementById('e_linkdrive').value, giaGoi: parseNum(document.getElementById('e_gia').value), phiDiLai: parseNum(document.getElementById('e_phi').value), coc: parseNum(document.getElementById('e_coc').value), ghiChu: document.getElementById('e_ghichu').value };
             
             let item = allValidData.find(r => r._rowIndex == payload.rowIndex);
             if (item) {
@@ -583,6 +474,7 @@
                 item[keys.find(k=>k.toLowerCase().includes('ngày')) || 'Ngày chụp'] = payload.ngayChup;
                 item[keys.find(k=>k.toLowerCase().includes('thời gian')) || 'Thời gian'] = payload.thoiGian;
                 item[keys.find(k=>k.toLowerCase().includes('khách')) || 'Khách hàng'] = payload.khachHang;
+                item['Link Facebook'] = payload.linkFacebook;
                 item[keys.find(k=>k.toLowerCase().includes('địa điểm')) || 'Địa điểm'] = payload.diaDiem;
                 item['Link Maps'] = payload.linkMaps; item['Link Drive'] = payload.linkDrive;
                 item[keys.find(k=>k.toLowerCase().includes('nội dung')) || 'Nội dung'] = payload.noiDung;
