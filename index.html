@@ -3,60 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="theme-color" content="#000000">
+    <meta name="theme-color" content="#f8fafc">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <title>ChuToan Foto - Quản Lý Lịch Chụp</title>
     <style>
         *, *::before, *::after { box-sizing: border-box; }
 
-        /* --- THEME SÁNG (LIGHT MODE) - CHUẨN IOS PRO --- */
+        /* --- THEME SÁNG (PRO STUDIO UI) --- */
         :root {
-            --bg-base: #F2F2F7; /* Nền xám nhạt tiêu chuẩn Apple */
-            --bg-mesh: radial-gradient(circle at 15% 50%, rgba(0, 122, 255, 0.04), transparent 40%), 
-                       radial-gradient(circle at 85% 30%, rgba(212, 175, 55, 0.04), transparent 40%);
+            --bg-base: #f8fafc;
+            --bg-mesh: radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.03), transparent 50%),
+                       radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.03), transparent 50%);
             
-            --glass-bg: rgba(255, 255, 255, 0.95); /* Thẻ trắng tinh, sạch sẽ */
-            --glass-border: rgba(0, 0, 0, 0.06); /* Viền tối mờ phân tách khối */
-            --glass-shadow: 0 8px 24px rgba(0, 0, 0, 0.04); /* Bóng đổ êm, hiện đại */
+            --card-bg: #ffffff;
+            --card-border: #e2e8f0;
+            --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.02);
             
-            --text-main: #000000;
-            --text-sub: #8E8E93;
-            --accent-gold: #c59b27;
-            --alert-red: #FF3B30;
-            --success-green: #34C759;
-            --blue-accent: #007AFF;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --text-sub: #94a3b8;
             
-            --btn-bg: rgba(118, 118, 128, 0.12); /* Màu nút phụ chuẩn iOS */
-            --input-bg: rgba(118, 118, 128, 0.08); /* Nền form nhập liệu dập chìm */
-            --divider-line: rgba(0, 0, 0, 0.08); /* Màu vạch kẻ ngang phân cách */
+            --accent-primary: #0284c7;
+            --accent-gold: #b45309;
+            --tag-gold-bg: #fef3c7;
+            --tag-gold-text: #92400e;
             
+            --alert-red: #dc2626;
+            --alert-bg: #fef2f2;
+            --success-green: #16a34a;
+            --success-bg: #f0fdf4;
+            
+            --btn-secondary-bg: #f1f5f9;
+            --btn-secondary-text: #334155;
+            --input-bg: #f8fafc;
+            --input-border: #cbd5e1;
+            --divider-line: #f1f5f9;
+            
+            --header-bg: rgba(255, 255, 255, 0.85);
+            --header-border: #e2e8f0;
             --logo-filter: invert(1);
-            --radius-card: 22px;
+            --radius-card: 20px;
         }
 
-        /* --- THEME TỐI (DARK MODE) TỰ ĐỘNG --- */
+        /* --- THEME TỐI (OLED BLACK PRO) --- */
         @media (prefers-color-scheme: dark) {
             :root {
                 --bg-base: #000000;
-                --bg-mesh: radial-gradient(circle at 20% 40%, rgba(10, 132, 255, 0.15), transparent 45%), 
-                           radial-gradient(circle at 80% 60%, rgba(212, 175, 55, 0.15), transparent 45%);
+                --bg-mesh: radial-gradient(circle at 10% 20%, rgba(14, 165, 233, 0.08), transparent 50%),
+                           radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.06), transparent 50%);
                 
-                --glass-bg: rgba(28, 28, 30, 0.85); 
-                --glass-border: rgba(255, 255, 255, 0.12);
-                --glass-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+                --card-bg: #141416;
+                --card-border: rgba(255, 255, 255, 0.08);
+                --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
                 
-                --text-main: #FFFFFF;
-                --text-sub: rgba(235, 235, 245, 0.6);
-                --accent-gold: #FFD60A;
-                --alert-red: #FF453A;
-                --success-green: #30D158;
-                --blue-accent: #0A84FF;
+                --text-main: #f8fafc;
+                --text-muted: #94a3b8;
+                --text-sub: #64748b;
                 
-                --btn-bg: rgba(255, 255, 255, 0.15);
-                --input-bg: rgba(255, 255, 255, 0.1);
-                --divider-line: rgba(255, 255, 255, 0.15);
+                --accent-primary: #38bdf8;
+                --accent-gold: #fbbf24;
+                --tag-gold-bg: rgba(245, 158, 11, 0.15);
+                --tag-gold-text: #fde68a;
                 
+                --alert-red: #f87171;
+                --alert-bg: rgba(239, 68, 68, 0.12);
+                --success-green: #4ade80;
+                --success-bg: rgba(34, 197, 94, 0.12);
+                
+                --btn-secondary-bg: rgba(255, 255, 255, 0.08);
+                --btn-secondary-text: #e2e8f0;
+                --input-bg: #1c1c1f;
+                --input-border: rgba(255, 255, 255, 0.14);
+                --divider-line: rgba(255, 255, 255, 0.06);
+                
+                --header-bg: rgba(15, 15, 18, 0.85);
+                --header-border: rgba(255, 255, 255, 0.08);
                 --logo-filter: none;
             }
         }
@@ -74,72 +96,201 @@
         body.modal-open { overflow: hidden; position: fixed; width: 100%; height: 100%; }
 
         .header {
-            width: 100%; padding: 16px 20px; position: sticky; top: 0; z-index: 50;
-            background: var(--glass-bg); backdrop-filter: blur(30px) saturate(200%); -webkit-backdrop-filter: blur(30px) saturate(200%);
-            border-bottom: 1px solid var(--divider-line); display: flex; justify-content: space-between; align-items: center;
+            width: 100%; padding: 14px 20px; position: sticky; top: 0; z-index: 50;
+            background: var(--header-bg); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid var(--header-border); display: flex; justify-content: space-between; align-items: center;
         }
-        .header img { height: 32px; object-fit: contain; filter: var(--logo-filter); }
-        .status-dot { display: inline-block; width: 8px; height: 8px; background: var(--success-green); border-radius: 50%; box-shadow: 0 0 8px var(--success-green); margin-right: 6px; }
+        .header img { height: 30px; object-fit: contain; filter: var(--logo-filter); }
+        .status-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 4px 10px; border-radius: 20px; background: var(--success-bg);
+            color: var(--success-green); font-size: 12px; font-weight: 600;
+        }
+        .status-dot { width: 7px; height: 7px; background: var(--success-green); border-radius: 50%; }
 
-        .container { width: 100%; padding: 15px; max-width: 600px; margin: 0 auto; padding-bottom: 100px; overflow-x: hidden; }
-        .section-title { font-size: 13px; font-weight: 700; color: var(--text-sub); letter-spacing: 1px; margin-bottom: 12px; text-transform: uppercase; margin-left: 4px; }
+        .container { width: 100%; padding: 16px; max-width: 580px; margin: 0 auto; padding-bottom: 110px; }
+        .section-title { font-size: 12px; font-weight: 800; color: var(--text-muted); letter-spacing: 1.2px; margin-bottom: 12px; text-transform: uppercase; margin-left: 4px; }
 
-        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(25px) saturate(180%); -webkit-backdrop-filter: blur(25px) saturate(180%); border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow); border-radius: var(--radius-card); }
+        /* --- ACCORDIONS --- */
+        .month-header {
+            padding: 14px 18px; margin: 16px 0 8px 0;
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            border-left: 4px solid var(--accent-gold);
+            border-radius: 16px; box-shadow: var(--card-shadow);
+            color: var(--accent-gold); font-weight: 700; font-size: 15px;
+            cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+        }
+        .month-content { display: none; }
+        .month-content.show { display: block; animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
 
-        .month-header { padding: 16px 20px; margin: 15px 0 8px 0; color: var(--accent-gold); font-weight: 700; font-size: 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .month-content { display: none; } .month-content.show { display: block; animation: fadeIn 0.25s ease; }
+        .day-header {
+            padding: 12px 16px; margin: 8px 0 8px 6px;
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            border-left: 3px solid var(--accent-primary);
+            border-radius: 14px; color: var(--accent-primary);
+            font-weight: 700; font-size: 14px; cursor: pointer;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .day-content { display: none; }
+        .day-content.show { display: block; animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+        .toggle-icon { transition: transform 0.25s ease; font-size: 11px; opacity: 0.6; }
 
-        .day-header { padding: 14px 18px; margin: 10px 0 8px 0; border-radius: 18px; color: var(--blue-accent); font-weight: 700; font-size: 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .day-content { display: none; } .day-content.show { display: block; animation: fadeIn 0.25s ease; }
-        .toggle-icon { transition: transform 0.3s ease; font-size: 12px; opacity: 0.7;}
-
-        .card { padding: 18px; margin-bottom: 14px; cursor: pointer; transition: transform 0.15s ease; }
-        .card:active { transform: scale(0.98); }
-        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; border-bottom: 1px solid var(--divider-line); padding-bottom: 10px; }
-        .client-name { font-size: 18px; font-weight: 600; color: var(--text-main); margin: 0 0 4px 0; }
-        .package-name { font-size: 14px; color: var(--accent-gold); margin: 0; font-weight: 500;}
-        .shoot-time { font-size: 12px; background: var(--btn-bg); padding: 5px 10px; border-radius: 10px; font-weight: 600;}
+        /* --- THẺ LỊCH CHỤP (PRO CARD) --- */
+        .card {
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            border-radius: var(--radius-card); box-shadow: var(--card-shadow);
+            padding: 18px; margin: 0 0 12px 6px; cursor: pointer;
+            transition: transform 0.15s ease, border-color 0.15s ease;
+        }
+        .card:active { transform: scale(0.985); }
         
-        .details-row { display: flex; margin-bottom: 6px; font-size: 14px; }
-        .details-label { color: var(--text-sub); width: 85px; flex-shrink: 0; }
+        .card-header {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        .client-name { font-size: 17px; font-weight: 700; color: var(--text-main); margin: 0 0 6px 0; letter-spacing: -0.2px; }
         
-        .action-link-btn { display: inline-flex; align-items: center; gap: 4px; padding: 7px 12px; background: var(--btn-bg); border-radius: 10px; color: var(--text-main); text-decoration: none; font-size: 12px; font-weight: 600; margin-right: 6px; margin-top: 6px; }
-        .action-link-btn.maps { color: var(--blue-accent); } .action-link-btn.drive { color: var(--success-green); }
-        
-        .money-status { margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--divider-line); display: flex; justify-content: space-between; font-weight: 600; font-size: 14px; }
-        .debt { color: var(--alert-red); } .paid { color: var(--success-green); }
+        .tag-package {
+            display: inline-block; padding: 3px 9px; border-radius: 6px;
+            font-size: 12px; font-weight: 600; background: var(--tag-gold-bg); color: var(--tag-gold-text);
+        }
+        .tag-session {
+            font-size: 12px; font-weight: 600; background: var(--btn-secondary-bg);
+            color: var(--btn-secondary-text); padding: 4px 10px; border-radius: 8px;
+        }
 
-        .card-expanded-content { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--divider-line); }
+        .location-row {
+            display: flex; align-items: flex-start; gap: 8px; font-size: 13.5px;
+            color: var(--text-muted); margin-bottom: 12px;
+        }
+        .location-label { font-weight: 500; flex-shrink: 0; }
+        .location-value { color: var(--text-main); font-weight: 500; }
+
+        .action-links { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+        .action-link-btn {
+            display: inline-flex; align-items: center; gap: 5px;
+            padding: 6px 12px; border-radius: 8px; text-decoration: none;
+            font-size: 12px; font-weight: 600; border: 1px solid transparent;
+        }
+        .action-link-btn.maps { background: #e0f2fe; color: #0369a1; }
+        .action-link-btn.drive { background: #dcfce7; color: #15803d; }
+        @media (prefers-color-scheme: dark) {
+            .action-link-btn.maps { background: rgba(2, 132, 199, 0.2); color: #38bdf8; border-color: rgba(56, 189, 248, 0.3); }
+            .action-link-btn.drive { background: rgba(22, 163, 74, 0.2); color: #4ade80; border-color: rgba(74, 222, 128, 0.3); }
+        }
+
+        .money-bar {
+            background: var(--btn-secondary-bg); border-radius: 12px;
+            padding: 10px 14px; display: flex; justify-content: space-between;
+            align-items: center; font-size: 13.5px;
+        }
+        .money-bar .total { font-weight: 600; color: var(--text-muted); }
+        .money-bar .total-num { color: var(--text-main); font-weight: 700; }
+        .money-bar .debt { color: var(--alert-red); font-weight: 700; }
+        .money-bar .paid { color: var(--success-green); font-weight: 700; }
+
+        .card-expanded-content {
+            display: none; margin-top: 14px; padding-top: 14px;
+            border-top: 1px dashed var(--divider-line);
+        }
         .card-expanded-content.show { display: block; animation: fadeIn 0.2s ease; }
-        
-        .card-btns-row { display: flex; gap: 10px; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--divider-line); }
-        .btn-card-action { flex: 1; padding: 11px 0; border: none; border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; }
-        .btn-edit { background: var(--btn-bg); color: var(--text-main); } .btn-delete { background: rgba(255, 59, 48, 0.1); color: var(--alert-red); }
 
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-        .stat-card { padding: 16px; } .stat-label { font-size: 12px; color: var(--text-sub); margin-bottom: 4px; } .stat-value { font-size: 18px; font-weight: 700; }
-        .stat-value.gold { color: var(--accent-gold); } .stat-value.green { color: var(--success-green); } .stat-value.red { color: var(--alert-red); }
+        .detail-item {
+            display: flex; justify-content: space-between; font-size: 13px;
+            margin-bottom: 6px; color: var(--text-muted);
+        }
+        .detail-item span:last-child { font-weight: 600; color: var(--text-main); }
 
-        .fab { position: fixed; bottom: 26px; right: 20px; width: 58px; height: 58px; background: var(--blue-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 30px; font-weight: 300; box-shadow: 0 8px 24px rgba(0, 122, 255, 0.4); cursor: pointer; z-index: 80; }
-        .fab:active { transform: scale(0.9); }
+        .card-btns-row { display: flex; gap: 8px; margin-top: 14px; }
+        .btn-card-action {
+            flex: 1; padding: 10px 0; border: none; border-radius: 10px;
+            font-size: 13px; font-weight: 600; cursor: pointer;
+        }
+        .btn-edit { background: var(--btn-secondary-bg); color: var(--btn-secondary-text); }
+        .btn-delete { background: var(--alert-bg); color: var(--alert-red); }
 
-        .modal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); justify-content: center; align-items: flex-end; overscroll-behavior: contain; width: 100vw; }
-        .modal-content { background: var(--glass-bg); backdrop-filter: blur(40px) saturate(200%); -webkit-backdrop-filter: blur(40px) saturate(200%); border-top: 1px solid var(--glass-border); border-radius: 28px 28px 0 0; width: 100%; max-width: 600px; max-height: 85vh; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; padding: 24px 20px 40px 20px; box-shadow: 0 -15px 40px rgba(0,0,0,0.2); animation: slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        /* --- STATS DASHBOARD --- */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .stat-card {
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            border-radius: 16px; padding: 14px 16px; box-shadow: var(--card-shadow);
+        }
+        .stat-label { font-size: 11.5px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; }
+        .stat-value { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; }
+        .stat-value.gold { color: var(--accent-gold); }
+        .stat-value.green { color: var(--success-green); }
+        .stat-value.red { color: var(--alert-red); }
+
+        /* --- CONTROLS --- */
+        .select-filter {
+            width: 100%; padding: 12px 14px; background: var(--card-bg);
+            border: 1px solid var(--card-border); border-radius: 12px;
+            color: var(--text-main); font-size: 14px; font-weight: 600;
+            box-shadow: var(--card-shadow); outline: none;
+        }
+
+        .fab {
+            position: fixed; bottom: 28px; right: 20px; width: 56px; height: 56px;
+            background: var(--accent-primary); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: #ffffff; font-size: 28px; font-weight: 300;
+            box-shadow: 0 8px 24px rgba(2, 132, 199, 0.4); cursor: pointer; z-index: 80;
+        }
+        .fab:active { transform: scale(0.92); }
+
+        /* --- POPUP MODAL --- */
+        .modal {
+            display: none; position: fixed; inset: 0; z-index: 100;
+            background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+            justify-content: center; align-items: flex-end; overscroll-behavior: contain;
+        }
+        .modal-content {
+            background: var(--card-bg); border-top: 1px solid var(--card-border);
+            border-radius: 24px 24px 0 0; width: 100%; max-width: 580px;
+            max-height: 88vh; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch;
+            padding: 20px 20px 36px 20px; box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
+            animation: slideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+        }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; } .modal-header h3 { margin: 0; font-size: 19px; color: var(--text-main); font-weight: 700; } .close-btn { font-size: 22px; color: var(--text-sub); cursor: pointer; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: var(--btn-bg); border-radius: 50%; }
-        .tab-panel { display: none; } .tab-panel.active { display: block; }
-        .form-group { margin-bottom: 14px; display: flex; flex-direction: column; width: 100%; } .form-group label { font-size: 13px; color: var(--text-sub); margin-bottom: 6px; margin-left: 4px; font-weight: 500;} .form-control, .form-select { width: 100%; padding: 14px; background: var(--input-bg); border: 1px solid var(--divider-line); border-radius: 14px; color: var(--text-main); font-size: 16px; outline: none; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); } .form-control:focus, .form-select:focus { border-color: var(--blue-accent); }
-        .btn { width: 100%; padding: 16px; border: none; border-radius: 14px; font-weight: 600; font-size: 15px; color: #fff; margin-top: 10px; cursor: pointer; } .btn:active { transform: scale(0.98); } .btn-blue { background: var(--blue-accent); } .btn-green { background: var(--success-green); color: #fff; }
-        .loader { text-align: center; padding: 40px; color: var(--text-sub); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+        .modal-header h3 { margin: 0; font-size: 18px; color: var(--text-main); font-weight: 700; }
+        .close-btn {
+            font-size: 18px; color: var(--text-muted); cursor: pointer; width: 30px; height: 30px;
+            display: flex; align-items: center; justify-content: center; background: var(--btn-secondary-bg); border-radius: 50%;
+        }
+
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+        
+        .form-group { margin-bottom: 12px; display: flex; flex-direction: column; width: 100%; }
+        .form-group label { font-size: 12.5px; color: var(--text-muted); margin-bottom: 5px; margin-left: 2px; font-weight: 600;}
+        .form-control, .form-select {
+            width: 100%; padding: 13px 14px; background: var(--input-bg);
+            border: 1px solid var(--input-border); border-radius: 12px;
+            color: var(--text-main); font-size: 15px; outline: none;
+        }
+        .form-control:focus, .form-select:focus { border-color: var(--accent-primary); }
+        
+        .btn-submit {
+            width: 100%; padding: 15px; border: none; border-radius: 12px;
+            font-weight: 700; font-size: 15px; color: #fff; margin-top: 10px; cursor: pointer;
+            background: var(--accent-primary);
+        }
+        .btn-submit:active { opacity: 0.9; }
+        .btn-pay {
+            background: var(--success-green); color: #fff; width: 100%; padding: 12px;
+            border: none; border-radius: 10px; font-weight: 700; font-size: 13.5px; cursor: pointer;
+        }
+        .loader { text-align: center; padding: 40px; color: var(--text-muted); font-weight: 500; font-size: 14px; }
     </style>
 </head>
 <body>
 
     <div class="header">
         <img src="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png" alt="ChuToan Foto Logo">
-        <div style="font-size: 13px; color: var(--success-green); display: flex; align-items: center; font-weight: 600;"><span class="status-dot"></span> Đã kết nối</div>
+        <div class="status-badge"><span class="status-dot"></span> Đã kết nối</div>
     </div>
 
     <div class="container">
@@ -148,19 +299,19 @@
         <div id="bookingList"><div class="loader">Đang tải dữ liệu...</div></div>
 
         <!-- THỐNG KÊ DOANH THU -->
-        <div class="section-title" style="margin-top: 36px;">THỐNG KÊ DOANH THU</div>
-        <div style="display: flex; gap: 10px; margin-bottom: 16px;">
-            <select id="filterYear" class="form-select glass-panel" style="padding: 12px; font-size: 14px; flex: 1; outline: none;" onchange="updateStatsUI()"><option value="ALL">Tất cả các năm</option></select>
-            <select id="filterMonth" class="form-select glass-panel" style="padding: 12px; font-size: 14px; flex: 1; outline: none;" onchange="updateStatsUI()">
+        <div class="section-title" style="margin-top: 32px;">THỐNG KÊ DOANH THU</div>
+        <div style="display: flex; gap: 10px; margin-bottom: 14px;">
+            <select id="filterYear" class="select-filter" style="flex: 1;" onchange="updateStatsUI()"><option value="ALL">Tất cả các năm</option></select>
+            <select id="filterMonth" class="select-filter" style="flex: 1;" onchange="updateStatsUI()">
                 <option value="ALL">Tổng cả năm</option><option value="0">Tháng 1</option><option value="1">Tháng 2</option><option value="2">Tháng 3</option><option value="3">Tháng 4</option><option value="4">Tháng 5</option><option value="5">Tháng 6</option><option value="6">Tháng 7</option><option value="7">Tháng 8</option><option value="8">Tháng 9</option><option value="9">Tháng 10</option><option value="10">Tháng 11</option><option value="11">Tháng 12</option>
             </select>
         </div>
 
         <div class="stats-grid">
-            <div class="stat-card glass-panel"><div class="stat-label">Tổng Doanh Thu</div><div class="stat-value gold" id="totalRevenue">0 đ</div></div>
-            <div class="stat-card glass-panel"><div class="stat-label">Đã Thu Thực Tế</div><div class="stat-value green" id="totalCollected">0 đ</div></div>
-            <div class="stat-card glass-panel"><div class="stat-label">Chưa Thanh Toán</div><div class="stat-value red" id="totalDebt">0 đ</div></div>
-            <div class="stat-card glass-panel"><div class="stat-label">Tổng số Job</div><div class="stat-value" id="totalShows">0</div></div>
+            <div class="stat-card"><div class="stat-label">Tổng Doanh Thu</div><div class="stat-value gold" id="totalRevenue">0 đ</div></div>
+            <div class="stat-card"><div class="stat-label">Đã Thu Thực Tế</div><div class="stat-value green" id="totalCollected">0 đ</div></div>
+            <div class="stat-card"><div class="stat-label">Chưa Thanh Toán</div><div class="stat-value red" id="totalDebt">0 đ</div></div>
+            <div class="stat-card"><div class="stat-label">Tổng số Job</div><div class="stat-value" id="totalShows">0</div></div>
         </div>
     </div>
 
@@ -175,23 +326,23 @@
             <!-- FORM TẠO LỊCH -->
             <div id="tab-create" class="tab-panel active">
                 <form id="formCreate" onsubmit="submitCreate(event)">
-                    <div class="form-group"><label>Ngày chụp:</label><input type="date" id="c_ngay" class="form-control" required></div>
-                    <div class="form-group"><label>Thời gian (Sáng/Chiều):</label><input type="text" id="c_thoigian" class="form-control" placeholder="Sáng"></div>
-                    <div class="form-group"><label>Khách hàng (Tên):</label><input type="text" id="c_khach" class="form-control" required placeholder="Tên khách hàng"></div>
-                    <div class="form-group"><label>Địa điểm chụp:</label><input type="text" id="c_diadiem" class="form-control"></div>
-                    <div class="form-group"><label>Link Maps (Vị trí):</label><input type="url" id="c_linkmaps" class="form-control" placeholder="https://maps.app.goo.gl/..."></div>
-                    <div class="form-group"><label>Link Drive (Bàn giao):</label><input type="url" id="c_linkdrive" class="form-control" placeholder="https://drive.google.com/..."></div>
+                    <div class="form-group"><label>Ngày chụp</label><input type="date" id="c_ngay" class="form-control" required></div>
+                    <div class="form-group"><label>Thời gian (Sáng/Chiều)</label><input type="text" id="c_thoigian" class="form-control" placeholder="Sáng"></div>
+                    <div class="form-group"><label>Khách hàng (Tên)</label><input type="text" id="c_khach" class="form-control" required placeholder="Tên khách hàng"></div>
+                    <div class="form-group"><label>Địa điểm chụp</label><input type="text" id="c_diadiem" class="form-control"></div>
+                    <div class="form-group"><label>Link Maps (Vị trí)</label><input type="url" id="c_linkmaps" class="form-control" placeholder="https://maps.app.goo.gl/..."></div>
+                    <div class="form-group"><label>Link Drive (Bàn giao)</label><input type="url" id="c_linkdrive" class="form-control" placeholder="https://drive.google.com/..."></div>
                     <div class="form-group">
-                        <label>Gói dịch vụ:</label>
+                        <label>Gói dịch vụ</label>
                         <select id="c_noidung" class="form-select">
                             <option value="Phóng Sự Cưới">Phóng Sự Cưới</option><option value="Ăn Hỏi">Ăn Hỏi</option><option value="Chụp Studio">Chụp Studio</option><option value="Sự Kiện">Sự Kiện</option><option value="Tốt Nghiệp">Tốt Nghiệp</option><option value="Kỷ Yếu Đơn">Kỷ Yếu Đơn</option><option value="Kỷ Yếu Nhóm 2">Kỷ Yếu Nhóm 2</option><option value="Kỷ Yếu Nhóm 3">Kỷ Yếu Nhóm 3</option><option value="Khác">Khác</option>
                         </select>
                     </div>
-                    <div class="form-group"><label>Giá gói chụp (VNĐ):</label><input type="text" id="c_gia" class="form-control money-input" placeholder="0"></div>
-                    <div class="form-group"><label>Phí đi lại (VNĐ):</label><input type="text" id="c_phi" class="form-control money-input" placeholder="0"></div>
-                    <div class="form-group"><label>Tiền cọc (VNĐ):</label><input type="text" id="c_coc" class="form-control money-input" placeholder="0"></div>
-                    <div class="form-group"><label>Ghi chú thêm:</label><input type="text" id="c_ghichu" class="form-control"></div>
-                    <button type="submit" class="btn btn-blue" id="btnCreate">⚡ TẠO LỊCH & ĐỒNG BỘ PRO</button>
+                    <div class="form-group"><label>Giá gói chụp (VNĐ)</label><input type="text" id="c_gia" class="form-control money-input" placeholder="0"></div>
+                    <div class="form-group"><label>Phí đi lại (VNĐ)</label><input type="text" id="c_phi" class="form-control money-input" placeholder="0"></div>
+                    <div class="form-group"><label>Tiền cọc (VNĐ)</label><input type="text" id="c_coc" class="form-control money-input" placeholder="0"></div>
+                    <div class="form-group"><label>Ghi chú thêm</label><input type="text" id="c_ghichu" class="form-control"></div>
+                    <button type="submit" class="btn-submit" id="btnCreate">Tạo Lịch & Đồng Bộ</button>
                 </form>
             </div>
 
@@ -199,23 +350,23 @@
             <div id="tab-edit" class="tab-panel">
                 <form id="formEdit" onsubmit="submitEdit(event)">
                     <input type="hidden" id="e_rowindex">
-                    <div class="form-group"><label>Ngày chụp:</label><input type="date" id="e_ngay" class="form-control" required></div>
-                    <div class="form-group"><label>Thời gian (Sáng/Chiều):</label><input type="text" id="e_thoigian" class="form-control"></div>
-                    <div class="form-group"><label>Khách hàng (Tên):</label><input type="text" id="e_khach" class="form-control" required></div>
-                    <div class="form-group"><label>Địa điểm chụp:</label><input type="text" id="e_diadiem" class="form-control"></div>
-                    <div class="form-group"><label>Link Maps (Vị trí):</label><input type="url" id="e_linkmaps" class="form-control" placeholder="https://maps.app.goo.gl/..."></div>
-                    <div class="form-group"><label>Link Drive (Bàn giao):</label><input type="url" id="e_linkdrive" class="form-control" placeholder="https://drive.google.com/..."></div>
+                    <div class="form-group"><label>Ngày chụp</label><input type="date" id="e_ngay" class="form-control" required></div>
+                    <div class="form-group"><label>Thời gian (Sáng/Chiều)</label><input type="text" id="e_thoigian" class="form-control"></div>
+                    <div class="form-group"><label>Khách hàng (Tên)</label><input type="text" id="e_khach" class="form-control" required></div>
+                    <div class="form-group"><label>Địa điểm chụp</label><input type="text" id="e_diadiem" class="form-control"></div>
+                    <div class="form-group"><label>Link Maps (Vị trí)</label><input type="url" id="e_linkmaps" class="form-control" placeholder="https://maps.app.goo.gl/..."></div>
+                    <div class="form-group"><label>Link Drive (Bàn giao)</label><input type="url" id="e_linkdrive" class="form-control" placeholder="https://drive.google.com/..."></div>
                     <div class="form-group">
-                        <label>Gói dịch vụ:</label>
+                        <label>Gói dịch vụ</label>
                         <select id="e_noidung" class="form-select">
                             <option value="Phóng Sự Cưới">Phóng Sự Cưới</option><option value="Ăn Hỏi">Ăn Hỏi</option><option value="Chụp Studio">Chụp Studio</option><option value="Sự Kiện">Sự Kiện</option><option value="Tốt Nghiệp">Tốt Nghiệp</option><option value="Kỷ Yếu Đơn">Kỷ Yếu Đơn</option><option value="Kỷ Yếu Nhóm 2">Kỷ Yếu Nhóm 2</option><option value="Kỷ Yếu Nhóm 3">Kỷ Yếu Nhóm 3</option><option value="Khác">Khác</option>
                         </select>
                     </div>
-                    <div class="form-group"><label>Giá gói chụp (VNĐ):</label><input type="text" id="e_gia" class="form-control money-input"></div>
-                    <div class="form-group"><label>Phí đi lại (VNĐ):</label><input type="text" id="e_phi" class="form-control money-input"></div>
-                    <div class="form-group"><label>Tiền cọc (VNĐ):</label><input type="text" id="e_coc" class="form-control money-input"></div>
-                    <div class="form-group"><label>Ghi chú thêm:</label><input type="text" id="e_ghichu" class="form-control"></div>
-                    <button type="submit" class="btn btn-blue" id="btnEdit">💾 LƯU CẬP NHẬT</button>
+                    <div class="form-group"><label>Giá gói chụp (VNĐ)</label><input type="text" id="e_gia" class="form-control money-input"></div>
+                    <div class="form-group"><label>Phí đi lại (VNĐ)</label><input type="text" id="e_phi" class="form-control money-input"></div>
+                    <div class="form-group"><label>Tiền cọc (VNĐ)</label><input type="text" id="e_coc" class="form-control money-input"></div>
+                    <div class="form-group"><label>Ghi chú thêm</label><input type="text" id="e_ghichu" class="form-control"></div>
+                    <button type="submit" class="btn-submit" id="btnEdit">Lưu Cập Nhật</button>
                 </form>
             </div>
         </div>
@@ -315,10 +466,10 @@
 
             let htmlStr = ''; let mIndex = 0;
             for (let monthYear in groupedData) {
-                htmlStr += `<div class="month-header glass-panel" id="mh-${mIndex}" onclick="toggleSection('month-content-${mIndex}', this)"><span>📅 ${monthYear}</span><span class="toggle-icon">▼</span></div><div class="month-content" id="month-content-${mIndex}">`;
+                htmlStr += `<div class="month-header" id="mh-${mIndex}" onclick="toggleSection('month-content-${mIndex}', this)"><span>📅 ${monthYear}</span><span class="toggle-icon">▼</span></div><div class="month-content" id="month-content-${mIndex}">`;
                 let dIndex = 0;
                 for (let dateStr in groupedData[monthYear]) {
-                    htmlStr += `<div class="day-header glass-panel" id="dh-${mIndex}-${dIndex}" onclick="toggleSection('day-content-${mIndex}-${dIndex}', this)"><span>🗓️ ${dateStr}</span><span class="toggle-icon">▼</span></div><div class="day-content" id="day-content-${mIndex}-${dIndex}">`;
+                    htmlStr += `<div class="day-header" id="dh-${mIndex}-${dIndex}" onclick="toggleSection('day-content-${mIndex}-${dIndex}', this)"><span>🗓️ ${dateStr}</span><span class="toggle-icon">▼</span></div><div class="day-content" id="day-content-${mIndex}-${dIndex}">`;
                     groupedData[monthYear][dateStr].forEach(row => {
                         let gia = parseNum(findVal(row, 'giá')); let phi = parseNum(findVal(row, 'phí')); let coc = parseNum(findVal(row, 'cọc'));
                         let conLai = parseNum(findVal(row, 'còn lại')); let rowIndex = row['_rowIndex'];
@@ -328,26 +479,45 @@
                         let noteVal = findVal(row, 'ghi chú');
                         let clientName = row['Khách hàng'] || findVal(row, 'khách');
 
-                        let moneyClass = conLai > 0 ? 'debt' : 'paid'; let moneyText = conLai > 0 ? `Cần thu: ${formatMoney(conLai)}` : 'Đã tất toán ✓';
+                        let moneyStatusHTML = conLai > 0 
+                            ? `<span class="debt">Còn nợ: ${formatMoney(conLai)}</span>` 
+                            : `<span class="paid">Đã tất toán ✓</span>`;
 
                         let mapsBtn = mapsVal ? `<a href="${mapsVal}" target="_blank" class="action-link-btn maps" onclick="event.stopPropagation()">📍 Maps</a>` : '';
                         let driveBtn = driveVal ? `<a href="${driveVal}" target="_blank" class="action-link-btn drive" onclick="event.stopPropagation()">📁 Drive</a>` : '';
-                        let linkButtonsHTML = (mapsBtn || driveBtn) ? `<div style="margin-top: 4px; margin-bottom: 6px;">${mapsBtn}${driveBtn}</div>` : '';
+                        let linkButtonsHTML = (mapsBtn || driveBtn) ? `<div class="action-links">${mapsBtn}${driveBtn}</div>` : '';
 
                         let paidBtnHTML = '';
                         if (conLai > 0) {
-                            paidBtnHTML = `<div style="margin-top: 14px; margin-bottom: 4px;" onclick="event.stopPropagation()"><button class="btn btn-green" style="padding: 12px; margin-top: 0; font-size: 14px; width: 100%; border-radius: 12px;" onclick="markPaid(${rowIndex}, '${clientName}')">Đã Thanh Toán</button></div>`;
+                            paidBtnHTML = `<div style="margin-top: 12px;" onclick="event.stopPropagation()"><button class="btn-pay" onclick="markPaid(${rowIndex}, '${clientName}')">✓ Đã Thanh Toán (Xóa Nợ)</button></div>`;
                         }
 
                         htmlStr += `
-                            <div class="card glass-panel" onclick="toggleSection('expanded-${rowIndex}', this, true)">
-                                <div class="card-header"><div><h2 class="client-name">${clientName}</h2><p class="package-name">${findVal(row, 'nội dung') || 'Chưa ghi'}</p></div><div class="shoot-time">${findVal(row, 'thời gian') || '--'}</div></div>
-                                <div class="details-row" style="flex-direction: column;"><div style="display:flex;"><span class="details-label">Địa điểm:</span><span>${findVal(row, 'địa điểm') || '--'}</span></div>${linkButtonsHTML}</div>
-                                <div class="money-status ${moneyClass}"><span>Tổng: ${formatMoney(gia + phi)}</span><span>${moneyText}</span></div>
+                            <div class="card" onclick="toggleSection('expanded-${rowIndex}', this, true)">
+                                <div class="card-header">
+                                    <div>
+                                        <h2 class="client-name">${clientName}</h2>
+                                        <span class="tag-package">${findVal(row, 'nội dung') || 'Gói Chụp'}</span>
+                                    </div>
+                                    <span class="tag-session">${findVal(row, 'thời gian') || 'Cả ngày'}</span>
+                                </div>
+                                
+                                <div class="location-row">
+                                    <span class="location-label">📍 Địa điểm:</span>
+                                    <span class="location-value">${findVal(row, 'địa điểm') || '--'}</span>
+                                </div>
+
+                                ${linkButtonsHTML}
+
+                                <div class="money-bar">
+                                    <span class="total">Tổng: <span class="total-num">${formatMoney(gia + phi)}</span></span>
+                                    ${moneyStatusHTML}
+                                </div>
+
                                 <div class="card-expanded-content" id="expanded-${rowIndex}">
-                                    <div class="details-row"><span class="details-label">Phí đi lại:</span><span>${formatMoney(phi)}</span></div>
-                                    <div class="details-row"><span class="details-label">Tiền cọc:</span><span>${formatMoney(coc)}</span></div>
-                                    ${noteVal ? `<div class="details-row"><span class="details-label">Ghi chú:</span><span>${noteVal}</span></div>` : ''}
+                                    <div class="detail-item"><span>Phí đi lại</span><span>${formatMoney(phi)}</span></div>
+                                    <div class="detail-item"><span>Tiền cọc</span><span>${formatMoney(coc)}</span></div>
+                                    ${noteVal ? `<div class="detail-item"><span>Ghi chú</span><span>${noteVal}</span></div>` : ''}
                                     ${paidBtnHTML}
                                     <div class="card-btns-row" onclick="event.stopPropagation()">
                                         <button class="btn-card-action btn-edit" onclick="openEditModal(${rowIndex}, '${clientName}')">✏️ Sửa Lịch</button>
@@ -433,7 +603,7 @@
         async function submitCreate(e) {
             e.preventDefault(); const btn = document.getElementById('btnCreate'); btn.innerText = "Đang đồng bộ..."; btn.style.opacity = 0.7; btn.disabled = true;
             const payload = { action: "CREATE", ngayChup: document.getElementById('c_ngay').value, thoiGian: document.getElementById('c_thoigian').value, khachHang: document.getElementById('c_khach').value, diaDiem: document.getElementById('c_diadiem').value, linkMaps: document.getElementById('c_linkmaps').value, linkDrive: document.getElementById('c_linkdrive').value, noiDung: document.getElementById('c_noidung').value, giaGoi: parseNum(document.getElementById('c_gia').value), phiDiLai: parseNum(document.getElementById('c_phi').value), coc: parseNum(document.getElementById('c_coc').value), ghiChu: document.getElementById('c_ghichu').value };
-            try { await fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); closeModal(); document.getElementById('formCreate').reset(); silentFetchData(); } catch (err) { alert("Lỗi kết nối!"); } finally { btn.innerText = "⚡ TẠO LỊCH & ĐỒNG BỘ PRO"; btn.style.opacity = 1; btn.disabled = false; }
+            try { await fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); closeModal(); document.getElementById('formCreate').reset(); loadData(); } catch (err) { alert("Lỗi kết nối!"); } finally { btn.innerText = "Tạo Lịch & Đồng Bộ"; btn.style.opacity = 1; btn.disabled = false; }
         }
 
         async function submitEdit(e) {
@@ -460,7 +630,7 @@
             }
             
             let states = getOpenStates(); renderUI(allValidData); restoreStates(states); closeModal();
-            btn.innerText = "💾 LƯU CẬP NHẬT"; btn.style.opacity = 1; btn.disabled = false;
+            btn.innerText = "Lưu Cập Nhật"; btn.style.opacity = 1; btn.disabled = false;
 
             fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).then(() => silentFetchData());
         }
