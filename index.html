@@ -10,39 +10,53 @@
     <style>
         *, *::before, *::after { box-sizing: border-box; }
 
+        /* --- THEME SÁNG (LIGHT MODE) - CHUẨN IOS PRO --- */
         :root {
-            --bg-base: #f0f2f5;
-            --bg-mesh: radial-gradient(circle at 15% 50%, rgba(0, 122, 255, 0.08), transparent 40%), radial-gradient(circle at 85% 30%, rgba(212, 175, 55, 0.08), transparent 40%);
-            --glass-bg: rgba(255, 255, 255, 0.35); 
-            --glass-border: rgba(255, 255, 255, 0.6);
-            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+            --bg-base: #F2F2F7; /* Nền xám nhạt tiêu chuẩn Apple */
+            --bg-mesh: radial-gradient(circle at 15% 50%, rgba(0, 122, 255, 0.04), transparent 40%), 
+                       radial-gradient(circle at 85% 30%, rgba(212, 175, 55, 0.04), transparent 40%);
+            
+            --glass-bg: rgba(255, 255, 255, 0.95); /* Thẻ trắng tinh, sạch sẽ */
+            --glass-border: rgba(0, 0, 0, 0.06); /* Viền tối mờ phân tách khối */
+            --glass-shadow: 0 8px 24px rgba(0, 0, 0, 0.04); /* Bóng đổ êm, hiện đại */
+            
             --text-main: #000000;
-            --text-sub: rgba(60, 60, 67, 0.6);
+            --text-sub: #8E8E93;
             --accent-gold: #c59b27;
-            --alert-red: #ff3b30;
-            --success-green: #34c759;
-            --blue-accent: #007aff;
-            --btn-bg: rgba(0, 0, 0, 0.05);
-            --input-bg: rgba(255, 255, 255, 0.5);
+            --alert-red: #FF3B30;
+            --success-green: #34C759;
+            --blue-accent: #007AFF;
+            
+            --btn-bg: rgba(118, 118, 128, 0.12); /* Màu nút phụ chuẩn iOS */
+            --input-bg: rgba(118, 118, 128, 0.08); /* Nền form nhập liệu dập chìm */
+            --divider-line: rgba(0, 0, 0, 0.08); /* Màu vạch kẻ ngang phân cách */
+            
             --logo-filter: invert(1);
             --radius-card: 22px;
         }
 
+        /* --- THEME TỐI (DARK MODE) TỰ ĐỘNG --- */
         @media (prefers-color-scheme: dark) {
             :root {
                 --bg-base: #000000;
-                --bg-mesh: radial-gradient(circle at 20% 40%, rgba(10, 132, 255, 0.12), transparent 45%), radial-gradient(circle at 80% 60%, rgba(212, 175, 55, 0.12), transparent 45%);
-                --glass-bg: rgba(30, 30, 30, 0.25); 
-                --glass-border: rgba(255, 255, 255, 0.14);
-                --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-                --text-main: #ffffff;
+                --bg-mesh: radial-gradient(circle at 20% 40%, rgba(10, 132, 255, 0.15), transparent 45%), 
+                           radial-gradient(circle at 80% 60%, rgba(212, 175, 55, 0.15), transparent 45%);
+                
+                --glass-bg: rgba(28, 28, 30, 0.85); 
+                --glass-border: rgba(255, 255, 255, 0.12);
+                --glass-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+                
+                --text-main: #FFFFFF;
                 --text-sub: rgba(235, 235, 245, 0.6);
-                --accent-gold: #ffd60a;
-                --alert-red: #ff453a;
-                --success-green: #30d158;
-                --blue-accent: #0a84ff;
-                --btn-bg: rgba(255, 255, 255, 0.1);
-                --input-bg: rgba(0, 0, 0, 0.35);
+                --accent-gold: #FFD60A;
+                --alert-red: #FF453A;
+                --success-green: #30D158;
+                --blue-accent: #0A84FF;
+                
+                --btn-bg: rgba(255, 255, 255, 0.15);
+                --input-bg: rgba(255, 255, 255, 0.1);
+                --divider-line: rgba(255, 255, 255, 0.15);
+                
                 --logo-filter: none;
             }
         }
@@ -61,8 +75,8 @@
 
         .header {
             width: 100%; padding: 16px 20px; position: sticky; top: 0; z-index: 50;
-            background: var(--glass-bg); backdrop-filter: blur(28px) saturate(180%); -webkit-backdrop-filter: blur(28px) saturate(180%);
-            border-bottom: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center;
+            background: var(--glass-bg); backdrop-filter: blur(30px) saturate(200%); -webkit-backdrop-filter: blur(30px) saturate(200%);
+            border-bottom: 1px solid var(--divider-line); display: flex; justify-content: space-between; align-items: center;
         }
         .header img { height: 32px; object-fit: contain; filter: var(--logo-filter); }
         .status-dot { display: inline-block; width: 8px; height: 8px; background: var(--success-green); border-radius: 50%; box-shadow: 0 0 8px var(--success-green); margin-right: 6px; }
@@ -81,7 +95,7 @@
 
         .card { padding: 18px; margin-bottom: 14px; cursor: pointer; transition: transform 0.15s ease; }
         .card:active { transform: scale(0.98); }
-        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; border-bottom: 1px solid rgba(150, 150, 150, 0.15); padding-bottom: 10px; }
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; border-bottom: 1px solid var(--divider-line); padding-bottom: 10px; }
         .client-name { font-size: 18px; font-weight: 600; color: var(--text-main); margin: 0 0 4px 0; }
         .package-name { font-size: 14px; color: var(--accent-gold); margin: 0; font-weight: 500;}
         .shoot-time { font-size: 12px; background: var(--btn-bg); padding: 5px 10px; border-radius: 10px; font-weight: 600;}
@@ -92,13 +106,13 @@
         .action-link-btn { display: inline-flex; align-items: center; gap: 4px; padding: 7px 12px; background: var(--btn-bg); border-radius: 10px; color: var(--text-main); text-decoration: none; font-size: 12px; font-weight: 600; margin-right: 6px; margin-top: 6px; }
         .action-link-btn.maps { color: var(--blue-accent); } .action-link-btn.drive { color: var(--success-green); }
         
-        .money-status { margin-top: 12px; padding-top: 12px; border-top: 1px dashed rgba(150, 150, 150, 0.2); display: flex; justify-content: space-between; font-weight: 600; font-size: 14px; }
+        .money-status { margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--divider-line); display: flex; justify-content: space-between; font-weight: 600; font-size: 14px; }
         .debt { color: var(--alert-red); } .paid { color: var(--success-green); }
 
-        .card-expanded-content { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(150, 150, 150, 0.15); }
+        .card-expanded-content { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--divider-line); }
         .card-expanded-content.show { display: block; animation: fadeIn 0.2s ease; }
         
-        .card-btns-row { display: flex; gap: 10px; margin-top: 14px; padding-top: 14px; border-top: 1px dashed rgba(150, 150, 150, 0.2); }
+        .card-btns-row { display: flex; gap: 10px; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--divider-line); }
         .btn-card-action { flex: 1; padding: 11px 0; border: none; border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; }
         .btn-edit { background: var(--btn-bg); color: var(--text-main); } .btn-delete { background: rgba(255, 59, 48, 0.1); color: var(--alert-red); }
 
@@ -109,14 +123,14 @@
         .fab { position: fixed; bottom: 26px; right: 20px; width: 58px; height: 58px; background: var(--blue-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 30px; font-weight: 300; box-shadow: 0 8px 24px rgba(0, 122, 255, 0.4); cursor: pointer; z-index: 80; }
         .fab:active { transform: scale(0.9); }
 
-        .modal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); justify-content: center; align-items: flex-end; overscroll-behavior: contain; width: 100vw; }
-        .modal-content { background: var(--glass-bg); backdrop-filter: blur(40px) saturate(200%); -webkit-backdrop-filter: blur(40px) saturate(200%); border-top: 1px solid var(--glass-border); border-radius: 28px 28px 0 0; width: 100%; max-width: 600px; max-height: 85vh; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; padding: 24px 20px 40px 20px; box-shadow: 0 -15px 40px rgba(0,0,0,0.3); animation: slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .modal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); justify-content: center; align-items: flex-end; overscroll-behavior: contain; width: 100vw; }
+        .modal-content { background: var(--glass-bg); backdrop-filter: blur(40px) saturate(200%); -webkit-backdrop-filter: blur(40px) saturate(200%); border-top: 1px solid var(--glass-border); border-radius: 28px 28px 0 0; width: 100%; max-width: 600px; max-height: 85vh; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; padding: 24px 20px 40px 20px; box-shadow: 0 -15px 40px rgba(0,0,0,0.2); animation: slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; } .modal-header h3 { margin: 0; font-size: 19px; color: var(--text-main); font-weight: 700; } .close-btn { font-size: 22px; color: var(--text-sub); cursor: pointer; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: var(--btn-bg); border-radius: 50%; }
         .tab-panel { display: none; } .tab-panel.active { display: block; }
-        .form-group { margin-bottom: 14px; display: flex; flex-direction: column; width: 100%; } .form-group label { font-size: 13px; color: var(--text-sub); margin-bottom: 6px; margin-left: 4px; font-weight: 500;} .form-control, .form-select { width: 100%; padding: 14px; background: var(--input-bg); border: 1px solid rgba(150, 150, 150, 0.2); border-radius: 14px; color: var(--text-main); font-size: 16px; outline: none; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); } .form-control:focus, .form-select:focus { border-color: var(--blue-accent); }
+        .form-group { margin-bottom: 14px; display: flex; flex-direction: column; width: 100%; } .form-group label { font-size: 13px; color: var(--text-sub); margin-bottom: 6px; margin-left: 4px; font-weight: 500;} .form-control, .form-select { width: 100%; padding: 14px; background: var(--input-bg); border: 1px solid var(--divider-line); border-radius: 14px; color: var(--text-main); font-size: 16px; outline: none; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); } .form-control:focus, .form-select:focus { border-color: var(--blue-accent); }
         .btn { width: 100%; padding: 16px; border: none; border-radius: 14px; font-weight: 600; font-size: 15px; color: #fff; margin-top: 10px; cursor: pointer; } .btn:active { transform: scale(0.98); } .btn-blue { background: var(--blue-accent); } .btn-green { background: var(--success-green); color: #fff; }
         .loader { text-align: center; padding: 40px; color: var(--text-sub); }
     </style>
@@ -136,8 +150,8 @@
         <!-- THỐNG KÊ DOANH THU -->
         <div class="section-title" style="margin-top: 36px;">THỐNG KÊ DOANH THU</div>
         <div style="display: flex; gap: 10px; margin-bottom: 16px;">
-            <select id="filterYear" class="form-select glass-panel" style="padding: 12px; font-size: 14px; flex: 1; border: 1px solid var(--glass-border); outline: none;" onchange="updateStatsUI()"><option value="ALL">Tất cả các năm</option></select>
-            <select id="filterMonth" class="form-select glass-panel" style="padding: 12px; font-size: 14px; flex: 1; border: 1px solid var(--glass-border); outline: none;" onchange="updateStatsUI()">
+            <select id="filterYear" class="form-select glass-panel" style="padding: 12px; font-size: 14px; flex: 1; outline: none;" onchange="updateStatsUI()"><option value="ALL">Tất cả các năm</option></select>
+            <select id="filterMonth" class="form-select glass-panel" style="padding: 12px; font-size: 14px; flex: 1; outline: none;" onchange="updateStatsUI()">
                 <option value="ALL">Tổng cả năm</option><option value="0">Tháng 1</option><option value="1">Tháng 2</option><option value="2">Tháng 3</option><option value="3">Tháng 4</option><option value="4">Tháng 5</option><option value="5">Tháng 6</option><option value="6">Tháng 7</option><option value="7">Tháng 8</option><option value="8">Tháng 9</option><option value="9">Tháng 10</option><option value="10">Tháng 11</option><option value="11">Tháng 12</option>
             </select>
         </div>
@@ -419,7 +433,7 @@
         async function submitCreate(e) {
             e.preventDefault(); const btn = document.getElementById('btnCreate'); btn.innerText = "Đang đồng bộ..."; btn.style.opacity = 0.7; btn.disabled = true;
             const payload = { action: "CREATE", ngayChup: document.getElementById('c_ngay').value, thoiGian: document.getElementById('c_thoigian').value, khachHang: document.getElementById('c_khach').value, diaDiem: document.getElementById('c_diadiem').value, linkMaps: document.getElementById('c_linkmaps').value, linkDrive: document.getElementById('c_linkdrive').value, noiDung: document.getElementById('c_noidung').value, giaGoi: parseNum(document.getElementById('c_gia').value), phiDiLai: parseNum(document.getElementById('c_phi').value), coc: parseNum(document.getElementById('c_coc').value), ghiChu: document.getElementById('c_ghichu').value };
-            try { await fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); closeModal(); document.getElementById('formCreate').reset(); loadData(); } catch (err) { alert("Lỗi kết nối!"); } finally { btn.innerText = "⚡ TẠO LỊCH & ĐỒNG BỘ PRO"; btn.style.opacity = 1; btn.disabled = false; }
+            try { await fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); closeModal(); document.getElementById('formCreate').reset(); silentFetchData(); } catch (err) { alert("Lỗi kết nối!"); } finally { btn.innerText = "⚡ TẠO LỊCH & ĐỒNG BỘ PRO"; btn.style.opacity = 1; btn.disabled = false; }
         }
 
         async function submitEdit(e) {
