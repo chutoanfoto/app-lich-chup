@@ -3,82 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="theme-color" content="#f8fafc">
+    <meta name="theme-color" content="#f1f3f6">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <title>ChuToan Foto - Quản Lý Lịch Chụp</title>
     <style>
         *, *::before, *::after { box-sizing: border-box; }
 
-        /* --- THEME SÁNG (PRO STUDIO UI) --- */
+        /* --- THEME SÁNG (LIQUID GLASS CHUẨN IOS) --- */
         :root {
-            --bg-base: #f8fafc;
-            --bg-mesh: radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.03), transparent 50%),
-                       radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.03), transparent 50%);
+            --bg-base: #f1f3f6;
+            /* Dải màu loang ở nền để hiệu ứng kính nhìn thấy rõ ràng */
+            --bg-mesh: 
+                radial-gradient(circle at 10% 20%, rgba(10, 132, 255, 0.12), transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.1), transparent 50%),
+                radial-gradient(circle at 50% 90%, rgba(255, 59, 48, 0.08), transparent 50%);
             
-            --card-bg: #ffffff;
-            --card-border: #e2e8f0;
-            --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.02);
+            /* THÔNG SỐ KÍNH LỎNG - PHA LÊ TRONG SUỐT */
+            --card-bg: rgba(255, 255, 255, 0.45); 
+            --card-border: rgba(255, 255, 255, 0.7);
+            /* Đổ bóng ngoài + Viền hắt sáng bên trong tạo độ nổi 3D */
+            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 1px 2px rgba(255, 255, 255, 0.9);
             
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --text-sub: #94a3b8;
+            --text-main: #000000;
+            --text-muted: #5c5c62;
+            --text-sub: #8e8e93;
             
-            --accent-primary: #0284c7;
-            --accent-gold: #b45309;
-            --tag-gold-bg: #fef3c7;
+            --accent-primary: #007aff;
+            --accent-gold: #c59b27;
+            --tag-gold-bg: rgba(197, 155, 39, 0.15);
             --tag-gold-text: #92400e;
             
-            --alert-red: #dc2626;
-            --alert-bg: #fef2f2;
-            --success-green: #16a34a;
-            --success-bg: #f0fdf4;
+            --alert-red: #ff3b30;
+            --alert-bg: rgba(255, 59, 48, 0.12);
+            --success-green: #34c759;
+            --success-bg: rgba(52, 199, 89, 0.15);
             
-            --btn-secondary-bg: #f1f5f9;
-            --btn-secondary-text: #334155;
-            --input-bg: #f8fafc;
-            --input-border: #cbd5e1;
-            --divider-line: #f1f5f9;
+            --btn-secondary-bg: rgba(255, 255, 255, 0.6);
+            --btn-secondary-text: #1c1c1e;
+            --input-bg: rgba(255, 255, 255, 0.5);
+            --input-border: rgba(255, 255, 255, 0.8);
+            --divider-line: rgba(0, 0, 0, 0.06);
             
-            --header-bg: rgba(255, 255, 255, 0.85);
-            --header-border: #e2e8f0;
+            --header-bg: rgba(255, 255, 255, 0.35);
             --logo-filter: invert(1);
-            --radius-card: 20px;
+            --radius-card: 22px;
         }
 
-        /* --- THEME TỐI (OLED BLACK PRO) --- */
+        /* --- THEME TỐI (DARK LIQUID GLASS) --- */
         @media (prefers-color-scheme: dark) {
             :root {
                 --bg-base: #000000;
-                --bg-mesh: radial-gradient(circle at 10% 20%, rgba(14, 165, 233, 0.08), transparent 50%),
-                           radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.06), transparent 50%);
+                --bg-mesh: 
+                    radial-gradient(circle at 10% 20%, rgba(10, 132, 255, 0.15), transparent 50%),
+                    radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.12), transparent 50%),
+                    radial-gradient(circle at 50% 90%, rgba(255, 55, 95, 0.1), transparent 50%);
                 
-                --card-bg: #141416;
-                --card-border: rgba(255, 255, 255, 0.08);
-                --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+                --card-bg: rgba(30, 30, 32, 0.45); 
+                --card-border: rgba(255, 255, 255, 0.1);
+                --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.15);
                 
-                --text-main: #f8fafc;
+                --text-main: #ffffff;
                 --text-muted: #94a3b8;
-                --text-sub: #64748b;
+                --text-sub: rgba(235, 235, 245, 0.6);
                 
-                --accent-primary: #38bdf8;
-                --accent-gold: #fbbf24;
-                --tag-gold-bg: rgba(245, 158, 11, 0.15);
-                --tag-gold-text: #fde68a;
+                --accent-primary: #0a84ff;
+                --accent-gold: #ffd60a;
+                --tag-gold-bg: rgba(255, 214, 10, 0.15);
+                --tag-gold-text: #fbbf24;
                 
-                --alert-red: #f87171;
-                --alert-bg: rgba(239, 68, 68, 0.12);
-                --success-green: #4ade80;
-                --success-bg: rgba(34, 197, 94, 0.12);
+                --alert-red: #ff453a;
+                --alert-bg: rgba(255, 69, 58, 0.15);
+                --success-green: #30d158;
+                --success-bg: rgba(48, 209, 88, 0.15);
                 
-                --btn-secondary-bg: rgba(255, 255, 255, 0.08);
+                --btn-secondary-bg: rgba(255, 255, 255, 0.1);
                 --btn-secondary-text: #e2e8f0;
-                --input-bg: #1c1c1f;
-                --input-border: rgba(255, 255, 255, 0.14);
-                --divider-line: rgba(255, 255, 255, 0.06);
+                --input-bg: rgba(255, 255, 255, 0.08);
+                --input-border: rgba(255, 255, 255, 0.12);
+                --divider-line: rgba(255, 255, 255, 0.08);
                 
-                --header-bg: rgba(15, 15, 18, 0.85);
-                --header-border: rgba(255, 255, 255, 0.08);
+                --header-bg: rgba(20, 20, 22, 0.5);
                 --logo-filter: none;
             }
         }
@@ -95,10 +100,17 @@
 
         body.modal-open { overflow: hidden; position: fixed; width: 100%; height: 100%; }
 
+        /* HỖ TRỢ HIỆU ỨNG KÍNH CHO MỌI TRÌNH DUYỆT */
+        .glass-fx {
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            backdrop-filter: blur(25px) saturate(200%); -webkit-backdrop-filter: blur(25px) saturate(200%);
+            box-shadow: var(--card-shadow);
+        }
+
         .header {
             width: 100%; padding: 14px 20px; position: sticky; top: 0; z-index: 50;
-            background: var(--header-bg); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border-bottom: 1px solid var(--header-border); display: flex; justify-content: space-between; align-items: center;
+            background: var(--header-bg); backdrop-filter: blur(35px) saturate(200%); -webkit-backdrop-filter: blur(35px) saturate(200%);
+            border-bottom: 1px solid var(--divider-line); display: flex; justify-content: space-between; align-items: center;
         }
         .header img { height: 30px; object-fit: contain; filter: var(--logo-filter); }
         .status-badge {
@@ -113,10 +125,8 @@
 
         /* --- ACCORDIONS --- */
         .month-header {
-            padding: 14px 18px; margin: 16px 0 8px 0;
-            background: var(--card-bg); border: 1px solid var(--card-border);
+            padding: 14px 18px; margin: 16px 0 8px 0; border-radius: 18px;
             border-left: 4px solid var(--accent-gold);
-            border-radius: 16px; box-shadow: var(--card-shadow);
             color: var(--accent-gold); font-weight: 700; font-size: 15px;
             cursor: pointer; display: flex; justify-content: space-between; align-items: center;
         }
@@ -124,10 +134,9 @@
         .month-content.show { display: block; animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
 
         .day-header {
-            padding: 12px 16px; margin: 8px 0 8px 6px;
-            background: var(--card-bg); border: 1px solid var(--card-border);
+            padding: 12px 16px; margin: 8px 0 8px 6px; border-radius: 16px;
             border-left: 3px solid var(--accent-primary);
-            border-radius: 14px; color: var(--accent-primary);
+            color: var(--accent-primary);
             font-weight: 700; font-size: 14px; cursor: pointer;
             display: flex; justify-content: space-between; align-items: center;
         }
@@ -135,98 +144,62 @@
         .day-content.show { display: block; animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
         .toggle-icon { transition: transform 0.25s ease; font-size: 11px; opacity: 0.6; }
 
-        /* --- THẺ LỊCH CHỤP (PRO CARD) --- */
+        /* --- THẺ LỊCH CHỤP (LIQUID GLASS CARD) --- */
         .card {
-            background: var(--card-bg); border: 1px solid var(--card-border);
-            border-radius: var(--radius-card); box-shadow: var(--card-shadow);
-            padding: 18px; margin: 0 0 12px 6px; cursor: pointer;
-            transition: transform 0.15s ease, border-color 0.15s ease;
+            border-radius: var(--radius-card); padding: 18px; margin: 0 0 12px 6px; cursor: pointer;
+            transition: transform 0.15s ease;
         }
         .card:active { transform: scale(0.985); }
         
-        .card-header {
-            display: flex; justify-content: space-between; align-items: flex-start;
-            margin-bottom: 12px;
-        }
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
         .client-name { font-size: 17px; font-weight: 700; color: var(--text-main); margin: 0 0 6px 0; letter-spacing: -0.2px; }
         
-        .tag-package {
-            display: inline-block; padding: 3px 9px; border-radius: 6px;
-            font-size: 12px; font-weight: 600; background: var(--tag-gold-bg); color: var(--tag-gold-text);
-        }
-        .tag-session {
-            font-size: 12px; font-weight: 600; background: var(--btn-secondary-bg);
-            color: var(--btn-secondary-text); padding: 4px 10px; border-radius: 8px;
-        }
+        .tag-package { display: inline-block; padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 600; background: var(--tag-gold-bg); color: var(--tag-gold-text); }
+        .tag-session { font-size: 12px; font-weight: 600; background: var(--btn-secondary-bg); color: var(--text-main); padding: 5px 10px; border-radius: 8px; border: 1px solid var(--input-border); }
 
-        .location-row {
-            display: flex; align-items: flex-start; gap: 8px; font-size: 13.5px;
-            color: var(--text-muted); margin-bottom: 12px;
-        }
-        .location-label { font-weight: 500; flex-shrink: 0; }
-        .location-value { color: var(--text-main); font-weight: 500; }
+        .location-row { display: flex; align-items: flex-start; gap: 8px; font-size: 13.5px; color: var(--text-muted); margin-bottom: 12px; }
+        .location-label { font-weight: 500; flex-shrink: 0; } .location-value { color: var(--text-main); font-weight: 500; }
 
         .action-links { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
-        .action-link-btn {
-            display: inline-flex; align-items: center; gap: 5px;
-            padding: 6px 12px; border-radius: 8px; text-decoration: none;
-            font-size: 12px; font-weight: 600; border: 1px solid transparent;
-        }
-        .action-link-btn.maps { background: #e0f2fe; color: #0369a1; }
-        .action-link-btn.drive { background: #dcfce7; color: #15803d; }
+        .action-link-btn { display: inline-flex; align-items: center; gap: 5px; padding: 6px 12px; border-radius: 8px; text-decoration: none; font-size: 12px; font-weight: 600; border: 1px solid transparent; }
+        .action-link-btn.maps { background: rgba(2, 132, 199, 0.15); color: #0284c7; }
+        .action-link-btn.drive { background: rgba(22, 163, 74, 0.15); color: #16a34a; }
         @media (prefers-color-scheme: dark) {
-            .action-link-btn.maps { background: rgba(2, 132, 199, 0.2); color: #38bdf8; border-color: rgba(56, 189, 248, 0.3); }
-            .action-link-btn.drive { background: rgba(22, 163, 74, 0.2); color: #4ade80; border-color: rgba(74, 222, 128, 0.3); }
+            .action-link-btn.maps { background: rgba(2, 132, 199, 0.25); color: #38bdf8; border-color: rgba(56, 189, 248, 0.2); }
+            .action-link-btn.drive { background: rgba(22, 163, 74, 0.25); color: #4ade80; border-color: rgba(74, 222, 128, 0.2); }
         }
 
         .money-bar {
-            background: var(--btn-secondary-bg); border-radius: 12px;
-            padding: 10px 14px; display: flex; justify-content: space-between;
-            align-items: center; font-size: 13.5px;
+            background: var(--btn-secondary-bg); border-radius: 12px; border: 1px solid var(--input-border);
+            padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; font-size: 13.5px;
         }
         .money-bar .total { font-weight: 600; color: var(--text-muted); }
         .money-bar .total-num { color: var(--text-main); font-weight: 700; }
         .money-bar .debt { color: var(--alert-red); font-weight: 700; }
         .money-bar .paid { color: var(--success-green); font-weight: 700; }
 
-        .card-expanded-content {
-            display: none; margin-top: 14px; padding-top: 14px;
-            border-top: 1px dashed var(--divider-line);
-        }
+        .card-expanded-content { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--divider-line); }
         .card-expanded-content.show { display: block; animation: fadeIn 0.2s ease; }
 
-        .detail-item {
-            display: flex; justify-content: space-between; font-size: 13px;
-            margin-bottom: 6px; color: var(--text-muted);
-        }
+        .detail-item { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; color: var(--text-muted); }
         .detail-item span:last-child { font-weight: 600; color: var(--text-main); }
 
         .card-btns-row { display: flex; gap: 8px; margin-top: 14px; }
-        .btn-card-action {
-            flex: 1; padding: 10px 0; border: none; border-radius: 10px;
-            font-size: 13px; font-weight: 600; cursor: pointer;
-        }
-        .btn-edit { background: var(--btn-secondary-bg); color: var(--btn-secondary-text); }
-        .btn-delete { background: var(--alert-bg); color: var(--alert-red); }
+        .btn-card-action { flex: 1; padding: 11px 0; border: none; border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid var(--input-border); }
+        .btn-edit { background: var(--btn-secondary-bg); color: var(--text-main); }
+        .btn-delete { background: var(--alert-bg); color: var(--alert-red); border-color: transparent;}
 
         /* --- STATS DASHBOARD --- */
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .stat-card {
-            background: var(--card-bg); border: 1px solid var(--card-border);
-            border-radius: 16px; padding: 14px 16px; box-shadow: var(--card-shadow);
-        }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .stat-card { border-radius: 18px; padding: 14px 16px; }
         .stat-label { font-size: 11.5px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; }
         .stat-value { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; }
-        .stat-value.gold { color: var(--accent-gold); }
-        .stat-value.green { color: var(--success-green); }
-        .stat-value.red { color: var(--alert-red); }
+        .stat-value.gold { color: var(--accent-gold); } .stat-value.green { color: var(--success-green); } .stat-value.red { color: var(--alert-red); }
 
         /* --- CONTROLS --- */
         .select-filter {
-            width: 100%; padding: 12px 14px; background: var(--card-bg);
-            border: 1px solid var(--card-border); border-radius: 12px;
-            color: var(--text-main); font-size: 14px; font-weight: 600;
-            box-shadow: var(--card-shadow); outline: none;
+            width: 100%; padding: 12px 14px; border-radius: 14px;
+            color: var(--text-main); font-size: 14px; font-weight: 600; outline: none;
         }
 
         .fab {
@@ -241,14 +214,15 @@
         /* --- POPUP MODAL --- */
         .modal {
             display: none; position: fixed; inset: 0; z-index: 100;
-            background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+            background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
             justify-content: center; align-items: flex-end; overscroll-behavior: contain;
         }
         .modal-content {
             background: var(--card-bg); border-top: 1px solid var(--card-border);
-            border-radius: 24px 24px 0 0; width: 100%; max-width: 580px;
+            backdrop-filter: blur(40px) saturate(200%); -webkit-backdrop-filter: blur(40px) saturate(200%);
+            border-radius: 28px 28px 0 0; width: 100%; max-width: 580px;
             max-height: 88vh; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch;
-            padding: 20px 20px 36px 20px; box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
+            padding: 20px 20px 36px 20px; box-shadow: 0 -10px 40px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255, 255, 255, 0.5);
             animation: slideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1);
         }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
@@ -256,33 +230,26 @@
 
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
         .modal-header h3 { margin: 0; font-size: 18px; color: var(--text-main); font-weight: 700; }
-        .close-btn {
-            font-size: 18px; color: var(--text-muted); cursor: pointer; width: 30px; height: 30px;
-            display: flex; align-items: center; justify-content: center; background: var(--btn-secondary-bg); border-radius: 50%;
-        }
+        .close-btn { font-size: 18px; color: var(--text-main); cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: var(--btn-secondary-bg); border-radius: 50%; border: 1px solid var(--input-border); }
 
-        .tab-panel { display: none; }
-        .tab-panel.active { display: block; }
+        .tab-panel { display: none; } .tab-panel.active { display: block; }
         
         .form-group { margin-bottom: 12px; display: flex; flex-direction: column; width: 100%; }
         .form-group label { font-size: 12.5px; color: var(--text-muted); margin-bottom: 5px; margin-left: 2px; font-weight: 600;}
         .form-control, .form-select {
-            width: 100%; padding: 13px 14px; background: var(--input-bg);
-            border: 1px solid var(--input-border); border-radius: 12px;
+            width: 100%; padding: 14px; background: var(--input-bg);
+            border: 1px solid var(--input-border); border-radius: 14px;
             color: var(--text-main); font-size: 15px; outline: none;
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
         }
         .form-control:focus, .form-select:focus { border-color: var(--accent-primary); }
         
-        .btn-submit {
-            width: 100%; padding: 15px; border: none; border-radius: 12px;
-            font-weight: 700; font-size: 15px; color: #fff; margin-top: 10px; cursor: pointer;
-            background: var(--accent-primary);
-        }
-        .btn-submit:active { opacity: 0.9; }
-        .btn-pay {
-            background: var(--success-green); color: #fff; width: 100%; padding: 12px;
-            border: none; border-radius: 10px; font-weight: 700; font-size: 13.5px; cursor: pointer;
-        }
+        .btn-submit { width: 100%; padding: 16px; border: none; border-radius: 14px; font-weight: 700; font-size: 15px; color: #fff; margin-top: 10px; cursor: pointer; background: var(--accent-primary); box-shadow: 0 4px 14px rgba(0, 122, 255, 0.3);}
+        .btn-submit:active { transform: scale(0.98); }
+        
+        .btn-pay { background: var(--success-green); color: #fff; width: 100%; padding: 14px; border: none; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 14px rgba(52, 199, 89, 0.3);}
+        .btn-pay:active { transform: scale(0.98); }
+        
         .loader { text-align: center; padding: 40px; color: var(--text-muted); font-weight: 500; font-size: 14px; }
     </style>
 </head>
@@ -301,17 +268,17 @@
         <!-- THỐNG KÊ DOANH THU -->
         <div class="section-title" style="margin-top: 32px;">THỐNG KÊ DOANH THU</div>
         <div style="display: flex; gap: 10px; margin-bottom: 14px;">
-            <select id="filterYear" class="select-filter" style="flex: 1;" onchange="updateStatsUI()"><option value="ALL">Tất cả các năm</option></select>
-            <select id="filterMonth" class="select-filter" style="flex: 1;" onchange="updateStatsUI()">
+            <select id="filterYear" class="select-filter glass-fx" style="flex: 1;" onchange="updateStatsUI()"><option value="ALL">Tất cả các năm</option></select>
+            <select id="filterMonth" class="select-filter glass-fx" style="flex: 1;" onchange="updateStatsUI()">
                 <option value="ALL">Tổng cả năm</option><option value="0">Tháng 1</option><option value="1">Tháng 2</option><option value="2">Tháng 3</option><option value="3">Tháng 4</option><option value="4">Tháng 5</option><option value="5">Tháng 6</option><option value="6">Tháng 7</option><option value="7">Tháng 8</option><option value="8">Tháng 9</option><option value="9">Tháng 10</option><option value="10">Tháng 11</option><option value="11">Tháng 12</option>
             </select>
         </div>
 
         <div class="stats-grid">
-            <div class="stat-card"><div class="stat-label">Tổng Doanh Thu</div><div class="stat-value gold" id="totalRevenue">0 đ</div></div>
-            <div class="stat-card"><div class="stat-label">Đã Thu Thực Tế</div><div class="stat-value green" id="totalCollected">0 đ</div></div>
-            <div class="stat-card"><div class="stat-label">Chưa Thanh Toán</div><div class="stat-value red" id="totalDebt">0 đ</div></div>
-            <div class="stat-card"><div class="stat-label">Tổng số Job</div><div class="stat-value" id="totalShows">0</div></div>
+            <div class="stat-card glass-fx"><div class="stat-label">Tổng Doanh Thu</div><div class="stat-value gold" id="totalRevenue">0 đ</div></div>
+            <div class="stat-card glass-fx"><div class="stat-label">Đã Thu Thực Tế</div><div class="stat-value green" id="totalCollected">0 đ</div></div>
+            <div class="stat-card glass-fx"><div class="stat-label">Chưa Thanh Toán</div><div class="stat-value red" id="totalDebt">0 đ</div></div>
+            <div class="stat-card glass-fx"><div class="stat-label">Tổng số Job</div><div class="stat-value" id="totalShows">0</div></div>
         </div>
     </div>
 
@@ -466,10 +433,10 @@
 
             let htmlStr = ''; let mIndex = 0;
             for (let monthYear in groupedData) {
-                htmlStr += `<div class="month-header" id="mh-${mIndex}" onclick="toggleSection('month-content-${mIndex}', this)"><span>📅 ${monthYear}</span><span class="toggle-icon">▼</span></div><div class="month-content" id="month-content-${mIndex}">`;
+                htmlStr += `<div class="month-header glass-fx" id="mh-${mIndex}" onclick="toggleSection('month-content-${mIndex}', this)"><span>📅 ${monthYear}</span><span class="toggle-icon">▼</span></div><div class="month-content" id="month-content-${mIndex}">`;
                 let dIndex = 0;
                 for (let dateStr in groupedData[monthYear]) {
-                    htmlStr += `<div class="day-header" id="dh-${mIndex}-${dIndex}" onclick="toggleSection('day-content-${mIndex}-${dIndex}', this)"><span>🗓️ ${dateStr}</span><span class="toggle-icon">▼</span></div><div class="day-content" id="day-content-${mIndex}-${dIndex}">`;
+                    htmlStr += `<div class="day-header glass-fx" id="dh-${mIndex}-${dIndex}" onclick="toggleSection('day-content-${mIndex}-${dIndex}', this)"><span>🗓️ ${dateStr}</span><span class="toggle-icon">▼</span></div><div class="day-content" id="day-content-${mIndex}-${dIndex}">`;
                     groupedData[monthYear][dateStr].forEach(row => {
                         let gia = parseNum(findVal(row, 'giá')); let phi = parseNum(findVal(row, 'phí')); let coc = parseNum(findVal(row, 'cọc'));
                         let conLai = parseNum(findVal(row, 'còn lại')); let rowIndex = row['_rowIndex'];
@@ -489,11 +456,11 @@
 
                         let paidBtnHTML = '';
                         if (conLai > 0) {
-                            paidBtnHTML = `<div style="margin-top: 12px;" onclick="event.stopPropagation()"><button class="btn-pay" onclick="markPaid(${rowIndex}, '${clientName}')">✓ Đã Thanh Toán (Xóa Nợ)</button></div>`;
+                            paidBtnHTML = `<div style="margin-top: 12px;" onclick="event.stopPropagation()"><button class="btn-pay" onclick="markPaid(${rowIndex}, '${clientName}')">✓ Đã Thanh Toán</button></div>`;
                         }
 
                         htmlStr += `
-                            <div class="card" onclick="toggleSection('expanded-${rowIndex}', this, true)">
+                            <div class="card glass-fx" onclick="toggleSection('expanded-${rowIndex}', this, true)">
                                 <div class="card-header">
                                     <div>
                                         <h2 class="client-name">${clientName}</h2>
@@ -603,7 +570,7 @@
         async function submitCreate(e) {
             e.preventDefault(); const btn = document.getElementById('btnCreate'); btn.innerText = "Đang đồng bộ..."; btn.style.opacity = 0.7; btn.disabled = true;
             const payload = { action: "CREATE", ngayChup: document.getElementById('c_ngay').value, thoiGian: document.getElementById('c_thoigian').value, khachHang: document.getElementById('c_khach').value, diaDiem: document.getElementById('c_diadiem').value, linkMaps: document.getElementById('c_linkmaps').value, linkDrive: document.getElementById('c_linkdrive').value, noiDung: document.getElementById('c_noidung').value, giaGoi: parseNum(document.getElementById('c_gia').value), phiDiLai: parseNum(document.getElementById('c_phi').value), coc: parseNum(document.getElementById('c_coc').value), ghiChu: document.getElementById('c_ghichu').value };
-            try { await fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); closeModal(); document.getElementById('formCreate').reset(); loadData(); } catch (err) { alert("Lỗi kết nối!"); } finally { btn.innerText = "Tạo Lịch & Đồng Bộ"; btn.style.opacity = 1; btn.disabled = false; }
+            try { await fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); closeModal(); document.getElementById('formCreate').reset(); silentFetchData(); } catch (err) { alert("Lỗi kết nối!"); } finally { btn.innerText = "Tạo Lịch & Đồng Bộ"; btn.style.opacity = 1; btn.disabled = false; }
         }
 
         async function submitEdit(e) {
