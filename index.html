@@ -19,32 +19,25 @@
         *, *::before, *::after { box-sizing: border-box; }
 
         :root {
-            /* --- NỀN VÀ THẺ APP --- */
             --bg-base: #f1f3f6;
             --bg-mesh: radial-gradient(circle at 10% 20%, rgba(10, 132, 255, 0.12), transparent 50%), radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.1), transparent 50%), radial-gradient(circle at 50% 90%, rgba(255, 59, 48, 0.08), transparent 50%);
             --card-bg: rgba(255, 255, 255, 0.5); 
             --card-border: rgba(255, 255, 255, 0.8);
             --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 1px 2px rgba(255, 255, 255, 1);
             
-            /* --- TEXT --- */
-            --text-main: #000000; 
-            --text-muted: #6b7280; 
-            --text-sub: #8e8e93;
+            --text-main: #000000; --text-muted: #6b7280; --text-sub: #8e8e93;
             
-            /* --- MÀU NHẤN --- */
             --accent-primary: #007aff; --accent-gold: #c59b27;
             --tag-gold-bg: rgba(197, 155, 39, 0.15); --tag-gold-text: #92400e;
             --alert-red: #ff3b30; --alert-bg: rgba(255, 59, 48, 0.12);
             --success-green: #34c759; --success-bg: rgba(52, 199, 89, 0.15);
             
-            /* --- MODAL VÀ FORM (CHUẨN APPLE SÁNG) --- */
-            --modal-bg: rgba(242, 242, 247, 0.95); /* Xám nhạt chuẩn iOS */
-            --input-bg: #ffffff; /* Trắng tinh khiết nổi bật */
+            --modal-bg: rgba(242, 242, 247, 0.95); 
+            --input-bg: #ffffff; 
             --input-border: rgba(0, 0, 0, 0.05);
             --input-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
             
-            --btn-secondary-bg: rgba(118, 118, 128, 0.1); 
-            --btn-secondary-text: #1c1c1e;
+            --btn-secondary-bg: rgba(118, 118, 128, 0.1); --btn-secondary-text: #1c1c1e;
             --divider-line: rgba(0, 0, 0, 0.06);
             --header-bg: rgba(255, 255, 255, 0.6); 
             --logo-filter: invert(1); --radius-card: 22px;
@@ -58,23 +51,19 @@
                 --card-border: rgba(255, 255, 255, 0.1);
                 --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.1);
                 
-                --text-main: #ffffff; 
-                --text-muted: #9ba1a6; 
-                --text-sub: rgba(235, 235, 245, 0.6);
+                --text-main: #ffffff; --text-muted: #9ba1a6; --text-sub: rgba(235, 235, 245, 0.6);
                 
                 --accent-primary: #0a84ff; --accent-gold: #ffd60a;
                 --tag-gold-bg: rgba(255, 214, 10, 0.15); --tag-gold-text: #fbbf24;
                 --alert-red: #ff453a; --alert-bg: rgba(255, 69, 58, 0.15);
                 --success-green: #30d158; --success-bg: rgba(48, 209, 88, 0.15);
                 
-                /* --- MODAL VÀ FORM (CHUẨN APPLE TỐI) --- */
-                --modal-bg: rgba(28, 28, 30, 0.95); /* Xám đen iOS */
-                --input-bg: #2c2c2e; /* Xám sáng hơn để nổi khối */
+                --modal-bg: rgba(28, 28, 30, 0.95); 
+                --input-bg: #2c2c2e; 
                 --input-border: rgba(255, 255, 255, 0.05);
                 --input-shadow: none;
                 
-                --btn-secondary-bg: rgba(255, 255, 255, 0.1); 
-                --btn-secondary-text: #e2e8f0;
+                --btn-secondary-bg: rgba(255, 255, 255, 0.1); --btn-secondary-text: #e2e8f0;
                 --divider-line: rgba(255, 255, 255, 0.08);
                 --header-bg: rgba(20, 20, 22, 0.6); 
                 --logo-filter: none;
@@ -138,9 +127,7 @@
 
         .card-expanded-content { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--divider-line); }
         .card-expanded-content.show { display: block; animation: fadeIn 0.2s ease; }
-        
-        .detail-item { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; color: var(--text-muted); } 
-        .detail-item span:last-child { font-weight: 600; color: var(--text-main); }
+        .detail-item { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; color: var(--text-muted); } .detail-item span:last-child { font-weight: 600; color: var(--text-main); }
         
         .detail-note { margin-top: 10px; padding: 12px; background: var(--btn-secondary-bg); border-radius: 12px; border: 1px solid var(--input-border); }
         .detail-note-label { font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; display: flex; align-items: center; gap: 4px; text-transform: uppercase; letter-spacing: 0.5px;}
@@ -161,11 +148,9 @@
         .fab { position: fixed; bottom: 28px; right: 20px; width: 56px; height: 56px; background: var(--accent-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 28px; font-weight: 300; box-shadow: 0 8px 24px rgba(2, 132, 199, 0.4); cursor: pointer; z-index: 80; }
         .fab:active { transform: scale(0.92); }
 
-        /* --- POPUP MODAL (ĐÃ FIX LỖI "BÙN MÀU") --- */
         .modal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); justify-content: center; align-items: flex-end; overscroll-behavior: contain; width: 100vw; }
         .modal-content { 
-            background: var(--modal-bg); 
-            border-top: 1px solid var(--card-border); 
+            background: var(--modal-bg); border-top: 1px solid var(--card-border); 
             backdrop-filter: blur(30px) saturate(200%); -webkit-backdrop-filter: blur(30px) saturate(200%); 
             border-radius: 28px 28px 0 0; width: 100%; max-width: 580px; max-height: 88vh; 
             overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; 
@@ -181,16 +166,10 @@
         .tab-panel { display: none; } .tab-panel.active { display: block; }
         .form-group { margin-bottom: 14px; display: flex; flex-direction: column; width: 100%; } 
         .form-group label { font-size: 12.5px; color: var(--text-muted); margin-bottom: 6px; margin-left: 2px; font-weight: 600;} 
-        
-        /* Form Inputs Chuẩn iOS Không Nhòe */
         .form-control, .form-select { 
-            width: 100%; padding: 15px 14px; 
-            background: var(--input-bg); 
-            border: 1px solid var(--input-border); 
-            border-radius: 12px; color: var(--text-main); 
-            font-size: 15px; outline: none; 
-            box-shadow: var(--input-shadow);
-            transition: border-color 0.2s, box-shadow 0.2s;
+            width: 100%; padding: 15px 14px; background: var(--input-bg); border: 1px solid var(--input-border); 
+            border-radius: 12px; color: var(--text-main); font-size: 15px; outline: none; 
+            box-shadow: var(--input-shadow); transition: border-color 0.2s, box-shadow 0.2s;
         } 
         .form-control::placeholder { color: var(--text-sub); }
         .form-control:focus, .form-select:focus { border-color: var(--accent-primary); box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15); }
@@ -442,6 +421,7 @@
                             paidBtnHTML = `<div style="margin-top: 12px;" onclick="event.stopPropagation()"><button class="btn-pay" onclick="markPaid(${rowIndex}, '${rawClientName}')">✓ Đã Thanh Toán</button></div>`;
                         }
 
+                        // --- UPDATE LOGIC GHI CHÚ ---
                         let noteHTML = '';
                         if (noteVal) {
                             noteHTML = `<div class="detail-note" onclick="event.stopPropagation()">
@@ -567,17 +547,31 @@
 
         async function submitCreate(e) {
             e.preventDefault(); const btn = document.getElementById('btnCreate'); btn.innerText = "Đang đồng bộ..."; btn.style.opacity = 0.7; btn.disabled = true;
-            const payload = { action: "CREATE", ngayChup: document.getElementById('c_ngay').value, thoiGian: document.getElementById('c_thoigian').value, khachHang: document.getElementById('c_khach').value, 
-                linkFacebook: document.getElementById('c_linkfb').value, zalo: document.getElementById('c_zalo').value, instagram: document.getElementById('c_ig').value,
-                diaDiem: document.getElementById('c_diadiem').value, linkMaps: document.getElementById('c_linkmaps').value, linkDrive: document.getElementById('c_linkdrive').value, noiDung: document.getElementById('c_noidung').value, giaGoi: parseNum(document.getElementById('c_gia').value), phiDiLai: parseNum(document.getElementById('c_phi').value), coc: parseNum(document.getElementById('c_coc').value), ghiChu: document.getElementById('c_ghichu').value };
-            try { await fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); closeModal(); document.getElementById('formCreate').reset(); silentFetchData(); } catch (err) { alert("Lỗi kết nối!"); } finally { btn.innerText = "Tạo Lịch & Đồng Bộ"; btn.style.opacity = 1; btn.disabled = false; }
+            
+            const payload = { action: "CREATE", ngayChup: document.getElementById('c_ngay').value, thoiGian: document.getElementById('c_thoigian').value, khachHang: document.getElementById('c_khach').value, linkFacebook: document.getElementById('c_linkfb').value, zalo: document.getElementById('c_zalo').value, instagram: document.getElementById('c_ig').value, diaDiem: document.getElementById('c_diadiem').value, linkMaps: document.getElementById('c_linkmaps').value, linkDrive: document.getElementById('c_linkdrive').value, noiDung: document.getElementById('c_noidung').value, giaGoi: parseNum(document.getElementById('c_gia').value), phiDiLai: parseNum(document.getElementById('c_phi').value), coc: parseNum(document.getElementById('c_coc').value), ghiChu: document.getElementById('c_ghichu').value };
+            
+            // TẠO LỊCH HIỂN THỊ NGAY LẬP TỨC 0 GIÂY
+            let newItem = {
+                "Ngày chụp": payload.ngayChup, "Thời gian": payload.thoiGian, "Khách hàng": payload.khachHang,
+                "Link Facebook": payload.linkFacebook, "SĐT Zalo": payload.zalo, "Link Instagram": payload.instagram,
+                "Địa điểm": payload.diaDiem, "Link Maps": payload.linkMaps, "Link Drive": payload.linkDrive,
+                "Nội dung": payload.noiDung, "Giá gói": payload.giaGoi, "Phí đi lại": payload.phiDiLai,
+                "Cọc": payload.coc, "Còn lại": (payload.giaGoi + payload.phiDiLai) - payload.coc, "Ghi chú": payload.ghiChu,
+                "_rowIndex": Date.now()
+            };
+            newItem._dateObj = parseDateCustom(payload.ngayChup);
+            allValidData.push(newItem);
+            
+            let states = getOpenStates(); renderUI(allValidData); restoreStates(states); 
+            closeModal(); document.getElementById('formCreate').reset(); 
+            btn.innerText = "Tạo Lịch & Đồng Bộ"; btn.style.opacity = 1; btn.disabled = false;
+
+            fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).then(() => silentFetchData());
         }
 
         async function submitEdit(e) {
             e.preventDefault(); const btn = document.getElementById('btnEdit'); btn.innerText = "Đang lưu..."; btn.style.opacity = 0.7; btn.disabled = true;
-            const payload = { action: "EDIT_ROW", rowIndex: document.getElementById('e_rowindex').value, ngayChup: document.getElementById('e_ngay').value, thoiGian: document.getElementById('e_thoigian').value, khachHang: document.getElementById('e_khach').value, 
-                linkFacebook: document.getElementById('e_linkfb').value, zalo: document.getElementById('e_zalo').value, instagram: document.getElementById('e_ig').value,
-                noiDung: document.getElementById('e_noidung').value, diaDiem: document.getElementById('e_diadiem').value, linkMaps: document.getElementById('e_linkmaps').value, linkDrive: document.getElementById('e_linkdrive').value, giaGoi: parseNum(document.getElementById('e_gia').value), phiDiLai: parseNum(document.getElementById('e_phi').value), coc: parseNum(document.getElementById('e_coc').value), ghiChu: document.getElementById('e_ghichu').value };
+            const payload = { action: "EDIT_ROW", rowIndex: document.getElementById('e_rowindex').value, ngayChup: document.getElementById('e_ngay').value, thoiGian: document.getElementById('e_thoigian').value, khachHang: document.getElementById('e_khach').value, linkFacebook: document.getElementById('e_linkfb').value, zalo: document.getElementById('e_zalo').value, instagram: document.getElementById('e_ig').value, noiDung: document.getElementById('e_noidung').value, diaDiem: document.getElementById('e_diadiem').value, linkMaps: document.getElementById('e_linkmaps').value, linkDrive: document.getElementById('e_linkdrive').value, giaGoi: parseNum(document.getElementById('e_gia').value), phiDiLai: parseNum(document.getElementById('e_phi').value), coc: parseNum(document.getElementById('e_coc').value), ghiChu: document.getElementById('e_ghichu').value };
             
             let item = allValidData.find(r => r._rowIndex == payload.rowIndex);
             if (item) {
@@ -585,9 +579,7 @@
                 item[keys.find(k=>k.toLowerCase().includes('ngày')) || 'Ngày chụp'] = payload.ngayChup;
                 item[keys.find(k=>k.toLowerCase().includes('thời gian')) || 'Thời gian'] = payload.thoiGian;
                 item[keys.find(k=>k.toLowerCase().includes('khách')) || 'Khách hàng'] = payload.khachHang;
-                item['Link Facebook'] = payload.linkFacebook;
-                item['SĐT Zalo'] = payload.zalo;
-                item['Link Instagram'] = payload.instagram;
+                item['Link Facebook'] = payload.linkFacebook; item['SĐT Zalo'] = payload.zalo; item['Link Instagram'] = payload.instagram;
                 item[keys.find(k=>k.toLowerCase().includes('địa điểm')) || 'Địa điểm'] = payload.diaDiem;
                 item['Link Maps'] = payload.linkMaps; item['Link Drive'] = payload.linkDrive;
                 item[keys.find(k=>k.toLowerCase().includes('nội dung')) || 'Nội dung'] = payload.noiDung;
