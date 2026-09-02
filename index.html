@@ -32,9 +32,8 @@
             --alert-red: #ff3b30; --alert-bg: rgba(255, 59, 48, 0.12);
             --success-green: #34c759; --success-bg: rgba(52, 199, 89, 0.15);
             
-            /* --- CẤU HÌNH FORM CHUẨN SÁNG (LIGHT MODE) --- */
             --modal-bg: rgba(242, 242, 247, 0.98); 
-            --input-bg: #ffffff; /* Trắng tinh khiết */
+            --input-bg: #ffffff; 
             --input-border: rgba(0, 0, 0, 0.1);
             --input-text: #000000;
             --input-placeholder: #8e8e93;
@@ -60,7 +59,6 @@
                 --alert-red: #ff453a; --alert-bg: rgba(255, 69, 58, 0.15);
                 --success-green: #30d158; --success-bg: rgba(48, 209, 88, 0.15);
                 
-                /* --- CẤU HÌNH FORM CHUẨN TỐI (DARK MODE) --- */
                 --modal-bg: rgba(28, 28, 30, 0.98); 
                 --input-bg: #2c2c2e; 
                 --input-border: rgba(255, 255, 255, 0.1);
@@ -173,7 +171,6 @@
         .form-group { margin-bottom: 14px; display: flex; flex-direction: column; width: 100%; } 
         .form-group label { font-size: 12.5px; color: var(--text-muted); margin-bottom: 6px; margin-left: 4px; font-weight: 600;} 
         
-        /* FORM CHUẨN: MÀU NỀN ĐẶC, LOẠI BỎ BLUR ĐỂ CHỮ NỔI BẬT */
         .form-control, .form-select { 
             width: 100%; padding: 15px 14px; 
             background: var(--input-bg) !important; 
@@ -234,19 +231,15 @@
             <!-- FORM TẠO LỊCH -->
             <div id="tab-create" class="tab-panel active">
                 <form id="formCreate" onsubmit="submitCreate(event)">
+                    <!-- Thông tin cơ bản -->
                     <div class="form-group"><label>Ngày chụp</label><input type="date" id="c_ngay" class="form-control" required></div>
                     <div class="form-group"><label>Thời gian (Sáng/Chiều)</label><input type="text" id="c_thoigian" class="form-control" placeholder="Ví dụ: Sáng"></div>
                     <div class="form-group"><label>Khách hàng (Tên)</label><input type="text" id="c_khach" class="form-control" required placeholder="Tên khách hàng"></div>
                     
-                    <div style="display:flex; gap:10px;">
-                        <div class="form-group" style="flex:1;"><label>Link FB</label><input type="url" id="c_linkfb" class="form-control" placeholder="https://fb.com/..."></div>
-                        <div class="form-group" style="flex:1;"><label>SĐT Zalo</label><input type="tel" id="c_zalo" class="form-control" placeholder="0987654321"></div>
-                    </div>
-                    <div class="form-group"><label>Link Instagram</label><input type="url" id="c_ig" class="form-control" placeholder="https://instagram.com/..."></div>
-                    
                     <div class="form-group"><label>Địa điểm chụp</label><input type="text" id="c_diadiem" class="form-control" placeholder="Nơi chụp chính"></div>
                     <div class="form-group"><label>Link Maps (Vị trí)</label><input type="url" id="c_linkmaps" class="form-control" placeholder="https://maps.app.goo.gl/..."></div>
-                    <div class="form-group"><label>Link Drive (Bàn giao)</label><input type="url" id="c_linkdrive" class="form-control" placeholder="https://drive.google.com/..."></div>
+                    
+                    <!-- Thông tin gói & Tiền bạc -->
                     <div class="form-group">
                         <label>Gói dịch vụ</label>
                         <select id="c_noidung" class="form-select">
@@ -256,7 +249,18 @@
                     <div class="form-group"><label>Giá gói chụp (VNĐ)</label><input type="text" id="c_gia" class="form-control money-input" placeholder="0"></div>
                     <div class="form-group"><label>Phí đi lại (VNĐ)</label><input type="text" id="c_phi" class="form-control money-input" placeholder="0"></div>
                     <div class="form-group"><label>Tiền cọc (VNĐ)</label><input type="text" id="c_coc" class="form-control money-input" placeholder="0"></div>
+                    
+                    <!-- Ghi chú / Timeline -->
                     <div class="form-group"><label>Ghi chú / Timeline</label><textarea id="c_ghichu" class="form-control" rows="3" placeholder="Nhập lịch trình chi tiết..."></textarea></div>
+                    
+                    <!-- Các Link đẩy xuống cuối -->
+                    <div style="display:flex; gap:10px;">
+                        <div class="form-group" style="flex:1;"><label>Link FB</label><input type="url" id="c_linkfb" class="form-control" placeholder="https://fb.com/..."></div>
+                        <div class="form-group" style="flex:1;"><label>SĐT Zalo</label><input type="tel" id="c_zalo" class="form-control" placeholder="0987654321"></div>
+                    </div>
+                    <div class="form-group"><label>Link Instagram</label><input type="url" id="c_ig" class="form-control" placeholder="https://instagram.com/..."></div>
+                    <div class="form-group"><label>Link Drive (Bàn giao)</label><input type="url" id="c_linkdrive" class="form-control" placeholder="https://drive.google.com/..."></div>
+                    
                     <button type="submit" class="btn-submit" id="btnCreate">Tạo Lịch & Đồng Bộ</button>
                 </form>
             </div>
@@ -265,19 +269,16 @@
             <div id="tab-edit" class="tab-panel">
                 <form id="formEdit" onsubmit="submitEdit(event)">
                     <input type="hidden" id="e_rowindex">
+                    
+                    <!-- Thông tin cơ bản -->
                     <div class="form-group"><label>Ngày chụp</label><input type="date" id="e_ngay" class="form-control" required></div>
                     <div class="form-group"><label>Thời gian (Sáng/Chiều)</label><input type="text" id="e_thoigian" class="form-control"></div>
                     <div class="form-group"><label>Khách hàng (Tên)</label><input type="text" id="e_khach" class="form-control" required></div>
                     
-                    <div style="display:flex; gap:10px;">
-                        <div class="form-group" style="flex:1;"><label>Link FB</label><input type="url" id="e_linkfb" class="form-control" placeholder="https://fb.com/..."></div>
-                        <div class="form-group" style="flex:1;"><label>SĐT Zalo</label><input type="tel" id="e_zalo" class="form-control" placeholder="0987654321"></div>
-                    </div>
-                    <div class="form-group"><label>Link Instagram</label><input type="url" id="e_ig" class="form-control" placeholder="https://instagram.com/..."></div>
-
                     <div class="form-group"><label>Địa điểm chụp</label><input type="text" id="e_diadiem" class="form-control"></div>
                     <div class="form-group"><label>Link Maps (Vị trí)</label><input type="url" id="e_linkmaps" class="form-control" placeholder="https://maps.app.goo.gl/..."></div>
-                    <div class="form-group"><label>Link Drive (Bàn giao)</label><input type="url" id="e_linkdrive" class="form-control" placeholder="https://drive.google.com/..."></div>
+                    
+                    <!-- Thông tin gói & Tiền bạc -->
                     <div class="form-group">
                         <label>Gói dịch vụ</label>
                         <select id="e_noidung" class="form-select">
@@ -287,7 +288,18 @@
                     <div class="form-group"><label>Giá gói chụp (VNĐ)</label><input type="text" id="e_gia" class="form-control money-input"></div>
                     <div class="form-group"><label>Phí đi lại (VNĐ)</label><input type="text" id="e_phi" class="form-control money-input"></div>
                     <div class="form-group"><label>Tiền cọc (VNĐ)</label><input type="text" id="e_coc" class="form-control money-input"></div>
+                    
+                    <!-- Ghi chú / Timeline -->
                     <div class="form-group"><label>Ghi chú / Timeline</label><textarea id="e_ghichu" class="form-control" rows="3"></textarea></div>
+
+                    <!-- Các Link đẩy xuống cuối -->
+                    <div style="display:flex; gap:10px;">
+                        <div class="form-group" style="flex:1;"><label>Link FB</label><input type="url" id="e_linkfb" class="form-control" placeholder="https://fb.com/..."></div>
+                        <div class="form-group" style="flex:1;"><label>SĐT Zalo</label><input type="tel" id="e_zalo" class="form-control" placeholder="0987654321"></div>
+                    </div>
+                    <div class="form-group"><label>Link Instagram</label><input type="url" id="e_ig" class="form-control" placeholder="https://instagram.com/..."></div>
+                    <div class="form-group"><label>Link Drive (Bàn giao)</label><input type="url" id="e_linkdrive" class="form-control" placeholder="https://drive.google.com/..."></div>
+                    
                     <button type="submit" class="btn-submit" id="btnEdit">Lưu Cập Nhật</button>
                 </form>
             </div>
