@@ -8,7 +8,6 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Lịch Chụp">
     
-    <!-- ICON MÀN HÌNH CHÍNH IPHONE / IPAD -->
     <link rel="apple-touch-icon" href="https://i.postimg.cc/prXXD19w/logo-app-lich-chup.jpg">
     <link rel="apple-touch-icon" sizes="180x180" href="https://i.postimg.cc/prXXD19w/logo-app-lich-chup.jpg">
     <link rel="icon" type="image/jpeg" href="https://i.postimg.cc/prXXD19w/logo-app-lich-chup.jpg">
@@ -26,7 +25,6 @@
             --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 1px 2px rgba(255, 255, 255, 1);
             
             --text-main: #000000; --text-muted: #6b7280; --text-sub: #8e8e93;
-            
             --accent-primary: #007aff; --accent-gold: #c59b27;
             --tag-gold-bg: rgba(197, 155, 39, 0.15); --tag-gold-text: #92400e;
             --alert-red: #ff3b30; --alert-bg: rgba(255, 59, 48, 0.12);
@@ -53,7 +51,6 @@
                 --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.1);
                 
                 --text-main: #ffffff; --text-muted: #9ba1a6; --text-sub: rgba(235, 235, 245, 0.6);
-                
                 --accent-primary: #0a84ff; --accent-gold: #ffd60a;
                 --tag-gold-bg: rgba(255, 214, 10, 0.15); --tag-gold-text: #fbbf24;
                 --alert-red: #ff453a; --alert-bg: rgba(255, 69, 58, 0.15);
@@ -72,15 +69,8 @@
             }
         }
 
-        html, body {
-            margin: 0; padding: 0; width: 100vw; max-width: 100%; overflow-x: hidden; overscroll-behavior-x: none;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg-base); background-image: var(--bg-mesh); background-attachment: fixed;
-            color: var(--text-main); min-height: 100vh; -webkit-tap-highlight-color: transparent;
-        }
-
+        html, body { margin: 0; padding: 0; width: 100vw; max-width: 100%; overflow-x: hidden; overscroll-behavior-x: none; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif; background-color: var(--bg-base); background-image: var(--bg-mesh); background-attachment: fixed; color: var(--text-main); min-height: 100vh; -webkit-tap-highlight-color: transparent; }
         body.modal-open { overflow: hidden; position: fixed; width: 100%; height: 100%; }
-
         .glass-fx { background: var(--card-bg); border: 1px solid var(--card-border); backdrop-filter: blur(25px) saturate(200%); -webkit-backdrop-filter: blur(25px) saturate(200%); box-shadow: var(--card-shadow); }
 
         .header { width: 100%; padding: 14px 20px; position: sticky; top: 0; z-index: 50; background: var(--header-bg); backdrop-filter: blur(35px) saturate(200%); -webkit-backdrop-filter: blur(35px) saturate(200%); border-bottom: 1px solid var(--divider-line); display: flex; justify-content: space-between; align-items: center; }
@@ -91,14 +81,16 @@
         .container { width: 100%; padding: 16px; max-width: 580px; margin: 0 auto; padding-bottom: 110px; }
         .section-title { font-size: 12px; font-weight: 800; color: var(--text-muted); letter-spacing: 1.2px; margin-bottom: 12px; text-transform: uppercase; margin-left: 4px; }
 
-        /* KHU VỰC ĐIỀU KHIỂN SWIPE LỊCH */
         .calendar-swipe-header { text-align: center; margin-bottom: 16px; padding-top: 10px; cursor: pointer; user-select: none; }
         .swipe-pill { width: 40px; height: 5px; background: var(--text-sub); border-radius: 10px; margin: 0 auto 8px auto; opacity: 0.5; transition: opacity 0.2s; }
         .calendar-swipe-header:active .swipe-pill { opacity: 0.8; }
         .calendar-title-text { font-size: 13.5px; font-weight: 800; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; }
 
-        /* THƯ MỤC NĂM CŨ */
-        .year-header { padding: 16px 20px; margin: 12px 0 12px 0; border-radius: 20px; background: linear-gradient(135deg, var(--accent-primary), #005bb5); color: #ffffff; font-weight: 800; font-size: 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 8px 24px rgba(0, 122, 255, 0.3); text-transform: uppercase; letter-spacing: 1px;}
+        /* BLOCK ẨN/HIỆN TỪNG NẤC */
+        .year-block, .month-block { transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease, margin 0.3s ease; max-height: 5000px; opacity: 1; overflow: hidden; transform-origin: top; }
+        .hidden-step { max-height: 0 !important; opacity: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important; pointer-events: none; border: none !important; }
+
+        .year-header { padding: 16px 20px; margin: 20px 0 12px 0; border-radius: 20px; background: linear-gradient(135deg, var(--accent-primary), #005bb5); color: #ffffff; font-weight: 800; font-size: 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 8px 24px rgba(0, 122, 255, 0.3); text-transform: uppercase; letter-spacing: 1px;}
         .year-content { display: none; } .year-content.show { display: block; animation: fadeIn 0.3s ease; }
 
         .month-header { padding: 14px 18px; margin: 12px 0 8px 8px; border-radius: 18px; border-left: 4px solid var(--accent-gold); color: var(--accent-gold); font-weight: 700; font-size: 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
@@ -242,16 +234,13 @@
         <div class="modal-content" onclick="event.stopPropagation()">
             <div class="modal-header"><h3 id="modalTitle">Tạo Lịch Mới</h3><span class="close-btn" onclick="closeModal()">✕</span></div>
             
-            <!-- FORM TẠO LỊCH -->
             <div id="tab-create" class="tab-panel active">
                 <form id="formCreate" onsubmit="submitCreate(event)">
-                    <!-- Thông tin cơ bản -->
                     <div class="form-group"><label>Ngày chụp</label><input type="date" id="c_ngay" class="form-control" required></div>
                     <div class="form-group"><label>Thời gian (Sáng/Chiều)</label><input type="text" id="c_thoigian" class="form-control" placeholder="Ví dụ: Sáng"></div>
                     <div class="form-group"><label>Khách hàng (Tên)</label><input type="text" id="c_khach" class="form-control" required placeholder="Tên khách hàng"></div>
                     <div class="form-group"><label>Địa điểm chụp</label><input type="text" id="c_diadiem" class="form-control" placeholder="Nơi chụp chính"></div>
                     
-                    <!-- Thông tin gói & Tiền bạc -->
                     <div class="form-group">
                         <label>Gói dịch vụ</label>
                         <select id="c_noidung" class="form-select">
@@ -262,10 +251,8 @@
                     <div class="form-group"><label>Phí đi lại (VNĐ)</label><input type="text" id="c_phi" class="form-control money-input" placeholder="0"></div>
                     <div class="form-group"><label>Tiền cọc (VNĐ)</label><input type="text" id="c_coc" class="form-control money-input" placeholder="0"></div>
                     
-                    <!-- Ghi chú / Timeline -->
                     <div class="form-group"><label>Ghi chú / Timeline</label><textarea id="c_ghichu" class="form-control" rows="3" placeholder="Nhập lịch trình chi tiết..."></textarea></div>
                     
-                    <!-- Các Link đẩy xuống cuối -->
                     <div class="form-group"><label>Link Maps (Vị trí)</label><input type="url" id="c_linkmaps" class="form-control" placeholder="https://maps.app.goo.gl/..."></div>
                     <div style="display:flex; gap:10px;">
                         <div class="form-group" style="flex:1;"><label>Link FB</label><input type="url" id="c_linkfb" class="form-control" placeholder="https://fb.com/..."></div>
@@ -278,18 +265,14 @@
                 </form>
             </div>
 
-            <!-- FORM SỬA LỊCH -->
             <div id="tab-edit" class="tab-panel">
                 <form id="formEdit" onsubmit="submitEdit(event)">
                     <input type="hidden" id="e_rowindex">
-                    
-                    <!-- Thông tin cơ bản -->
                     <div class="form-group"><label>Ngày chụp</label><input type="date" id="e_ngay" class="form-control" required></div>
                     <div class="form-group"><label>Thời gian (Sáng/Chiều)</label><input type="text" id="e_thoigian" class="form-control"></div>
                     <div class="form-group"><label>Khách hàng (Tên)</label><input type="text" id="e_khach" class="form-control" required></div>
                     <div class="form-group"><label>Địa điểm chụp</label><input type="text" id="e_diadiem" class="form-control"></div>
                     
-                    <!-- Thông tin gói & Tiền bạc -->
                     <div class="form-group">
                         <label>Gói dịch vụ</label>
                         <select id="e_noidung" class="form-select">
@@ -300,10 +283,8 @@
                     <div class="form-group"><label>Phí đi lại (VNĐ)</label><input type="text" id="e_phi" class="form-control money-input"></div>
                     <div class="form-group"><label>Tiền cọc (VNĐ)</label><input type="text" id="e_coc" class="form-control money-input"></div>
                     
-                    <!-- Ghi chú / Timeline -->
                     <div class="form-group"><label>Ghi chú / Timeline</label><textarea id="e_ghichu" class="form-control" rows="3"></textarea></div>
 
-                    <!-- Các Link đẩy xuống cuối -->
                     <div class="form-group"><label>Link Maps (Vị trí)</label><input type="url" id="e_linkmaps" class="form-control" placeholder="https://maps.app.goo.gl/..."></div>
                     <div style="display:flex; gap:10px;">
                         <div class="form-group" style="flex:1;"><label>Link FB</label><input type="url" id="e_linkfb" class="form-control" placeholder="https://fb.com/..."></div>
@@ -320,77 +301,82 @@
 
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbyxTm4XHr7HF1WujMPs9oWARimjrmkUV50hbV0ko59oj1njSyWg7rQd1T4PryjGbeJm/exec";
-
-        let allValidData = [];
-        let isFirstLoad = true;
-
+        let allValidData = []; let isFirstLoad = true;
         const FB_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>`;
         const ZALO_ICON = `<span style="background:#0068FF; color:#fff; font-size:10px; font-weight:800; padding:0 6px; border-radius:6px; height:18px; line-height:18px; display:inline-block;">Zalo</span>`;
         const IG_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E1306C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>`;
 
-        // LOGIC VUỐT ĐÓNG/MỞ TỪNG NẤC
-        let touchStartY = 0;
-        let isSwiping = false;
+        // LOGIC VUỐT ĐÓNG/MỞ TỪNG NẤC CHUẨN XÁC
+        let touchStartY = 0; let isSwiping = false;
 
         document.addEventListener('touchstart', function(e) {
-            if (window.scrollY <= 0) {
-                touchStartY = e.touches[0].clientY;
-                isSwiping = true;
-            }
+            if (window.scrollY <= 10) { touchStartY = e.touches[0].clientY; isSwiping = true; }
         }, {passive: true});
 
         document.addEventListener('touchend', function(e) {
             if (!isSwiping) return;
             let deltaY = e.changedTouches[0].clientY - touchStartY;
-            
-            // Vuốt Xuống -> Mở Dần (Mở Năm -> Mở Tháng)
-            if (deltaY > 50) { 
-                let closedYears = document.querySelectorAll('.year-content:not(.show)');
-                if (closedYears.length > 0) {
-                    closedYears[0].classList.add('show');
-                    closedYears[0].previousElementSibling.querySelector('.toggle-icon').style.transform = 'rotate(180deg)';
-                } else {
-                    let closedMonths = document.querySelectorAll('.year-content.show .month-content:not(.show)');
-                    if (closedMonths.length > 0) {
-                        closedMonths[0].classList.add('show');
-                        closedMonths[0].previousElementSibling.querySelector('.toggle-icon').style.transform = 'rotate(180deg)';
-                    }
-                }
-            } 
-            // Vuốt Lên (chỉ kích hoạt ở trên cùng để tránh lỗi khi cuộn màn hình) -> Đóng Dần (Đóng Tháng -> Đóng Năm)
-            else if (deltaY < -50 && window.scrollY <= 0) { 
-                let openMonths = document.querySelectorAll('.month-content.show');
-                if (openMonths.length > 0) {
-                    let lastMonth = openMonths[openMonths.length - 1];
-                    lastMonth.classList.remove('show');
-                    lastMonth.previousElementSibling.querySelector('.toggle-icon').style.transform = 'rotate(0deg)';
-                } else {
-                    let openYears = document.querySelectorAll('.year-content.show');
-                    if (openYears.length > 0) {
-                        let lastYear = openYears[openYears.length - 1];
-                        lastYear.classList.remove('show');
-                        lastYear.previousElementSibling.querySelector('.toggle-icon').style.transform = 'rotate(0deg)';
-                    }
-                }
-            }
+            if (deltaY < -60) { hideNextStep(); } 
+            else if (deltaY > 60) { showNextStep(); }
             isSwiping = false;
         });
 
-        // Bấm trực tiếp vào LỊCH CHỤP để đóng/mở tất cả
         document.getElementById('swipeHandle').addEventListener('click', function() {
-            let openYears = document.querySelectorAll('.year-content.show');
-            if (openYears.length > 0) {
-                document.querySelectorAll('.year-content, .month-content').forEach(el => {
-                    el.classList.remove('show');
-                    el.previousElementSibling.querySelector('.toggle-icon').style.transform = 'rotate(0deg)';
-                });
-            } else {
-                document.querySelectorAll('.year-content').forEach(el => {
-                    el.classList.add('show');
-                    el.previousElementSibling.querySelector('.toggle-icon').style.transform = 'rotate(180deg)';
-                });
-            }
+            let hidden = document.querySelectorAll('.hidden-step');
+            if (hidden.length > 0) { hidden.forEach(el => el.classList.remove('hidden-step')); } 
+            else { hideNextStep(); hideNextStep(); hideNextStep(); hideNextStep(); }
         });
+
+        function hideNextStep() {
+            let currentYear = new Date().getFullYear();
+            let currentMonth = new Date().getMonth() + 1;
+
+            // Nấc 1, 2...: Giấu lần lượt các Năm Tương Lai Xa Nhất
+            let futureYears = Array.from(document.querySelectorAll('.year-block')).filter(el => parseInt(el.getAttribute('data-year')) > currentYear && !el.classList.contains('hidden-step'));
+            if (futureYears.length > 0) {
+                futureYears.sort((a, b) => parseInt(b.getAttribute('data-year')) - parseInt(a.getAttribute('data-year')));
+                futureYears[0].classList.add('hidden-step');
+                return;
+            }
+
+            // Nấc cuối cùng: Giấu toàn bộ Tháng/Năm Đã Qua (Để lại đúng Năm Hiện Tại và Tháng Hiện Tại/Tương Lai)
+            let pastItems = [];
+            document.querySelectorAll('.year-block').forEach(el => {
+                if (parseInt(el.getAttribute('data-year')) < currentYear && !el.classList.contains('hidden-step')) pastItems.push(el);
+            });
+            document.querySelectorAll('.month-block').forEach(el => {
+                let y = parseInt(el.getAttribute('data-year')); let m = parseInt(el.getAttribute('data-month'));
+                if (y === currentYear && m < currentMonth && !el.classList.contains('hidden-step')) pastItems.push(el);
+            });
+
+            if (pastItems.length > 0) { pastItems.forEach(el => el.classList.add('hidden-step')); }
+        }
+
+        function showNextStep() {
+            let currentYear = new Date().getFullYear();
+            let currentMonth = new Date().getMonth() + 1;
+
+            // Mở ngược lại: Hiện các Tháng/Năm Cũ trước
+            let pastItems = [];
+            document.querySelectorAll('.year-block').forEach(el => {
+                if (parseInt(el.getAttribute('data-year')) < currentYear && el.classList.contains('hidden-step')) pastItems.push(el);
+            });
+            document.querySelectorAll('.month-block').forEach(el => {
+                let y = parseInt(el.getAttribute('data-year')); let m = parseInt(el.getAttribute('data-month'));
+                if (y === currentYear && m < currentMonth && el.classList.contains('hidden-step')) pastItems.push(el);
+            });
+
+            if (pastItems.length > 0) {
+                pastItems.forEach(el => el.classList.remove('hidden-step')); return;
+            }
+
+            // Sau đó hiện dần các Năm Tương Lai Gần Nhất
+            let futureYears = Array.from(document.querySelectorAll('.year-block')).filter(el => parseInt(el.getAttribute('data-year')) > currentYear && el.classList.contains('hidden-step'));
+            if (futureYears.length > 0) {
+                futureYears.sort((a, b) => parseInt(a.getAttribute('data-year')) - parseInt(b.getAttribute('data-year')));
+                futureYears[0].classList.remove('hidden-step');
+            }
+        }
 
         function parseNum(val) { if (val === undefined || val === null) return 0; let str = String(val).replace(/\D/g, ''); return parseInt(str, 10) || 0; }
         function formatMoney(num) { return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(parseNum(num)); }
@@ -407,7 +393,6 @@
         function formatDateDisplay(d) {
             if (!d) return '--'; let day = ("0" + d.getDate()).slice(-2); let month = ("0" + (d.getMonth() + 1)).slice(-2); let year = d.getFullYear(); return `${day}/${month}/${year}`;
         }
-        
         function dateToISO(dObj) {
             if (!dObj) return ''; let year = dObj.getFullYear(); let month = ("0" + (dObj.getMonth() + 1)).slice(-2); let day = ("0" + dObj.getDate()).slice(-2); return `${year}-${month}-${day}`;
         }
@@ -436,10 +421,7 @@
                 const res = await fetch(API_URL);
                 const data = await res.json();
                 localStorage.setItem('chutoanFotoCache', JSON.stringify(data));
-                
-                let states = getOpenStates();
-                renderUI(data);
-                if (!isFirstLoad) restoreStates(states);
+                let states = getOpenStates(); renderUI(data); if (!isFirstLoad) restoreStates(states);
             } catch (e) { 
                 if (!localStorage.getItem('chutoanFotoCache')) document.getElementById('bookingList').innerHTML = '<div class="loader" style="color:var(--alert-red)">Lỗi mạng. Vui lòng kiểm tra lại!</div>'; 
             }
@@ -459,8 +441,7 @@
             allValidData = validData;
 
             let yearsForStats = [...new Set(allValidData.map(r => r._dateObj ? r._dateObj.getFullYear() : null).filter(y => y !== null))].sort((a,b) => b-a);
-            let yearSelect = document.getElementById('filterYear');
-            let currentSelectedYear = yearSelect.value;
+            let yearSelect = document.getElementById('filterYear'); let currentSelectedYear = yearSelect.value;
             yearSelect.innerHTML = `<option value="ALL">Tất cả các năm</option>`;
             yearsForStats.forEach(y => { let selected = (y.toString() === currentSelectedYear) ? 'selected' : ''; yearSelect.insertAdjacentHTML('beforeend', `<option value="${y}" ${selected}>Năm ${y}</option>`); });
 
@@ -489,12 +470,14 @@
             sortedYears.forEach(yearStr => {
                 let isYearShow = (yIndex === 0) ? 'show' : '';
                 let iconRotate = (yIndex === 0) ? 'rotate(180deg)' : 'rotate(0deg)';
+                let yearNum = parseInt(yearStr);
 
-                htmlStr += `<div class="year-header" id="yh-${yIndex}" onclick="toggleSection('year-content-${yIndex}', this)"><span>🗓 NĂM ${yearStr}</span><span class="toggle-icon" style="transform: ${iconRotate}">▼</span></div><div class="year-content ${isYearShow}" id="year-content-${yIndex}">`;
+                htmlStr += `<div class="year-block" data-year="${yearNum}"><div class="year-header" id="yh-${yIndex}" onclick="toggleSection('year-content-${yIndex}', this)"><span>🗓 NĂM ${yearStr}</span><span class="toggle-icon" style="transform: ${iconRotate}">▼</span></div><div class="year-content ${isYearShow}" id="year-content-${yIndex}">`;
                 
                 let mIndex = 0;
                 for (let monthStr in groupedData[yearStr]) {
-                    htmlStr += `<div class="month-header glass-fx" id="mh-${yIndex}-${mIndex}" onclick="toggleSection('month-content-${yIndex}-${mIndex}', this)"><span>📅 ${monthStr}</span><span class="toggle-icon">▼</span></div><div class="month-content" id="month-content-${yIndex}-${mIndex}">`;
+                    let monthNum = parseInt(monthStr.replace(/\D/g, '')) || 0;
+                    htmlStr += `<div class="month-block" data-year="${yearNum}" data-month="${monthNum}"><div class="month-header glass-fx" id="mh-${yIndex}-${mIndex}" onclick="toggleSection('month-content-${yIndex}-${mIndex}', this)"><span>📅 ${monthStr}</span><span class="toggle-icon">▼</span></div><div class="month-content" id="month-content-${yIndex}-${mIndex}">`;
                     let dIndex = 0;
                     for (let dateStr in groupedData[yearStr][monthStr]) {
                         htmlStr += `<div class="day-header glass-fx" id="dh-${yIndex}-${mIndex}-${dIndex}" onclick="toggleSection('day-content-${yIndex}-${mIndex}-${dIndex}', this)"><span>🗓️ ${dateStr}</span><span class="toggle-icon">▼</span></div><div class="day-content" id="day-content-${yIndex}-${mIndex}-${dIndex}">`;
@@ -527,55 +510,31 @@
                                 ${socialLinks ? `<div class="social-links-row">${socialLinks}</div>` : ''}
                             </div>`;
 
-                            let moneyStatusHTML = conLai > 0 
-                                ? `<span class="debt">Còn nợ: ${formatMoney(conLai)}</span>` 
-                                : `<span class="paid">Đã tất toán ✓</span>`;
+                            let moneyStatusHTML = conLai > 0 ? `<span class="debt">Còn nợ: ${formatMoney(conLai)}</span>` : `<span class="paid">Đã tất toán ✓</span>`;
 
                             let mapsBtn = mapsVal ? `<a href="${mapsVal}" target="_blank" class="action-link-btn maps" onclick="event.stopPropagation()">📍 Maps</a>` : '';
                             let driveBtn = driveVal ? `<a href="${driveVal}" target="_blank" class="action-link-btn drive" onclick="event.stopPropagation()">📁 Drive</a>` : '';
                             let linkButtonsHTML = (mapsBtn || driveBtn) ? `<div class="action-links">${mapsBtn}${driveBtn}</div>` : '';
 
                             let paidBtnHTML = '';
-                            if (conLai > 0) {
-                                paidBtnHTML = `<div style="margin-top: 12px;" onclick="event.stopPropagation()"><button class="btn-pay" onclick="markPaid(${rowIndex}, '${rawClientName}')">✓ Đã Thanh Toán</button></div>`;
-                            }
+                            if (conLai > 0) { paidBtnHTML = `<div style="margin-top: 12px;" onclick="event.stopPropagation()"><button class="btn-pay" onclick="markPaid(${rowIndex}, '${rawClientName}')">✓ Đã Thanh Toán</button></div>`; }
 
                             let noteHTML = '';
-                            if (noteVal) {
-                                noteHTML = `<div class="detail-note" onclick="event.stopPropagation()">
-                                    <div class="detail-note-label">📝 Ghi chú / Timeline</div>
-                                    <div class="detail-note-content">${noteVal}</div>
-                                </div>`;
-                            }
+                            if (noteVal) { noteHTML = `<div class="detail-note" onclick="event.stopPropagation()"><div class="detail-note-label">📝 Ghi chú / Timeline</div><div class="detail-note-content">${noteVal}</div></div>`; }
 
                             htmlStr += `
                                 <div class="card glass-fx" onclick="toggleSection('expanded-${rowIndex}', this, true)">
                                     <div class="card-header">
-                                        <div>
-                                            <h2 class="client-name">${clientNameHTML}</h2>
-                                            <span class="tag-package">${findVal(row, 'nội dung') || 'Gói Chụp'}</span>
-                                        </div>
+                                        <div><h2 class="client-name">${clientNameHTML}</h2><span class="tag-package">${findVal(row, 'nội dung') || 'Gói Chụp'}</span></div>
                                         <span class="tag-session">${findVal(row, 'thời gian') || 'Cả ngày'}</span>
                                     </div>
-                                    
-                                    <div class="location-row">
-                                        <span class="location-label">📍 Địa điểm:</span>
-                                        <span class="location-value">${findVal(row, 'địa điểm') || '--'}</span>
-                                    </div>
-
+                                    <div class="location-row"><span class="location-label">📍 Địa điểm:</span><span class="location-value">${findVal(row, 'địa điểm') || '--'}</span></div>
                                     ${linkButtonsHTML}
-
-                                    <div class="money-bar">
-                                        <span class="total">Tổng: <span class="total-num">${formatMoney(gia + phi)}</span></span>
-                                        ${moneyStatusHTML}
-                                    </div>
-
+                                    <div class="money-bar"><span class="total">Tổng: <span class="total-num">${formatMoney(gia + phi)}</span></span>${moneyStatusHTML}</div>
                                     <div class="card-expanded-content" id="expanded-${rowIndex}">
                                         <div class="detail-item"><span>Phí đi lại</span><span>${formatMoney(phi)}</span></div>
                                         <div class="detail-item"><span>Tiền cọc</span><span>${formatMoney(coc)}</span></div>
-                                        
                                         ${noteHTML}
-
                                         ${paidBtnHTML}
                                         <div class="card-btns-row" onclick="event.stopPropagation()">
                                             <button class="btn-card-action btn-edit" onclick="openEditModal(${rowIndex}, '${rawClientName}')">✏️ Sửa Lịch</button>
@@ -586,11 +545,10 @@
                         });
                         htmlStr += `</div>`; dIndex++;
                     }
-                    htmlStr += `</div>`; mIndex++;
+                    htmlStr += `</div></div>`; mIndex++;
                 }
-                htmlStr += `</div>`; yIndex++;
+                htmlStr += `</div></div>`; yIndex++;
             });
-            
             list.innerHTML = htmlStr; updateStatsUI();
         }
 
@@ -610,9 +568,7 @@
                 if (fMonth !== "ALL") { if (!dObj || dObj.getMonth().toString() !== fMonth) matchM = false; }
                 if (matchY && matchM) {
                     let gia = parseNum(findVal(row, 'giá')); let phi = parseNum(findVal(row, 'phí')); let coc = parseNum(findVal(row, 'cọc')); 
-                    let tt = parseNum(findVal(row, 'thanh toán thêm')) || 0;
-                    let conLai = parseNum(findVal(row, 'còn lại'));
-                    
+                    let tt = parseNum(findVal(row, 'thanh toán thêm')) || 0; let conLai = parseNum(findVal(row, 'còn lại'));
                     tRev += (gia + phi); tPaid += (coc + tt); tDebt += conLai; tShows++;
                 }
             });
@@ -621,36 +577,19 @@
         
         loadData(); 
 
-        function openModal() {
-            document.getElementById('modalTitle').innerText = "Tạo Lịch Mới";
-            document.getElementById('tab-create').classList.add('active'); document.getElementById('tab-edit').classList.remove('active');
-            document.body.classList.add('modal-open'); document.getElementById('modalForm').style.display = 'flex';
-        }
-
+        function openModal() { document.getElementById('modalTitle').innerText = "Tạo Lịch Mới"; document.getElementById('tab-create').classList.add('active'); document.getElementById('tab-edit').classList.remove('active'); document.body.classList.add('modal-open'); document.getElementById('modalForm').style.display = 'flex'; }
         function closeModal() { document.body.classList.remove('modal-open'); document.getElementById('modalForm').style.display = 'none'; }
 
         function openEditModal(rowIndex, name) {
             const item = allValidData.find(r => r._rowIndex === rowIndex); if (!item) return;
             document.getElementById('modalTitle').innerText = `Sửa Lịch: ${name}`; document.getElementById('e_rowindex').value = rowIndex;
-            
             let dObj = item._dateObj; document.getElementById('e_ngay').value = dObj ? dateToISO(dObj) : '';
             document.getElementById('e_thoigian').value = findVal(item, 'thời gian'); document.getElementById('e_khach').value = item['Khách hàng'] || findVal(item, 'khách');
-            
-            document.getElementById('e_linkfb').value = findVal(item, 'facebook') || item['Link Facebook'] || '';
-            document.getElementById('e_zalo').value = findVal(item, 'zalo') || item['SĐT Zalo'] || '';
-            document.getElementById('e_ig').value = findVal(item, 'instagram') || findVal(item, 'ig') || item['Link Instagram'] || '';
-            
+            document.getElementById('e_linkfb').value = findVal(item, 'facebook') || item['Link Facebook'] || ''; document.getElementById('e_zalo').value = findVal(item, 'zalo') || item['SĐT Zalo'] || ''; document.getElementById('e_ig').value = findVal(item, 'instagram') || findVal(item, 'ig') || item['Link Instagram'] || '';
             document.getElementById('e_diadiem').value = findVal(item, 'địa điểm'); document.getElementById('e_noidung').value = findVal(item, 'nội dung') || 'Khác';
-
-            document.getElementById('e_gia').value = formatInputMoney(findVal(item, 'giá')); document.getElementById('e_phi').value = formatInputMoney(findVal(item, 'phí'));
-            document.getElementById('e_coc').value = formatInputMoney(findVal(item, 'cọc')); 
-
-            document.getElementById('e_linkmaps').value = findVal(item, 'maps') || item['Link Maps'] || '';
-            document.getElementById('e_linkdrive').value = findVal(item, 'drive') || item['Link Drive'] || '';
-            document.getElementById('e_ghichu').value = findVal(item, 'ghi chú');
-            
-            document.getElementById('tab-create').classList.remove('active'); document.getElementById('tab-edit').classList.add('active');
-            document.body.classList.add('modal-open'); document.getElementById('modalForm').style.display = 'flex';
+            document.getElementById('e_gia').value = formatInputMoney(findVal(item, 'giá')); document.getElementById('e_phi').value = formatInputMoney(findVal(item, 'phí')); document.getElementById('e_coc').value = formatInputMoney(findVal(item, 'cọc')); 
+            document.getElementById('e_linkmaps').value = findVal(item, 'maps') || item['Link Maps'] || ''; document.getElementById('e_linkdrive').value = findVal(item, 'drive') || item['Link Drive'] || ''; document.getElementById('e_ghichu').value = findVal(item, 'ghi chú');
+            document.getElementById('tab-create').classList.remove('active'); document.getElementById('tab-edit').classList.add('active'); document.body.classList.add('modal-open'); document.getElementById('modalForm').style.display = 'flex';
         }
 
         document.querySelectorAll('.money-input').forEach(input => { input.addEventListener('input', function(e) { let value = e.target.value.replace(/\D/g, ''); e.target.value = value !== '' ? new Intl.NumberFormat('vi-VN').format(value) : ''; }); });
@@ -658,71 +597,33 @@
         async function markPaid(rowIndex, name) {
             if (!confirm(`Xác nhận khách hàng "${name}" đã thanh toán toàn bộ số tiền còn lại?`)) return;
             let item = allValidData.find(r => r._rowIndex == rowIndex);
-            if (item) {
-                let conLaiKey = Object.keys(item).find(k => k.toLowerCase().includes('còn lại')) || 'Còn lại';
-                item[conLaiKey] = 0;
-                let states = getOpenStates(); renderUI(allValidData); restoreStates(states);
-            }
+            if (item) { let conLaiKey = Object.keys(item).find(k => k.toLowerCase().includes('còn lại')) || 'Còn lại'; item[conLaiKey] = 0; let states = getOpenStates(); renderUI(allValidData); restoreStates(states); }
             fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: "MARK_PAID", rowIndex: rowIndex }) }).then(() => silentFetchData());
         }
 
         async function submitCreate(e) {
             e.preventDefault(); const btn = document.getElementById('btnCreate'); btn.innerText = "Đang đồng bộ..."; btn.style.opacity = 0.7; btn.disabled = true;
-            
             const payload = { action: "CREATE", ngayChup: document.getElementById('c_ngay').value, thoiGian: document.getElementById('c_thoigian').value, khachHang: document.getElementById('c_khach').value, linkFacebook: document.getElementById('c_linkfb').value, zalo: document.getElementById('c_zalo').value, instagram: document.getElementById('c_ig').value, diaDiem: document.getElementById('c_diadiem').value, linkMaps: document.getElementById('c_linkmaps').value, linkDrive: document.getElementById('c_linkdrive').value, noiDung: document.getElementById('c_noidung').value, giaGoi: parseNum(document.getElementById('c_gia').value), phiDiLai: parseNum(document.getElementById('c_phi').value), coc: parseNum(document.getElementById('c_coc').value), ghiChu: document.getElementById('c_ghichu').value };
-            
-            let newItem = {
-                "Ngày chụp": payload.ngayChup, "Thời gian": payload.thoiGian, "Khách hàng": payload.khachHang,
-                "Link Facebook": payload.linkFacebook, "SĐT Zalo": payload.zalo, "Link Instagram": payload.instagram,
-                "Địa điểm": payload.diaDiem, "Link Maps": payload.linkMaps, "Link Drive": payload.linkDrive,
-                "Nội dung": payload.noiDung, "Giá gói": payload.giaGoi, "Phí đi lại": payload.phiDiLai,
-                "Cọc": payload.coc, "Còn lại": (payload.giaGoi + payload.phiDiLai) - payload.coc, "Ghi chú": payload.ghiChu,
-                "_rowIndex": Date.now()
-            };
-            newItem._dateObj = parseDateCustom(payload.ngayChup);
-            allValidData.push(newItem);
-            
-            let states = getOpenStates(); renderUI(allValidData); restoreStates(states); 
-            closeModal(); document.getElementById('formCreate').reset(); 
-            btn.innerText = "Tạo Lịch & Đồng Bộ"; btn.style.opacity = 1; btn.disabled = false;
-
+            let newItem = { "Ngày chụp": payload.ngayChup, "Thời gian": payload.thoiGian, "Khách hàng": payload.khachHang, "Link Facebook": payload.linkFacebook, "SĐT Zalo": payload.zalo, "Link Instagram": payload.instagram, "Địa điểm": payload.diaDiem, "Link Maps": payload.linkMaps, "Link Drive": payload.linkDrive, "Nội dung": payload.noiDung, "Giá gói": payload.giaGoi, "Phí đi lại": payload.phiDiLai, "Cọc": payload.coc, "Còn lại": (payload.giaGoi + payload.phiDiLai) - payload.coc, "Ghi chú": payload.ghiChu, "_rowIndex": Date.now() };
+            newItem._dateObj = parseDateCustom(payload.ngayChup); allValidData.push(newItem);
+            let states = getOpenStates(); renderUI(allValidData); restoreStates(states); closeModal(); document.getElementById('formCreate').reset(); btn.innerText = "Tạo Lịch & Đồng Bộ"; btn.style.opacity = 1; btn.disabled = false;
             fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).then(() => silentFetchData());
         }
 
         async function submitEdit(e) {
             e.preventDefault(); const btn = document.getElementById('btnEdit'); btn.innerText = "Đang lưu..."; btn.style.opacity = 0.7; btn.disabled = true;
             const payload = { action: "EDIT_ROW", rowIndex: document.getElementById('e_rowindex').value, ngayChup: document.getElementById('e_ngay').value, thoiGian: document.getElementById('e_thoigian').value, khachHang: document.getElementById('e_khach').value, linkFacebook: document.getElementById('e_linkfb').value, zalo: document.getElementById('e_zalo').value, instagram: document.getElementById('e_ig').value, noiDung: document.getElementById('e_noidung').value, diaDiem: document.getElementById('e_diadiem').value, linkMaps: document.getElementById('e_linkmaps').value, linkDrive: document.getElementById('e_linkdrive').value, giaGoi: parseNum(document.getElementById('e_gia').value), phiDiLai: parseNum(document.getElementById('e_phi').value), coc: parseNum(document.getElementById('e_coc').value), ghiChu: document.getElementById('e_ghichu').value };
-            
             let item = allValidData.find(r => r._rowIndex == payload.rowIndex);
             if (item) {
-                let keys = Object.keys(item);
-                item[keys.find(k=>k.toLowerCase().includes('ngày')) || 'Ngày chụp'] = payload.ngayChup;
-                item[keys.find(k=>k.toLowerCase().includes('thời gian')) || 'Thời gian'] = payload.thoiGian;
-                item[keys.find(k=>k.toLowerCase().includes('khách')) || 'Khách hàng'] = payload.khachHang;
-                item['Link Facebook'] = payload.linkFacebook; item['SĐT Zalo'] = payload.zalo; item['Link Instagram'] = payload.instagram;
-                item[keys.find(k=>k.toLowerCase().includes('địa điểm')) || 'Địa điểm'] = payload.diaDiem;
-                item['Link Maps'] = payload.linkMaps; item['Link Drive'] = payload.linkDrive;
-                item[keys.find(k=>k.toLowerCase().includes('nội dung')) || 'Nội dung'] = payload.noiDung;
-                item[keys.find(k=>k.toLowerCase().includes('giá')) || 'Giá gói'] = payload.giaGoi;
-                item[keys.find(k=>k.toLowerCase().includes('phí')) || 'Phí đi lại'] = payload.phiDiLai;
-                item[keys.find(k=>k.toLowerCase().includes('cọc')) || 'Cọc'] = payload.coc;
-                
-                let tt = parseNum(findVal(item, 'thanh toán thêm')) || 0;
-                item[keys.find(k=>k.toLowerCase().includes('còn lại')) || 'Còn lại'] = (payload.giaGoi + payload.phiDiLai) - (payload.coc + tt);
-                item[keys.find(k=>k.toLowerCase().includes('ghi chú')) || 'Ghi chú'] = payload.ghiChu;
-                item._dateObj = parseDateCustom(payload.ngayChup);
+                let keys = Object.keys(item); item[keys.find(k=>k.toLowerCase().includes('ngày')) || 'Ngày chụp'] = payload.ngayChup; item[keys.find(k=>k.toLowerCase().includes('thời gian')) || 'Thời gian'] = payload.thoiGian; item[keys.find(k=>k.toLowerCase().includes('khách')) || 'Khách hàng'] = payload.khachHang; item['Link Facebook'] = payload.linkFacebook; item['SĐT Zalo'] = payload.zalo; item['Link Instagram'] = payload.instagram; item[keys.find(k=>k.toLowerCase().includes('địa điểm')) || 'Địa điểm'] = payload.diaDiem; item['Link Maps'] = payload.linkMaps; item['Link Drive'] = payload.linkDrive; item[keys.find(k=>k.toLowerCase().includes('nội dung')) || 'Nội dung'] = payload.noiDung; item[keys.find(k=>k.toLowerCase().includes('giá')) || 'Giá gói'] = payload.giaGoi; item[keys.find(k=>k.toLowerCase().includes('phí')) || 'Phí đi lại'] = payload.phiDiLai; item[keys.find(k=>k.toLowerCase().includes('cọc')) || 'Cọc'] = payload.coc; let tt = parseNum(findVal(item, 'thanh toán thêm')) || 0; item[keys.find(k=>k.toLowerCase().includes('còn lại')) || 'Còn lại'] = (payload.giaGoi + payload.phiDiLai) - (payload.coc + tt); item[keys.find(k=>k.toLowerCase().includes('ghi chú')) || 'Ghi chú'] = payload.ghiChu; item._dateObj = parseDateCustom(payload.ngayChup);
             }
-            
-            let states = getOpenStates(); renderUI(allValidData); restoreStates(states); closeModal();
-            btn.innerText = "Lưu Cập Nhật"; btn.style.opacity = 1; btn.disabled = false;
-
+            let states = getOpenStates(); renderUI(allValidData); restoreStates(states); closeModal(); btn.innerText = "Lưu Cập Nhật"; btn.style.opacity = 1; btn.disabled = false;
             fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).then(() => silentFetchData());
         }
 
         async function deleteBooking(rowIndex, name) {
             if (!confirm(`Bạn có chắc chắn muốn XÓA lịch của khách "${name}" không? Thao tác này không thể hoàn tác.`)) return;
-            allValidData = allValidData.filter(r => r._rowIndex != rowIndex);
-            let states = getOpenStates(); renderUI(allValidData); restoreStates(states);
+            allValidData = allValidData.filter(r => r._rowIndex != rowIndex); let states = getOpenStates(); renderUI(allValidData); restoreStates(states);
             fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: "DELETE_ROW", rowIndex: rowIndex }) }).then(() => silentFetchData());
         }
     </script>
