@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#f1f3f6">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Lịch Chụp Ảnh">
+    <meta name="apple-mobile-web-app-title" content="Lịch Chụp">
     
     <!-- ICON MÀN HÌNH CHÍNH IPHONE / IPAD -->
     <link rel="apple-touch-icon" href="https://i.postimg.cc/prXXD19w/logo-app-lich-chup.jpg">
@@ -21,35 +21,56 @@
         :root {
             --bg-base: #f1f3f6;
             --bg-mesh: radial-gradient(circle at 10% 20%, rgba(10, 132, 255, 0.12), transparent 50%), radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.1), transparent 50%), radial-gradient(circle at 50% 90%, rgba(255, 59, 48, 0.08), transparent 50%);
-            --card-bg: rgba(255, 255, 255, 0.45); 
-            --card-border: rgba(255, 255, 255, 0.7);
-            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 1px 2px rgba(255, 255, 255, 0.9);
-            --text-main: #000000; --text-muted: #5c5c62; --text-sub: #8e8e93;
+            --card-bg: rgba(255, 255, 255, 0.5); 
+            --card-border: rgba(255, 255, 255, 0.8);
+            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 1px 2px rgba(255, 255, 255, 1);
+            
+            --text-main: #000000; --text-muted: #6b7280; --text-sub: #8e8e93;
+            
             --accent-primary: #007aff; --accent-gold: #c59b27;
             --tag-gold-bg: rgba(197, 155, 39, 0.15); --tag-gold-text: #92400e;
             --alert-red: #ff3b30; --alert-bg: rgba(255, 59, 48, 0.12);
             --success-green: #34c759; --success-bg: rgba(52, 199, 89, 0.15);
-            --btn-secondary-bg: rgba(255, 255, 255, 0.6); --btn-secondary-text: #1c1c1e;
-            --input-bg: rgba(255, 255, 255, 0.5); --input-border: rgba(255, 255, 255, 0.8);
+            
+            /* --- CẤU HÌNH FORM CHUẨN SÁNG (LIGHT MODE) --- */
+            --modal-bg: rgba(242, 242, 247, 0.98); 
+            --input-bg: #ffffff; /* Trắng tinh khiết */
+            --input-border: rgba(0, 0, 0, 0.1);
+            --input-text: #000000;
+            --input-placeholder: #8e8e93;
+            
+            --btn-secondary-bg: rgba(118, 118, 128, 0.12); --btn-secondary-text: #1c1c1e;
             --divider-line: rgba(0, 0, 0, 0.06);
-            --header-bg: rgba(255, 255, 255, 0.35); --logo-filter: invert(1); --radius-card: 22px;
+            --header-bg: rgba(255, 255, 255, 0.6); 
+            --logo-filter: invert(1); --radius-card: 22px;
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
                 --bg-base: #000000;
                 --bg-mesh: radial-gradient(circle at 10% 20%, rgba(10, 132, 255, 0.15), transparent 50%), radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.12), transparent 50%), radial-gradient(circle at 50% 90%, rgba(255, 55, 95, 0.1), transparent 50%);
-                --card-bg: rgba(30, 30, 32, 0.45); --card-border: rgba(255, 255, 255, 0.1);
-                --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.15);
-                --text-main: #ffffff; --text-muted: #94a3b8; --text-sub: rgba(235, 235, 245, 0.6);
+                --card-bg: rgba(30, 30, 32, 0.45); 
+                --card-border: rgba(255, 255, 255, 0.1);
+                --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+                
+                --text-main: #ffffff; --text-muted: #9ba1a6; --text-sub: rgba(235, 235, 245, 0.6);
+                
                 --accent-primary: #0a84ff; --accent-gold: #ffd60a;
                 --tag-gold-bg: rgba(255, 214, 10, 0.15); --tag-gold-text: #fbbf24;
                 --alert-red: #ff453a; --alert-bg: rgba(255, 69, 58, 0.15);
                 --success-green: #30d158; --success-bg: rgba(48, 209, 88, 0.15);
+                
+                /* --- CẤU HÌNH FORM CHUẨN TỐI (DARK MODE) --- */
+                --modal-bg: rgba(28, 28, 30, 0.98); 
+                --input-bg: #2c2c2e; 
+                --input-border: rgba(255, 255, 255, 0.1);
+                --input-text: #ffffff;
+                --input-placeholder: #98989d;
+                
                 --btn-secondary-bg: rgba(255, 255, 255, 0.1); --btn-secondary-text: #e2e8f0;
-                --input-bg: rgba(255, 255, 255, 0.08); --input-border: rgba(255, 255, 255, 0.12);
                 --divider-line: rgba(255, 255, 255, 0.08);
-                --header-bg: rgba(20, 20, 22, 0.5); --logo-filter: none;
+                --header-bg: rgba(20, 20, 22, 0.6); 
+                --logo-filter: none;
             }
         }
 
@@ -90,7 +111,7 @@
         .social-icon:active { opacity: 0.5; }
 
         .tag-package { display: inline-block; padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 600; background: var(--tag-gold-bg); color: var(--tag-gold-text); }
-        .tag-session { font-size: 12px; font-weight: 600; background: var(--btn-secondary-bg); color: var(--text-main); padding: 5px 10px; border-radius: 8px; border: 1px solid var(--input-border); }
+        .tag-session { font-size: 12px; font-weight: 600; background: var(--btn-secondary-bg); color: var(--text-main); padding: 5px 10px; border-radius: 8px; border: 1px solid var(--divider-line); }
 
         .location-row { display: flex; align-items: flex-start; gap: 8px; font-size: 13.5px; color: var(--text-muted); margin-bottom: 12px; }
         .location-label { font-weight: 500; flex-shrink: 0; } .location-value { color: var(--text-main); font-weight: 500; }
@@ -104,22 +125,20 @@
             .action-link-btn.drive { background: rgba(22, 163, 74, 0.25); color: #4ade80; border-color: rgba(74, 222, 128, 0.2); }
         }
 
-        .money-bar { background: var(--btn-secondary-bg); border-radius: 12px; border: 1px solid var(--input-border); padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; font-size: 13.5px; }
+        .money-bar { background: var(--btn-secondary-bg); border-radius: 12px; border: 1px solid var(--divider-line); padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; font-size: 13.5px; }
         .money-bar .total { font-weight: 600; color: var(--text-muted); } .money-bar .total-num { color: var(--text-main); font-weight: 700; }
         .money-bar .debt { color: var(--alert-red); font-weight: 700; } .money-bar .paid { color: var(--success-green); font-weight: 700; }
 
         .card-expanded-content { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--divider-line); }
         .card-expanded-content.show { display: block; animation: fadeIn 0.2s ease; }
+        .detail-item { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; color: var(--text-muted); } .detail-item span:last-child { font-weight: 600; color: var(--text-main); }
         
-        .detail-item { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; color: var(--text-muted); } 
-        .detail-item span:last-child { font-weight: 600; color: var(--text-main); }
-        
-        .detail-note { margin-top: 10px; padding: 12px; background: var(--btn-secondary-bg); border-radius: 12px; border: 1px solid var(--input-border); }
+        .detail-note { margin-top: 10px; padding: 12px; background: var(--btn-secondary-bg); border-radius: 12px; border: 1px solid var(--divider-line); }
         .detail-note-label { font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; display: flex; align-items: center; gap: 4px; text-transform: uppercase; letter-spacing: 0.5px;}
         .detail-note-content { font-size: 13.5px; font-weight: 500; color: var(--text-main); line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
 
         .card-btns-row { display: flex; gap: 8px; margin-top: 14px; }
-        .btn-card-action { flex: 1; padding: 11px 0; border: none; border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid var(--input-border); }
+        .btn-card-action { flex: 1; padding: 11px 0; border: none; border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid var(--divider-line); }
         .btn-edit { background: var(--btn-secondary-bg); color: var(--text-main); } .btn-delete { background: var(--alert-bg); color: var(--alert-red); border-color: transparent;}
 
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
@@ -133,9 +152,11 @@
         .fab { position: fixed; bottom: 28px; right: 20px; width: 56px; height: 56px; background: var(--accent-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 28px; font-weight: 300; box-shadow: 0 8px 24px rgba(2, 132, 199, 0.4); cursor: pointer; z-index: 80; }
         .fab:active { transform: scale(0.92); }
 
+        /* --- POPUP MODAL --- */
         .modal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); justify-content: center; align-items: flex-end; overscroll-behavior: contain; width: 100vw; }
         .modal-content { 
-            background: var(--modal-bg); border-top: 1px solid var(--card-border); 
+            background: var(--modal-bg); 
+            border-top: 1px solid var(--card-border); 
             backdrop-filter: blur(30px) saturate(200%); -webkit-backdrop-filter: blur(30px) saturate(200%); 
             border-radius: 28px 28px 0 0; width: 100%; max-width: 580px; max-height: 88vh; 
             overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; 
@@ -150,14 +171,22 @@
         
         .tab-panel { display: none; } .tab-panel.active { display: block; }
         .form-group { margin-bottom: 14px; display: flex; flex-direction: column; width: 100%; } 
-        .form-group label { font-size: 12.5px; color: var(--text-muted); margin-bottom: 6px; margin-left: 2px; font-weight: 600;} 
+        .form-group label { font-size: 12.5px; color: var(--text-muted); margin-bottom: 6px; margin-left: 4px; font-weight: 600;} 
+        
+        /* FORM CHUẨN: MÀU NỀN ĐẶC, LOẠI BỎ BLUR ĐỂ CHỮ NỔI BẬT */
         .form-control, .form-select { 
-            width: 100%; padding: 15px 14px; background: var(--input-bg); border: 1px solid var(--input-border); 
-            border-radius: 12px; color: var(--text-main); font-size: 15px; outline: none; 
-            box-shadow: var(--input-shadow); transition: border-color 0.2s, box-shadow 0.2s;
+            width: 100%; padding: 15px 14px; 
+            background: var(--input-bg) !important; 
+            border: 1px solid var(--input-border) !important; 
+            border-radius: 12px; 
+            color: var(--input-text) !important; 
+            font-size: 15px; 
+            outline: none; 
+            -webkit-appearance: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
         } 
-        .form-control::placeholder { color: var(--text-sub); }
-        .form-control:focus, .form-select:focus { border-color: var(--accent-primary); box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15); }
+        .form-control::placeholder { color: var(--input-placeholder); }
+        .form-control:focus, .form-select:focus { border-color: var(--accent-primary) !important; box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15); }
         textarea.form-control { resize: vertical; min-height: 80px; font-family: inherit; line-height: 1.5; } 
 
         .btn-submit { width: 100%; padding: 16px; border: none; border-radius: 14px; font-weight: 700; font-size: 15px; color: #fff; margin-top: 10px; cursor: pointer; background: var(--accent-primary); box-shadow: 0 4px 14px rgba(0, 122, 255, 0.3);} .btn-submit:active { transform: scale(0.98); }
