@@ -84,7 +84,8 @@
         .calendar-swipe-header { text-align: center; margin-bottom: 16px; padding-top: 10px; cursor: pointer; user-select: none; }
         .calendar-title-text { font-size: 13.5px; font-weight: 800; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; }
 
-        .year-block, .month-block { transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease, margin 0.3s ease; max-height: 5000px; opacity: 1; overflow: hidden; transform-origin: top; }
+        /* KHỐI ẨN HIỆN NÂNG CẤP (Năm, Tháng, Ngày) */
+        .year-block, .month-block, .day-block { transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease, margin 0.3s ease; max-height: 5000px; opacity: 1; overflow: hidden; transform-origin: top; }
         .hidden-step { max-height: 0 !important; opacity: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important; pointer-events: none; border: none !important; }
 
         .year-header { padding: 16px 20px; margin: 20px 0 12px 0; border-radius: 20px; background: linear-gradient(135deg, var(--accent-primary), #005bb5); color: #ffffff; font-weight: 800; font-size: 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 8px 24px rgba(0, 122, 255, 0.3); text-transform: uppercase; letter-spacing: 1px;}
@@ -183,12 +184,14 @@
     </div>
 
     <div class="container">
+        <!-- VÙNG TIÊU ĐỀ VUỐT ĐƯỢC -->
         <div class="calendar-swipe-header" id="swipeHandle">
             <div class="calendar-title-text">LỊCH CHỤP</div>
         </div>
         
         <div id="bookingList"><div class="loader">Đang tải dữ liệu...</div></div>
 
+        <!-- THỐNG KÊ DOANH THU -->
         <div class="section-title" style="margin-top: 32px;">THỐNG KÊ DOANH THU</div>
         <div style="display: flex; gap: 10px; margin-bottom: 14px;">
             <select id="filterYear" class="select-filter glass-fx" style="flex: 1;" onchange="updateStatsUI()"><option value="ALL">Tất cả các năm</option></select>
@@ -320,7 +323,7 @@
             });
         }
 
-        // VUỐT TỪNG NẤC
+        // VUỐT TỪNG NẤC (NÂNG CẤP DỌN DẸP NGÀY CŨ)
         let touchStartY = 0; let isSwiping = false;
 
         document.addEventListener('touchstart', function(e) {
@@ -342,9 +345,32 @@
         });
 
         function hideNextStep() {
-            let currentYear = new Date().getFullYear();
-            let currentMonth = new Date().getMonth() + 1;
+            let todayObj = new Date();
+            todayObj.setHours(0,0,0,0);
+            let currentYear = todayObj.getFullYear();
+            let currentMonth = todayObj.getMonth() + 1;
 
+            // NẤC 1: Dọn dẹp các NGÀY ĐÃ QUA trong tháng
+            let pastDays = [];
+            document.querySelectorAll('.day-block').forEach(el => {
+                let y = parseInt(el.getAttribute('data-year'));
+                let m = parseInt(el.getAttribute('data-month'));
+                let d = parseInt(el.getAttribute('data-day'));
+                if (y && m && d) {
+                    let elDate = new Date(y, m - 1, d);
+                    // Nếu là ngày trong quá khứ so với hôm nay thì đưa vào danh sách ẩn
+                    if (elDate < todayObj && !el.classList.contains('hidden-step')) {
+                        pastDays.push(el);
+                    }
+                }
+            });
+
+            if (pastDays.length > 0) {
+                pastDays.forEach(el => el.classList.add('hidden-step'));
+                setTimeout(saveUIState, 100); return;
+            }
+
+            // NẤC 2: Giấu các Năm tương lai xa
             let futureYears = Array.from(document.querySelectorAll('.year-block')).filter(el => parseInt(el.getAttribute('data-year')) > currentYear && !el.classList.contains('hidden-step'));
             if (futureYears.length > 0) {
                 futureYears.sort((a, b) => parseInt(b.getAttribute('data-year')) - parseInt(a.getAttribute('data-year')));
@@ -352,39 +378,63 @@
                 setTimeout(saveUIState, 100); return;
             }
 
+            // NẤC 3: Giấu Tháng/Năm đã qua
             let pastItems = [];
             document.querySelectorAll('.year-block').forEach(el => {
                 if (parseInt(el.getAttribute('data-year')) < currentYear && !el.classList.contains('hidden-step')) pastItems.push(el);
             });
             document.querySelectorAll('.month-block').forEach(el => {
                 let y = parseInt(el.getAttribute('data-year')); let m = parseInt(el.getAttribute('data-month'));
-                if (y === currentYear && m < currentMonth && !el.classList.contains('hidden-step')) pastItems.push(el);
+                if ((y < currentYear || (y === currentYear && m < currentMonth)) && !el.classList.contains('hidden-step')) pastItems.push(el);
             });
 
             if (pastItems.length > 0) { pastItems.forEach(el => el.classList.add('hidden-step')); setTimeout(saveUIState, 100); }
         }
 
         function showNextStep() {
-            let currentYear = new Date().getFullYear();
-            let currentMonth = new Date().getMonth() + 1;
+            let todayObj = new Date();
+            todayObj.setHours(0,0,0,0);
+            let currentYear = todayObj.getFullYear();
+            let currentMonth = todayObj.getMonth() + 1;
 
+            // BƯỚC 1: Hiện lại Tháng/Năm đã qua
             let pastItems = [];
             document.querySelectorAll('.year-block').forEach(el => {
                 if (parseInt(el.getAttribute('data-year')) < currentYear && el.classList.contains('hidden-step')) pastItems.push(el);
             });
             document.querySelectorAll('.month-block').forEach(el => {
                 let y = parseInt(el.getAttribute('data-year')); let m = parseInt(el.getAttribute('data-month'));
-                if (y === currentYear && m < currentMonth && el.classList.contains('hidden-step')) pastItems.push(el);
+                if ((y < currentYear || (y === currentYear && m < currentMonth)) && el.classList.contains('hidden-step')) pastItems.push(el);
             });
 
             if (pastItems.length > 0) {
                 pastItems.forEach(el => el.classList.remove('hidden-step')); setTimeout(saveUIState, 100); return;
             }
 
+            // BƯỚC 2: Hiện lại Năm tương lai
             let futureYears = Array.from(document.querySelectorAll('.year-block')).filter(el => parseInt(el.getAttribute('data-year')) > currentYear && el.classList.contains('hidden-step'));
             if (futureYears.length > 0) {
                 futureYears.sort((a, b) => parseInt(a.getAttribute('data-year')) - parseInt(b.getAttribute('data-year')));
-                futureYears[0].classList.remove('hidden-step'); setTimeout(saveUIState, 100);
+                futureYears[0].classList.remove('hidden-step'); setTimeout(saveUIState, 100); return;
+            }
+
+            // BƯỚC 3: Hiện lại các NGÀY ĐÃ QUA
+            let pastDays = [];
+            document.querySelectorAll('.day-block').forEach(el => {
+                let y = parseInt(el.getAttribute('data-year'));
+                let m = parseInt(el.getAttribute('data-month'));
+                let d = parseInt(el.getAttribute('data-day'));
+                if (y && m && d) {
+                    let elDate = new Date(y, m - 1, d);
+                    if (elDate < todayObj && el.classList.contains('hidden-step')) {
+                        pastDays.push(el);
+                    }
+                }
+            });
+
+            if (pastDays.length > 0) {
+                pastDays.forEach(el => el.classList.remove('hidden-step'));
+                setTimeout(saveUIState, 100);
             }
         }
 
@@ -445,7 +495,6 @@
                 isFirstLoad = false;
             }
 
-            // GOM NHÓM THEO: NĂM -> THÁNG -> NGÀY -> BUỔI (SÁNG/CHIỀU/TỐI)
             let groupedData = {};
             validData.forEach(row => {
                 let dObj = row._dateObj;
@@ -453,7 +502,6 @@
                 let monthStr = dObj ? `Tháng ${dObj.getMonth() + 1}` : 'Tháng Chưa Rõ';
                 let displayDate = dObj ? formatDateDisplay(dObj) : (findVal(row, 'ngày') || 'Không rõ ngày');
 
-                // PHÂN LOẠI BUỔI
                 let timeStr = (findVal(row, 'thời gian') || '').toString().trim().toLowerCase();
                 let sessionStr = 'Khác';
                 if (timeStr.startsWith('sáng')) sessionStr = 'Sáng';
@@ -488,13 +536,13 @@
                     let dIndex = 0;
                     
                     for (let dateStr in groupedData[yearStr][monthStr]) {
-                        htmlStr += `<div class="day-header glass-fx" id="dh-${yIndex}-${mIndex}-${dIndex}" onclick="toggleSection('day-content-${yIndex}-${mIndex}-${dIndex}', this)"><span>🗓️ ${dateStr}</span><span class="toggle-icon">▼</span></div><div class="day-content" id="day-content-${yIndex}-${mIndex}-${dIndex}">`;
+                        // Trích xuất ngày từ chuỗi "DD/MM/YYYY" để dọn dẹp
+                        let dayNum = dateStr.includes('/') ? parseInt(dateStr.split('/')[0]) : 0;
+                        htmlStr += `<div class="day-block" id="db-${yIndex}-${mIndex}-${dIndex}" data-year="${yearNum}" data-month="${monthNum}" data-day="${dayNum}"><div class="day-header glass-fx" id="dh-${yIndex}-${mIndex}-${dIndex}" onclick="toggleSection('day-content-${yIndex}-${mIndex}-${dIndex}', this)"><span>🗓️ ${dateStr}</span><span class="toggle-icon">▼</span></div><div class="day-content" id="day-content-${yIndex}-${mIndex}-${dIndex}">`;
                         
-                        // LẶP QUA CÁC BUỔI TRONG NGÀY
                         let sessionsInDay = Object.keys(groupedData[yearStr][monthStr][dateStr]).sort((a, b) => sessionOrder[a] - sessionOrder[b]);
                         
                         sessionsInDay.forEach(session => {
-                            // THÊM DÒNG KẺ CHIA BUỔI SÁNG/CHIỀU
                             htmlStr += `<div class="session-divider"><span>${sessionIcons[session]} BUỔI ${session}</span></div>`;
 
                             groupedData[yearStr][monthStr][dateStr][session].forEach(row => {
@@ -559,7 +607,7 @@
                                     </div>`;
                             });
                         });
-                        htmlStr += `</div>`; dIndex++;
+                        htmlStr += `</div></div>`; dIndex++;
                     }
                     htmlStr += `</div></div>`; mIndex++;
                 }
