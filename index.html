@@ -82,8 +82,6 @@
         .section-title { font-size: 12px; font-weight: 800; color: var(--text-muted); letter-spacing: 1.2px; margin-bottom: 12px; text-transform: uppercase; margin-left: 4px; }
 
         .calendar-swipe-header { text-align: center; margin-bottom: 16px; padding-top: 10px; cursor: pointer; user-select: none; }
-        .swipe-pill { width: 40px; height: 5px; background: var(--text-sub); border-radius: 10px; margin: 0 auto 8px auto; opacity: 0.5; transition: opacity 0.2s; }
-        .calendar-swipe-header:active .swipe-pill { opacity: 0.8; }
         .calendar-title-text { font-size: 13.5px; font-weight: 800; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; }
 
         /* BLOCK ẨN/HIỆN TỪNG NẤC */
@@ -201,15 +199,12 @@
     </div>
 
     <div class="container">
-        <!-- VÙNG TIÊU ĐỀ VUỐT ĐƯỢC -->
         <div class="calendar-swipe-header" id="swipeHandle">
-            <div class="swipe-pill"></div>
             <div class="calendar-title-text">LỊCH CHỤP</div>
         </div>
         
         <div id="bookingList"><div class="loader">Đang tải dữ liệu...</div></div>
 
-        <!-- THỐNG KÊ DOANH THU -->
         <div class="section-title" style="margin-top: 32px;">THỐNG KÊ DOANH THU</div>
         <div style="display: flex; gap: 10px; margin-bottom: 14px;">
             <select id="filterYear" class="select-filter glass-fx" style="flex: 1;" onchange="updateStatsUI()"><option value="ALL">Tất cả các năm</option></select>
@@ -226,10 +221,8 @@
         </div>
     </div>
 
-    <!-- NÚT FAB (+) -->
     <div class="fab" onclick="openModal()">+</div>
 
-    <!-- MODAL POPUP -->
     <div class="modal" id="modalForm" onclick="if(event.target === this) closeModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <div class="modal-header"><h3 id="modalTitle">Tạo Lịch Mới</h3><span class="close-btn" onclick="closeModal()">✕</span></div>
@@ -306,6 +299,43 @@
         const ZALO_ICON = `<span style="background:#0068FF; color:#fff; font-size:10px; font-weight:800; padding:0 6px; border-radius:6px; height:18px; line-height:18px; display:inline-block;">Zalo</span>`;
         const IG_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E1306C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>`;
 
+        // LOGIC LƯU VÀ PHỤC HỒI TRẠNG THÁI MÀN HÌNH (BỘ NHỚ ĐỆM)
+        function saveUIState() {
+            let state = {
+                shows: Array.from(document.querySelectorAll('.show')).map(el => el.id).filter(id => id),
+                hiddens: Array.from(document.querySelectorAll('.hidden-step')).map(el => el.id).filter(id => id)
+            };
+            localStorage.setItem('chutoanUIState', JSON.stringify(state));
+        }
+
+        function restoreUIState() {
+            let saved = localStorage.getItem('chutoanUIState');
+            if (!saved) return;
+            let state = JSON.parse(saved);
+
+            document.querySelectorAll('.show').forEach(el => {
+                el.classList.remove('show');
+                if(el.previousElementSibling && el.previousElementSibling.querySelector('.toggle-icon')) {
+                    el.previousElementSibling.querySelector('.toggle-icon').style.transform = 'rotate(0deg)';
+                }
+            });
+
+            state.shows.forEach(id => {
+                let el = document.getElementById(id);
+                if (el) {
+                    el.classList.add('show');
+                    if(el.previousElementSibling && el.previousElementSibling.querySelector('.toggle-icon')) {
+                        el.previousElementSibling.querySelector('.toggle-icon').style.transform = 'rotate(180deg)';
+                    }
+                }
+            });
+
+            state.hiddens.forEach(id => {
+                let el = document.getElementById(id);
+                if (el) el.classList.add('hidden-step');
+            });
+        }
+
         // LOGIC VUỐT ĐÓNG/MỞ TỪNG NẤC CHUẨN XÁC
         let touchStartY = 0; let isSwiping = false;
 
@@ -323,7 +353,7 @@
 
         document.getElementById('swipeHandle').addEventListener('click', function() {
             let hidden = document.querySelectorAll('.hidden-step');
-            if (hidden.length > 0) { hidden.forEach(el => el.classList.remove('hidden-step')); } 
+            if (hidden.length > 0) { hidden.forEach(el => el.classList.remove('hidden-step')); saveUIState(); } 
             else { hideNextStep(); hideNextStep(); hideNextStep(); hideNextStep(); }
         });
 
@@ -331,15 +361,13 @@
             let currentYear = new Date().getFullYear();
             let currentMonth = new Date().getMonth() + 1;
 
-            // Nấc 1, 2...: Giấu lần lượt các Năm Tương Lai Xa Nhất
             let futureYears = Array.from(document.querySelectorAll('.year-block')).filter(el => parseInt(el.getAttribute('data-year')) > currentYear && !el.classList.contains('hidden-step'));
             if (futureYears.length > 0) {
                 futureYears.sort((a, b) => parseInt(b.getAttribute('data-year')) - parseInt(a.getAttribute('data-year')));
                 futureYears[0].classList.add('hidden-step');
-                return;
+                setTimeout(saveUIState, 100); return;
             }
 
-            // Nấc cuối cùng: Giấu toàn bộ Tháng/Năm Đã Qua (Để lại đúng Năm Hiện Tại và Tháng Hiện Tại/Tương Lai)
             let pastItems = [];
             document.querySelectorAll('.year-block').forEach(el => {
                 if (parseInt(el.getAttribute('data-year')) < currentYear && !el.classList.contains('hidden-step')) pastItems.push(el);
@@ -349,14 +377,13 @@
                 if (y === currentYear && m < currentMonth && !el.classList.contains('hidden-step')) pastItems.push(el);
             });
 
-            if (pastItems.length > 0) { pastItems.forEach(el => el.classList.add('hidden-step')); }
+            if (pastItems.length > 0) { pastItems.forEach(el => el.classList.add('hidden-step')); setTimeout(saveUIState, 100); }
         }
 
         function showNextStep() {
             let currentYear = new Date().getFullYear();
             let currentMonth = new Date().getMonth() + 1;
 
-            // Mở ngược lại: Hiện các Tháng/Năm Cũ trước
             let pastItems = [];
             document.querySelectorAll('.year-block').forEach(el => {
                 if (parseInt(el.getAttribute('data-year')) < currentYear && el.classList.contains('hidden-step')) pastItems.push(el);
@@ -367,14 +394,13 @@
             });
 
             if (pastItems.length > 0) {
-                pastItems.forEach(el => el.classList.remove('hidden-step')); return;
+                pastItems.forEach(el => el.classList.remove('hidden-step')); setTimeout(saveUIState, 100); return;
             }
 
-            // Sau đó hiện dần các Năm Tương Lai Gần Nhất
             let futureYears = Array.from(document.querySelectorAll('.year-block')).filter(el => parseInt(el.getAttribute('data-year')) > currentYear && el.classList.contains('hidden-step'));
             if (futureYears.length > 0) {
                 futureYears.sort((a, b) => parseInt(a.getAttribute('data-year')) - parseInt(b.getAttribute('data-year')));
-                futureYears[0].classList.remove('hidden-step');
+                futureYears[0].classList.remove('hidden-step'); setTimeout(saveUIState, 100);
             }
         }
 
@@ -397,22 +423,6 @@
             if (!dObj) return ''; let year = dObj.getFullYear(); let month = ("0" + (dObj.getMonth() + 1)).slice(-2); let day = ("0" + dObj.getDate()).slice(-2); return `${year}-${month}-${day}`;
         }
 
-        function getOpenStates() {
-            return {
-                years: Array.from(document.querySelectorAll('.year-content.show')).map(el => el.id),
-                months: Array.from(document.querySelectorAll('.month-content.show')).map(el => el.id),
-                days: Array.from(document.querySelectorAll('.day-content.show')).map(el => el.id),
-                cards: Array.from(document.querySelectorAll('.card-expanded-content.show')).map(el => el.id)
-            };
-        }
-
-        function restoreStates(states) {
-            states.years.forEach(id => { let el = document.getElementById(id); if(el) { el.classList.add('show'); el.previousElementSibling.querySelector('.toggle-icon').style.transform = 'rotate(180deg)'; }});
-            states.months.forEach(id => { let el = document.getElementById(id); if(el) { el.classList.add('show'); el.previousElementSibling.querySelector('.toggle-icon').style.transform = 'rotate(180deg)'; }});
-            states.days.forEach(id => { let el = document.getElementById(id); if(el) { el.classList.add('show'); el.previousElementSibling.querySelector('.toggle-icon').style.transform = 'rotate(180deg)'; }});
-            states.cards.forEach(id => { let el = document.getElementById(id); if(el) el.classList.add('show'); });
-        }
-
         async function loadData() {
             const cachedData = localStorage.getItem('chutoanFotoCache');
             if (cachedData && isFirstLoad) { try { renderUI(JSON.parse(cachedData)); } catch(e) {} }
@@ -421,7 +431,7 @@
                 const res = await fetch(API_URL);
                 const data = await res.json();
                 localStorage.setItem('chutoanFotoCache', JSON.stringify(data));
-                let states = getOpenStates(); renderUI(data); if (!isFirstLoad) restoreStates(states);
+                renderUI(data); 
             } catch (e) { 
                 if (!localStorage.getItem('chutoanFotoCache')) document.getElementById('bookingList').innerHTML = '<div class="loader" style="color:var(--alert-red)">Lỗi mạng. Vui lòng kiểm tra lại!</div>'; 
             }
@@ -472,12 +482,12 @@
                 let iconRotate = (yIndex === 0) ? 'rotate(180deg)' : 'rotate(0deg)';
                 let yearNum = parseInt(yearStr);
 
-                htmlStr += `<div class="year-block" data-year="${yearNum}"><div class="year-header" id="yh-${yIndex}" onclick="toggleSection('year-content-${yIndex}', this)"><span>🗓 NĂM ${yearStr}</span><span class="toggle-icon" style="transform: ${iconRotate}">▼</span></div><div class="year-content ${isYearShow}" id="year-content-${yIndex}">`;
+                htmlStr += `<div class="year-block" id="yb-${yIndex}" data-year="${yearNum}"><div class="year-header" id="yh-${yIndex}" onclick="toggleSection('year-content-${yIndex}', this)"><span>🗓 NĂM ${yearStr}</span><span class="toggle-icon" style="transform: ${iconRotate}">▼</span></div><div class="year-content ${isYearShow}" id="year-content-${yIndex}">`;
                 
                 let mIndex = 0;
                 for (let monthStr in groupedData[yearStr]) {
                     let monthNum = parseInt(monthStr.replace(/\D/g, '')) || 0;
-                    htmlStr += `<div class="month-block" data-year="${yearNum}" data-month="${monthNum}"><div class="month-header glass-fx" id="mh-${yIndex}-${mIndex}" onclick="toggleSection('month-content-${yIndex}-${mIndex}', this)"><span>📅 ${monthStr}</span><span class="toggle-icon">▼</span></div><div class="month-content" id="month-content-${yIndex}-${mIndex}">`;
+                    htmlStr += `<div class="month-block" id="mb-${yIndex}-${mIndex}" data-year="${yearNum}" data-month="${monthNum}"><div class="month-header glass-fx" id="mh-${yIndex}-${mIndex}" onclick="toggleSection('month-content-${yIndex}-${mIndex}', this)"><span>📅 ${monthStr}</span><span class="toggle-icon">▼</span></div><div class="month-content" id="month-content-${yIndex}-${mIndex}">`;
                     let dIndex = 0;
                     for (let dateStr in groupedData[yearStr][monthStr]) {
                         htmlStr += `<div class="day-header glass-fx" id="dh-${yIndex}-${mIndex}-${dIndex}" onclick="toggleSection('day-content-${yIndex}-${mIndex}-${dIndex}', this)"><span>🗓️ ${dateStr}</span><span class="toggle-icon">▼</span></div><div class="day-content" id="day-content-${yIndex}-${mIndex}-${dIndex}">`;
@@ -550,6 +560,7 @@
                 htmlStr += `</div></div>`; yIndex++;
             });
             list.innerHTML = htmlStr; updateStatsUI();
+            restoreUIState(); // Khôi phục trạng thái ngay sau khi vẽ xong
         }
 
         function toggleSection(id, headerEl, isCard = false) {
@@ -557,6 +568,7 @@
             if (el) {
                 el.classList.toggle('show');
                 if (!isCard) { const icon = headerEl.querySelector('.toggle-icon'); icon.style.transform = el.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)'; }
+                setTimeout(saveUIState, 100);
             }
         }
 
@@ -597,7 +609,7 @@
         async function markPaid(rowIndex, name) {
             if (!confirm(`Xác nhận khách hàng "${name}" đã thanh toán toàn bộ số tiền còn lại?`)) return;
             let item = allValidData.find(r => r._rowIndex == rowIndex);
-            if (item) { let conLaiKey = Object.keys(item).find(k => k.toLowerCase().includes('còn lại')) || 'Còn lại'; item[conLaiKey] = 0; let states = getOpenStates(); renderUI(allValidData); restoreStates(states); }
+            if (item) { let conLaiKey = Object.keys(item).find(k => k.toLowerCase().includes('còn lại')) || 'Còn lại'; item[conLaiKey] = 0; renderUI(allValidData); }
             fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: "MARK_PAID", rowIndex: rowIndex }) }).then(() => silentFetchData());
         }
 
@@ -606,7 +618,7 @@
             const payload = { action: "CREATE", ngayChup: document.getElementById('c_ngay').value, thoiGian: document.getElementById('c_thoigian').value, khachHang: document.getElementById('c_khach').value, linkFacebook: document.getElementById('c_linkfb').value, zalo: document.getElementById('c_zalo').value, instagram: document.getElementById('c_ig').value, diaDiem: document.getElementById('c_diadiem').value, linkMaps: document.getElementById('c_linkmaps').value, linkDrive: document.getElementById('c_linkdrive').value, noiDung: document.getElementById('c_noidung').value, giaGoi: parseNum(document.getElementById('c_gia').value), phiDiLai: parseNum(document.getElementById('c_phi').value), coc: parseNum(document.getElementById('c_coc').value), ghiChu: document.getElementById('c_ghichu').value };
             let newItem = { "Ngày chụp": payload.ngayChup, "Thời gian": payload.thoiGian, "Khách hàng": payload.khachHang, "Link Facebook": payload.linkFacebook, "SĐT Zalo": payload.zalo, "Link Instagram": payload.instagram, "Địa điểm": payload.diaDiem, "Link Maps": payload.linkMaps, "Link Drive": payload.linkDrive, "Nội dung": payload.noiDung, "Giá gói": payload.giaGoi, "Phí đi lại": payload.phiDiLai, "Cọc": payload.coc, "Còn lại": (payload.giaGoi + payload.phiDiLai) - payload.coc, "Ghi chú": payload.ghiChu, "_rowIndex": Date.now() };
             newItem._dateObj = parseDateCustom(payload.ngayChup); allValidData.push(newItem);
-            let states = getOpenStates(); renderUI(allValidData); restoreStates(states); closeModal(); document.getElementById('formCreate').reset(); btn.innerText = "Tạo Lịch & Đồng Bộ"; btn.style.opacity = 1; btn.disabled = false;
+            renderUI(allValidData); closeModal(); document.getElementById('formCreate').reset(); btn.innerText = "Tạo Lịch & Đồng Bộ"; btn.style.opacity = 1; btn.disabled = false;
             fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).then(() => silentFetchData());
         }
 
@@ -617,13 +629,13 @@
             if (item) {
                 let keys = Object.keys(item); item[keys.find(k=>k.toLowerCase().includes('ngày')) || 'Ngày chụp'] = payload.ngayChup; item[keys.find(k=>k.toLowerCase().includes('thời gian')) || 'Thời gian'] = payload.thoiGian; item[keys.find(k=>k.toLowerCase().includes('khách')) || 'Khách hàng'] = payload.khachHang; item['Link Facebook'] = payload.linkFacebook; item['SĐT Zalo'] = payload.zalo; item['Link Instagram'] = payload.instagram; item[keys.find(k=>k.toLowerCase().includes('địa điểm')) || 'Địa điểm'] = payload.diaDiem; item['Link Maps'] = payload.linkMaps; item['Link Drive'] = payload.linkDrive; item[keys.find(k=>k.toLowerCase().includes('nội dung')) || 'Nội dung'] = payload.noiDung; item[keys.find(k=>k.toLowerCase().includes('giá')) || 'Giá gói'] = payload.giaGoi; item[keys.find(k=>k.toLowerCase().includes('phí')) || 'Phí đi lại'] = payload.phiDiLai; item[keys.find(k=>k.toLowerCase().includes('cọc')) || 'Cọc'] = payload.coc; let tt = parseNum(findVal(item, 'thanh toán thêm')) || 0; item[keys.find(k=>k.toLowerCase().includes('còn lại')) || 'Còn lại'] = (payload.giaGoi + payload.phiDiLai) - (payload.coc + tt); item[keys.find(k=>k.toLowerCase().includes('ghi chú')) || 'Ghi chú'] = payload.ghiChu; item._dateObj = parseDateCustom(payload.ngayChup);
             }
-            let states = getOpenStates(); renderUI(allValidData); restoreStates(states); closeModal(); btn.innerText = "Lưu Cập Nhật"; btn.style.opacity = 1; btn.disabled = false;
+            renderUI(allValidData); closeModal(); btn.innerText = "Lưu Cập Nhật"; btn.style.opacity = 1; btn.disabled = false;
             fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).then(() => silentFetchData());
         }
 
         async function deleteBooking(rowIndex, name) {
             if (!confirm(`Bạn có chắc chắn muốn XÓA lịch của khách "${name}" không? Thao tác này không thể hoàn tác.`)) return;
-            allValidData = allValidData.filter(r => r._rowIndex != rowIndex); let states = getOpenStates(); renderUI(allValidData); restoreStates(states);
+            allValidData = allValidData.filter(r => r._rowIndex != rowIndex); renderUI(allValidData);
             fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: "DELETE_ROW", rowIndex: rowIndex }) }).then(() => silentFetchData());
         }
     </script>
