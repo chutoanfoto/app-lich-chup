@@ -8,10 +8,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Lịch Chụp">
     
-    <link rel="apple-touch-icon" href="https://i.postimg.cc/prXXD19w/logo-app-lich-chup.jpg">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://i.postimg.cc/prXXD19w/logo-app-lich-chup.jpg">
-    <link rel="icon" type="image/jpeg" href="https://i.postimg.cc/prXXD19w/logo-app-lich-chup.jpg">
-    <link rel="shortcut icon" href="https://i.postimg.cc/prXXD19w/logo-app-lich-chup.jpg">
+    <link rel="apple-touch-icon" href="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png">
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png">
+    <link rel="shortcut icon" href="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png">
 
     <title>ChuToan Foto - Quản Lý Lịch Chụp</title>
     <style>
@@ -84,7 +84,6 @@
         .calendar-swipe-header { text-align: center; margin-bottom: 16px; padding-top: 10px; cursor: pointer; user-select: none; }
         .calendar-title-text { font-size: 13.5px; font-weight: 800; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; }
 
-        /* BLOCK ẨN/HIỆN TỪNG NẤC */
         .year-block, .month-block { transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease, margin 0.3s ease; max-height: 5000px; opacity: 1; overflow: hidden; transform-origin: top; }
         .hidden-step { max-height: 0 !important; opacity: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important; pointer-events: none; border: none !important; }
 
@@ -98,7 +97,11 @@
         .day-content { display: none; } .day-content.show { display: block; animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
         .toggle-icon { transition: transform 0.25s ease; font-size: 11px; opacity: 0.8; }
 
-        .card { border-radius: var(--radius-card); padding: 18px; margin: 0 0 12px 16px; cursor: pointer; transition: transform 0.15s ease; }
+        /* PHẦN CHIA SÁNG CHIỀU TỐI */
+        .session-divider { display: flex; align-items: center; margin: 16px 0 10px 24px; font-size: 11.5px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .session-divider::after { content: ''; flex: 1; height: 1px; background: var(--divider-line); margin-left: 12px; border-radius: 2px; }
+
+        .card { border-radius: var(--radius-card); padding: 18px; margin: 0 0 12px 24px; cursor: pointer; transition: transform 0.15s ease; }
         .card:active { transform: scale(0.985); }
         .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
         
@@ -150,17 +153,8 @@
         .fab { position: fixed; bottom: 28px; right: 20px; width: 56px; height: 56px; background: var(--accent-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 28px; font-weight: 300; box-shadow: 0 8px 24px rgba(2, 132, 199, 0.4); cursor: pointer; z-index: 80; }
         .fab:active { transform: scale(0.92); }
 
-        /* --- POPUP MODAL --- */
         .modal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); justify-content: center; align-items: flex-end; overscroll-behavior: contain; width: 100vw; }
-        .modal-content { 
-            background: var(--modal-bg); 
-            border-top: 1px solid var(--card-border); 
-            backdrop-filter: blur(30px) saturate(200%); -webkit-backdrop-filter: blur(30px) saturate(200%); 
-            border-radius: 28px 28px 0 0; width: 100%; max-width: 580px; max-height: 88vh; 
-            overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; 
-            padding: 24px 20px 36px 20px; box-shadow: 0 -10px 40px rgba(0,0,0,0.2); 
-            animation: slideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1); 
-        }
+        .modal-content { background: var(--modal-bg); border-top: 1px solid var(--card-border); backdrop-filter: blur(30px) saturate(200%); -webkit-backdrop-filter: blur(30px) saturate(200%); border-radius: 28px 28px 0 0; width: 100%; max-width: 580px; max-height: 88vh; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; padding: 24px 20px 36px 20px; box-shadow: 0 -10px 40px rgba(0,0,0,0.2); animation: slideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1); }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } } @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; } 
@@ -171,17 +165,7 @@
         .form-group { margin-bottom: 14px; display: flex; flex-direction: column; width: 100%; } 
         .form-group label { font-size: 12.5px; color: var(--text-muted); margin-bottom: 6px; margin-left: 4px; font-weight: 600;} 
         
-        .form-control, .form-select { 
-            width: 100%; padding: 15px 14px; 
-            background: var(--input-bg) !important; 
-            border: 1px solid var(--input-border) !important; 
-            border-radius: 12px; 
-            color: var(--input-text) !important; 
-            font-size: 15px; 
-            outline: none; 
-            -webkit-appearance: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        } 
+        .form-control, .form-select { width: 100%; padding: 15px 14px; background: var(--input-bg) !important; border: 1px solid var(--input-border) !important; border-radius: 12px; color: var(--input-text) !important; font-size: 15px; outline: none; -webkit-appearance: none; transition: border-color 0.2s, box-shadow 0.2s; } 
         .form-control::placeholder { color: var(--input-placeholder); }
         .form-control:focus, .form-select:focus { border-color: var(--accent-primary) !important; box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15); }
         textarea.form-control { resize: vertical; min-height: 80px; font-family: inherit; line-height: 1.5; } 
@@ -230,7 +214,7 @@
             <div id="tab-create" class="tab-panel active">
                 <form id="formCreate" onsubmit="submitCreate(event)">
                     <div class="form-group"><label>Ngày chụp</label><input type="date" id="c_ngay" class="form-control" required></div>
-                    <div class="form-group"><label>Thời gian (Sáng/Chiều)</label><input type="text" id="c_thoigian" class="form-control" placeholder="Ví dụ: Sáng"></div>
+                    <div class="form-group"><label>Thời gian (Sáng/Chiều/Tối)</label><input type="text" id="c_thoigian" class="form-control" placeholder="Ví dụ: Sáng 7h"></div>
                     <div class="form-group"><label>Khách hàng (Tên)</label><input type="text" id="c_khach" class="form-control" required placeholder="Tên khách hàng"></div>
                     <div class="form-group"><label>Địa điểm chụp</label><input type="text" id="c_diadiem" class="form-control" placeholder="Nơi chụp chính"></div>
                     
@@ -262,7 +246,7 @@
                 <form id="formEdit" onsubmit="submitEdit(event)">
                     <input type="hidden" id="e_rowindex">
                     <div class="form-group"><label>Ngày chụp</label><input type="date" id="e_ngay" class="form-control" required></div>
-                    <div class="form-group"><label>Thời gian (Sáng/Chiều)</label><input type="text" id="e_thoigian" class="form-control"></div>
+                    <div class="form-group"><label>Thời gian (Sáng/Chiều/Tối)</label><input type="text" id="e_thoigian" class="form-control"></div>
                     <div class="form-group"><label>Khách hàng (Tên)</label><input type="text" id="e_khach" class="form-control" required></div>
                     <div class="form-group"><label>Địa điểm chụp</label><input type="text" id="e_diadiem" class="form-control"></div>
                     
@@ -299,7 +283,7 @@
         const ZALO_ICON = `<span style="background:#0068FF; color:#fff; font-size:10px; font-weight:800; padding:0 6px; border-radius:6px; height:18px; line-height:18px; display:inline-block;">Zalo</span>`;
         const IG_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E1306C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>`;
 
-        // LOGIC LƯU VÀ PHỤC HỒI TRẠNG THÁI MÀN HÌNH (BỘ NHỚ ĐỆM)
+        // LƯU TRẠNG THÁI UI VĨNH VIỄN
         function saveUIState() {
             let state = {
                 shows: Array.from(document.querySelectorAll('.show')).map(el => el.id).filter(id => id),
@@ -336,7 +320,7 @@
             });
         }
 
-        // LOGIC VUỐT ĐÓNG/MỞ TỪNG NẤC CHUẨN XÁC
+        // VUỐT TỪNG NẤC
         let touchStartY = 0; let isSwiping = false;
 
         document.addEventListener('touchstart', function(e) {
@@ -461,6 +445,7 @@
                 isFirstLoad = false;
             }
 
+            // GOM NHÓM THEO: NĂM -> THÁNG -> NGÀY -> BUỔI (SÁNG/CHIỀU/TỐI)
             let groupedData = {};
             validData.forEach(row => {
                 let dObj = row._dateObj;
@@ -468,13 +453,25 @@
                 let monthStr = dObj ? `Tháng ${dObj.getMonth() + 1}` : 'Tháng Chưa Rõ';
                 let displayDate = dObj ? formatDateDisplay(dObj) : (findVal(row, 'ngày') || 'Không rõ ngày');
 
+                // PHÂN LOẠI BUỔI
+                let timeStr = (findVal(row, 'thời gian') || '').toString().trim().toLowerCase();
+                let sessionStr = 'Khác';
+                if (timeStr.startsWith('sáng')) sessionStr = 'Sáng';
+                else if (timeStr.startsWith('chiều')) sessionStr = 'Chiều';
+                else if (timeStr.startsWith('tối') || timeStr.startsWith('đêm')) sessionStr = 'Tối';
+                else if (timeStr !== '') sessionStr = 'Khác';
+
                 if (!groupedData[yearStr]) groupedData[yearStr] = {};
                 if (!groupedData[yearStr][monthStr]) groupedData[yearStr][monthStr] = {};
-                if (!groupedData[yearStr][monthStr][displayDate]) groupedData[yearStr][monthStr][displayDate] = [];
-                groupedData[yearStr][monthStr][displayDate].push(row);
+                if (!groupedData[yearStr][monthStr][displayDate]) groupedData[yearStr][monthStr][displayDate] = {};
+                if (!groupedData[yearStr][monthStr][displayDate][sessionStr]) groupedData[yearStr][monthStr][displayDate][sessionStr] = [];
+                
+                groupedData[yearStr][monthStr][displayDate][sessionStr].push(row);
             });
 
             let sortedYears = Object.keys(groupedData).sort((a, b) => b.localeCompare(a));
+            const sessionOrder = { 'Sáng': 1, 'Chiều': 2, 'Tối': 3, 'Khác': 4 };
+            const sessionIcons = { 'Sáng': '⛅', 'Chiều': '🌇', 'Tối': '🌙', 'Khác': '📌' };
 
             let htmlStr = ''; let yIndex = 0;
             sortedYears.forEach(yearStr => {
@@ -489,69 +486,78 @@
                     let monthNum = parseInt(monthStr.replace(/\D/g, '')) || 0;
                     htmlStr += `<div class="month-block" id="mb-${yIndex}-${mIndex}" data-year="${yearNum}" data-month="${monthNum}"><div class="month-header glass-fx" id="mh-${yIndex}-${mIndex}" onclick="toggleSection('month-content-${yIndex}-${mIndex}', this)"><span>📅 ${monthStr}</span><span class="toggle-icon">▼</span></div><div class="month-content" id="month-content-${yIndex}-${mIndex}">`;
                     let dIndex = 0;
+                    
                     for (let dateStr in groupedData[yearStr][monthStr]) {
                         htmlStr += `<div class="day-header glass-fx" id="dh-${yIndex}-${mIndex}-${dIndex}" onclick="toggleSection('day-content-${yIndex}-${mIndex}-${dIndex}', this)"><span>🗓️ ${dateStr}</span><span class="toggle-icon">▼</span></div><div class="day-content" id="day-content-${yIndex}-${mIndex}-${dIndex}">`;
                         
-                        groupedData[yearStr][monthStr][dateStr].forEach(row => {
-                            let gia = parseNum(findVal(row, 'giá')); let phi = parseNum(findVal(row, 'phí')); let coc = parseNum(findVal(row, 'cọc'));
-                            let conLai = parseNum(findVal(row, 'còn lại')); let rowIndex = row['_rowIndex'];
-                            
-                            let mapsVal = findVal(row, 'maps') || row['Link Maps'] || '';
-                            let driveVal = findVal(row, 'drive') || row['Link Drive'] || '';
-                            let fbVal = findVal(row, 'facebook') || row['Link Facebook'] || '';
-                            let zaloVal = findVal(row, 'zalo') || row['SĐT Zalo'] || '';
-                            let igVal = findVal(row, 'instagram') || findVal(row, 'ig') || row['Link Instagram'] || '';
-                            
-                            let noteVal = findVal(row, 'ghi chú');
-                            let rawClientName = row['Khách hàng'] || findVal(row, 'khách');
+                        // LẶP QUA CÁC BUỔI TRONG NGÀY
+                        let sessionsInDay = Object.keys(groupedData[yearStr][monthStr][dateStr]).sort((a, b) => sessionOrder[a] - sessionOrder[b]);
+                        
+                        sessionsInDay.forEach(session => {
+                            // THÊM DÒNG KẺ CHIA BUỔI SÁNG/CHIỀU
+                            htmlStr += `<div class="session-divider"><span>${sessionIcons[session]} BUỔI ${session}</span></div>`;
 
-                            let socialLinks = '';
-                            if (fbVal) socialLinks += `<a href="${fbVal}" target="_blank" class="social-icon" onclick="event.stopPropagation()">${FB_ICON}</a>`;
-                            if (zaloVal) {
-                                let zPhone = String(zaloVal).replace(/\D/g, '');
-                                if (zPhone.length === 9) zPhone = '0' + zPhone; 
-                                if (zPhone.startsWith('84') && zPhone.length === 11) zPhone = '0' + zPhone.slice(2);
-                                socialLinks += `<a href="https://zalo.me/${zPhone}" target="_blank" class="social-icon" onclick="event.stopPropagation()">${ZALO_ICON}</a>`;
-                            }
-                            if (igVal) socialLinks += `<a href="${igVal}" target="_blank" class="social-icon" onclick="event.stopPropagation()">${IG_ICON}</a>`;
+                            groupedData[yearStr][monthStr][dateStr][session].forEach(row => {
+                                let gia = parseNum(findVal(row, 'giá')); let phi = parseNum(findVal(row, 'phí')); let coc = parseNum(findVal(row, 'cọc'));
+                                let conLai = parseNum(findVal(row, 'còn lại')); let rowIndex = row['_rowIndex'];
+                                
+                                let mapsVal = findVal(row, 'maps') || row['Link Maps'] || '';
+                                let driveVal = findVal(row, 'drive') || row['Link Drive'] || '';
+                                let fbVal = findVal(row, 'facebook') || row['Link Facebook'] || '';
+                                let zaloVal = findVal(row, 'zalo') || row['SĐT Zalo'] || '';
+                                let igVal = findVal(row, 'instagram') || findVal(row, 'ig') || row['Link Instagram'] || '';
+                                
+                                let noteVal = findVal(row, 'ghi chú');
+                                let rawClientName = row['Khách hàng'] || findVal(row, 'khách');
 
-                            let clientNameHTML = `<div class="client-name-container">
-                                <span>${rawClientName}</span>
-                                ${socialLinks ? `<div class="social-links-row">${socialLinks}</div>` : ''}
-                            </div>`;
+                                let socialLinks = '';
+                                if (fbVal) socialLinks += `<a href="${fbVal}" target="_blank" class="social-icon" onclick="event.stopPropagation()">${FB_ICON}</a>`;
+                                if (zaloVal) {
+                                    let zPhone = String(zaloVal).replace(/\D/g, '');
+                                    if (zPhone.length === 9) zPhone = '0' + zPhone; 
+                                    if (zPhone.startsWith('84') && zPhone.length === 11) zPhone = '0' + zPhone.slice(2);
+                                    socialLinks += `<a href="https://zalo.me/${zPhone}" target="_blank" class="social-icon" onclick="event.stopPropagation()">${ZALO_ICON}</a>`;
+                                }
+                                if (igVal) socialLinks += `<a href="${igVal}" target="_blank" class="social-icon" onclick="event.stopPropagation()">${IG_ICON}</a>`;
 
-                            let moneyStatusHTML = conLai > 0 ? `<span class="debt">Còn nợ: ${formatMoney(conLai)}</span>` : `<span class="paid">Đã tất toán ✓</span>`;
-
-                            let mapsBtn = mapsVal ? `<a href="${mapsVal}" target="_blank" class="action-link-btn maps" onclick="event.stopPropagation()">📍 Maps</a>` : '';
-                            let driveBtn = driveVal ? `<a href="${driveVal}" target="_blank" class="action-link-btn drive" onclick="event.stopPropagation()">📁 Drive</a>` : '';
-                            let linkButtonsHTML = (mapsBtn || driveBtn) ? `<div class="action-links">${mapsBtn}${driveBtn}</div>` : '';
-
-                            let paidBtnHTML = '';
-                            if (conLai > 0) { paidBtnHTML = `<div style="margin-top: 12px;" onclick="event.stopPropagation()"><button class="btn-pay" onclick="markPaid(${rowIndex}, '${rawClientName}')">✓ Đã Thanh Toán</button></div>`; }
-
-                            let noteHTML = '';
-                            if (noteVal) { noteHTML = `<div class="detail-note" onclick="event.stopPropagation()"><div class="detail-note-label">📝 Ghi chú / Timeline</div><div class="detail-note-content">${noteVal}</div></div>`; }
-
-                            htmlStr += `
-                                <div class="card glass-fx" onclick="toggleSection('expanded-${rowIndex}', this, true)">
-                                    <div class="card-header">
-                                        <div><h2 class="client-name">${clientNameHTML}</h2><span class="tag-package">${findVal(row, 'nội dung') || 'Gói Chụp'}</span></div>
-                                        <span class="tag-session">${findVal(row, 'thời gian') || 'Cả ngày'}</span>
-                                    </div>
-                                    <div class="location-row"><span class="location-label">📍 Địa điểm:</span><span class="location-value">${findVal(row, 'địa điểm') || '--'}</span></div>
-                                    ${linkButtonsHTML}
-                                    <div class="money-bar"><span class="total">Tổng: <span class="total-num">${formatMoney(gia + phi)}</span></span>${moneyStatusHTML}</div>
-                                    <div class="card-expanded-content" id="expanded-${rowIndex}">
-                                        <div class="detail-item"><span>Phí đi lại</span><span>${formatMoney(phi)}</span></div>
-                                        <div class="detail-item"><span>Tiền cọc</span><span>${formatMoney(coc)}</span></div>
-                                        ${noteHTML}
-                                        ${paidBtnHTML}
-                                        <div class="card-btns-row" onclick="event.stopPropagation()">
-                                            <button class="btn-card-action btn-edit" onclick="openEditModal(${rowIndex}, '${rawClientName}')">✏️ Sửa Lịch</button>
-                                            <button class="btn-card-action btn-delete" onclick="deleteBooking(${rowIndex}, '${rawClientName}')">🗑️ Xóa Lịch</button>
-                                        </div>
-                                    </div>
+                                let clientNameHTML = `<div class="client-name-container">
+                                    <span>${rawClientName}</span>
+                                    ${socialLinks ? `<div class="social-links-row">${socialLinks}</div>` : ''}
                                 </div>`;
+
+                                let moneyStatusHTML = conLai > 0 ? `<span class="debt">Còn nợ: ${formatMoney(conLai)}</span>` : `<span class="paid">Đã tất toán ✓</span>`;
+
+                                let mapsBtn = mapsVal ? `<a href="${mapsVal}" target="_blank" class="action-link-btn maps" onclick="event.stopPropagation()">📍 Maps</a>` : '';
+                                let driveBtn = driveVal ? `<a href="${driveVal}" target="_blank" class="action-link-btn drive" onclick="event.stopPropagation()">📁 Drive</a>` : '';
+                                let linkButtonsHTML = (mapsBtn || driveBtn) ? `<div class="action-links">${mapsBtn}${driveBtn}</div>` : '';
+
+                                let paidBtnHTML = '';
+                                if (conLai > 0) { paidBtnHTML = `<div style="margin-top: 12px;" onclick="event.stopPropagation()"><button class="btn-pay" onclick="markPaid(${rowIndex}, '${rawClientName}')">✓ Đã Thanh Toán</button></div>`; }
+
+                                let noteHTML = '';
+                                if (noteVal) { noteHTML = `<div class="detail-note" onclick="event.stopPropagation()"><div class="detail-note-label">📝 Ghi chú / Timeline</div><div class="detail-note-content">${noteVal}</div></div>`; }
+
+                                htmlStr += `
+                                    <div class="card glass-fx" onclick="toggleSection('expanded-${rowIndex}', this, true)">
+                                        <div class="card-header">
+                                            <div><h2 class="client-name">${clientNameHTML}</h2><span class="tag-package">${findVal(row, 'nội dung') || 'Gói Chụp'}</span></div>
+                                            <span class="tag-session">${findVal(row, 'thời gian') || 'Cả ngày'}</span>
+                                        </div>
+                                        <div class="location-row"><span class="location-label">📍 Địa điểm:</span><span class="location-value">${findVal(row, 'địa điểm') || '--'}</span></div>
+                                        ${linkButtonsHTML}
+                                        <div class="money-bar"><span class="total">Tổng: <span class="total-num">${formatMoney(gia + phi)}</span></span>${moneyStatusHTML}</div>
+                                        <div class="card-expanded-content" id="expanded-${rowIndex}">
+                                            <div class="detail-item"><span>Phí đi lại</span><span>${formatMoney(phi)}</span></div>
+                                            <div class="detail-item"><span>Tiền cọc</span><span>${formatMoney(coc)}</span></div>
+                                            ${noteHTML}
+                                            ${paidBtnHTML}
+                                            <div class="card-btns-row" onclick="event.stopPropagation()">
+                                                <button class="btn-card-action btn-edit" onclick="openEditModal(${rowIndex}, '${rawClientName}')">✏️ Sửa Lịch</button>
+                                                <button class="btn-card-action btn-delete" onclick="deleteBooking(${rowIndex}, '${rawClientName}')">🗑️ Xóa Lịch</button>
+                                            </div>
+                                        </div>
+                                    </div>`;
+                            });
                         });
                         htmlStr += `</div>`; dIndex++;
                     }
@@ -560,7 +566,7 @@
                 htmlStr += `</div></div>`; yIndex++;
             });
             list.innerHTML = htmlStr; updateStatsUI();
-            restoreUIState(); // Khôi phục trạng thái ngay sau khi vẽ xong
+            restoreUIState();
         }
 
         function toggleSection(id, headerEl, isCard = false) {
