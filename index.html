@@ -8,10 +8,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Lịch Chụp">
     
-    <link rel="apple-touch-icon" href="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png">
-    <link rel="icon" type="image/png" href="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png">
-    <link rel="shortcut icon" href="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png">
+    <link rel="apple-touch-icon" href="https://i.postimg.cc/prXXD19w/logo-app-lich-chup.jpg">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://i.postimg.cc/prXXD19w/logo-app-lich-chup.jpg">
+    <link rel="icon" type="image/jpeg" href="https://i.postimg.cc/prXXD19w/logo-app-lich-chup.jpg">
+    <link rel="shortcut icon" href="https://i.postimg.cc/prXXD19w/logo-app-lich-chup.jpg">
 
     <title>ChuToan Foto - Quản Lý Lịch Chụp</title>
     <style>
@@ -84,6 +84,7 @@
         .calendar-swipe-header { text-align: center; margin-bottom: 16px; padding-top: 10px; cursor: pointer; user-select: none; }
         .calendar-title-text { font-size: 13.5px; font-weight: 800; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; }
 
+        /* KHỐI ẨN HIỆN NÂNG CẤP (Năm, Tháng, Ngày) */
         .year-block, .month-block, .day-block { transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease, margin 0.3s ease; max-height: 5000px; opacity: 1; overflow: hidden; transform-origin: top; }
         .hidden-step { max-height: 0 !important; opacity: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important; pointer-events: none; border: none !important; }
 
@@ -97,6 +98,7 @@
         .day-content { display: none; } .day-content.show { display: block; animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
         .toggle-icon { transition: transform 0.25s ease; font-size: 11px; opacity: 0.8; }
 
+        /* PHẦN CHIA SÁNG CHIỀU TỐI */
         .session-divider { display: flex; align-items: center; margin: 16px 0 10px 24px; font-size: 11.5px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
         .session-divider::after { content: ''; flex: 1; height: 1px; background: var(--divider-line); margin-left: 12px; border-radius: 2px; }
 
@@ -521,7 +523,6 @@
                                 let zaloVal = findVal(row, 'zalo') || row['SĐT Zalo'] || '';
                                 let igVal = findVal(row, 'instagram') || findVal(row, 'ig') || row['Link Instagram'] || '';
                                 
-                                // TRÍCH XUẤT SĐT KHÁCH
                                 let sdtVal = findVal(row, 'sđt') || findVal(row, 'điện thoại') || row['SĐT'] || '';
                                 let noteVal = findVal(row, 'ghi chú');
                                 let rawClientName = row['Khách hàng'] || findVal(row, 'khách');
