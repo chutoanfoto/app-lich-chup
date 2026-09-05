@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="theme-color" content="#030303" media="(prefers-color-scheme: dark)">
-    <meta name="theme-color" content="#f2f4f7" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#050505" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f2efe9" media="(prefers-color-scheme: light)">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Lịch Chụp">
@@ -18,95 +18,76 @@
     <style>
         *, *::before, *::after { box-sizing: border-box; }
 
-        /* ======== LIGHT MODE (Thiết kế mới: Kính sương mờ trên nền ánh Pastel) ======== */
+        /* ======== LIGHT MODE PRO MAX ======== */
         :root {
-            --bg-base: #f2f4f7; 
+            --bg-base: #f2efe9; 
             --bg-mesh: 
-                radial-gradient(circle at 15% 10%, rgba(180, 210, 255, 0.25), transparent 40%), 
-                radial-gradient(circle at 85% 90%, rgba(255, 210, 180, 0.25), transparent 40%),
-                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.8), transparent 60%);
+                radial-gradient(circle at 10% 0%, rgba(212, 175, 55, 0.08), transparent 45%), 
+                radial-gradient(circle at 90% 100%, rgba(160, 150, 140, 0.1), transparent 55%),
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.5), transparent 70%);
             
-            --card-bg: rgba(255, 255, 255, 0.55); 
-            --card-border: rgba(255, 255, 255, 0.4);
+            --card-bg: rgba(255, 255, 255, 0.45); 
+            --card-border: rgba(255, 255, 255, 0.3);
             --card-border-top: rgba(255, 255, 255, 1);
-            --card-border-left: rgba(255, 255, 255, 0.9);
-            --card-shadow: 0 15px 35px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 1);
+            --card-border-left: rgba(255, 255, 255, 0.8);
+            --card-shadow: 0 15px 35px rgba(130, 120, 100, 0.15), inset 0 1px 0px rgba(255, 255, 255, 0.8);
             
-            --text-main: #111111; --text-muted: #6e737a; --text-sub: #9ea3aa;
-            --accent-gold: #c59b27;
-            --tag-gold-bg: rgba(197, 155, 39, 0.12); --tag-gold-text: #9e7b1c;
-            --alert-red: #e74c3c; --alert-bg: rgba(231, 76, 60, 0.1);
+            --text-main: #1a1a1a; --text-muted: #7a756b; --text-sub: #9e998f;
+            --accent-gold: #b8860b;
+            --tag-gold-bg: rgba(184, 134, 11, 0.12); --tag-gold-text: #8c6600;
+            --alert-red: #d35400; --alert-bg: rgba(211, 84, 0, 0.1);
             --success-green: #27ae60; --success-bg: rgba(39, 174, 96, 0.12);
             
-            --modal-bg: rgba(248, 250, 252, 0.95); 
-            --input-bg: rgba(255, 255, 255, 0.8); 
+            --modal-bg: rgba(242, 239, 233, 0.95); 
+            --input-bg: rgba(255, 255, 255, 0.7); 
             --input-border: rgba(0, 0, 0, 0.06);
-            --input-text: #111111;
-            --input-placeholder: #a1a6ab;
+            --input-text: #1a1a1a;
+            --input-placeholder: #a8a398;
             
-            --btn-secondary-bg: rgba(255, 255, 255, 0.8); --btn-secondary-text: #111111;
+            --btn-secondary-bg: rgba(255, 255, 255, 0.8); --btn-secondary-text: #1a1a1a;
             --divider-line: rgba(0, 0, 0, 0.05);
-            --header-bg: rgba(242, 244, 247, 0.65); 
-            --logo-filter: invert(1); --radius-card: 24px;
+            --header-bg: rgba(242, 239, 233, 0.7); 
+            --logo-filter: invert(1); --radius-card: 20px;
         }
 
-        /* ======== DARK MODE (Luxury Cinematic: Nền tối sâu + Điểm sáng trung tâm) ======== */
+        /* ======== DARK MODE PRO MAX ======== */
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg-base: #030303; 
-                /* Tạo điểm sáng khổng lồ ở giữa màn hình để thẻ kính lướt qua sẽ nổi bật */
+                --bg-base: #050505; 
                 --bg-mesh: 
-                    radial-gradient(circle at 50% 50%, rgba(140, 115, 60, 0.22), transparent 60%), 
-                    radial-gradient(circle at 0% -10%, rgba(70, 85, 50, 0.15), transparent 45%), 
-                    radial-gradient(circle at 100% 110%, rgba(40, 30, 20, 0.3), transparent 50%);
+                    radial-gradient(circle at 15% -10%, rgba(120, 100, 50, 0.2), transparent 50%), 
+                    radial-gradient(circle at 85% 110%, rgba(60, 70, 50, 0.15), transparent 55%), 
+                    radial-gradient(circle at 50% 50%, rgba(20, 20, 15, 0.5), transparent 80%);
                 
-                --card-bg: rgba(20, 20, 18, 0.45); 
+                --card-bg: rgba(24, 24, 22, 0.55); 
                 --card-border: rgba(255, 255, 255, 0.02);
                 --card-border-top: rgba(255, 255, 255, 0.15); 
                 --card-border-left: rgba(255, 255, 255, 0.08);
                 --card-shadow: 0 25px 50px rgba(0, 0, 0, 0.9), inset 0 1px 1px rgba(255, 255, 255, 0.05);
                 
-                --text-main: #f0f0f0; --text-muted: #959595; --text-sub: rgba(240, 240, 240, 0.5);
+                --text-main: #f0ece1; --text-muted: #9e998f; --text-sub: rgba(240, 236, 225, 0.5);
                 --accent-gold: #dfb96e; 
-                --tag-gold-bg: rgba(223, 185, 110, 0.12); --tag-gold-text: #e8c784;
-                --alert-red: #ff4747; --alert-bg: rgba(255, 71, 71, 0.12);
-                --success-green: #30d158; --success-bg: rgba(48, 209, 88, 0.12);
+                --tag-gold-bg: rgba(223, 185, 110, 0.12); --tag-gold-text: #dfb96e;
+                --alert-red: #e74c3c; --alert-bg: rgba(231, 76, 60, 0.15);
+                --success-green: #2ecc71; --success-bg: rgba(46, 204, 113, 0.15);
                 
-                --modal-bg: rgba(12, 12, 11, 0.96); 
-                --input-bg: rgba(25, 25, 23, 0.6); 
-                --input-border: rgba(255, 255, 255, 0.06);
-                --input-text: #f0f0f0;
-                --input-placeholder: #777777;
+                --modal-bg: rgba(15, 15, 14, 0.95); 
+                --input-bg: rgba(30, 30, 28, 0.6); 
+                --input-border: rgba(255, 255, 255, 0.05);
+                --input-text: #f0ece1;
+                --input-placeholder: #7a756b;
                 
-                --btn-secondary-bg: rgba(255, 255, 255, 0.06); --btn-secondary-text: #dfb96e;
+                --btn-secondary-bg: rgba(255, 255, 255, 0.05); --btn-secondary-text: #dfb96e;
                 --divider-line: rgba(255, 255, 255, 0.06);
-                --header-bg: rgba(3, 3, 3, 0.65); 
+                --header-bg: rgba(5, 5, 5, 0.7); 
                 --logo-filter: none;
             }
         }
 
-        html, body { 
-            margin: 0; padding: 0; width: 100vw; max-width: 100%; overflow-x: hidden; overscroll-behavior-x: none; 
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif; 
-            background-color: var(--bg-base); 
-            background-image: var(--bg-mesh); 
-            background-attachment: fixed; /* CỐ ĐỊNH NỀN ĐỂ TẠO CHIỀU SÂU KHI VUỐT */
-            background-size: cover;
-            background-position: center;
-            color: var(--text-main); min-height: 100vh; -webkit-tap-highlight-color: transparent; 
-        }
+        html, body { margin: 0; padding: 0; width: 100vw; max-width: 100%; overflow-x: hidden; overscroll-behavior-x: none; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif; background-color: var(--bg-base); background-image: var(--bg-mesh); background-attachment: fixed; background-size: cover; background-position: center; color: var(--text-main); min-height: 100vh; -webkit-tap-highlight-color: transparent; }
         body.modal-open { overflow: hidden; position: fixed; width: 100%; height: 100%; }
         
-        /* CÔNG THỨC KÍNH LỎNG (LIQUID GLASS) CHUẨN XÁC */
-        .glass-fx { 
-            background: var(--card-bg); 
-            border: 1px solid var(--card-border); 
-            border-top-color: var(--card-border-top);
-            border-left-color: var(--card-border-left);
-            backdrop-filter: blur(30px) saturate(140%); 
-            -webkit-backdrop-filter: blur(30px) saturate(140%); 
-            box-shadow: var(--card-shadow); 
-        }
+        .glass-fx { background: var(--card-bg); border: 1px solid var(--card-border); border-top-color: var(--card-border-top); border-left-color: var(--card-border-left); backdrop-filter: blur(28px) saturate(120%); -webkit-backdrop-filter: blur(28px) saturate(120%); box-shadow: var(--card-shadow); }
 
         .header { width: 100%; padding: 14px 20px; position: sticky; top: 0; z-index: 50; background: var(--header-bg); backdrop-filter: blur(40px) saturate(180%); -webkit-backdrop-filter: blur(40px) saturate(180%); border-bottom: 1px solid var(--divider-line); display: flex; justify-content: space-between; align-items: center; }
         .header img { height: 30px; object-fit: contain; filter: var(--logo-filter); }
@@ -119,10 +100,15 @@
         .calendar-swipe-header { text-align: center; margin-bottom: 20px; padding-top: 10px; cursor: pointer; user-select: none; }
         .calendar-title-text { font-size: 14px; font-weight: 800; color: var(--accent-gold); letter-spacing: 3px; text-transform: uppercase; text-shadow: 0 0 20px rgba(223, 185, 110, 0.2); }
 
+        /* SVG ICONS XỊN XÒ */
+        .ui-icon { width: 16px; height: 16px; fill: currentColor; display: inline-block; vertical-align: middle; margin-right: 8px; opacity: 0.9; }
+        .session-icon { width: 16px; height: 16px; fill: currentColor; margin-right: 6px; filter: drop-shadow(0 0 4px rgba(223, 185, 110, 0.5)); vertical-align: middle; margin-top:-2px;}
+        .location-icon { width: 14px; height: 14px; fill: none; stroke: var(--alert-red); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; margin-right: 6px; vertical-align: text-bottom;}
+        .phone-icon { width: 13px; height: 13px; fill: var(--text-muted); margin-right: 7px; vertical-align: baseline;}
+
         .year-block, .month-block, .day-block { transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease, margin 0.3s ease; max-height: 5000px; opacity: 1; overflow: hidden; transform-origin: top; }
         .hidden-step { max-height: 0 !important; opacity: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important; pointer-events: none; border: none !important; }
 
-        /* THẺ NĂM BÓNG BẨY */
         .year-header { padding: 18px 20px; margin: 16px 0 12px 0; border-radius: 20px; background: var(--card-bg); color: var(--accent-gold); font-weight: 800; font-size: 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--card-shadow); text-transform: uppercase; letter-spacing: 2px; border: 1px solid var(--card-border); border-top-color: var(--card-border-top); border-left-color: var(--card-border-left); backdrop-filter: blur(30px) saturate(140%); -webkit-backdrop-filter: blur(30px) saturate(140%); }
         .year-content { display: none; } .year-content.show { display: block; animation: fadeIn 0.3s ease; }
 
@@ -134,8 +120,11 @@
         .day-content { display: none; } .day-content.show { display: block; animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
         .toggle-icon { transition: transform 0.25s ease; font-size: 11px; opacity: 0.8; }
 
-        .session-divider { display: flex; align-items: center; margin: 18px 0 12px 24px; font-size: 11px; font-weight: 800; color: var(--text-sub); text-transform: uppercase; letter-spacing: 1.5px; }
-        .session-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--divider-line), transparent); margin-left: 12px; }
+        /* THIẾT KẾ BADGE PHÂN BUỔI NỔI KHỐI MỚI */
+        .session-divider { display: flex; align-items: center; margin: 24px 0 14px 20px; font-size: 11px; font-weight: 800; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 1.5px; text-shadow: 0 0 10px rgba(223, 185, 110, 0.4); opacity: 1; }
+        .session-badge { display: flex; align-items: center; background: var(--btn-secondary-bg); padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(223, 185, 110, 0.25); box-shadow: 0 4px 15px rgba(0,0,0,0.2); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);}
+        @media (prefers-color-scheme: light) { .session-badge { background: #fff; box-shadow: 0 4px 15px rgba(184, 134, 11, 0.1); border-color: rgba(184, 134, 11, 0.2); } }
+        .session-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent-gold), transparent); margin-left: 12px; opacity: 0.4;}
 
         .card { border-radius: var(--radius-card); padding: 20px; margin: 0 0 14px 24px; cursor: pointer; transition: transform 0.15s ease; }
         .card:active { transform: scale(0.985); }
@@ -151,7 +140,7 @@
         .tag-package { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 11.5px; font-weight: 700; background: var(--tag-gold-bg); color: var(--tag-gold-text); border: 1px solid rgba(223, 185, 110, 0.15); }
         .tag-session { font-size: 11.5px; font-weight: 600; background: var(--btn-secondary-bg); color: var(--text-main); padding: 5px 12px; border-radius: 6px; border: 1px solid var(--divider-line); }
 
-        .location-row { display: flex; align-items: flex-start; gap: 8px; font-size: 13.5px; color: var(--text-muted); margin-bottom: 12px; }
+        .location-row { display: flex; align-items: flex-start; gap: 4px; font-size: 13.5px; color: var(--text-muted); margin-bottom: 12px; }
         .location-label { font-weight: 600; flex-shrink: 0; color: var(--text-sub);} .location-value { color: var(--text-main); font-weight: 500; }
 
         .action-links { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
@@ -181,8 +170,9 @@
         .stat-value.gold { color: var(--accent-gold); text-shadow: 0 0 15px rgba(223, 185, 110, 0.3); } .stat-value.green { color: var(--success-green); } .stat-value.red { color: var(--alert-red); }
 
         .select-filter { width: 100%; padding: 14px 16px; border-radius: 16px; color: var(--text-main); font-size: 14px; font-weight: 700; outline: none; border-color: var(--card-border); appearance: none; -webkit-appearance: none; background: url('data:image/svg+xml;utf8,<svg fill="%23dfb96e" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>') no-repeat right 12px center; background-color: var(--card-bg); }
+        @media (prefers-color-scheme: light) { .select-filter { background: url('data:image/svg+xml;utf8,<svg fill="%23c59b27" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>') no-repeat right 12px center; background-color: var(--card-bg);} }
 
-        .fab { position: fixed; bottom: 32px; right: 24px; width: 56px; height: 56px; background: linear-gradient(135deg, var(--accent-gold), #a38228); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 28px; font-weight: 400; box-shadow: 0 10px 25px rgba(197, 155, 39, 0.4); cursor: pointer; z-index: 80; border: 1px solid rgba(255,255,255,0.3); }
+        .fab { position: fixed; bottom: 32px; right: 24px; width: 56px; height: 56px; background: linear-gradient(135deg, var(--accent-gold), #997328); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 28px; font-weight: 400; box-shadow: 0 10px 25px rgba(197, 155, 39, 0.4); cursor: pointer; z-index: 80; border: 1px solid rgba(255,255,255,0.3); }
         @media (prefers-color-scheme: dark) { .fab { color: #000; box-shadow: 0 10px 25px rgba(223, 185, 110, 0.3); border-color: rgba(255,255,255,0.15);} }
         .fab:active { transform: scale(0.92); }
 
@@ -316,9 +306,22 @@
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbyxTm4XHr7HF1WujMPs9oWARimjrmkUV50hbV0ko59oj1njSyWg7rQd1T4PryjGbeJm/exec";
         let allValidData = []; let isFirstLoad = true;
-        const FB_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>`;
-        const ZALO_ICON = `<span style="background:#0068FF; color:#fff; font-size:10px; font-weight:800; padding:0 6px; border-radius:6px; height:18px; line-height:18px; display:inline-block;">Zalo</span>`;
-        const IG_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" fill="url(#ig-grad)"><defs><linearGradient id="ig-grad" x1="2" y1="2" x2="22" y2="22"><stop offset="0%" stop-color="#f09433"/><stop offset="25%" stop-color="#e6683c"/><stop offset="50%" stop-color="#dc2743"/><stop offset="75%" stop-color="#cc2366"/><stop offset="100%" stop-color="#bc1888"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="url(#ig-grad)" stroke-width="2"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="url(#ig-grad)" stroke-width="2"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="url(#ig-grad)" stroke-width="2"></line></svg>`;
+        
+        // ICONS GỐC CỦA MẠNG XÃ HỘI
+        const FB_ICON = `<svg width="16" height="16" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>`;
+        const ZALO_ICON = `<span style="background:#0068FF; color:#fff; font-size:9px; font-weight:800; padding:0 5px; border-radius:4px; height:16px; line-height:16px; display:inline-block;">Zalo</span>`;
+        const IG_ICON = `<svg width="16" height="16" viewBox="0 0 24 24" fill="url(#ig-grad)"><defs><linearGradient id="ig-grad" x1="2" y1="2" x2="22" y2="22"><stop offset="0%" stop-color="#f09433"/><stop offset="25%" stop-color="#e6683c"/><stop offset="50%" stop-color="#dc2743"/><stop offset="75%" stop-color="#cc2366"/><stop offset="100%" stop-color="#bc1888"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="url(#ig-grad)" stroke-width="2"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="url(#ig-grad)" stroke-width="2"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="url(#ig-grad)" stroke-width="2"></line></svg>`;
+
+        // SVG ICONS CHUẨN LUXURY MINIMALIST
+        const icon_calendar = `<svg class="ui-icon" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM5 8V6h14v2H5z"/></svg>`;
+        const icon_location = `<svg class="location-icon" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>`;
+        const icon_phone = `<svg class="phone-icon" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>`;
+        
+        // ICONS CHO CÁC BUỔI TRONG NGÀY
+        const icon_morning = `<svg class="session-icon" viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58a.996.996 0 0 0-1.41 0 .996.996 0 0 0 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37a.996.996 0 0 0-1.41 0 .996.996 0 0 0 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0a.996.996 0 0 0 0-1.41l-1.06-1.06zm1.06-10.96a.996.996 0 0 0 0-1.41.996.996 0 0 0-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36a.996.996 0 0 0 0-1.41.996.996 0 0 0-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/></svg>`;
+        const icon_afternoon = `<svg class="session-icon" viewBox="0 0 24 24"><path d="M5 22h14c.55 0 1-.45 1-1s-.45-1-1-1H5c-.55 0-1 .45-1 1s.45 1 1 1zm7-17.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5-1.5.67-1.5 1.5.67 1.5 1.5 1.5zm-5 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm10 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM12 18c3.87 0 7-3.13 7-7H5c0 3.87 3.13 7 7 7z"/></svg>`;
+        const icon_evening = `<svg class="session-icon" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4C12.92 3.04 12.46 3 12 3z"/></svg>`;
+        const icon_other = `<svg class="session-icon" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>`;
 
         function saveUIState() {
             let state = {
@@ -522,7 +525,7 @@
 
             let sortedYears = Object.keys(groupedData).sort((a, b) => b.localeCompare(a));
             const sessionOrder = { 'Sáng': 1, 'Chiều': 2, 'Tối': 3, 'Khác': 4 };
-            const sessionIcons = { 'Sáng': '⛅', 'Chiều': '🌇', 'Tối': '🌙', 'Khác': '📌' };
+            const sessionIcons = { 'Sáng': icon_morning, 'Chiều': icon_afternoon, 'Tối': icon_evening, 'Khác': icon_other };
 
             let htmlStr = ''; let yIndex = 0;
             sortedYears.forEach(yearStr => {
@@ -530,22 +533,23 @@
                 let iconRotate = (yIndex === 0) ? 'rotate(180deg)' : 'rotate(0deg)';
                 let yearNum = parseInt(yearStr);
 
-                htmlStr += `<div class="year-block" id="yb-${yIndex}" data-year="${yearNum}"><div class="year-header" id="yh-${yIndex}" onclick="toggleSection('year-content-${yIndex}', this)"><span>🗓 NĂM ${yearStr}</span><span class="toggle-icon" style="transform: ${iconRotate}">▼</span></div><div class="year-content ${isYearShow}" id="year-content-${yIndex}">`;
+                htmlStr += `<div class="year-block" id="yb-${yIndex}" data-year="${yearNum}"><div class="year-header" id="yh-${yIndex}" onclick="toggleSection('year-content-${yIndex}', this)"><span>${icon_calendar} NĂM ${yearStr}</span><span class="toggle-icon" style="transform: ${iconRotate}">▼</span></div><div class="year-content ${isYearShow}" id="year-content-${yIndex}">`;
                 
                 let mIndex = 0;
                 for (let monthStr in groupedData[yearStr]) {
                     let monthNum = parseInt(monthStr.replace(/\D/g, '')) || 0;
-                    htmlStr += `<div class="month-block" id="mb-${yIndex}-${mIndex}" data-year="${yearNum}" data-month="${monthNum}"><div class="month-header glass-fx" id="mh-${yIndex}-${mIndex}" onclick="toggleSection('month-content-${yIndex}-${mIndex}', this)"><span>📅 ${monthStr}</span><span class="toggle-icon">▼</span></div><div class="month-content" id="month-content-${yIndex}-${mIndex}">`;
+                    htmlStr += `<div class="month-block" id="mb-${yIndex}-${mIndex}" data-year="${yearNum}" data-month="${monthNum}"><div class="month-header glass-fx" id="mh-${yIndex}-${mIndex}" onclick="toggleSection('month-content-${yIndex}-${mIndex}', this)"><span>${icon_calendar} ${monthStr}</span><span class="toggle-icon">▼</span></div><div class="month-content" id="month-content-${yIndex}-${mIndex}">`;
                     let dIndex = 0;
                     
                     for (let dateStr in groupedData[yearStr][monthStr]) {
                         let dayNum = dateStr.includes('/') ? parseInt(dateStr.split('/')[0]) : 0;
-                        htmlStr += `<div class="day-block" id="db-${yIndex}-${mIndex}-${dIndex}" data-year="${yearNum}" data-month="${monthNum}" data-day="${dayNum}"><div class="day-header glass-fx" id="dh-${yIndex}-${mIndex}-${dIndex}" onclick="toggleSection('day-content-${yIndex}-${mIndex}-${dIndex}', this)"><span>🗓️ ${dateStr}</span><span class="toggle-icon">▼</span></div><div class="day-content" id="day-content-${yIndex}-${mIndex}-${dIndex}">`;
+                        htmlStr += `<div class="day-block" id="db-${yIndex}-${mIndex}-${dIndex}" data-year="${yearNum}" data-month="${monthNum}" data-day="${dayNum}"><div class="day-header glass-fx" id="dh-${yIndex}-${mIndex}-${dIndex}" onclick="toggleSection('day-content-${yIndex}-${mIndex}-${dIndex}', this)"><span>${icon_calendar} ${dateStr}</span><span class="toggle-icon">▼</span></div><div class="day-content" id="day-content-${yIndex}-${mIndex}-${dIndex}">`;
                         
                         let sessionsInDay = Object.keys(groupedData[yearStr][monthStr][dateStr]).sort((a, b) => sessionOrder[a] - sessionOrder[b]);
                         
                         sessionsInDay.forEach(session => {
-                            htmlStr += `<div class="session-divider"><span>${sessionIcons[session]} BUỔI ${session}</span></div>`;
+                            // SỬ DỤNG BADGE PHÂN BUỔI MỚI
+                            htmlStr += `<div class="session-divider"><span class="session-badge">${sessionIcons[session]} BUỔI ${session}</span></div>`;
 
                             groupedData[yearStr][monthStr][dateStr][session].forEach(row => {
                                 let gia = parseNum(findVal(row, 'giá')); let phi = parseNum(findVal(row, 'phí')); let coc = parseNum(findVal(row, 'cọc'));
@@ -583,7 +587,7 @@
                                     if (cleanPhone.startsWith('84') && cleanPhone.length === 11) cleanPhone = '0' + cleanPhone.slice(2);
                                     
                                     sdtHTML = `<div class="location-row" style="margin-top: -8px; margin-bottom: 12px;">
-                                        <span class="location-label">📞 SĐT:</span>
+                                        <span class="location-label">${icon_phone}SĐT:</span>
                                         <span class="location-value"><a href="tel:${cleanPhone}" style="color: var(--accent-gold); font-weight: 800; text-decoration: none;" onclick="event.stopPropagation()">${cleanPhone}</a></span>
                                     </div>`;
                                 }
@@ -606,7 +610,7 @@
                                             <div><h2 class="client-name">${clientNameHTML}</h2><span class="tag-package">${findVal(row, 'nội dung') || 'Gói Chụp'}</span></div>
                                             <span class="tag-session">${findVal(row, 'thời gian') || 'Cả ngày'}</span>
                                         </div>
-                                        <div class="location-row"><span class="location-label">📍 Địa điểm:</span><span class="location-value">${findVal(row, 'địa điểm') || '--'}</span></div>
+                                        <div class="location-row"><span class="location-label">${icon_location}Địa điểm:</span><span class="location-value">${findVal(row, 'địa điểm') || '--'}</span></div>
                                         ${sdtHTML}
                                         ${linkButtonsHTML}
                                         <div class="money-bar"><span class="total">Tổng: <span class="total-num">${formatMoney(gia + phi)}</span></span>${moneyStatusHTML}</div>
