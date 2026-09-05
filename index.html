@@ -8,10 +8,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Lịch Chụp">
     
-    <link rel="apple-touch-icon" href="https://i.postimg.cc/prXXD19w/logo-app-lich-chup.jpg">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://i.postimg.cc/prXXD19w/logo-app-lich-chup.jpg">
-    <link rel="icon" type="image/jpeg" href="https://i.postimg.cc/prXXD19w/logo-app-lich-chup.jpg">
-    <link rel="shortcut icon" href="https://i.postimg.cc/prXXD19w/logo-app-lich-chup.jpg">
+    <link rel="apple-touch-icon" href="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png">
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png">
+    <link rel="shortcut icon" href="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png">
 
     <title>ChuToan Foto - Quản Lý Lịch Chụp</title>
     <style>
@@ -177,7 +177,6 @@
 <body>
 
     <div class="header">
-        <!-- LOGO BÊN TRONG APP -->
         <img src="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png" alt="ChuToan Foto Logo">
         <div class="status-badge"><span class="status-dot"></span> Đã kết nối</div>
     </div>
@@ -522,7 +521,6 @@
                                 let zaloVal = findVal(row, 'zalo') || row['SĐT Zalo'] || '';
                                 let igVal = findVal(row, 'instagram') || findVal(row, 'ig') || row['Link Instagram'] || '';
                                 
-                                // AUTO-RECOVER SỐ 0 BỊ MẤT
                                 let sdtVal = findVal(row, 'sđt') || findVal(row, 'điện thoại') || row['SĐT'] || '';
                                 let noteVal = findVal(row, 'ghi chú');
                                 let rawClientName = row['Khách hàng'] || findVal(row, 'khách');
@@ -545,7 +543,6 @@
                                 let sdtHTML = '';
                                 if (sdtVal) {
                                     let cleanPhone = sdtVal.toString().replace(/[^\d+]/g, '');
-                                    // TỰ ĐỘNG THÊM SỐ 0 NẾU BỊ SHEET CẮT MẤT
                                     if (cleanPhone.length === 9 && !cleanPhone.startsWith('0')) cleanPhone = '0' + cleanPhone;
                                     if (cleanPhone.startsWith('84') && cleanPhone.length === 11) cleanPhone = '0' + cleanPhone.slice(2);
                                     
@@ -610,7 +607,11 @@
         }
 
         function updateStatsUI() {
-            let fYear = document.getElementById('filterYear').value; let fMonth = document.getElementById('filterMonth').value; let tRev = 0, tPaid = 0, tDebt = 0, tShows = 0;
+            let fYear = document.getElementById('filterYear').value; 
+            let fMonth = document.getElementById('filterMonth').value; 
+            let tRev = 0, tPaid = 0, tDebt = 0;
+            let uniqueClients = new Set();
+            
             allValidData.forEach(row => {
                 let dObj = row._dateObj; let matchY = true, matchM = true;
                 if (fYear !== "ALL") { if (!dObj || dObj.getFullYear().toString() !== fYear) matchY = false; }
@@ -618,10 +619,21 @@
                 if (matchY && matchM) {
                     let gia = parseNum(findVal(row, 'giá')); let phi = parseNum(findVal(row, 'phí')); let coc = parseNum(findVal(row, 'cọc')); 
                     let tt = parseNum(findVal(row, 'thanh toán thêm')) || 0; let conLai = parseNum(findVal(row, 'còn lại'));
-                    tRev += (gia + phi); tPaid += (coc + tt); tDebt += conLai; tShows++;
+                    
+                    tRev += (gia + phi); tPaid += (coc + tt); tDebt += conLai; 
+                    
+                    let clientName = (row['Khách hàng'] || findVal(row, 'khách') || "").toString().trim().toLowerCase();
+                    let fbLink = (findVal(row, 'facebook') || row['Link Facebook'] || "").toString().trim().toLowerCase();
+                    if(clientName) {
+                        uniqueClients.add(clientName + "|" + fbLink);
+                    }
                 }
             });
-            document.getElementById('totalRevenue').innerText = formatMoney(tRev); document.getElementById('totalCollected').innerText = formatMoney(tPaid); document.getElementById('totalDebt').innerText = formatMoney(tDebt); document.getElementById('totalShows').innerText = tShows;
+            
+            document.getElementById('totalRevenue').innerText = formatMoney(tRev); 
+            document.getElementById('totalCollected').innerText = formatMoney(tPaid); 
+            document.getElementById('totalDebt').innerText = formatMoney(tDebt); 
+            document.getElementById('totalShows').innerText = uniqueClients.size;
         }
         
         loadData(); 
@@ -636,7 +648,6 @@
             document.getElementById('e_thoigian').value = findVal(item, 'thời gian'); document.getElementById('e_khach').value = item['Khách hàng'] || findVal(item, 'khách');
             document.getElementById('e_linkfb').value = findVal(item, 'facebook') || item['Link Facebook'] || ''; 
             
-            // XỬ LÝ SĐT CHO ZALO FORM
             let zaloEdit = findVal(item, 'zalo') || item['SĐT Zalo'] || '';
             if(zaloEdit) {
                 let p = String(zaloEdit).replace(/\D/g, '');
@@ -648,7 +659,6 @@
             document.getElementById('e_diadiem').value = findVal(item, 'địa điểm'); document.getElementById('e_noidung').value = findVal(item, 'nội dung') || 'Khác';
             document.getElementById('e_gia').value = formatInputMoney(findVal(item, 'giá')); document.getElementById('e_phi').value = formatInputMoney(findVal(item, 'phí')); document.getElementById('e_coc').value = formatInputMoney(findVal(item, 'cọc')); 
             
-            // XỬ LÝ SĐT GỌI FORM
             let sdtEdit = findVal(item, 'sđt') || findVal(item, 'điện thoại') || item['SĐT'] || '';
             if(sdtEdit) {
                 let p = String(sdtEdit).replace(/\D/g, '');
