@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="theme-color" content="#f1f3f6">
+    <meta name="theme-color" content="#0a0908" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f9f8f5" media="(prefers-color-scheme: light)">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Lịch Chụp">
     
     <link rel="apple-touch-icon" href="https://i.postimg.cc/prXXD19w/logo-app-lich-chup.jpg">
@@ -17,172 +18,184 @@
     <style>
         *, *::before, *::after { box-sizing: border-box; }
 
+        /* ======== LIGHT MODE (Trắng ngà thiệp cưới, viền vàng champagne) ======== */
         :root {
-            /* MÀU NỀN SÁNG ĐÃ ĐƯỢC THIẾT KẾ LẠI (Hiệu ứng ngọc trai có chiều sâu) */
-            --bg-base: #f0f2f6;
+            --bg-base: #f9f8f5; 
             --bg-mesh: 
-                radial-gradient(circle at 0% 0%, rgba(0, 122, 255, 0.1), transparent 45%), 
-                radial-gradient(circle at 100% 100%, rgba(88, 86, 214, 0.08), transparent 45%), 
-                radial-gradient(circle at 0% 100%, rgba(52, 199, 89, 0.06), transparent 45%), 
-                radial-gradient(circle at 100% 0%, rgba(255, 149, 0, 0.04), transparent 45%);
+                radial-gradient(circle at 15% 0%, rgba(197, 155, 39, 0.15), transparent 50%), 
+                radial-gradient(circle at 85% 100%, rgba(197, 155, 39, 0.08), transparent 50%);
             
-            --card-bg: rgba(255, 255, 255, 0.5); 
-            --card-border: rgba(255, 255, 255, 0.8);
-            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 1px 2px rgba(255, 255, 255, 1);
+            --card-bg: rgba(255, 255, 255, 0.7); 
+            --card-border: rgba(197, 155, 39, 0.25);
+            --card-border-top: rgba(197, 155, 39, 0.4);
+            --card-border-left: rgba(197, 155, 39, 0.15);
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.03), inset 0 1px 2px rgba(255, 255, 255, 0.8);
             
-            --text-main: #000000; --text-muted: #6b7280; --text-sub: #8e8e93;
-            --accent-primary: #007aff; --accent-gold: #c59b27;
-            --tag-gold-bg: rgba(197, 155, 39, 0.15); --tag-gold-text: #92400e;
-            --alert-red: #ff3b30; --alert-bg: rgba(255, 59, 48, 0.12);
-            --success-green: #34c759; --success-bg: rgba(52, 199, 89, 0.15);
+            --text-main: #1a1a1a; --text-muted: #7a756b; --text-sub: #9e998f;
+            --accent-gold: #c59b27;
+            --tag-gold-bg: rgba(197, 155, 39, 0.12); --tag-gold-text: #8c6d1a;
+            --alert-red: #d35400; --alert-bg: rgba(211, 84, 0, 0.1);
+            --success-green: #27ae60; --success-bg: rgba(39, 174, 96, 0.12);
             
-            --modal-bg: rgba(242, 242, 247, 0.98); 
-            --input-bg: #ffffff; 
-            --input-border: rgba(0, 0, 0, 0.1);
-            --input-text: #000000;
-            --input-placeholder: #8e8e93;
+            --modal-bg: rgba(249, 248, 245, 0.98); 
+            --input-bg: rgba(255, 255, 255, 0.8); 
+            --input-border: rgba(197, 155, 39, 0.3);
+            --input-text: #1a1a1a;
+            --input-placeholder: #a8a398;
             
-            --btn-secondary-bg: rgba(118, 118, 128, 0.12); --btn-secondary-text: #1c1c1e;
-            --divider-line: rgba(0, 0, 0, 0.06);
-            --header-bg: rgba(255, 255, 255, 0.6); 
-            --logo-filter: invert(1); --radius-card: 22px;
+            --btn-secondary-bg: rgba(197, 155, 39, 0.08); --btn-secondary-text: #1a1a1a;
+            --divider-line: rgba(197, 155, 39, 0.15);
+            --header-bg: rgba(249, 248, 245, 0.7); 
+            --logo-filter: invert(1); --radius-card: 20px;
         }
 
+        /* ======== DARK MODE (Luxury Cinematic, Đen Trầm & Vàng Gold) ======== */
         @media (prefers-color-scheme: dark) {
             :root {
-                /* MÀU NỀN TỐI ĐÃ ĐƯỢC THIẾT KẾ LẠI (Sang trọng, êm dịu, loại bỏ đỏ cam) */
-                --bg-base: #000000;
+                --bg-base: #0a0908; 
                 --bg-mesh: 
-                    radial-gradient(circle at 0% 0%, rgba(10, 132, 255, 0.25), transparent 45%), 
-                    radial-gradient(circle at 100% 100%, rgba(94, 92, 230, 0.18), transparent 50%), 
-                    radial-gradient(circle at 0% 100%, rgba(10, 132, 255, 0.1), transparent 45%);
+                    radial-gradient(circle at 10% -10%, rgba(223, 185, 110, 0.12), transparent 50%), 
+                    radial-gradient(circle at 90% 90%, rgba(150, 120, 60, 0.08), transparent 50%), 
+                    radial-gradient(circle at 50% 50%, rgba(20, 18, 15, 0.5), transparent 70%);
                 
-                --card-bg: rgba(30, 30, 32, 0.45); 
-                --card-border: rgba(255, 255, 255, 0.1);
-                --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+                --card-bg: rgba(22, 20, 18, 0.6); 
+                --card-border: rgba(223, 185, 110, 0.12);
+                --card-border-top: rgba(223, 185, 110, 0.25);
+                --card-border-left: rgba(223, 185, 110, 0.08);
+                --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.05);
                 
-                --text-main: #ffffff; --text-muted: #9ba1a6; --text-sub: rgba(235, 235, 245, 0.6);
-                --accent-primary: #0a84ff; --accent-gold: #ffd60a;
-                --tag-gold-bg: rgba(255, 214, 10, 0.15); --tag-gold-text: #fbbf24;
-                --alert-red: #ff453a; --alert-bg: rgba(255, 69, 58, 0.15);
-                --success-green: #30d158; --success-bg: rgba(48, 209, 88, 0.15);
+                --text-main: #f4f0e6; --text-muted: #a69f91; --text-sub: rgba(244, 240, 230, 0.5);
+                --accent-gold: #dfb96e; 
+                --tag-gold-bg: rgba(223, 185, 110, 0.12); --tag-gold-text: #dfb96e;
+                --alert-red: #e74c3c; --alert-bg: rgba(231, 76, 60, 0.15);
+                --success-green: #2ecc71; --success-bg: rgba(46, 204, 113, 0.15);
                 
-                --modal-bg: rgba(28, 28, 30, 0.98); 
-                --input-bg: #2c2c2e; 
-                --input-border: rgba(255, 255, 255, 0.1);
-                --input-text: #ffffff;
-                --input-placeholder: #98989d;
+                --modal-bg: rgba(18, 16, 14, 0.98); 
+                --input-bg: rgba(10, 9, 8, 0.6); 
+                --input-border: rgba(223, 185, 110, 0.2);
+                --input-text: #f4f0e6;
+                --input-placeholder: #7a756b;
                 
-                --btn-secondary-bg: rgba(255, 255, 255, 0.1); --btn-secondary-text: #e2e8f0;
-                --divider-line: rgba(255, 255, 255, 0.08);
-                --header-bg: rgba(20, 20, 22, 0.6); 
+                --btn-secondary-bg: rgba(223, 185, 110, 0.08); --btn-secondary-text: #dfb96e;
+                --divider-line: rgba(223, 185, 110, 0.1);
+                --header-bg: rgba(10, 9, 8, 0.7); 
                 --logo-filter: none;
             }
         }
 
         html, body { margin: 0; padding: 0; width: 100vw; max-width: 100%; overflow-x: hidden; overscroll-behavior-x: none; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif; background-color: var(--bg-base); background-image: var(--bg-mesh); background-attachment: fixed; color: var(--text-main); min-height: 100vh; -webkit-tap-highlight-color: transparent; }
         body.modal-open { overflow: hidden; position: fixed; width: 100%; height: 100%; }
-        .glass-fx { background: var(--card-bg); border: 1px solid var(--card-border); backdrop-filter: blur(25px) saturate(200%); -webkit-backdrop-filter: blur(25px) saturate(200%); box-shadow: var(--card-shadow); }
+        
+        .glass-fx { 
+            background: var(--card-bg); 
+            border: 1px solid var(--card-border); 
+            border-top-color: var(--card-border-top);
+            border-left-color: var(--card-border-left);
+            backdrop-filter: blur(25px) saturate(140%); 
+            -webkit-backdrop-filter: blur(25px) saturate(140%); 
+            box-shadow: var(--card-shadow); 
+        }
 
-        .header { width: 100%; padding: 14px 20px; position: sticky; top: 0; z-index: 50; background: var(--header-bg); backdrop-filter: blur(35px) saturate(200%); -webkit-backdrop-filter: blur(35px) saturate(200%); border-bottom: 1px solid var(--divider-line); display: flex; justify-content: space-between; align-items: center; }
+        .header { width: 100%; padding: 14px 20px; position: sticky; top: 0; z-index: 50; background: var(--header-bg); backdrop-filter: blur(30px) saturate(150%); -webkit-backdrop-filter: blur(30px) saturate(150%); border-bottom: 1px solid var(--divider-line); display: flex; justify-content: space-between; align-items: center; }
         .header img { height: 30px; object-fit: contain; filter: var(--logo-filter); }
-        .status-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 20px; background: var(--success-bg); color: var(--success-green); font-size: 12px; font-weight: 600; }
-        .status-dot { width: 7px; height: 7px; background: var(--success-green); border-radius: 50%; }
+        .status-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 20px; background: var(--success-bg); color: var(--success-green); font-size: 12px; font-weight: 600; border: 1px solid rgba(46, 204, 113, 0.2); }
+        .status-dot { width: 6px; height: 6px; background: var(--success-green); border-radius: 50%; box-shadow: 0 0 6px var(--success-green); }
 
         .container { width: 100%; padding: 16px; max-width: 580px; margin: 0 auto; padding-bottom: 110px; }
-        .section-title { font-size: 12px; font-weight: 800; color: var(--text-muted); letter-spacing: 1.2px; margin-bottom: 12px; text-transform: uppercase; margin-left: 4px; }
+        .section-title { font-size: 11px; font-weight: 800; color: var(--accent-gold); letter-spacing: 2px; margin-bottom: 14px; text-transform: uppercase; margin-left: 4px; opacity: 0.8; }
 
-        .calendar-swipe-header { text-align: center; margin-bottom: 16px; padding-top: 10px; cursor: pointer; user-select: none; }
-        .calendar-title-text { font-size: 13.5px; font-weight: 800; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; }
+        .calendar-swipe-header { text-align: center; margin-bottom: 20px; padding-top: 10px; cursor: pointer; user-select: none; }
+        .calendar-title-text { font-size: 14px; font-weight: 800; color: var(--accent-gold); letter-spacing: 3px; text-transform: uppercase; }
 
         .year-block, .month-block, .day-block { transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease, margin 0.3s ease; max-height: 5000px; opacity: 1; overflow: hidden; transform-origin: top; }
         .hidden-step { max-height: 0 !important; opacity: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important; pointer-events: none; border: none !important; }
 
-        .year-header { padding: 16px 20px; margin: 20px 0 12px 0; border-radius: 20px; background: linear-gradient(135deg, var(--accent-primary), #005bb5); color: #ffffff; font-weight: 800; font-size: 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 8px 24px rgba(0, 122, 255, 0.3); text-transform: uppercase; letter-spacing: 1px;}
+        .year-header { padding: 18px 20px; margin: 16px 0 12px 0; border-radius: 20px; background: var(--card-bg); color: var(--accent-gold); font-weight: 800; font-size: 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--card-shadow); text-transform: uppercase; letter-spacing: 2px; border: 1px solid var(--card-border); border-top-color: var(--card-border-top); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
         .year-content { display: none; } .year-content.show { display: block; animation: fadeIn 0.3s ease; }
 
-        .month-header { padding: 14px 18px; margin: 12px 0 8px 8px; border-radius: 18px; border-left: 4px solid var(--accent-gold); color: var(--accent-gold); font-weight: 700; font-size: 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .month-header { padding: 14px 18px; margin: 12px 0 8px 8px; border-radius: 18px; border-left: 3px solid var(--accent-gold); color: var(--accent-gold); font-weight: 700; font-size: 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
         .month-content { display: none; } .month-content.show { display: block; animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
 
-        .day-header { padding: 12px 16px; margin: 8px 0 8px 16px; border-radius: 16px; border-left: 3px solid var(--accent-primary); color: var(--accent-primary); font-weight: 700; font-size: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .day-header { padding: 12px 16px; margin: 8px 0 8px 16px; border-radius: 16px; border-left: 2px solid var(--text-muted); color: var(--text-main); font-weight: 700; font-size: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
         .day-content { display: none; } .day-content.show { display: block; animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
         .toggle-icon { transition: transform 0.25s ease; font-size: 11px; opacity: 0.8; }
 
-        .session-divider { display: flex; align-items: center; margin: 16px 0 10px 24px; font-size: 11.5px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
-        .session-divider::after { content: ''; flex: 1; height: 1px; background: var(--divider-line); margin-left: 12px; border-radius: 2px; }
+        .session-divider { display: flex; align-items: center; margin: 18px 0 12px 24px; font-size: 11px; font-weight: 800; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.9; }
+        .session-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--divider-line), transparent); margin-left: 12px; }
 
-        .card { border-radius: var(--radius-card); padding: 18px; margin: 0 0 12px 24px; cursor: pointer; transition: transform 0.15s ease; }
+        .card { border-radius: var(--radius-card); padding: 20px; margin: 0 0 14px 24px; cursor: pointer; transition: transform 0.15s ease; }
         .card:active { transform: scale(0.985); }
         .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
         
         .client-name-container { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; }
+        /* ĐÃ KHÔI PHỤC FONT CHỮ CŨ (Không dùng Georgia) */
         .client-name { font-size: 17px; font-weight: 700; color: var(--text-main); margin: 0; letter-spacing: -0.2px; }
         .social-links-row { display: flex; align-items: center; gap: 6px; }
+        /* BỎ FILTER ĐỔI MÀU ICON, GIỮ MÀU NGUYÊN BẢN */
         .social-icon { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; transition: opacity 0.2s; }
         .social-icon:active { opacity: 0.5; }
 
-        .tag-package { display: inline-block; padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 600; background: var(--tag-gold-bg); color: var(--tag-gold-text); }
-        .tag-session { font-size: 12px; font-weight: 600; background: var(--btn-secondary-bg); color: var(--text-main); padding: 5px 10px; border-radius: 8px; border: 1px solid var(--divider-line); }
+        .tag-package { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 11.5px; font-weight: 700; background: var(--tag-gold-bg); color: var(--tag-gold-text); border: 1px solid rgba(223, 185, 110, 0.2); }
+        .tag-session { font-size: 11.5px; font-weight: 600; background: var(--btn-secondary-bg); color: var(--accent-gold); padding: 5px 12px; border-radius: 6px; border: 1px solid var(--divider-line); }
 
         .location-row { display: flex; align-items: flex-start; gap: 8px; font-size: 13.5px; color: var(--text-muted); margin-bottom: 12px; }
-        .location-label { font-weight: 500; flex-shrink: 0; } .location-value { color: var(--text-main); font-weight: 500; }
+        .location-label { font-weight: 600; flex-shrink: 0; color: var(--text-sub);} .location-value { color: var(--text-main); font-weight: 500; }
 
-        .action-links { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
-        .action-link-btn { display: inline-flex; align-items: center; gap: 5px; padding: 6px 12px; border-radius: 8px; text-decoration: none; font-size: 12px; font-weight: 600; border: 1px solid transparent; }
-        .action-link-btn.maps { background: rgba(2, 132, 199, 0.15); color: #0284c7; }
-        .action-link-btn.drive { background: rgba(22, 163, 74, 0.15); color: #16a34a; }
-        @media (prefers-color-scheme: dark) {
-            .action-link-btn.maps { background: rgba(2, 132, 199, 0.25); color: #38bdf8; border-color: rgba(56, 189, 248, 0.2); }
-            .action-link-btn.drive { background: rgba(22, 163, 74, 0.25); color: #4ade80; border-color: rgba(74, 222, 128, 0.2); }
-        }
+        .action-links { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+        .action-link-btn { display: inline-flex; align-items: center; gap: 5px; padding: 6px 14px; border-radius: 6px; text-decoration: none; font-size: 11.5px; font-weight: 700; border: 1px solid rgba(223, 185, 110, 0.2); background: var(--btn-secondary-bg); color: var(--accent-gold); text-transform: uppercase; letter-spacing: 0.5px;}
 
-        .money-bar { background: var(--btn-secondary-bg); border-radius: 12px; border: 1px solid var(--divider-line); padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; font-size: 13.5px; }
-        .money-bar .total { font-weight: 600; color: var(--text-muted); } .money-bar .total-num { color: var(--text-main); font-weight: 700; }
-        .money-bar .debt { color: var(--alert-red); font-weight: 700; } .money-bar .paid { color: var(--success-green); font-weight: 700; }
+        .money-bar { background: rgba(0,0,0,0.1); border-radius: 12px; border: 1px solid var(--divider-line); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; font-size: 13.5px; }
+        @media (prefers-color-scheme: light) { .money-bar { background: rgba(255,255,255,0.4); } }
+        .money-bar .total { font-weight: 600; color: var(--text-muted); } .money-bar .total-num { color: var(--text-main); font-weight: 800; }
+        .money-bar .debt { color: var(--alert-red); font-weight: 800; } .money-bar .paid { color: var(--success-green); font-weight: 800; }
 
-        .card-expanded-content { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--divider-line); }
+        .card-expanded-content { display: none; margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--divider-line); }
         .card-expanded-content.show { display: block; animation: fadeIn 0.2s ease; }
-        .detail-item { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; color: var(--text-muted); } .detail-item span:last-child { font-weight: 600; color: var(--text-main); }
+        .detail-item { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; color: var(--text-muted); } .detail-item span:last-child { font-weight: 700; color: var(--text-main); }
         
-        .detail-note { margin-top: 10px; padding: 12px; background: var(--btn-secondary-bg); border-radius: 12px; border: 1px solid var(--divider-line); }
-        .detail-note-label { font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; display: flex; align-items: center; gap: 4px; text-transform: uppercase; letter-spacing: 0.5px;}
+        .detail-note { margin-top: 12px; padding: 14px; background: var(--btn-secondary-bg); border-radius: 12px; border: 1px solid var(--divider-line); }
+        .detail-note-label { font-size: 12px; font-weight: 700; color: var(--accent-gold); margin-bottom: 8px; display: flex; align-items: center; gap: 4px; text-transform: uppercase; letter-spacing: 1px;}
         .detail-note-content { font-size: 13.5px; font-weight: 500; color: var(--text-main); line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
 
-        .card-btns-row { display: flex; gap: 8px; margin-top: 14px; }
-        .btn-card-action { flex: 1; padding: 11px 0; border: none; border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid var(--divider-line); }
-        .btn-edit { background: var(--btn-secondary-bg); color: var(--text-main); } .btn-delete { background: var(--alert-bg); color: var(--alert-red); border-color: transparent;}
+        .card-btns-row { display: flex; gap: 10px; margin-top: 16px; }
+        .btn-card-action { flex: 1; padding: 12px 0; border: none; border-radius: 10px; font-size: 12.5px; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; border: 1px solid var(--divider-line); }
+        .btn-edit { background: var(--btn-secondary-bg); color: var(--accent-gold); } .btn-delete { background: var(--alert-bg); color: var(--alert-red); border-color: transparent;}
 
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-        .stat-card { border-radius: 18px; padding: 14px 16px; }
-        .stat-label { font-size: 11.5px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; }
+        .stat-card { border-radius: 20px; padding: 16px; }
+        .stat-label { font-size: 10.5px; font-weight: 800; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px;}
+        /* ĐÃ KHÔI PHỤC FONT CHỮ CŨ */
         .stat-value { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; }
-        .stat-value.gold { color: var(--accent-gold); } .stat-value.green { color: var(--success-green); } .stat-value.red { color: var(--alert-red); }
+        .stat-value.gold { color: var(--accent-gold); text-shadow: 0 0 10px rgba(223, 185, 110, 0.2); } .stat-value.green { color: var(--success-green); } .stat-value.red { color: var(--alert-red); }
 
-        .select-filter { width: 100%; padding: 12px 14px; border-radius: 14px; color: var(--text-main); font-size: 14px; font-weight: 600; outline: none; }
+        .select-filter { width: 100%; padding: 14px 16px; border-radius: 16px; color: var(--text-main); font-size: 14px; font-weight: 700; outline: none; border-color: var(--card-border); appearance: none; -webkit-appearance: none; background: url('data:image/svg+xml;utf8,<svg fill="%23dfb96e" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>') no-repeat right 12px center; background-color: var(--card-bg); }
 
-        .fab { position: fixed; bottom: 28px; right: 20px; width: 56px; height: 56px; background: var(--accent-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 28px; font-weight: 300; box-shadow: 0 8px 24px rgba(2, 132, 199, 0.4); cursor: pointer; z-index: 80; }
+        .fab { position: fixed; bottom: 32px; right: 24px; width: 56px; height: 56px; background: linear-gradient(135deg, #dfb96e, #b38c22); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #000000; font-size: 28px; font-weight: 400; box-shadow: 0 10px 25px rgba(197, 155, 39, 0.4); cursor: pointer; z-index: 80; border: 1px solid rgba(255,255,255,0.4); }
+        @media (prefers-color-scheme: dark) { .fab { background: linear-gradient(135deg, var(--accent-gold), #8c6d1a); color: #000; box-shadow: 0 8px 24px rgba(223, 185, 110, 0.3); } }
         .fab:active { transform: scale(0.92); }
 
-        .modal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); justify-content: center; align-items: flex-end; overscroll-behavior: contain; width: 100vw; }
-        .modal-content { background: var(--modal-bg); border-top: 1px solid var(--card-border); backdrop-filter: blur(30px) saturate(200%); -webkit-backdrop-filter: blur(30px) saturate(200%); border-radius: 28px 28px 0 0; width: 100%; max-width: 580px; max-height: 88vh; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; padding: 24px 20px 36px 20px; box-shadow: 0 -10px 40px rgba(0,0,0,0.2); animation: slideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1); }
+        .modal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); justify-content: center; align-items: flex-end; overscroll-behavior: contain; width: 100vw; }
+        .modal-content { background: var(--modal-bg); border-top: 1px solid var(--card-border-top); border-radius: 30px 30px 0 0; width: 100%; max-width: 580px; max-height: 88vh; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; padding: 28px 24px 40px 24px; box-shadow: 0 -10px 50px rgba(0,0,0,0.5); animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } } @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; } 
-        .modal-header h3 { margin: 0; font-size: 20px; color: var(--text-main); font-weight: 700; letter-spacing: -0.3px;} 
-        .close-btn { font-size: 18px; color: var(--text-muted); cursor: pointer; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: var(--btn-secondary-bg); border-radius: 50%; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 26px; } 
+        /* ĐÃ KHÔI PHỤC FONT CHỮ CŨ */
+        .modal-header h3 { margin: 0; font-size: 20px; color: var(--accent-gold); font-weight: 700; letter-spacing: -0.3px; text-transform: uppercase;} 
+        .close-btn { font-size: 16px; color: var(--text-main); cursor: pointer; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; background: var(--btn-secondary-bg); border-radius: 50%; border: 1px solid var(--divider-line); }
         
         .tab-panel { display: none; } .tab-panel.active { display: block; }
-        .form-group { margin-bottom: 14px; display: flex; flex-direction: column; width: 100%; } 
-        .form-group label { font-size: 12.5px; color: var(--text-muted); margin-bottom: 6px; margin-left: 4px; font-weight: 600;} 
+        .form-group { margin-bottom: 16px; display: flex; flex-direction: column; width: 100%; } 
+        .form-group label { font-size: 11.5px; color: var(--text-muted); margin-bottom: 8px; margin-left: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;} 
         
-        .form-control, .form-select { width: 100%; padding: 15px 14px; background: var(--input-bg) !important; border: 1px solid var(--input-border) !important; border-radius: 12px; color: var(--input-text) !important; font-size: 15px; outline: none; -webkit-appearance: none; transition: border-color 0.2s, box-shadow 0.2s; } 
-        .form-control::placeholder { color: var(--input-placeholder); }
-        .form-control:focus, .form-select:focus { border-color: var(--accent-primary) !important; box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15); }
+        .form-control, .form-select { width: 100%; padding: 16px 14px; background: var(--input-bg) !important; border: 1px solid var(--input-border) !important; border-radius: 12px; color: var(--input-text) !important; font-size: 15px; font-weight: 500; outline: none; -webkit-appearance: none; transition: all 0.2s ease; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); } 
+        .form-control::placeholder { color: var(--input-placeholder); font-weight: 400;}
+        .form-control:focus, .form-select:focus { border-color: var(--accent-gold) !important; box-shadow: 0 0 0 3px rgba(223, 185, 110, 0.15), inset 0 2px 4px rgba(0,0,0,0.02); }
         textarea.form-control { resize: vertical; min-height: 80px; font-family: inherit; line-height: 1.5; } 
 
-        .btn-submit { width: 100%; padding: 16px; border: none; border-radius: 14px; font-weight: 700; font-size: 15px; color: #fff; margin-top: 10px; cursor: pointer; background: var(--accent-primary); box-shadow: 0 4px 14px rgba(0, 122, 255, 0.3);} .btn-submit:active { transform: scale(0.98); }
-        .btn-pay { background: var(--success-green); color: #fff; width: 100%; padding: 14px; border: none; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 14px rgba(52, 199, 89, 0.3);} .btn-pay:active { transform: scale(0.98); }
-        .loader { text-align: center; padding: 40px; color: var(--text-muted); font-weight: 500; font-size: 14px; }
+        .btn-submit { width: 100%; padding: 18px; border: none; border-radius: 14px; font-weight: 800; font-size: 15px; color: #000; margin-top: 14px; cursor: pointer; background: linear-gradient(135deg, #dfb96e, #b38c22); box-shadow: 0 6px 20px rgba(197, 155, 39, 0.25); text-transform: uppercase; letter-spacing: 1px;} 
+        .btn-submit:active { transform: scale(0.98); }
+        .btn-pay { background: rgba(46, 204, 113, 0.15); color: var(--success-green); width: 100%; padding: 14px; border: 1px solid rgba(46, 204, 113, 0.3); border-radius: 12px; font-weight: 800; font-size: 13px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px;} .btn-pay:active { transform: scale(0.98); }
+        .loader { text-align: center; padding: 40px; color: var(--accent-gold); font-weight: 600; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; }
     </style>
 </head>
 <body>
@@ -199,8 +212,8 @@
         
         <div id="bookingList"><div class="loader">Đang tải dữ liệu...</div></div>
 
-        <div class="section-title" style="margin-top: 32px;">THỐNG KÊ DOANH THU</div>
-        <div style="display: flex; gap: 10px; margin-bottom: 14px;">
+        <div class="section-title" style="margin-top: 40px;">THỐNG KÊ DOANH THU</div>
+        <div style="display: flex; gap: 12px; margin-bottom: 16px;">
             <select id="filterYear" class="select-filter glass-fx" style="flex: 1;" onchange="updateStatsUI()"><option value="ALL">Tất cả các năm</option></select>
             <select id="filterMonth" class="select-filter glass-fx" style="flex: 1;" onchange="updateStatsUI()">
                 <option value="ALL">Tổng cả năm</option><option value="0">Tháng 1</option><option value="1">Tháng 2</option><option value="2">Tháng 3</option><option value="3">Tháng 4</option><option value="4">Tháng 5</option><option value="5">Tháng 6</option><option value="6">Tháng 7</option><option value="7">Tháng 8</option><option value="8">Tháng 9</option><option value="9">Tháng 10</option><option value="10">Tháng 11</option><option value="11">Tháng 12</option>
@@ -219,7 +232,7 @@
 
     <div class="modal" id="modalForm" onclick="if(event.target === this) closeModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
-            <div class="modal-header"><h3 id="modalTitle">Tạo Lịch Mới</h3><span class="close-btn" onclick="closeModal()">✕</span></div>
+            <div class="modal-header"><h3 id="modalTitle">TẠO LỊCH MỚI</h3><span class="close-btn" onclick="closeModal()">✕</span></div>
             
             <div id="tab-create" class="tab-panel active">
                 <form id="formCreate" onsubmit="submitCreate(event)">
@@ -237,7 +250,7 @@
                     <div class="form-group"><label>Giá gói chụp (VNĐ)</label><input type="text" id="c_gia" class="form-control money-input" placeholder="0"></div>
                     <div class="form-group"><label>Phí đi lại (VNĐ)</label><input type="text" id="c_phi" class="form-control money-input" placeholder="0"></div>
                     <div class="form-group"><label>Tiền cọc (VNĐ)</label><input type="text" id="c_coc" class="form-control money-input" placeholder="0"></div>
-                    <div class="form-group"><label>Số điện thoại khách (Để gọi)</label><input type="tel" id="c_sdt" class="form-control" placeholder="Ví dụ: 0987654321"></div>
+                    <div class="form-group"><label>Số điện thoại khách</label><input type="tel" id="c_sdt" class="form-control" placeholder="Ví dụ: 0987654321"></div>
                     
                     <div class="form-group"><label>Ghi chú / Timeline</label><textarea id="c_ghichu" class="form-control" rows="3" placeholder="Nhập lịch trình chi tiết..."></textarea></div>
                     
@@ -249,7 +262,7 @@
                     <div class="form-group"><label>Link Instagram</label><input type="url" id="c_ig" class="form-control" placeholder="https://instagram.com/..."></div>
                     <div class="form-group"><label>Link Drive (Bàn giao)</label><input type="url" id="c_linkdrive" class="form-control" placeholder="https://drive.google.com/..."></div>
                     
-                    <button type="submit" class="btn-submit" id="btnCreate">Tạo Lịch & Đồng Bộ</button>
+                    <button type="submit" class="btn-submit" id="btnCreate">TẠO LỊCH & ĐỒNG BỘ</button>
                 </form>
             </div>
 
@@ -270,7 +283,7 @@
                     <div class="form-group"><label>Giá gói chụp (VNĐ)</label><input type="text" id="e_gia" class="form-control money-input"></div>
                     <div class="form-group"><label>Phí đi lại (VNĐ)</label><input type="text" id="e_phi" class="form-control money-input"></div>
                     <div class="form-group"><label>Tiền cọc (VNĐ)</label><input type="text" id="e_coc" class="form-control money-input"></div>
-                    <div class="form-group"><label>Số điện thoại khách (Để gọi)</label><input type="tel" id="e_sdt" class="form-control" placeholder="Ví dụ: 0987654321"></div>
+                    <div class="form-group"><label>Số điện thoại khách</label><input type="tel" id="e_sdt" class="form-control" placeholder="Ví dụ: 0987654321"></div>
                     
                     <div class="form-group"><label>Ghi chú / Timeline</label><textarea id="e_ghichu" class="form-control" rows="3"></textarea></div>
 
@@ -282,7 +295,7 @@
                     <div class="form-group"><label>Link Instagram</label><input type="url" id="e_ig" class="form-control" placeholder="https://instagram.com/..."></div>
                     <div class="form-group"><label>Link Drive (Bàn giao)</label><input type="url" id="e_linkdrive" class="form-control" placeholder="https://drive.google.com/..."></div>
                     
-                    <button type="submit" class="btn-submit" id="btnEdit">Lưu Cập Nhật</button>
+                    <button type="submit" class="btn-submit" id="btnEdit">LƯU CẬP NHẬT</button>
                 </form>
             </div>
         </div>
@@ -291,9 +304,9 @@
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbyxTm4XHr7HF1WujMPs9oWARimjrmkUV50hbV0ko59oj1njSyWg7rQd1T4PryjGbeJm/exec";
         let allValidData = []; let isFirstLoad = true;
-        const FB_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>`;
-        const ZALO_ICON = `<span style="background:#0068FF; color:#fff; font-size:10px; font-weight:800; padding:0 6px; border-radius:6px; height:18px; line-height:18px; display:inline-block;">Zalo</span>`;
-        const IG_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E1306C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>`;
+        const FB_ICON = `<svg width="16" height="16" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>`;
+        const ZALO_ICON = `<span style="background:#0068FF; color:#fff; font-size:9px; font-weight:800; padding:0 5px; border-radius:4px; height:16px; line-height:16px; display:inline-block;">Zalo</span>`;
+        const IG_ICON = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E1306C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>`;
 
         function saveUIState() {
             let state = {
@@ -559,7 +572,7 @@
                                     
                                     sdtHTML = `<div class="location-row" style="margin-top: -8px; margin-bottom: 12px;">
                                         <span class="location-label">📞 SĐT:</span>
-                                        <span class="location-value"><a href="tel:${cleanPhone}" style="color: var(--accent-primary); font-weight: 700; text-decoration: none;" onclick="event.stopPropagation()">${cleanPhone}</a></span>
+                                        <span class="location-value"><a href="tel:${cleanPhone}" style="color: var(--accent-gold); font-weight: 800; text-decoration: none;" onclick="event.stopPropagation()">${cleanPhone}</a></span>
                                     </div>`;
                                 }
 
@@ -649,12 +662,12 @@
         
         loadData(); 
 
-        function openModal() { document.getElementById('modalTitle').innerText = "Tạo Lịch Mới"; document.getElementById('tab-create').classList.add('active'); document.getElementById('tab-edit').classList.remove('active'); document.body.classList.add('modal-open'); document.getElementById('modalForm').style.display = 'flex'; }
+        function openModal() { document.getElementById('modalTitle').innerText = "TẠO LỊCH MỚI"; document.getElementById('tab-create').classList.add('active'); document.getElementById('tab-edit').classList.remove('active'); document.body.classList.add('modal-open'); document.getElementById('modalForm').style.display = 'flex'; }
         function closeModal() { document.body.classList.remove('modal-open'); document.getElementById('modalForm').style.display = 'none'; }
 
         function openEditModal(rowIndex, name) {
             const item = allValidData.find(r => r._rowIndex === rowIndex); if (!item) return;
-            document.getElementById('modalTitle').innerText = `Sửa Lịch: ${name}`; document.getElementById('e_rowindex').value = rowIndex;
+            document.getElementById('modalTitle').innerText = `SỬA LỊCH: ${name}`; document.getElementById('e_rowindex').value = rowIndex;
             let dObj = item._dateObj; document.getElementById('e_ngay').value = dObj ? dateToISO(dObj) : '';
             document.getElementById('e_thoigian').value = findVal(item, 'thời gian'); document.getElementById('e_khach').value = item['Khách hàng'] || findVal(item, 'khách');
             document.getElementById('e_linkfb').value = findVal(item, 'facebook') || item['Link Facebook'] || ''; 
@@ -691,22 +704,22 @@
         }
 
         async function submitCreate(e) {
-            e.preventDefault(); const btn = document.getElementById('btnCreate'); btn.innerText = "Đang đồng bộ..."; btn.style.opacity = 0.7; btn.disabled = true;
+            e.preventDefault(); const btn = document.getElementById('btnCreate'); btn.innerText = "ĐANG ĐỒNG BỘ..."; btn.style.opacity = 0.7; btn.disabled = true;
             const payload = { action: "CREATE", ngayChup: document.getElementById('c_ngay').value, thoiGian: document.getElementById('c_thoigian').value, khachHang: document.getElementById('c_khach').value, linkFacebook: document.getElementById('c_linkfb').value, zalo: document.getElementById('c_zalo').value, instagram: document.getElementById('c_ig').value, diaDiem: document.getElementById('c_diadiem').value, linkMaps: document.getElementById('c_linkmaps').value, linkDrive: document.getElementById('c_linkdrive').value, noiDung: document.getElementById('c_noidung').value, giaGoi: parseNum(document.getElementById('c_gia').value), phiDiLai: parseNum(document.getElementById('c_phi').value), coc: parseNum(document.getElementById('c_coc').value), ghiChu: document.getElementById('c_ghichu').value, sdt: document.getElementById('c_sdt').value };
             let newItem = { "Ngày chụp": payload.ngayChup, "Thời gian": payload.thoiGian, "Khách hàng": payload.khachHang, "Link Facebook": payload.linkFacebook, "SĐT Zalo": payload.zalo, "Link Instagram": payload.instagram, "Địa điểm": payload.diaDiem, "Link Maps": payload.linkMaps, "Link Drive": payload.linkDrive, "Nội dung": payload.noiDung, "Giá gói": payload.giaGoi, "Phí đi lại": payload.phiDiLai, "Cọc": payload.coc, "Còn lại": (payload.giaGoi + payload.phiDiLai) - payload.coc, "Ghi chú": payload.ghiChu, "SĐT": payload.sdt, "_rowIndex": Date.now() };
             newItem._dateObj = parseDateCustom(payload.ngayChup); allValidData.push(newItem);
-            renderUI(allValidData); closeModal(); document.getElementById('formCreate').reset(); btn.innerText = "Tạo Lịch & Đồng Bộ"; btn.style.opacity = 1; btn.disabled = false;
+            renderUI(allValidData); closeModal(); document.getElementById('formCreate').reset(); btn.innerText = "TẠO LỊCH & ĐỒNG BỘ"; btn.style.opacity = 1; btn.disabled = false;
             fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).then(() => silentFetchData());
         }
 
         async function submitEdit(e) {
-            e.preventDefault(); const btn = document.getElementById('btnEdit'); btn.innerText = "Đang lưu..."; btn.style.opacity = 0.7; btn.disabled = true;
+            e.preventDefault(); const btn = document.getElementById('btnEdit'); btn.innerText = "ĐANG LƯU..."; btn.style.opacity = 0.7; btn.disabled = true;
             const payload = { action: "EDIT_ROW", rowIndex: document.getElementById('e_rowindex').value, ngayChup: document.getElementById('e_ngay').value, thoiGian: document.getElementById('e_thoigian').value, khachHang: document.getElementById('e_khach').value, linkFacebook: document.getElementById('e_linkfb').value, zalo: document.getElementById('e_zalo').value, instagram: document.getElementById('e_ig').value, noiDung: document.getElementById('e_noidung').value, diaDiem: document.getElementById('e_diadiem').value, linkMaps: document.getElementById('e_linkmaps').value, linkDrive: document.getElementById('e_linkdrive').value, giaGoi: parseNum(document.getElementById('e_gia').value), phiDiLai: parseNum(document.getElementById('e_phi').value), coc: parseNum(document.getElementById('e_coc').value), ghiChu: document.getElementById('e_ghichu').value, sdt: document.getElementById('e_sdt').value };
             let item = allValidData.find(r => r._rowIndex == payload.rowIndex);
             if (item) {
                 let keys = Object.keys(item); item[keys.find(k=>k.toLowerCase().includes('ngày')) || 'Ngày chụp'] = payload.ngayChup; item[keys.find(k=>k.toLowerCase().includes('thời gian')) || 'Thời gian'] = payload.thoiGian; item[keys.find(k=>k.toLowerCase().includes('khách')) || 'Khách hàng'] = payload.khachHang; item['Link Facebook'] = payload.linkFacebook; item['SĐT Zalo'] = payload.zalo; item['Link Instagram'] = payload.instagram; item[keys.find(k=>k.toLowerCase().includes('địa điểm')) || 'Địa điểm'] = payload.diaDiem; item['Link Maps'] = payload.linkMaps; item['Link Drive'] = payload.linkDrive; item[keys.find(k=>k.toLowerCase().includes('nội dung')) || 'Nội dung'] = payload.noiDung; item[keys.find(k=>k.toLowerCase().includes('giá')) || 'Giá gói'] = payload.giaGoi; item[keys.find(k=>k.toLowerCase().includes('phí')) || 'Phí đi lại'] = payload.phiDiLai; item[keys.find(k=>k.toLowerCase().includes('cọc')) || 'Cọc'] = payload.coc; let tt = parseNum(findVal(item, 'thanh toán thêm')) || 0; item[keys.find(k=>k.toLowerCase().includes('còn lại')) || 'Còn lại'] = (payload.giaGoi + payload.phiDiLai) - (payload.coc + tt); item[keys.find(k=>k.toLowerCase().includes('ghi chú')) || 'Ghi chú'] = payload.ghiChu; item[keys.find(k=>k.toLowerCase().includes('sđt')) || 'SĐT'] = payload.sdt; item._dateObj = parseDateCustom(payload.ngayChup);
             }
-            renderUI(allValidData); closeModal(); btn.innerText = "Lưu Cập Nhật"; btn.style.opacity = 1; btn.disabled = false;
+            renderUI(allValidData); closeModal(); btn.innerText = "LƯU CẬP NHẬT"; btn.style.opacity = 1; btn.disabled = false;
             fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).then(() => silentFetchData());
         }
 
