@@ -8,18 +8,24 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Lịch Chụp">
     
-    <link rel="apple-touch-icon" href="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png">
-    <link rel="icon" type="image/png" href="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png">
-    <link rel="shortcut icon" href="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png">
+    <link rel="apple-touch-icon" href="https://i.postimg.cc/prXXD19w/logo-app-lich-chup.jpg">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://i.postimg.cc/prXXD19w/logo-app-lich-chup.jpg">
+    <link rel="icon" type="image/jpeg" href="https://i.postimg.cc/prXXD19w/logo-app-lich-chup.jpg">
+    <link rel="shortcut icon" href="https://i.postimg.cc/prXXD19w/logo-app-lich-chup.jpg">
 
     <title>ChuToan Foto - Quản Lý Lịch Chụp</title>
     <style>
         *, *::before, *::after { box-sizing: border-box; }
 
         :root {
-            --bg-base: #f1f3f6;
-            --bg-mesh: radial-gradient(circle at 10% 20%, rgba(10, 132, 255, 0.12), transparent 50%), radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.1), transparent 50%), radial-gradient(circle at 50% 90%, rgba(255, 59, 48, 0.08), transparent 50%);
+            /* MÀU NỀN SÁNG ĐÃ ĐƯỢC THIẾT KẾ LẠI (Hiệu ứng ngọc trai có chiều sâu) */
+            --bg-base: #f0f2f6;
+            --bg-mesh: 
+                radial-gradient(circle at 0% 0%, rgba(0, 122, 255, 0.1), transparent 45%), 
+                radial-gradient(circle at 100% 100%, rgba(88, 86, 214, 0.08), transparent 45%), 
+                radial-gradient(circle at 0% 100%, rgba(52, 199, 89, 0.06), transparent 45%), 
+                radial-gradient(circle at 100% 0%, rgba(255, 149, 0, 0.04), transparent 45%);
+            
             --card-bg: rgba(255, 255, 255, 0.5); 
             --card-border: rgba(255, 255, 255, 0.8);
             --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 1px 2px rgba(255, 255, 255, 1);
@@ -44,8 +50,13 @@
 
         @media (prefers-color-scheme: dark) {
             :root {
+                /* MÀU NỀN TỐI ĐÃ ĐƯỢC THIẾT KẾ LẠI (Sang trọng, êm dịu, loại bỏ đỏ cam) */
                 --bg-base: #000000;
-                --bg-mesh: radial-gradient(circle at 10% 20%, rgba(10, 132, 255, 0.15), transparent 50%), radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.12), transparent 50%), radial-gradient(circle at 50% 90%, rgba(255, 55, 95, 0.1), transparent 50%);
+                --bg-mesh: 
+                    radial-gradient(circle at 0% 0%, rgba(10, 132, 255, 0.25), transparent 45%), 
+                    radial-gradient(circle at 100% 100%, rgba(94, 92, 230, 0.18), transparent 50%), 
+                    radial-gradient(circle at 0% 100%, rgba(10, 132, 255, 0.1), transparent 45%);
+                
                 --card-bg: rgba(30, 30, 32, 0.45); 
                 --card-border: rgba(255, 255, 255, 0.1);
                 --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.1);
