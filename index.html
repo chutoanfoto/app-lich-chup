@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="theme-color" content="#050505" media="(prefers-color-scheme: dark)">
-    <meta name="theme-color" content="#f2efe9" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#030303" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f2f4f7" media="(prefers-color-scheme: light)">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Lịch Chụp">
@@ -18,105 +18,112 @@
     <style>
         *, *::before, *::after { box-sizing: border-box; }
 
-        /* ======== LIGHT MODE PRO MAX (Giấy mỹ thuật ngà & Kính trong suốt) ======== */
+        /* ======== LIGHT MODE (Thiết kế mới: Kính sương mờ trên nền ánh Pastel) ======== */
         :root {
-            --bg-base: #f2efe9; 
-            /* Ánh sáng hắt nhẹ màu ngọc trai và vàng champagne để kính có cái phản chiếu */
+            --bg-base: #f2f4f7; 
             --bg-mesh: 
-                radial-gradient(circle at 10% 0%, rgba(212, 175, 55, 0.08), transparent 45%), 
-                radial-gradient(circle at 90% 100%, rgba(160, 150, 140, 0.1), transparent 55%),
-                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.5), transparent 70%);
+                radial-gradient(circle at 15% 10%, rgba(180, 210, 255, 0.25), transparent 40%), 
+                radial-gradient(circle at 85% 90%, rgba(255, 210, 180, 0.25), transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.8), transparent 60%);
             
-            --card-bg: rgba(255, 255, 255, 0.45); /* Kính trong hơn */
-            --card-border: rgba(255, 255, 255, 0.3);
-            --card-border-top: rgba(255, 255, 255, 1); /* Cạnh trên đón sáng chói */
-            --card-border-left: rgba(255, 255, 255, 0.8);
-            /* Bóng đổ ám màu nâu/vàng nhẹ tạo chiều sâu trên nền ngà */
-            --card-shadow: 0 15px 35px rgba(130, 120, 100, 0.15), inset 0 1px 0px rgba(255, 255, 255, 0.8);
+            --card-bg: rgba(255, 255, 255, 0.55); 
+            --card-border: rgba(255, 255, 255, 0.4);
+            --card-border-top: rgba(255, 255, 255, 1);
+            --card-border-left: rgba(255, 255, 255, 0.9);
+            --card-shadow: 0 15px 35px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 1);
             
-            --text-main: #1a1a1a; --text-muted: #7a756b; --text-sub: #9e998f;
-            --accent-gold: #b8860b;
-            --tag-gold-bg: rgba(184, 134, 11, 0.12); --tag-gold-text: #8c6600;
-            --alert-red: #d35400; --alert-bg: rgba(211, 84, 0, 0.1);
+            --text-main: #111111; --text-muted: #6e737a; --text-sub: #9ea3aa;
+            --accent-gold: #c59b27;
+            --tag-gold-bg: rgba(197, 155, 39, 0.12); --tag-gold-text: #9e7b1c;
+            --alert-red: #e74c3c; --alert-bg: rgba(231, 76, 60, 0.1);
             --success-green: #27ae60; --success-bg: rgba(39, 174, 96, 0.12);
             
-            --modal-bg: rgba(242, 239, 233, 0.95); 
-            --input-bg: rgba(255, 255, 255, 0.7); 
+            --modal-bg: rgba(248, 250, 252, 0.95); 
+            --input-bg: rgba(255, 255, 255, 0.8); 
             --input-border: rgba(0, 0, 0, 0.06);
-            --input-text: #1a1a1a;
-            --input-placeholder: #a8a398;
+            --input-text: #111111;
+            --input-placeholder: #a1a6ab;
             
-            --btn-secondary-bg: rgba(255, 255, 255, 0.6); --btn-secondary-text: #1a1a1a;
+            --btn-secondary-bg: rgba(255, 255, 255, 0.8); --btn-secondary-text: #111111;
             --divider-line: rgba(0, 0, 0, 0.05);
-            --header-bg: rgba(242, 239, 233, 0.7); 
-            --logo-filter: invert(1); --radius-card: 20px;
+            --header-bg: rgba(242, 244, 247, 0.65); 
+            --logo-filter: invert(1); --radius-card: 24px;
         }
 
-        /* ======== DARK MODE PRO MAX (Cinematic Luxury y hệt ảnh mẫu) ======== */
+        /* ======== DARK MODE (Luxury Cinematic: Nền tối sâu + Điểm sáng trung tâm) ======== */
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg-base: #050505; /* Đen cực sâu */
-                /* Đốm sáng mờ ảo màu rêu và vàng đồng tạo bokeh */
+                --bg-base: #030303; 
+                /* Tạo điểm sáng khổng lồ ở giữa màn hình để thẻ kính lướt qua sẽ nổi bật */
                 --bg-mesh: 
-                    radial-gradient(circle at 15% -10%, rgba(120, 100, 50, 0.2), transparent 50%), 
-                    radial-gradient(circle at 85% 110%, rgba(60, 70, 50, 0.15), transparent 55%), 
-                    radial-gradient(circle at 50% 50%, rgba(20, 20, 15, 0.5), transparent 80%);
+                    radial-gradient(circle at 50% 50%, rgba(140, 115, 60, 0.22), transparent 60%), 
+                    radial-gradient(circle at 0% -10%, rgba(70, 85, 50, 0.15), transparent 45%), 
+                    radial-gradient(circle at 100% 110%, rgba(40, 30, 20, 0.3), transparent 50%);
                 
-                --card-bg: rgba(24, 24, 22, 0.55); 
+                --card-bg: rgba(20, 20, 18, 0.45); 
                 --card-border: rgba(255, 255, 255, 0.02);
-                --card-border-top: rgba(255, 255, 255, 0.15); /* Ánh sáng hắt viền kính */
+                --card-border-top: rgba(255, 255, 255, 0.15); 
                 --card-border-left: rgba(255, 255, 255, 0.08);
-                --card-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.06);
+                --card-shadow: 0 25px 50px rgba(0, 0, 0, 0.9), inset 0 1px 1px rgba(255, 255, 255, 0.05);
                 
-                --text-main: #f0ece1; --text-muted: #9e998f; --text-sub: rgba(240, 236, 225, 0.5);
-                --accent-gold: #dfb96e; /* Chuẩn màu Gold báo giá */
-                --tag-gold-bg: rgba(223, 185, 110, 0.12); --tag-gold-text: #dfb96e;
-                --alert-red: #e74c3c; --alert-bg: rgba(231, 76, 60, 0.15);
-                --success-green: #2ecc71; --success-bg: rgba(46, 204, 113, 0.15);
+                --text-main: #f0f0f0; --text-muted: #959595; --text-sub: rgba(240, 240, 240, 0.5);
+                --accent-gold: #dfb96e; 
+                --tag-gold-bg: rgba(223, 185, 110, 0.12); --tag-gold-text: #e8c784;
+                --alert-red: #ff4747; --alert-bg: rgba(255, 71, 71, 0.12);
+                --success-green: #30d158; --success-bg: rgba(48, 209, 88, 0.12);
                 
-                --modal-bg: rgba(15, 15, 14, 0.95); 
-                --input-bg: rgba(30, 30, 28, 0.6); 
-                --input-border: rgba(255, 255, 255, 0.05);
-                --input-text: #f0ece1;
-                --input-placeholder: #7a756b;
+                --modal-bg: rgba(12, 12, 11, 0.96); 
+                --input-bg: rgba(25, 25, 23, 0.6); 
+                --input-border: rgba(255, 255, 255, 0.06);
+                --input-text: #f0f0f0;
+                --input-placeholder: #777777;
                 
-                --btn-secondary-bg: rgba(255, 255, 255, 0.05); --btn-secondary-text: #dfb96e;
+                --btn-secondary-bg: rgba(255, 255, 255, 0.06); --btn-secondary-text: #dfb96e;
                 --divider-line: rgba(255, 255, 255, 0.06);
-                --header-bg: rgba(5, 5, 5, 0.7); 
+                --header-bg: rgba(3, 3, 3, 0.65); 
                 --logo-filter: none;
             }
         }
 
-        html, body { margin: 0; padding: 0; width: 100vw; max-width: 100%; overflow-x: hidden; overscroll-behavior-x: none; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif; background-color: var(--bg-base); background-image: var(--bg-mesh); background-attachment: fixed; color: var(--text-main); min-height: 100vh; -webkit-tap-highlight-color: transparent; }
+        html, body { 
+            margin: 0; padding: 0; width: 100vw; max-width: 100%; overflow-x: hidden; overscroll-behavior-x: none; 
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif; 
+            background-color: var(--bg-base); 
+            background-image: var(--bg-mesh); 
+            background-attachment: fixed; /* CỐ ĐỊNH NỀN ĐỂ TẠO CHIỀU SÂU KHI VUỐT */
+            background-size: cover;
+            background-position: center;
+            color: var(--text-main); min-height: 100vh; -webkit-tap-highlight-color: transparent; 
+        }
         body.modal-open { overflow: hidden; position: fixed; width: 100%; height: 100%; }
         
-        /* CÔNG THỨC LIQUID GLASS TUYỆT ĐỐI */
+        /* CÔNG THỨC KÍNH LỎNG (LIQUID GLASS) CHUẨN XÁC */
         .glass-fx { 
             background: var(--card-bg); 
             border: 1px solid var(--card-border); 
             border-top-color: var(--card-border-top);
             border-left-color: var(--card-border-left);
-            backdrop-filter: blur(28px) saturate(120%); 
-            -webkit-backdrop-filter: blur(28px) saturate(120%); 
+            backdrop-filter: blur(30px) saturate(140%); 
+            -webkit-backdrop-filter: blur(30px) saturate(140%); 
             box-shadow: var(--card-shadow); 
         }
 
-        .header { width: 100%; padding: 14px 20px; position: sticky; top: 0; z-index: 50; background: var(--header-bg); backdrop-filter: blur(30px) saturate(150%); -webkit-backdrop-filter: blur(30px) saturate(150%); border-bottom: 1px solid var(--divider-line); display: flex; justify-content: space-between; align-items: center; }
+        .header { width: 100%; padding: 14px 20px; position: sticky; top: 0; z-index: 50; background: var(--header-bg); backdrop-filter: blur(40px) saturate(180%); -webkit-backdrop-filter: blur(40px) saturate(180%); border-bottom: 1px solid var(--divider-line); display: flex; justify-content: space-between; align-items: center; }
         .header img { height: 30px; object-fit: contain; filter: var(--logo-filter); }
-        .status-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 20px; background: var(--success-bg); color: var(--success-green); font-size: 12px; font-weight: 600; border: 1px solid rgba(46, 204, 113, 0.2); }
-        .status-dot { width: 6px; height: 6px; background: var(--success-green); border-radius: 50%; box-shadow: 0 0 6px var(--success-green); }
+        .status-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 20px; background: var(--success-bg); color: var(--success-green); font-size: 12px; font-weight: 600; border: 1px solid rgba(48, 209, 88, 0.2); }
+        .status-dot { width: 6px; height: 6px; background: var(--success-green); border-radius: 50%; box-shadow: 0 0 8px var(--success-green); }
 
         .container { width: 100%; padding: 16px; max-width: 580px; margin: 0 auto; padding-bottom: 110px; }
         .section-title { font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 14px; text-transform: uppercase; margin-left: 4px; }
 
         .calendar-swipe-header { text-align: center; margin-bottom: 20px; padding-top: 10px; cursor: pointer; user-select: none; }
-        .calendar-title-text { font-size: 14px; font-weight: 800; color: var(--accent-gold); letter-spacing: 3px; text-transform: uppercase; text-shadow: 0 0 15px rgba(223, 185, 110, 0.2); }
+        .calendar-title-text { font-size: 14px; font-weight: 800; color: var(--accent-gold); letter-spacing: 3px; text-transform: uppercase; text-shadow: 0 0 20px rgba(223, 185, 110, 0.2); }
 
         .year-block, .month-block, .day-block { transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease, margin 0.3s ease; max-height: 5000px; opacity: 1; overflow: hidden; transform-origin: top; }
         .hidden-step { max-height: 0 !important; opacity: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important; pointer-events: none; border: none !important; }
 
-        /* NĂM: KÍNH SÁNG ĐẶC BIỆT */
-        .year-header { padding: 18px 20px; margin: 16px 0 12px 0; border-radius: 20px; background: var(--card-bg); color: var(--accent-gold); font-weight: 800; font-size: 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--card-shadow); text-transform: uppercase; letter-spacing: 2px; border: 1px solid var(--card-border); border-top-color: var(--card-border-top); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); }
+        /* THẺ NĂM BÓNG BẨY */
+        .year-header { padding: 18px 20px; margin: 16px 0 12px 0; border-radius: 20px; background: var(--card-bg); color: var(--accent-gold); font-weight: 800; font-size: 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--card-shadow); text-transform: uppercase; letter-spacing: 2px; border: 1px solid var(--card-border); border-top-color: var(--card-border-top); border-left-color: var(--card-border-left); backdrop-filter: blur(30px) saturate(140%); -webkit-backdrop-filter: blur(30px) saturate(140%); }
         .year-content { display: none; } .year-content.show { display: block; animation: fadeIn 0.3s ease; }
 
         .month-header { padding: 14px 18px; margin: 12px 0 8px 8px; border-radius: 18px; border-left: 3px solid var(--accent-gold); color: var(--accent-gold); font-weight: 700; font-size: 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
@@ -135,12 +142,11 @@
         .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
         
         .client-name-container { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; }
-        .client-name { font-size: 17px; font-weight: 700; color: var(--text-main); margin: 0; letter-spacing: -0.2px; }
+        .client-name { font-size: 18px; font-weight: 700; color: var(--text-main); margin: 0; letter-spacing: -0.2px; }
         
         .social-links-row { display: flex; align-items: center; gap: 6px; }
-        /* GIỮ NGUYÊN MÀU ICON ZALO/FB/IG BẢN GỐC */
-        .social-icon { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; transition: opacity 0.2s; opacity: 0.9;}
-        .social-icon:active { opacity: 0.4; }
+        .social-icon { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; transition: opacity 0.2s; opacity: 0.95;}
+        .social-icon:active { opacity: 0.5; }
 
         .tag-package { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 11.5px; font-weight: 700; background: var(--tag-gold-bg); color: var(--tag-gold-text); border: 1px solid rgba(223, 185, 110, 0.15); }
         .tag-session { font-size: 11.5px; font-weight: 600; background: var(--btn-secondary-bg); color: var(--text-main); padding: 5px 12px; border-radius: 6px; border: 1px solid var(--divider-line); }
@@ -151,9 +157,8 @@
         .action-links { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
         .action-link-btn { display: inline-flex; align-items: center; gap: 5px; padding: 6px 14px; border-radius: 6px; text-decoration: none; font-size: 11.5px; font-weight: 700; border: 1px solid var(--divider-line); background: var(--btn-secondary-bg); color: var(--text-main); text-transform: uppercase; letter-spacing: 0.5px;}
 
-        /* THANH TIỀN BẠC NỔI BẬT */
-        .money-bar { background: rgba(0,0,0,0.03); border-radius: 12px; border: 1px solid var(--divider-line); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; font-size: 13.5px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.02); }
-        @media (prefers-color-scheme: dark) { .money-bar { background: rgba(0,0,0,0.3); box-shadow: inset 0 2px 10px rgba(0,0,0,0.2); } }
+        .money-bar { background: rgba(0,0,0,0.02); border-radius: 12px; border: 1px solid var(--divider-line); padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; font-size: 13.5px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.01); }
+        @media (prefers-color-scheme: dark) { .money-bar { background: rgba(0,0,0,0.3); box-shadow: inset 0 2px 10px rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.03); } }
         .money-bar .total { font-weight: 600; color: var(--text-muted); } .money-bar .total-num { color: var(--text-main); font-weight: 800; }
         .money-bar .debt { color: var(--alert-red); font-weight: 800; } .money-bar .paid { color: var(--success-green); font-weight: 800; }
 
@@ -167,7 +172,7 @@
 
         .card-btns-row { display: flex; gap: 10px; margin-top: 16px; }
         .btn-card-action { flex: 1; padding: 12px 0; border: none; border-radius: 10px; font-size: 12.5px; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; border: 1px solid var(--divider-line); }
-        .btn-edit { background: var(--btn-secondary-bg); color: var(--text-main); } .btn-delete { background: var(--alert-bg); color: var(--alert-red); border-color: transparent;}
+        .btn-edit { background: var(--btn-secondary-bg); color: var(--accent-gold); } .btn-delete { background: var(--alert-bg); color: var(--alert-red); border-color: transparent;}
 
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
         .stat-card { border-radius: 20px; padding: 16px; }
@@ -175,13 +180,13 @@
         .stat-value { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; }
         .stat-value.gold { color: var(--accent-gold); text-shadow: 0 0 15px rgba(223, 185, 110, 0.3); } .stat-value.green { color: var(--success-green); } .stat-value.red { color: var(--alert-red); }
 
-        .select-filter { width: 100%; padding: 14px 16px; border-radius: 16px; color: var(--text-main); font-size: 14px; font-weight: 700; outline: none; border-color: var(--card-border); appearance: none; -webkit-appearance: none; background: url('data:image/svg+xml;utf8,<svg fill="%239e998f" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>') no-repeat right 12px center; background-color: var(--card-bg); }
+        .select-filter { width: 100%; padding: 14px 16px; border-radius: 16px; color: var(--text-main); font-size: 14px; font-weight: 700; outline: none; border-color: var(--card-border); appearance: none; -webkit-appearance: none; background: url('data:image/svg+xml;utf8,<svg fill="%23dfb96e" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>') no-repeat right 12px center; background-color: var(--card-bg); }
 
-        .fab { position: fixed; bottom: 32px; right: 24px; width: 56px; height: 56px; background: linear-gradient(135deg, var(--accent-gold), #997328); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 28px; font-weight: 400; box-shadow: 0 10px 25px rgba(197, 155, 39, 0.4); cursor: pointer; z-index: 80; border: 1px solid rgba(255,255,255,0.4); }
-        @media (prefers-color-scheme: dark) { .fab { color: #000; box-shadow: 0 10px 25px rgba(223, 185, 110, 0.3); border-color: rgba(255,255,255,0.2);} }
+        .fab { position: fixed; bottom: 32px; right: 24px; width: 56px; height: 56px; background: linear-gradient(135deg, var(--accent-gold), #a38228); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 28px; font-weight: 400; box-shadow: 0 10px 25px rgba(197, 155, 39, 0.4); cursor: pointer; z-index: 80; border: 1px solid rgba(255,255,255,0.3); }
+        @media (prefers-color-scheme: dark) { .fab { color: #000; box-shadow: 0 10px 25px rgba(223, 185, 110, 0.3); border-color: rgba(255,255,255,0.15);} }
         .fab:active { transform: scale(0.92); }
 
-        .modal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); justify-content: center; align-items: flex-end; overscroll-behavior: contain; width: 100vw; }
+        .modal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); justify-content: center; align-items: flex-end; overscroll-behavior: contain; width: 100vw; }
         .modal-content { background: var(--modal-bg); border-top: 1px solid var(--card-border-top); border-radius: 30px 30px 0 0; width: 100%; max-width: 580px; max-height: 88vh; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; padding: 28px 24px 40px 24px; box-shadow: 0 -15px 50px rgba(0,0,0,0.5); animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } } @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
@@ -193,16 +198,16 @@
         .form-group { margin-bottom: 16px; display: flex; flex-direction: column; width: 100%; } 
         .form-group label { font-size: 11.5px; color: var(--text-muted); margin-bottom: 8px; margin-left: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;} 
         
-        .form-control, .form-select { width: 100%; padding: 16px 14px; background: var(--input-bg) !important; border: 1px solid var(--input-border) !important; border-radius: 12px; color: var(--input-text) !important; font-size: 15px; font-weight: 500; outline: none; -webkit-appearance: none; transition: all 0.2s ease; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); } 
+        .form-control, .form-select { width: 100%; padding: 16px 14px; background: var(--input-bg) !important; border: 1px solid var(--input-border) !important; border-radius: 12px; color: var(--input-text) !important; font-size: 15px; font-weight: 500; outline: none; -webkit-appearance: none; transition: all 0.2s ease; box-shadow: inset 0 2px 4px rgba(0,0,0,0.01); } 
         .form-control::placeholder { color: var(--input-placeholder); font-weight: 400;}
-        .form-control:focus, .form-select:focus { border-color: var(--accent-gold) !important; box-shadow: 0 0 0 3px rgba(223, 185, 110, 0.15), inset 0 2px 4px rgba(0,0,0,0.02); }
+        .form-control:focus, .form-select:focus { border-color: var(--accent-gold) !important; box-shadow: 0 0 0 3px rgba(223, 185, 110, 0.15), inset 0 2px 4px rgba(0,0,0,0.01); }
         textarea.form-control { resize: vertical; min-height: 80px; font-family: inherit; line-height: 1.5; } 
 
         .btn-submit { width: 100%; padding: 18px; border: none; border-radius: 14px; font-weight: 800; font-size: 15px; color: #fff; margin-top: 14px; cursor: pointer; background: linear-gradient(135deg, var(--accent-gold), #997328); box-shadow: 0 6px 20px rgba(197, 155, 39, 0.25); text-transform: uppercase; letter-spacing: 1px;} 
         @media (prefers-color-scheme: dark) { .btn-submit { color: #000; } }
         .btn-submit:active { transform: scale(0.98); }
-        .btn-pay { background: rgba(46, 204, 113, 0.15); color: var(--success-green); width: 100%; padding: 14px; border: 1px solid rgba(46, 204, 113, 0.3); border-radius: 12px; font-weight: 800; font-size: 13px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px;} .btn-pay:active { transform: scale(0.98); }
-        .loader { text-align: center; padding: 40px; color: var(--accent-gold); font-weight: 600; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; }
+        .btn-pay { background: rgba(39, 174, 96, 0.12); color: var(--success-green); width: 100%; padding: 14px; border: 1px solid rgba(39, 174, 96, 0.25); border-radius: 12px; font-weight: 800; font-size: 13px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px;} .btn-pay:active { transform: scale(0.98); }
+        .loader { text-align: center; padding: 40px; color: var(--accent-gold); font-weight: 700; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; }
     </style>
 </head>
 <body>
@@ -257,7 +262,7 @@
                     <div class="form-group"><label>Giá gói chụp (VNĐ)</label><input type="text" id="c_gia" class="form-control money-input" placeholder="0"></div>
                     <div class="form-group"><label>Phí đi lại (VNĐ)</label><input type="text" id="c_phi" class="form-control money-input" placeholder="0"></div>
                     <div class="form-group"><label>Tiền cọc (VNĐ)</label><input type="text" id="c_coc" class="form-control money-input" placeholder="0"></div>
-                    <div class="form-group"><label>Số điện thoại khách</label><input type="tel" id="c_sdt" class="form-control" placeholder="Ví dụ: 0987654321"></div>
+                    <div class="form-group"><label>Số điện thoại khách (Để gọi)</label><input type="tel" id="c_sdt" class="form-control" placeholder="Ví dụ: 0987654321"></div>
                     
                     <div class="form-group"><label>Ghi chú / Timeline</label><textarea id="c_ghichu" class="form-control" rows="3" placeholder="Nhập lịch trình chi tiết..."></textarea></div>
                     
@@ -290,7 +295,7 @@
                     <div class="form-group"><label>Giá gói chụp (VNĐ)</label><input type="text" id="e_gia" class="form-control money-input"></div>
                     <div class="form-group"><label>Phí đi lại (VNĐ)</label><input type="text" id="e_phi" class="form-control money-input"></div>
                     <div class="form-group"><label>Tiền cọc (VNĐ)</label><input type="text" id="e_coc" class="form-control money-input"></div>
-                    <div class="form-group"><label>Số điện thoại khách</label><input type="tel" id="e_sdt" class="form-control" placeholder="Ví dụ: 0987654321"></div>
+                    <div class="form-group"><label>Số điện thoại khách (Để gọi)</label><input type="tel" id="e_sdt" class="form-control" placeholder="Ví dụ: 0987654321"></div>
                     
                     <div class="form-group"><label>Ghi chú / Timeline</label><textarea id="e_ghichu" class="form-control" rows="3"></textarea></div>
 
@@ -311,9 +316,9 @@
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbyxTm4XHr7HF1WujMPs9oWARimjrmkUV50hbV0ko59oj1njSyWg7rQd1T4PryjGbeJm/exec";
         let allValidData = []; let isFirstLoad = true;
-        const FB_ICON = `<svg width="16" height="16" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>`;
-        const ZALO_ICON = `<span style="background:#0068FF; color:#fff; font-size:9px; font-weight:800; padding:0 5px; border-radius:4px; height:16px; line-height:16px; display:inline-block;">Zalo</span>`;
-        const IG_ICON = `<svg width="16" height="16" viewBox="0 0 24 24" fill="url(#ig-grad)"><defs><linearGradient id="ig-grad" x1="2" y1="2" x2="22" y2="22"><stop offset="0%" stop-color="#f09433"/><stop offset="25%" stop-color="#e6683c"/><stop offset="50%" stop-color="#dc2743"/><stop offset="75%" stop-color="#cc2366"/><stop offset="100%" stop-color="#bc1888"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="url(#ig-grad)" stroke-width="2"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="url(#ig-grad)" stroke-width="2"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="url(#ig-grad)" stroke-width="2"></line></svg>`;
+        const FB_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>`;
+        const ZALO_ICON = `<span style="background:#0068FF; color:#fff; font-size:10px; font-weight:800; padding:0 6px; border-radius:6px; height:18px; line-height:18px; display:inline-block;">Zalo</span>`;
+        const IG_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" fill="url(#ig-grad)"><defs><linearGradient id="ig-grad" x1="2" y1="2" x2="22" y2="22"><stop offset="0%" stop-color="#f09433"/><stop offset="25%" stop-color="#e6683c"/><stop offset="50%" stop-color="#dc2743"/><stop offset="75%" stop-color="#cc2366"/><stop offset="100%" stop-color="#bc1888"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="url(#ig-grad)" stroke-width="2"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="url(#ig-grad)" stroke-width="2"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="url(#ig-grad)" stroke-width="2"></line></svg>`;
 
         function saveUIState() {
             let state = {
