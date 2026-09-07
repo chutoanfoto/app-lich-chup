@@ -210,7 +210,6 @@
 
         .card-btns-row { display: flex; gap: 12px; margin-top: 18px; position: relative; z-index: 10;}
         
-        /* HIỆU ỨNG NÚT BẤM MƯỢT MÀ VÀ BẢO ĐẢM TƯƠNG TÁC */
         .btn-card-action { 
             flex: 1; display:flex; justify-content:center; align-items:center; 
             padding: 14px 0; border: none; border-radius: 12px; font-size: 12.5px; 
@@ -357,7 +356,7 @@
 
                     <div class="form-group"><label>Link Maps (Vị trí)</label><input type="url" id="e_linkmaps" class="form-control" placeholder="https://maps.app.goo.gl/..."></div>
                     <div style="display:flex; gap:12px;">
-                        <div class="form-group" style="flex:1;"><label>Link FB</label><input type="url" id="c_linkfb" class="form-control" placeholder="https://fb.com/..."></div>
+                        <div class="form-group" style="flex:1;"><label>Link FB</label><input type="url" id="e_linkfb" class="form-control" placeholder="https://fb.com/..."></div>
                         <div class="form-group" style="flex:1;"><label>SĐT Zalo</label><input type="tel" id="e_zalo" class="form-control" placeholder="0987654321"></div>
                     </div>
                     <div class="form-group"><label>Link Instagram</label><input type="url" id="e_ig" class="form-control" placeholder="https://instagram.com/..."></div>
@@ -373,7 +372,6 @@
         const API_URL = "https://script.google.com/macros/s/AKfycbyxTm4XHr7HF1WujMPs9oWARimjrmkUV50hbV0ko59oj1njSyWg7rQd1T4PryjGbeJm/exec";
         let allValidData = []; let isFirstLoad = true;
 
-        /* BỘ ICON VECTOR SẮC NÉT XÓA SỔ EMOJI */
         const ICON_CALENDAR = `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px"><rect x="3" y="4" width="18" height="18" rx="2.5" ry="2.5"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`;
         const ICON_SUN = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><circle cx="12" cy="12" r="4.5"></circle><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 4.9l1.4 1.4"></path></svg>`;
         const ICON_SUNSET = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><path d="M12 3v2M4.9 7.1l1.4 1.4M19.1 7.1l-1.4 1.4M2 17h20M16 17a4 4 0 0 0-8 0"></path></svg>`;
@@ -700,7 +698,6 @@
                                 let driveBtn = driveVal ? `<a href="${driveVal}" target="_blank" class="action-link-btn drive" onclick="event.stopPropagation()">📁 Drive</a>` : '';
                                 let linkButtonsHTML = (mapsBtn || driveBtn) ? `<div class="action-links">${mapsBtn}${driveBtn}</div>` : '';
 
-                                // FIX LỖI NÚT BẤM BẰNG CÁCH CHUẨN HÓA rowIndex VÀ KHÔI PHỤC CONFIRM
                                 let paidBtnHTML = '';
                                 if (conLai > 0) { 
                                     paidBtnHTML = `<div style="margin-top: 12px;"><button type="button" class="btn-pay" onclick="event.stopPropagation(); markPaid('${rowIndex}')">${ICON_CHECK} ĐÃ THANH TOÁN</button></div>`; 
@@ -786,11 +783,11 @@
         function openModal() { document.getElementById('modalTitle').innerText = "TẠO LỊCH MỚI"; document.getElementById('tab-create').classList.add('active'); document.getElementById('tab-edit').classList.remove('active'); document.body.classList.add('modal-open'); document.getElementById('modalForm').style.display = 'flex'; }
         function closeModal() { document.body.classList.remove('modal-open'); document.getElementById('modalForm').style.display = 'none'; }
 
-        // SỬA LỖI MẤT NÚT EDIT
+        // BẢO VỆ MÃ EDIT: Tìm chính xác theo ID, ngăn chặn lỗi nháy đơn
         function openEditModal(rowIndex) {
             const item = allValidData.find(r => String(r._rowIndex) === String(rowIndex)); 
             if (!item) {
-                alert("Lỗi: Không tìm thấy dữ liệu lịch này.");
+                alert("Hệ thống đang đồng bộ, vui lòng thử lại sau giây lát.");
                 return;
             }
             let name = item['Khách hàng'] || findVal(item, 'khách') || 'Khách hàng';
@@ -799,6 +796,7 @@
             document.getElementById('e_rowindex').value = rowIndex;
             let dObj = item._dateObj; document.getElementById('e_ngay').value = dObj ? dateToISO(dObj) : '';
             document.getElementById('e_thoigian').value = findVal(item, 'thời gian'); document.getElementById('e_khach').value = name;
+            
             document.getElementById('e_linkfb').value = findVal(item, 'facebook') || item['Link Facebook'] || ''; 
             
             let zaloEdit = findVal(item, 'zalo') || item['SĐT Zalo'] || '';
@@ -829,12 +827,12 @@
 
         document.querySelectorAll('.money-input').forEach(input => { input.addEventListener('input', function(e) { let value = e.target.value.replace(/\D/g, ''); e.target.value = value !== '' ? new Intl.NumberFormat('vi-VN').format(value) : ''; }); });
 
-        // KHÔI PHỤC CONFIRM THANH TOÁN
         async function markPaid(rowIndex) {
             let item = allValidData.find(r => String(r._rowIndex) === String(rowIndex));
             if (!item) return;
             let name = item['Khách hàng'] || findVal(item, 'khách') || 'Khách hàng';
             
+            // ĐÃ KHÔI PHỤC CONFIRM THANH TOÁN
             if (!confirm(`Xác nhận khách hàng "${name}" đã thanh toán toàn bộ số tiền còn lại?`)) return;
             
             let conLaiKey = Object.keys(item).find(k => k.toLowerCase().includes('còn lại')) || 'Còn lại'; 
