@@ -18,7 +18,7 @@
     <style>
         *, *::before, *::after { box-sizing: border-box; }
 
-        /* ======== LIGHT MODE: TRUE LIQUID GLASS ======== */
+        /* ======== LIGHT MODE: TRUE LIQUID GLASS (Chuẩn iOS) ======== */
         :root {
             --bg-base: #f4f5f7; 
             --bg-mesh: 
@@ -54,7 +54,7 @@
             --logo-filter: invert(1); --radius-card: 22px;
         }
 
-        /* ======== DARK MODE: HOÀN HẢO ======== */
+        /* ======== DARK MODE: HOÀN HẢO GIỮ NGUYÊN 100% ======== */
         @media (prefers-color-scheme: dark) {
             :root {
                 --bg-base: #060606; 
@@ -137,7 +137,6 @@
         .status-badge { position: relative; z-index: 2; display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 20px; background: var(--success-bg); color: var(--success-green); font-size: 12px; font-weight: 700; border: 1px solid rgba(48, 209, 88, 0.2); }
         .status-dot { width: 6px; height: 6px; background: var(--success-green); border-radius: 50%; box-shadow: 0 0 8px var(--success-green); }
 
-        /* TĂNG PADDING BOTTOM LÊN 150px ĐỂ KHÔNG BỊ NÚT "+" CHE MẤT NÚT XÓA LỊCH */
         .container { position: relative; z-index: 2; width: 100%; padding: 16px; max-width: 580px; margin: 0 auto; padding-bottom: 150px; }
         
         .section-title { font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 14px; text-transform: uppercase; margin-left: 4px; }
@@ -184,7 +183,7 @@
         .social-icon { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; transition: opacity 0.2s; opacity: 1;}
         .social-icon:active { opacity: 0.5; }
 
-        .tag-package { display: inline-block; padding: 5px 12px; border-radius: 8px; font-size: 11.5px; font-weight: 700; background: var(--tag-gold-bg); color: var(--tag-gold-text); border: 1px solid rgba(223, 185, 110, 0.2); }
+        .tag-package { display: inline-block; padding: 5px 12px; border-radius: 8px; font-size: 11.5px; font-weight: 700; background: var(--tag-gold-bg); color: var(--tag-gold-text); border: 1px solid rgba(223, 185, 110, 0.15); }
         .tag-session { font-size: 11.5px; font-weight: 600; background: var(--btn-secondary-bg); color: var(--text-main); padding: 6px 14px; border-radius: 8px; border: 1px solid var(--divider-line); }
 
         .location-row { display: flex; align-items: flex-start; margin-bottom: 10px; font-size: 14px; color: var(--text-main); }
@@ -192,10 +191,9 @@
         .location-value { font-weight: 500; }
 
         .action-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; margin-bottom: 18px; }
-        .action-link-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 11.5px; font-weight: 700; border: 1px solid var(--divider-line); background: rgba(0,0,0,0.02); color: var(--text-main); text-transform: uppercase; letter-spacing: 0.5px;}
-        @media (prefers-color-scheme: dark) { .action-link-btn { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.05); } }
+        .action-link-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 11.5px; font-weight: 700; border: 1px solid var(--divider-line); background: var(--btn-secondary-bg); color: var(--text-main); text-transform: uppercase; letter-spacing: 0.5px;}
 
-        .money-bar { background: rgba(0,0,0,0.03); border-radius: 14px; border: 1px solid var(--divider-line); padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.01); }
+        .money-bar { background: rgba(0,0,0,0.02); border-radius: 14px; border: 1px solid var(--divider-line); padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.01); }
         @media (prefers-color-scheme: dark) { .money-bar { background: rgba(255,255,255,0.03); box-shadow: inset 0 2px 10px rgba(0,0,0,0.2); border-color: rgba(255,255,255,0.05); } }
         .money-bar .total { font-weight: 600; color: var(--text-muted); } .money-bar .total-num { color: var(--text-main); font-weight: 800; }
         .money-bar .debt { color: var(--alert-red); font-weight: 800; } .money-bar .paid { color: var(--success-green); font-weight: 800; }
@@ -204,14 +202,13 @@
         .card-expanded-content.show { display: block; animation: fadeIn 0.2s ease; }
         .detail-item { display: flex; justify-content: space-between; font-size: 13.5px; margin-bottom: 10px; color: var(--text-muted); } .detail-item span:last-child { font-weight: 700; color: var(--text-main); }
         
-        .detail-note { margin-top: 14px; padding: 16px; background: rgba(0,0,0,0.02); border-radius: 14px; border: 1px solid var(--divider-line); }
-        @media (prefers-color-scheme: dark) { .detail-note { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.05); } }
+        .detail-note { margin-top: 14px; padding: 16px; background: var(--btn-secondary-bg); border-radius: 14px; border: 1px solid var(--divider-line); }
         .detail-note-label { font-size: 11.5px; font-weight: 800; color: var(--text-muted); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; text-transform: uppercase; letter-spacing: 1px;}
         .detail-note-content { font-size: 14px; font-weight: 500; color: var(--text-main); line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
 
         .card-btns-row { display: flex; gap: 12px; margin-top: 18px; position: relative; z-index: 10;}
         
-        /* THIẾT KẾ LẠI HIỆU ỨNG NÚT BẤM (SƯỚNG TAY HƠN) */
+        /* HIỆU ỨNG NÚT BẤM MƯỢT MÀ VÀ BẢO ĐẢM TƯƠNG TÁC */
         .btn-card-action { 
             flex: 1; display:flex; justify-content:center; align-items:center; 
             padding: 14px 0; border: none; border-radius: 12px; font-size: 12.5px; 
@@ -219,9 +216,8 @@
             letter-spacing: 0.5px; border: 1px solid var(--divider-line); 
             transition: all 0.15s ease; -webkit-tap-highlight-color: transparent;
         }
-        .btn-card-action:active { transform: scale(0.92); opacity: 0.7; filter: brightness(0.9); }
-        .btn-edit { background: rgba(0,0,0,0.03); color: var(--accent-gold); } 
-        @media (prefers-color-scheme: dark) { .btn-edit { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.08); } }
+        .btn-card-action:active { transform: scale(0.92); opacity: 0.8; filter: brightness(0.9); }
+        .btn-edit { background: var(--btn-secondary-bg); color: var(--accent-gold); } 
         .btn-delete { background: var(--alert-bg); color: var(--alert-red); border-color: transparent;}
 
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
@@ -375,7 +371,6 @@
         const API_URL = "https://script.google.com/macros/s/AKfycbyxTm4XHr7HF1WujMPs9oWARimjrmkUV50hbV0ko59oj1njSyWg7rQd1T4PryjGbeJm/exec";
         let allValidData = []; let isFirstLoad = true;
 
-        /* BỘ ICON VECTOR SẮC NÉT XÓA SỔ EMOJI */
         const ICON_CALENDAR = `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px"><rect x="3" y="4" width="18" height="18" rx="2.5" ry="2.5"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`;
         const ICON_SUN = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><circle cx="12" cy="12" r="4.5"></circle><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 4.9l1.4 1.4"></path></svg>`;
         const ICON_SUNSET = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><path d="M12 3v2M4.9 7.1l1.4 1.4M19.1 7.1l-1.4 1.4M2 17h20M16 17a4 4 0 0 0-8 0"></path></svg>`;
@@ -392,7 +387,6 @@
         const ZALO_ICON = `<span style="background:#0068FF; color:#fff; font-size:10px; font-weight:800; padding:0 6px; border-radius:5px; height:18px; line-height:18px; display:inline-block;">Zalo</span>`;
         const IG_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" fill="url(#ig-grad)"><defs><linearGradient id="ig-grad" x1="2" y1="2" x2="22" y2="22"><stop offset="0%" stop-color="#f09433"/><stop offset="25%" stop-color="#e6683c"/><stop offset="50%" stop-color="#dc2743"/><stop offset="75%" stop-color="#cc2366"/><stop offset="100%" stop-color="#bc1888"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="url(#ig-grad)" stroke-width="2"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="url(#ig-grad)" stroke-width="2"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="url(#ig-grad)" stroke-width="2"></line></svg>`;
 
-        // HỆ THỐNG TOAST THÔNG BÁO
         function showToast(message) {
             let toast = document.getElementById('appToast');
             toast.innerText = message;
@@ -400,7 +394,6 @@
             setTimeout(() => { toast.classList.remove('show'); }, 3000);
         }
 
-        // TÍNH NĂNG NHẤN GIỮ ĐỂ ẨN THÁNG
         let pressTimer;
         function startLongPress(e, monthBlockId) {
             pressTimer = setTimeout(() => {
@@ -410,7 +403,7 @@
                     saveUIState();
                     showToast("Đã ẩn Tháng. Vuốt xuống để hiện lại.");
                 }
-            }, 600); // Nhấn giữ 0.6 giây để kích hoạt
+            }, 600);
         }
         function cancelLongPress() {
             clearTimeout(pressTimer);
@@ -632,7 +625,6 @@
                 for (let monthStr in groupedData[yearStr]) {
                     let monthNum = parseInt(monthStr.replace(/\D/g, '')) || 0;
                     
-                    // THÊM SỰ KIỆN LONG-PRESS VÀO MONTH-HEADER
                     htmlStr += `<div class="month-block" id="mb-${yIndex}-${mIndex}" data-year="${yearNum}" data-month="${monthNum}">
                         <div class="month-header glass-fx" id="mh-${yIndex}-${mIndex}" 
                              onclick="toggleSection('month-content-${yIndex}-${mIndex}', this)"
@@ -704,14 +696,14 @@
                                 let driveBtn = driveVal ? `<a href="${driveVal}" target="_blank" class="action-link-btn drive" onclick="event.stopPropagation()">📁 Drive</a>` : '';
                                 let linkButtonsHTML = (mapsBtn || driveBtn) ? `<div class="action-links">${mapsBtn}${driveBtn}</div>` : '';
 
+                                // FIX LỖI NÚT BẤM (CHỈ TRUYỀN ID SỐ)
                                 let paidBtnHTML = '';
                                 if (conLai > 0) { 
-                                    // Đổi nút button thành type="button" và thêm event.stopPropagation()
-                                    paidBtnHTML = `<div style="margin-top: 12px;"><button type="button" class="btn-pay" onclick="event.stopPropagation(); markPaid(${rowIndex}, '${rawClientName.replace(/'/g, "")}')">${ICON_CHECK} ĐÃ THANH TOÁN</button></div>`; 
+                                    paidBtnHTML = `<div style="margin-top: 12px;"><button type="button" class="btn-pay" onclick="event.stopPropagation(); markPaid(${rowIndex})">${ICON_CHECK} ĐÃ THANH TOÁN</button></div>`; 
                                 }
 
                                 let noteHTML = '';
-                                if (noteVal) { noteHTML = `<div class="detail-note" onclick="event.stopPropagation()"><div class="detail-note-label">${ICON_NOTE} GHI CHÚ / TIMELINE</div><div class="detail-note-content">${noteVal}</div></div>`; }
+                                if (noteVal) { noteHTML = `<div class="detail-note" onclick="event.stopPropagation()"><div class="detail-note-label" style="color: var(--text-muted);">${ICON_NOTE} GHI CHÚ / TIMELINE</div><div class="detail-note-content">${noteVal}</div></div>`; }
 
                                 htmlStr += `
                                     <div class="card glass-fx" onclick="toggleSection('expanded-${rowIndex}', this, true)">
@@ -729,8 +721,8 @@
                                             ${noteHTML}
                                             ${paidBtnHTML}
                                             <div class="card-btns-row">
-                                                <button type="button" class="btn-card-action btn-edit" onclick="event.stopPropagation(); openEditModal(${rowIndex}, '${rawClientName.replace(/'/g, "")}')">${ICON_EDIT} SỬA LỊCH</button>
-                                                <button type="button" class="btn-card-action btn-delete" onclick="event.stopPropagation(); deleteBooking(${rowIndex}, '${rawClientName.replace(/'/g, "")}')">${ICON_DELETE} XÓA LỊCH</button>
+                                                <button type="button" class="btn-card-action btn-edit" onclick="event.stopPropagation(); openEditModal(${rowIndex})">${ICON_EDIT} SỬA LỊCH</button>
+                                                <button type="button" class="btn-card-action btn-delete" onclick="event.stopPropagation(); deleteBooking(${rowIndex})">${ICON_DELETE} XÓA LỊCH</button>
                                             </div>
                                         </div>
                                     </div>`;
@@ -790,11 +782,16 @@
         function openModal() { document.getElementById('modalTitle').innerText = "TẠO LỊCH MỚI"; document.getElementById('tab-create').classList.add('active'); document.getElementById('tab-edit').classList.remove('active'); document.body.classList.add('modal-open'); document.getElementById('modalForm').style.display = 'flex'; }
         function closeModal() { document.body.classList.remove('modal-open'); document.getElementById('modalForm').style.display = 'none'; }
 
-        function openEditModal(rowIndex, name) {
-            const item = allValidData.find(r => r._rowIndex === rowIndex); if (!item) return;
-            document.getElementById('modalTitle').innerText = `SỬA LỊCH: ${name}`; document.getElementById('e_rowindex').value = rowIndex;
+        // FIX LỖI EDIT (Chỉ truyền rowIndex)
+        function openEditModal(rowIndex) {
+            const item = allValidData.find(r => r._rowIndex === rowIndex); 
+            if (!item) return;
+            let name = item['Khách hàng'] || findVal(item, 'khách') || 'Khách hàng';
+            
+            document.getElementById('modalTitle').innerText = `SỬA LỊCH: ${name}`; 
+            document.getElementById('e_rowindex').value = rowIndex;
             let dObj = item._dateObj; document.getElementById('e_ngay').value = dObj ? dateToISO(dObj) : '';
-            document.getElementById('e_thoigian').value = findVal(item, 'thời gian'); document.getElementById('e_khach').value = item['Khách hàng'] || findVal(item, 'khách');
+            document.getElementById('e_thoigian').value = findVal(item, 'thời gian'); document.getElementById('e_khach').value = name;
             document.getElementById('e_linkfb').value = findVal(item, 'facebook') || item['Link Facebook'] || ''; 
             
             let zaloEdit = findVal(item, 'zalo') || item['SĐT Zalo'] || '';
@@ -821,9 +818,17 @@
 
         document.querySelectorAll('.money-input').forEach(input => { input.addEventListener('input', function(e) { let value = e.target.value.replace(/\D/g, ''); e.target.value = value !== '' ? new Intl.NumberFormat('vi-VN').format(value) : ''; }); });
 
-        async function markPaid(rowIndex, name) {
-            let item = allValidData.find(r => r._rowIndex == rowIndex);
-            if (item) { let conLaiKey = Object.keys(item).find(k => k.toLowerCase().includes('còn lại')) || 'Còn lại'; item[conLaiKey] = 0; renderUI(allValidData); }
+        // KHÔI PHỤC CONFIRM THANH TOÁN
+        async function markPaid(rowIndex) {
+            let item = allValidData.find(r => r._rowIndex === rowIndex);
+            if (!item) return;
+            let name = item['Khách hàng'] || findVal(item, 'khách') || 'Khách hàng';
+            
+            if (!confirm(`Xác nhận khách hàng "${name}" đã thanh toán toàn bộ số tiền còn lại?`)) return;
+            
+            let conLaiKey = Object.keys(item).find(k => k.toLowerCase().includes('còn lại')) || 'Còn lại'; 
+            item[conLaiKey] = 0; 
+            renderUI(allValidData); 
             fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: "MARK_PAID", rowIndex: rowIndex }) }).then(() => silentFetchData());
         }
 
@@ -847,8 +852,16 @@
             fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).then(() => silentFetchData());
         }
 
-        async function deleteBooking(rowIndex, name) {
-            allValidData = allValidData.filter(r => r._rowIndex != rowIndex); renderUI(allValidData);
+        // KHÔI PHỤC CONFIRM XÓA LỊCH
+        async function deleteBooking(rowIndex) {
+            let item = allValidData.find(r => r._rowIndex === rowIndex);
+            if (!item) return;
+            let name = item['Khách hàng'] || findVal(item, 'khách') || 'Khách hàng';
+            
+            if (!confirm(`Bạn có chắc chắn muốn XÓA lịch của khách "${name}" không? Thao tác này không thể hoàn tác.`)) return;
+            
+            allValidData = allValidData.filter(r => r._rowIndex != rowIndex); 
+            renderUI(allValidData);
             fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: "DELETE_ROW", rowIndex: rowIndex }) }).then(() => silentFetchData());
         }
     </script>
