@@ -183,7 +183,7 @@
         .social-icon { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; transition: opacity 0.2s; opacity: 1;}
         .social-icon:active { opacity: 0.5; }
 
-        .tag-package { display: inline-block; padding: 5px 12px; border-radius: 8px; font-size: 11.5px; font-weight: 700; background: var(--tag-gold-bg); color: var(--tag-gold-text); border: 1px solid rgba(223, 185, 110, 0.15); }
+        .tag-package { display: inline-block; padding: 5px 12px; border-radius: 8px; font-size: 11.5px; font-weight: 700; background: var(--tag-gold-bg); color: var(--tag-gold-text); border: 1px solid rgba(223, 185, 110, 0.2); }
         .tag-session { font-size: 11.5px; font-weight: 600; background: var(--btn-secondary-bg); color: var(--text-main); padding: 6px 14px; border-radius: 8px; border: 1px solid var(--divider-line); }
 
         .location-row { display: flex; align-items: flex-start; margin-bottom: 10px; font-size: 14px; color: var(--text-main); }
@@ -192,6 +192,7 @@
 
         .action-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; margin-bottom: 18px; }
         .action-link-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 11.5px; font-weight: 700; border: 1px solid var(--divider-line); background: var(--btn-secondary-bg); color: var(--text-main); text-transform: uppercase; letter-spacing: 0.5px;}
+        @media (prefers-color-scheme: dark) { .action-link-btn { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.05); } }
 
         .money-bar { background: rgba(0,0,0,0.02); border-radius: 14px; border: 1px solid var(--divider-line); padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.01); }
         @media (prefers-color-scheme: dark) { .money-bar { background: rgba(255,255,255,0.03); box-shadow: inset 0 2px 10px rgba(0,0,0,0.2); border-color: rgba(255,255,255,0.05); } }
@@ -202,7 +203,8 @@
         .card-expanded-content.show { display: block; animation: fadeIn 0.2s ease; }
         .detail-item { display: flex; justify-content: space-between; font-size: 13.5px; margin-bottom: 10px; color: var(--text-muted); } .detail-item span:last-child { font-weight: 700; color: var(--text-main); }
         
-        .detail-note { margin-top: 14px; padding: 16px; background: var(--btn-secondary-bg); border-radius: 14px; border: 1px solid var(--divider-line); }
+        .detail-note { margin-top: 14px; padding: 16px; background: rgba(0,0,0,0.02); border-radius: 14px; border: 1px solid var(--divider-line); }
+        @media (prefers-color-scheme: dark) { .detail-note { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.05); } }
         .detail-note-label { font-size: 11.5px; font-weight: 800; color: var(--text-muted); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; text-transform: uppercase; letter-spacing: 1px;}
         .detail-note-content { font-size: 14px; font-weight: 500; color: var(--text-main); line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
 
@@ -371,6 +373,7 @@
         const API_URL = "https://script.google.com/macros/s/AKfycbyxTm4XHr7HF1WujMPs9oWARimjrmkUV50hbV0ko59oj1njSyWg7rQd1T4PryjGbeJm/exec";
         let allValidData = []; let isFirstLoad = true;
 
+        /* BỘ ICON VECTOR SẮC NÉT XÓA SỔ EMOJI */
         const ICON_CALENDAR = `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px"><rect x="3" y="4" width="18" height="18" rx="2.5" ry="2.5"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`;
         const ICON_SUN = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><circle cx="12" cy="12" r="4.5"></circle><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 4.9l1.4 1.4"></path></svg>`;
         const ICON_SUNSET = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><path d="M12 3v2M4.9 7.1l1.4 1.4M19.1 7.1l-1.4 1.4M2 17h20M16 17a4 4 0 0 0-8 0"></path></svg>`;
@@ -651,7 +654,8 @@
 
                             groupedData[yearStr][monthStr][dateStr][session].forEach(row => {
                                 let gia = parseNum(findVal(row, 'giá')); let phi = parseNum(findVal(row, 'phí')); let coc = parseNum(findVal(row, 'cọc'));
-                                let conLai = parseNum(findVal(row, 'còn lại')); let rowIndex = row['_rowIndex'];
+                                let conLai = parseNum(findVal(row, 'còn lại')); 
+                                let rowIndex = row['_rowIndex'];
                                 
                                 let mapsVal = findVal(row, 'maps') || row['Link Maps'] || '';
                                 let driveVal = findVal(row, 'drive') || row['Link Drive'] || '';
@@ -661,7 +665,7 @@
                                 
                                 let sdtVal = findVal(row, 'sđt') || findVal(row, 'điện thoại') || row['SĐT'] || '';
                                 let noteVal = findVal(row, 'ghi chú');
-                                let rawClientName = row['Khách hàng'] || findVal(row, 'khách');
+                                let rawClientName = row['Khách hàng'] || findVal(row, 'khách') || '';
 
                                 let socialLinks = '';
                                 if (fbVal) socialLinks += `<a href="${fbVal}" target="_blank" class="social-icon" onclick="event.stopPropagation()">${FB_ICON}</a>`;
@@ -696,10 +700,10 @@
                                 let driveBtn = driveVal ? `<a href="${driveVal}" target="_blank" class="action-link-btn drive" onclick="event.stopPropagation()">📁 Drive</a>` : '';
                                 let linkButtonsHTML = (mapsBtn || driveBtn) ? `<div class="action-links">${mapsBtn}${driveBtn}</div>` : '';
 
-                                // FIX LỖI NÚT BẤM (CHỈ TRUYỀN ID SỐ)
+                                // FIX LỖI NÚT BẤM BẰNG CÁCH CHUẨN HÓA rowIndex VÀ KHÔI PHỤC CONFIRM
                                 let paidBtnHTML = '';
                                 if (conLai > 0) { 
-                                    paidBtnHTML = `<div style="margin-top: 12px;"><button type="button" class="btn-pay" onclick="event.stopPropagation(); markPaid(${rowIndex})">${ICON_CHECK} ĐÃ THANH TOÁN</button></div>`; 
+                                    paidBtnHTML = `<div style="margin-top: 12px;"><button type="button" class="btn-pay" onclick="event.stopPropagation(); markPaid('${rowIndex}')">${ICON_CHECK} ĐÃ THANH TOÁN</button></div>`; 
                                 }
 
                                 let noteHTML = '';
@@ -721,8 +725,8 @@
                                             ${noteHTML}
                                             ${paidBtnHTML}
                                             <div class="card-btns-row">
-                                                <button type="button" class="btn-card-action btn-edit" onclick="event.stopPropagation(); openEditModal(${rowIndex})">${ICON_EDIT} SỬA LỊCH</button>
-                                                <button type="button" class="btn-card-action btn-delete" onclick="event.stopPropagation(); deleteBooking(${rowIndex})">${ICON_DELETE} XÓA LỊCH</button>
+                                                <button type="button" class="btn-card-action btn-edit" onclick="event.stopPropagation(); openEditModal('${rowIndex}')">${ICON_EDIT} SỬA LỊCH</button>
+                                                <button type="button" class="btn-card-action btn-delete" onclick="event.stopPropagation(); deleteBooking('${rowIndex}')">${ICON_DELETE} XÓA LỊCH</button>
                                             </div>
                                         </div>
                                     </div>`;
@@ -782,12 +786,15 @@
         function openModal() { document.getElementById('modalTitle').innerText = "TẠO LỊCH MỚI"; document.getElementById('tab-create').classList.add('active'); document.getElementById('tab-edit').classList.remove('active'); document.body.classList.add('modal-open'); document.getElementById('modalForm').style.display = 'flex'; }
         function closeModal() { document.body.classList.remove('modal-open'); document.getElementById('modalForm').style.display = 'none'; }
 
-        // FIX LỖI EDIT (Chỉ truyền rowIndex)
+        // SỬA LỖI MẤT NÚT EDIT
         function openEditModal(rowIndex) {
-            const item = allValidData.find(r => r._rowIndex === rowIndex); 
-            if (!item) return;
+            const item = allValidData.find(r => String(r._rowIndex) === String(rowIndex)); 
+            if (!item) {
+                alert("Lỗi: Không tìm thấy dữ liệu lịch này.");
+                return;
+            }
             let name = item['Khách hàng'] || findVal(item, 'khách') || 'Khách hàng';
-            
+
             document.getElementById('modalTitle').innerText = `SỬA LỊCH: ${name}`; 
             document.getElementById('e_rowindex').value = rowIndex;
             let dObj = item._dateObj; document.getElementById('e_ngay').value = dObj ? dateToISO(dObj) : '';
@@ -813,14 +820,18 @@
             } else { document.getElementById('e_sdt').value = ''; }
 
             document.getElementById('e_linkmaps').value = findVal(item, 'maps') || item['Link Maps'] || ''; document.getElementById('e_linkdrive').value = findVal(item, 'drive') || item['Link Drive'] || ''; document.getElementById('e_ghichu').value = findVal(item, 'ghi chú');
-            document.getElementById('tab-create').classList.remove('active'); document.getElementById('tab-edit').classList.add('active'); document.body.classList.add('modal-open'); document.getElementById('modalForm').style.display = 'flex';
+            
+            document.getElementById('tab-create').classList.remove('active'); 
+            document.getElementById('tab-edit').classList.add('active'); 
+            document.body.classList.add('modal-open'); 
+            document.getElementById('modalForm').style.display = 'flex';
         }
 
         document.querySelectorAll('.money-input').forEach(input => { input.addEventListener('input', function(e) { let value = e.target.value.replace(/\D/g, ''); e.target.value = value !== '' ? new Intl.NumberFormat('vi-VN').format(value) : ''; }); });
 
         // KHÔI PHỤC CONFIRM THANH TOÁN
         async function markPaid(rowIndex) {
-            let item = allValidData.find(r => r._rowIndex === rowIndex);
+            let item = allValidData.find(r => String(r._rowIndex) === String(rowIndex));
             if (!item) return;
             let name = item['Khách hàng'] || findVal(item, 'khách') || 'Khách hàng';
             
@@ -844,7 +855,7 @@
         async function submitEdit(e) {
             e.preventDefault(); const btn = document.getElementById('btnEdit'); btn.innerText = "ĐANG LƯU..."; btn.style.opacity = 0.7; btn.disabled = true;
             const payload = { action: "EDIT_ROW", rowIndex: document.getElementById('e_rowindex').value, ngayChup: document.getElementById('e_ngay').value, thoiGian: document.getElementById('e_thoigian').value, khachHang: document.getElementById('e_khach').value, linkFacebook: document.getElementById('e_linkfb').value, zalo: document.getElementById('e_zalo').value, instagram: document.getElementById('e_ig').value, noiDung: document.getElementById('e_noidung').value, diaDiem: document.getElementById('e_diadiem').value, linkMaps: document.getElementById('e_linkmaps').value, linkDrive: document.getElementById('e_linkdrive').value, giaGoi: parseNum(document.getElementById('e_gia').value), phiDiLai: parseNum(document.getElementById('e_phi').value), coc: parseNum(document.getElementById('e_coc').value), ghiChu: document.getElementById('e_ghichu').value, sdt: document.getElementById('e_sdt').value };
-            let item = allValidData.find(r => r._rowIndex == payload.rowIndex);
+            let item = allValidData.find(r => String(r._rowIndex) === String(payload.rowIndex));
             if (item) {
                 let keys = Object.keys(item); item[keys.find(k=>k.toLowerCase().includes('ngày')) || 'Ngày chụp'] = payload.ngayChup; item[keys.find(k=>k.toLowerCase().includes('thời gian')) || 'Thời gian'] = payload.thoiGian; item[keys.find(k=>k.toLowerCase().includes('khách')) || 'Khách hàng'] = payload.khachHang; item['Link Facebook'] = payload.linkFacebook; item['SĐT Zalo'] = payload.zalo; item['Link Instagram'] = payload.instagram; item[keys.find(k=>k.toLowerCase().includes('địa điểm')) || 'Địa điểm'] = payload.diaDiem; item['Link Maps'] = payload.linkMaps; item['Link Drive'] = payload.linkDrive; item[keys.find(k=>k.toLowerCase().includes('nội dung')) || 'Nội dung'] = payload.noiDung; item[keys.find(k=>k.toLowerCase().includes('giá')) || 'Giá gói'] = payload.giaGoi; item[keys.find(k=>k.toLowerCase().includes('phí')) || 'Phí đi lại'] = payload.phiDiLai; item[keys.find(k=>k.toLowerCase().includes('cọc')) || 'Cọc'] = payload.coc; let tt = parseNum(findVal(item, 'thanh toán thêm')) || 0; item[keys.find(k=>k.toLowerCase().includes('còn lại')) || 'Còn lại'] = (payload.giaGoi + payload.phiDiLai) - (payload.coc + tt); item[keys.find(k=>k.toLowerCase().includes('ghi chú')) || 'Ghi chú'] = payload.ghiChu; item[keys.find(k=>k.toLowerCase().includes('sđt')) || 'SĐT'] = payload.sdt; item._dateObj = parseDateCustom(payload.ngayChup);
             }
@@ -854,13 +865,13 @@
 
         // KHÔI PHỤC CONFIRM XÓA LỊCH
         async function deleteBooking(rowIndex) {
-            let item = allValidData.find(r => r._rowIndex === rowIndex);
+            let item = allValidData.find(r => String(r._rowIndex) === String(rowIndex));
             if (!item) return;
             let name = item['Khách hàng'] || findVal(item, 'khách') || 'Khách hàng';
             
             if (!confirm(`Bạn có chắc chắn muốn XÓA lịch của khách "${name}" không? Thao tác này không thể hoàn tác.`)) return;
             
-            allValidData = allValidData.filter(r => r._rowIndex != rowIndex); 
+            allValidData = allValidData.filter(r => String(r._rowIndex) !== String(rowIndex)); 
             renderUI(allValidData);
             fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: "DELETE_ROW", rowIndex: rowIndex }) }).then(() => silentFetchData());
         }
