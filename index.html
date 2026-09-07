@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="theme-color" content="#050505" media="(prefers-color-scheme: dark)">
-    <meta name="theme-color" content="#f0ece6" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#030303" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#fdfbf7" media="(prefers-color-scheme: light)">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Lịch Chụp">
@@ -18,77 +18,72 @@
     <style>
         *, *::before, *::after { box-sizing: border-box; }
 
-        /* ======== LIGHT MODE: CHUẨN KÍNH SƯƠNG MỜ iOS ======== */
+        /* ======== LIGHT MODE PRO (Giấy ngọc trai & Kính trong suốt) ======== */
         :root {
-            /* Nền giấy mỹ thuật: Sáng góc trên trái, ngả Beige góc dưới phải tạo chiều sâu */
-            --bg-base: #f0ece6; 
-            --bg-mesh: 
-                radial-gradient(ellipse at 0% 0%, rgba(255, 255, 255, 1) 0%, transparent 60%), 
-                radial-gradient(ellipse at 100% 100%, rgba(215, 205, 190, 0.8) 0%, transparent 60%);
+            --bg-base: #fdfbf7; 
+            --bg-image: radial-gradient(circle at 10% 0%, #f3e5c8 0%, transparent 50%), radial-gradient(circle at 90% 100%, #e0eaf5 0%, transparent 50%), linear-gradient(135deg, #fdfbf7 0%, #f0ede6 100%);
+            --bg-overlay: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(250, 248, 245, 0.7) 100%);
             
-            /* Kính trong suốt cao, bắt sáng chéo */
-            --glass-bg: rgba(255, 255, 255, 0.35);
-            --glass-shine: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 40%);
+            /* KÍNH TRONG SUỐT (LIQUID GLASS MICA) */
+            --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
             --glass-border: rgba(255, 255, 255, 0.4);
             --glass-border-top: rgba(255, 255, 255, 1);
-            --glass-border-left: rgba(255, 255, 255, 0.9);
-            --glass-shadow: 0 10px 30px rgba(110, 100, 90, 0.08), 0 1px 3px rgba(0,0,0,0.02);
+            --glass-border-left: rgba(255, 255, 255, 0.8);
+            --glass-shadow: 0 15px 35px rgba(0, 0, 0, 0.05), inset 0 1px 2px rgba(255, 255, 255, 0.8);
             
-            --badge-bg: rgba(255, 255, 255, 0.7);
-            --badge-border: 1px solid rgba(255, 255, 255, 1);
-            --badge-shadow: 0 4px 12px rgba(197, 155, 39, 0.1);
+            --badge-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.2) 100%);
+            --badge-border: 1px solid rgba(255, 255, 255, 0.8);
+            --badge-shadow: 0 4px 12px rgba(197, 155, 39, 0.1), inset 0 1px 0 rgba(255, 255, 255, 1);
 
-            --text-main: #141414; --text-muted: #78746c; --text-sub: #9e9a8f;
+            --text-main: #141414; --text-muted: #737068; --text-sub: #9e9a8f;
             --accent-gold: #b38814; 
             --tag-gold-bg: rgba(197, 155, 39, 0.12); --tag-gold-text: #96710d;
             --alert-red: #d35400; --alert-bg: rgba(211, 84, 0, 0.1);
             --success-green: #27ae60; --success-bg: rgba(39, 174, 96, 0.12);
             
-            --modal-bg: rgba(245, 243, 238, 0.95); 
-            --input-bg: rgba(255, 255, 255, 0.9); 
+            --modal-bg: rgba(250, 248, 245, 0.85); 
+            --input-bg: rgba(255, 255, 255, 0.7); 
             --input-border: rgba(0, 0, 0, 0.08);
             --input-text: #141414; --input-placeholder: #a8a398;
             
-            --btn-secondary-bg: rgba(255, 255, 255, 0.8); --btn-secondary-text: #141414;
+            --btn-secondary-bg: rgba(255, 255, 255, 0.6); --btn-secondary-text: #141414;
             --divider-line: rgba(0, 0, 0, 0.06);
-            --header-bg: rgba(240, 236, 230, 0.7); 
+            --header-bg: rgba(250, 248, 245, 0.65); 
             --logo-filter: invert(1); --radius-card: 22px;
         }
 
-        /* ======== DARK MODE: TỐI GIẢN - KHÔNG RỐI MẮT - SANG TRỌNG ======== */
+        /* ======== DARK MODE PRO (Bê nguyên công thức báo giá sang) ======== */
         @media (prefers-color-scheme: dark) {
             :root {
-                /* Nền đen sâu thẳm, chỉ hắt 2 quầng sáng tĩnh lặng */
-                --bg-base: #060606; 
-                --bg-mesh: 
-                    radial-gradient(ellipse at 50% 0%, rgba(90, 75, 45, 0.25) 0%, transparent 55%), 
-                    radial-gradient(ellipse at 50% 100%, rgba(45, 55, 45, 0.2) 0%, transparent 55%);
+                --bg-base: #030303; 
+                --bg-image: url('https://i.postimg.cc/0y9qxvtH/backgr-done.jpg');
+                --bg-overlay: linear-gradient(180deg, rgba(3, 3, 3, 0.55) 0%, rgba(5, 5, 5, 0.82) 100%);
                 
-                --glass-bg: rgba(30, 30, 28, 0.4);
-                --glass-shine: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 40%);
-                --glass-border: rgba(255, 255, 255, 0.03);
-                --glass-border-top: rgba(255, 255, 255, 0.15); 
-                --glass-border-left: rgba(255, 255, 255, 0.08);
-                --glass-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+                /* KÍNH TRONG SUỐT HOÀN TOÀN CỦA TRANG BÁO GIÁ */
+                --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
+                --glass-border: rgba(255, 255, 255, 0.12);
+                --glass-border-top: rgba(255, 255, 255, 0.3); 
+                --glass-border-left: rgba(255, 255, 255, 0.18);
+                --glass-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.1);
                 
-                --badge-bg: rgba(30, 28, 25, 0.6);
-                --badge-border: 1px solid rgba(223, 185, 110, 0.2);
-                --badge-shadow: 0 8px 20px rgba(0,0,0,0.6);
+                --badge-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.01) 100%);
+                --badge-border: 1px solid rgba(223, 185, 110, 0.25);
+                --badge-shadow: 0 5px 15px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1);
 
-                --text-main: #f0f0f0; --text-muted: #9a9a9a; --text-sub: rgba(240, 240, 240, 0.5);
+                --text-main: #f5f5f5; --text-muted: #a19f99; --text-sub: rgba(245, 245, 245, 0.5);
                 --accent-gold: #dfb96e; 
                 --tag-gold-bg: rgba(223, 185, 110, 0.12); --tag-gold-text: #dfb96e;
                 --alert-red: #ff4747; --alert-bg: rgba(255, 71, 71, 0.12);
                 --success-green: #30d158; --success-bg: rgba(48, 209, 88, 0.12);
                 
-                --modal-bg: rgba(15, 15, 14, 0.96); 
-                --input-bg: rgba(25, 25, 23, 0.6); 
-                --input-border: rgba(255, 255, 255, 0.06);
-                --input-text: #f0f0f0; --input-placeholder: #777777;
+                --modal-bg: rgba(12, 12, 11, 0.85); 
+                --input-bg: rgba(255, 255, 255, 0.05); 
+                --input-border: rgba(223, 185, 110, 0.2);
+                --input-text: #f5f5f5; --input-placeholder: #777777;
                 
-                --btn-secondary-bg: rgba(255, 255, 255, 0.08); --btn-secondary-text: #dfb96e;
-                --divider-line: rgba(255, 255, 255, 0.06);
-                --header-bg: rgba(6, 6, 6, 0.7); 
+                --btn-secondary-bg: rgba(255, 255, 255, 0.05); --btn-secondary-text: #dfb96e;
+                --divider-line: rgba(255, 255, 255, 0.08);
+                --header-bg: rgba(5, 5, 5, 0.65); 
                 --logo-filter: none;
             }
         }
@@ -96,40 +91,48 @@
         html, body { 
             margin: 0; padding: 0; width: 100vw; max-width: 100%; overflow-x: hidden; overscroll-behavior-x: none; 
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif; 
-            background-color: var(--bg-base);
-            background-image: var(--bg-mesh);
-            background-attachment: fixed;
-            background-size: cover;
+            background-color: var(--bg-base); 
             color: var(--text-main); min-height: 100vh; -webkit-tap-highlight-color: transparent; 
         }
         body.modal-open { overflow: hidden; position: fixed; width: 100%; height: 100%; }
 
-        /* ENGINE KÍNH LỎNG HOÀN HẢO */
+        /* HỆ THỐNG BACKGROUND CỦA TRANG BÁO GIÁ */
+        .app-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: var(--bg-image);
+            background-size: cover; background-position: center 20%; background-repeat: no-repeat;
+            background-color: var(--bg-base);
+            z-index: 0;
+        }
+        .app-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            backdrop-filter: blur(45px) saturate(110%);
+            -webkit-backdrop-filter: blur(45px) saturate(110%);
+            background: var(--bg-overlay);
+            z-index: 1; pointer-events: none;
+        }
+
+        .container { position: relative; z-index: 2; width: 100%; padding: 16px; max-width: 580px; margin: 0 auto; padding-bottom: 110px; }
+        
+        /* CÔNG THỨC KÍNH LỎNG (LIQUID GLASS CORE) - Kính trong suốt */
         .glass-fx { 
             background: var(--glass-bg); 
-            backdrop-filter: blur(28px) saturate(160%); 
-            -webkit-backdrop-filter: blur(28px) saturate(160%); 
+            backdrop-filter: blur(20px) saturate(120%); 
+            -webkit-backdrop-filter: blur(20px) saturate(120%); 
             border: 1px solid var(--glass-border); 
             border-top-color: var(--glass-border-top);
             border-left-color: var(--glass-border-left);
             box-shadow: var(--glass-shadow); 
             position: relative;
             overflow: hidden;
-            transform: translateZ(0);
+            transform: translateZ(0); 
         }
-        /* Phản quang góc kính */
-        .glass-fx::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: var(--glass-shine); pointer-events: none; z-index: 0; border-radius: inherit;
-        }
-        .glass-fx > * { position: relative; z-index: 1; }
 
         .header { position: sticky; top: 0; z-index: 50; width: 100%; padding: 14px 20px; background: var(--header-bg); backdrop-filter: blur(40px) saturate(180%); -webkit-backdrop-filter: blur(40px) saturate(180%); border-bottom: 1px solid var(--divider-line); display: flex; justify-content: space-between; align-items: center; }
         .header img { height: 30px; object-fit: contain; filter: var(--logo-filter); position: relative; z-index: 2;}
         .status-badge { position: relative; z-index: 2; display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 20px; background: var(--success-bg); color: var(--success-green); font-size: 12px; font-weight: 700; border: 1px solid rgba(48, 209, 88, 0.2); }
         .status-dot { width: 6px; height: 6px; background: var(--success-green); border-radius: 50%; box-shadow: 0 0 8px var(--success-green); }
 
-        .container { position: relative; z-index: 2; width: 100%; padding: 16px; max-width: 580px; margin: 0 auto; padding-bottom: 110px; }
         .section-title { font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 14px; text-transform: uppercase; margin-left: 4px; }
 
         .calendar-swipe-header { text-align: center; margin-bottom: 20px; padding-top: 10px; cursor: pointer; user-select: none; }
@@ -161,7 +164,7 @@
             backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); 
             position: relative; z-index: 2;
         }
-        .session-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent-gold), transparent); margin-left: 14px; opacity: 0.4; }
+        .session-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent-gold), transparent); margin-left: 14px; opacity: 0.5; }
 
         .card { border-radius: var(--radius-card); padding: 22px; margin: 0 0 16px 24px; cursor: pointer; transition: transform 0.15s ease; }
         .card:active { transform: scale(0.985); }
@@ -182,10 +185,11 @@
         .location-value { font-weight: 500; }
 
         .action-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; margin-bottom: 18px; }
-        .action-link-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 11.5px; font-weight: 700; border: 1px solid var(--divider-line); background: var(--btn-secondary-bg); color: var(--text-main); text-transform: uppercase; letter-spacing: 0.5px;}
+        .action-link-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 11.5px; font-weight: 700; border: 1px solid var(--divider-line); background: rgba(0,0,0,0.02); color: var(--text-main); text-transform: uppercase; letter-spacing: 0.5px;}
+        @media (prefers-color-scheme: dark) { .action-link-btn { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.05); } }
 
-        .money-bar { background: rgba(0,0,0,0.02); border-radius: 14px; border: 1px solid var(--divider-line); padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.01); }
-        @media (prefers-color-scheme: dark) { .money-bar { background: rgba(0,0,0,0.3); box-shadow: inset 0 2px 10px rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.03); } }
+        .money-bar { background: rgba(0,0,0,0.03); border-radius: 14px; border: 1px solid var(--divider-line); padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.01); }
+        @media (prefers-color-scheme: dark) { .money-bar { background: rgba(255,255,255,0.03); box-shadow: inset 0 2px 10px rgba(0,0,0,0.2); border-color: rgba(255,255,255,0.05); } }
         .money-bar .total { font-weight: 600; color: var(--text-muted); } .money-bar .total-num { color: var(--text-main); font-weight: 800; }
         .money-bar .debt { color: var(--alert-red); font-weight: 800; } .money-bar .paid { color: var(--success-green); font-weight: 800; }
 
@@ -193,13 +197,16 @@
         .card-expanded-content.show { display: block; animation: fadeIn 0.2s ease; }
         .detail-item { display: flex; justify-content: space-between; font-size: 13.5px; margin-bottom: 10px; color: var(--text-muted); } .detail-item span:last-child { font-weight: 700; color: var(--text-main); }
         
-        .detail-note { margin-top: 14px; padding: 16px; background: var(--btn-secondary-bg); border-radius: 14px; border: 1px solid var(--divider-line); }
+        .detail-note { margin-top: 14px; padding: 16px; background: rgba(0,0,0,0.02); border-radius: 14px; border: 1px solid var(--divider-line); }
+        @media (prefers-color-scheme: dark) { .detail-note { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.05); } }
         .detail-note-label { font-size: 11.5px; font-weight: 800; color: var(--text-muted); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; text-transform: uppercase; letter-spacing: 1px;}
         .detail-note-content { font-size: 14px; font-weight: 500; color: var(--text-main); line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
 
         .card-btns-row { display: flex; gap: 12px; margin-top: 18px; }
         .btn-card-action { flex: 1; padding: 14px 0; border: none; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; border: 1px solid var(--divider-line); }
-        .btn-edit { background: var(--btn-secondary-bg); color: var(--accent-gold); } .btn-delete { background: var(--alert-bg); color: var(--alert-red); border-color: transparent;}
+        .btn-edit { background: rgba(0,0,0,0.02); color: var(--accent-gold); } 
+        @media (prefers-color-scheme: dark) { .btn-edit { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.05); } }
+        .btn-delete { background: var(--alert-bg); color: var(--alert-red); border-color: transparent;}
 
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
         .stat-card { border-radius: 22px; padding: 20px; }
@@ -238,6 +245,9 @@
     </style>
 </head>
 <body>
+
+    <div class="app-bg"></div>
+    <div class="app-overlay"></div>
 
     <div class="container">
         <div class="header glass-fx" style="border-radius: 26px; margin-bottom: 26px;">
@@ -344,7 +354,6 @@
         const API_URL = "https://script.google.com/macros/s/AKfycbyxTm4XHr7HF1WujMPs9oWARimjrmkUV50hbV0ko59oj1njSyWg7rQd1T4PryjGbeJm/exec";
         let allValidData = []; let isFirstLoad = true;
 
-        /* BỘ ICON VECTOR SẮC NÉT PRO MAX */
         const ICON_CALENDAR = `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px"><rect x="3" y="4" width="18" height="18" rx="2.5" ry="2.5"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`;
         const ICON_SUN = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><circle cx="12" cy="12" r="4.5"></circle><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 4.9l1.4 1.4"></path></svg>`;
         const ICON_SUNSET = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><path d="M12 3v2M4.9 7.1l1.4 1.4M19.1 7.1l-1.4 1.4M2 17h20M16 17a4 4 0 0 0-8 0"></path></svg>`;
