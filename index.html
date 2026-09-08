@@ -102,7 +102,6 @@
         }
         body.modal-open { overflow: hidden; position: fixed; width: 100%; height: 100%; }
 
-        /* TOAST THÔNG BÁO CHO TÍNH NĂNG ẨN THÁNG */
         .toast-msg {
             position: fixed; top: 85px; left: 50%; transform: translateX(-50%) scale(0.9);
             background: var(--card-bg); backdrop-filter: blur(20px) saturate(150%); -webkit-backdrop-filter: blur(20px) saturate(150%);
@@ -372,7 +371,6 @@
         const API_URL = "https://script.google.com/macros/s/AKfycbyxTm4XHr7HF1WujMPs9oWARimjrmkUV50hbV0ko59oj1njSyWg7rQd1T4PryjGbeJm/exec";
         let allValidData = []; let isFirstLoad = true;
 
-        /* BỘ ICON VECTOR SẮC NÉT XÓA SỔ EMOJI */
         const ICON_CALENDAR = `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px"><rect x="3" y="4" width="18" height="18" rx="2.5" ry="2.5"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`;
         const ICON_SUN = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><circle cx="12" cy="12" r="4.5"></circle><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 4.9l1.4 1.4"></path></svg>`;
         const ICON_SUNSET = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><path d="M12 3v2M4.9 7.1l1.4 1.4M19.1 7.1l-1.4 1.4M2 17h20M16 17a4 4 0 0 0-8 0"></path></svg>`;
@@ -749,13 +747,13 @@
             }
         }
 
-        // THUẬT TOÁN ĐẾM JOB THÔNG MINH BẢN CHUẨN MỰC
+        // THUẬT TOÁN ĐẾM JOB THÔNG MINH - SỬ DỤNG SĐT HOẶC ZALO HOẶC FB
         function updateStatsUI() {
             let fYear = document.getElementById('filterYear').value; 
             let fMonth = document.getElementById('filterMonth').value; 
             let tRev = 0, tPaid = 0, tDebt = 0;
             
-            let nameMap = {}; // Key: Tên Khách Hàng, Value: Danh sách (Set) các Link FB của khách đó
+            let nameMap = {}; 
             
             allValidData.forEach(row => {
                 let dObj = row._dateObj; let matchY = true, matchM = true;
@@ -768,36 +766,39 @@
                     
                     tRev += (gia + phi); tPaid += (coc + tt); tDebt += conLai; 
                     
-                    // CHUẨN HÓA TÊN
                     let rawName = row['Khách hàng'] || findVal(row, 'khách') || "";
                     let clientName = rawName.toString().trim().toLowerCase().replace(/\s+/g, ' ');
                     
-                    // CHUẨN HÓA & DỌN RÁC LINK FB TỪ ĐIỆN THOẠI
-                    let rawFb = findVal(row, 'facebook') || findVal(row, 'fb') || row['Link Facebook'] || "";
-                    let fbLink = rawFb.toString().trim().toLowerCase();
-                    // Loại bỏ các mã theo dõi ngẫu nhiên của FB
-                    fbLink = fbLink.replace(/(\?|&)(mibextid|fbclid|locale|eav|paipv)=[^&]*/g, '');
-                    fbLink = fbLink.replace(/[?&]$/, ''); // Dọn dẹp dấu hỏi hoặc và cuối cùng
-                    // Loại bỏ phần đầu URL để lấy ID gốc
-                    fbLink = fbLink.replace(/^https?:\/\/(www\.|m\.)?(facebook\.com|fb\.com|instagram\.com)\//, '');
-                    fbLink = fbLink.replace(/\/$/, ''); // Xóa gạch chéo cuối
+                    let rawPhone = findVal(row, 'sđt') || findVal(row, 'điện thoại') || row['SĐT'] || "";
+                    let phoneNum = rawPhone.toString().replace(/\D/g, '');
                     
+                    let rawZalo = findVal(row, 'zalo') || row['SĐT Zalo'] || "";
+                    let zaloNum = rawZalo.toString().replace(/\D/g, '');
+                    
+                    let rawFb = findVal(row, 'facebook') || findVal(row, 'fb') || row['Link Facebook'] || "";
+                    let fbLink = rawFb.toString().trim().toLowerCase().replace(/(\?|&)(mibextid|fbclid|locale|eav|paipv)=[^&]*/g, '').replace(/[?&]$/, '').replace(/^https?:\/\/(www\.|m\.)?(facebook\.com|fb\.com|instagram\.com)\//, '').replace(/\/$/, '');
+                    
+                    let contactKey = phoneNum || zaloNum || fbLink || "no-contact";
+
                     if (clientName !== "") {
                         if (!nameMap[clientName]) {
                             nameMap[clientName] = new Set();
                         }
-                        if (fbLink !== "") {
-                            nameMap[clientName].add(fbLink);
-                        }
+                        nameMap[clientName].add(contactKey);
                     }
                 }
             });
             
-            // XỬ LÝ ĐẾM JOB: Cùng tên mà khác FB thì tính riêng, nếu có FB và không có FB thì tính là 1
             let totalJobs = 0;
             for (let name in nameMap) {
-                let fbSet = nameMap[name];
-                totalJobs += (fbSet.size > 0) ? fbSet.size : 1;
+                let contactSet = nameMap[name];
+                let validContacts = Array.from(contactSet).filter(c => c !== "no-contact");
+                
+                if (validContacts.length > 0) {
+                    totalJobs += validContacts.length;
+                } else {
+                    totalJobs += 1;
+                }
             }
             
             document.getElementById('totalRevenue').innerText = formatMoney(tRev); 
