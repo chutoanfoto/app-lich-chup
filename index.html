@@ -698,7 +698,6 @@
                                 let driveBtn = driveVal ? `<a href="${driveVal}" target="_blank" class="action-link-btn drive" onclick="event.stopPropagation()">📁 Drive</a>` : '';
                                 let linkButtonsHTML = (mapsBtn || driveBtn) ? `<div class="action-links">${mapsBtn}${driveBtn}</div>` : '';
 
-                                // SỬ DỤNG MÃ HÓA STRING(ROWINDEX) BẢO VỆ NÚT BẤM
                                 let paidBtnHTML = '';
                                 if (conLai > 0) { 
                                     paidBtnHTML = `<div style="margin-top: 12px;"><button type="button" class="btn-pay" onclick="event.stopPropagation(); markPaid('${rowIndex}')">${ICON_CHECK} ĐÃ THANH TOÁN</button></div>`; 
@@ -749,7 +748,7 @@
             }
         }
 
-        // THUẬT TOÁN ĐẾM JOB THÔNG MINH - CHỐT PHIÊN BẢN
+        // BỘ ĐẾM JOB THÔNG MINH - ĐÃ SỬA LỖI HOÀN TOÀN
         function updateStatsUI() {
             let fYear = document.getElementById('filterYear').value; 
             let fMonth = document.getElementById('filterMonth').value; 
@@ -761,19 +760,26 @@
                 let dObj = row._dateObj; let matchY = true, matchM = true;
                 if (fYear !== "ALL") { if (!dObj || dObj.getFullYear().toString() !== fYear) matchY = false; }
                 if (fMonth !== "ALL") { if (!dObj || dObj.getMonth().toString() !== fMonth) matchM = false; }
+                
                 if (matchY && matchM) {
                     let gia = parseNum(findVal(row, 'giá')); let phi = parseNum(findVal(row, 'phí')); let coc = parseNum(findVal(row, 'cọc')); 
                     let tt = parseNum(findVal(row, 'thanh toán thêm')) || 0; let conLai = parseNum(findVal(row, 'còn lại'));
                     
                     tRev += (gia + phi); tPaid += (coc + tt); tDebt += conLai; 
                     
-                    let clientName = (row['Khách hàng'] || findVal(row, 'khách') || "").toString().trim().toLowerCase().replace(/\s+/g, ' ');
-                    let rawFb = (findVal(row, 'facebook') || findVal(row, 'fb') || row['Link Facebook'] || "").toString().trim().toLowerCase();
-                    let fbLink = rawFb.replace(/^https?:\/\//,'').replace(/^www\./,'').replace(/\/$/,'');
+                    let rawName = row['Khách hàng'] || findVal(row, 'khách') || "";
+                    let clientName = rawName.toString().trim().toLowerCase().replace(/\s+/g, ' ');
                     
-                    if (clientName) {
-                        if (!nameMap[clientName]) nameMap[clientName] = new Set();
-                        if (fbLink) nameMap[clientName].add(fbLink);
+                    let rawFb = findVal(row, 'facebook') || findVal(row, 'fb') || row['Link Facebook'] || "";
+                    let fbLink = rawFb.toString().trim().toLowerCase().replace(/^https?:\/\//,'').replace(/^www\./,'').replace(/\/$/,'');
+                    
+                    if (clientName !== "") {
+                        if (!nameMap[clientName]) {
+                            nameMap[clientName] = new Set();
+                        }
+                        if (fbLink !== "") {
+                            nameMap[clientName].add(fbLink);
+                        }
                     }
                 }
             });
@@ -795,7 +801,6 @@
         function openModal() { document.getElementById('modalTitle').innerText = "TẠO LỊCH MỚI"; document.getElementById('tab-create').classList.add('active'); document.getElementById('tab-edit').classList.remove('active'); document.body.classList.add('modal-open'); document.getElementById('modalForm').style.display = 'flex'; }
         function closeModal() { document.body.classList.remove('modal-open'); document.getElementById('modalForm').style.display = 'none'; }
 
-        // BẢO VỆ MÃ EDIT: Tìm chính xác theo ID (Không phụ thuộc vào Tên Khách)
         function openEditModal(rowIndex) {
             const item = allValidData.find(r => String(r._rowIndex) === String(rowIndex)); 
             if (!item) {
@@ -839,7 +844,6 @@
 
         document.querySelectorAll('.money-input').forEach(input => { input.addEventListener('input', function(e) { let value = e.target.value.replace(/\D/g, ''); e.target.value = value !== '' ? new Intl.NumberFormat('vi-VN').format(value) : ''; }); });
 
-        // KHÔI PHỤC CONFIRM THANH TOÁN
         async function markPaid(rowIndex) {
             let item = allValidData.find(r => String(r._rowIndex) === String(rowIndex));
             if (!item) return;
@@ -873,7 +877,6 @@
             fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).then(() => silentFetchData());
         }
 
-        // KHÔI PHỤC CONFIRM XÓA LỊCH
         async function deleteBooking(rowIndex) {
             let item = allValidData.find(r => String(r._rowIndex) === String(rowIndex));
             if (!item) return;
