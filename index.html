@@ -698,6 +698,7 @@
                                 let driveBtn = driveVal ? `<a href="${driveVal}" target="_blank" class="action-link-btn drive" onclick="event.stopPropagation()">📁 Drive</a>` : '';
                                 let linkButtonsHTML = (mapsBtn || driveBtn) ? `<div class="action-links">${mapsBtn}${driveBtn}</div>` : '';
 
+                                // SỬ DỤNG MÃ HÓA STRING(ROWINDEX) BẢO VỆ NÚT BẤM
                                 let paidBtnHTML = '';
                                 if (conLai > 0) { 
                                     paidBtnHTML = `<div style="margin-top: 12px;"><button type="button" class="btn-pay" onclick="event.stopPropagation(); markPaid('${rowIndex}')">${ICON_CHECK} ĐÃ THANH TOÁN</button></div>`; 
@@ -748,11 +749,13 @@
             }
         }
 
+        // THUẬT TOÁN ĐẾM JOB THÔNG MINH - CHỐT PHIÊN BẢN
         function updateStatsUI() {
             let fYear = document.getElementById('filterYear').value; 
             let fMonth = document.getElementById('filterMonth').value; 
             let tRev = 0, tPaid = 0, tDebt = 0;
-            let uniqueClients = new Set();
+            
+            let nameMap = {};
             
             allValidData.forEach(row => {
                 let dObj = row._dateObj; let matchY = true, matchM = true;
@@ -764,18 +767,27 @@
                     
                     tRev += (gia + phi); tPaid += (coc + tt); tDebt += conLai; 
                     
-                    let clientName = (row['Khách hàng'] || findVal(row, 'khách') || "").toString().trim().toLowerCase();
-                    let fbLink = (findVal(row, 'facebook') || row['Link Facebook'] || "").toString().trim().toLowerCase();
-                    if(clientName) {
-                        uniqueClients.add(clientName + "|" + fbLink);
+                    let clientName = (row['Khách hàng'] || findVal(row, 'khách') || "").toString().trim().toLowerCase().replace(/\s+/g, ' ');
+                    let rawFb = (findVal(row, 'facebook') || findVal(row, 'fb') || row['Link Facebook'] || "").toString().trim().toLowerCase();
+                    let fbLink = rawFb.replace(/^https?:\/\//,'').replace(/^www\./,'').replace(/\/$/,'');
+                    
+                    if (clientName) {
+                        if (!nameMap[clientName]) nameMap[clientName] = new Set();
+                        if (fbLink) nameMap[clientName].add(fbLink);
                     }
                 }
             });
             
+            let totalJobs = 0;
+            for (let name in nameMap) {
+                let fbSet = nameMap[name];
+                totalJobs += (fbSet.size > 0) ? fbSet.size : 1;
+            }
+            
             document.getElementById('totalRevenue').innerText = formatMoney(tRev); 
             document.getElementById('totalCollected').innerText = formatMoney(tPaid); 
             document.getElementById('totalDebt').innerText = formatMoney(tDebt); 
-            document.getElementById('totalShows').innerText = uniqueClients.size;
+            document.getElementById('totalShows').innerText = totalJobs;
         }
         
         loadData(); 
@@ -783,7 +795,7 @@
         function openModal() { document.getElementById('modalTitle').innerText = "TẠO LỊCH MỚI"; document.getElementById('tab-create').classList.add('active'); document.getElementById('tab-edit').classList.remove('active'); document.body.classList.add('modal-open'); document.getElementById('modalForm').style.display = 'flex'; }
         function closeModal() { document.body.classList.remove('modal-open'); document.getElementById('modalForm').style.display = 'none'; }
 
-        // BẢO VỆ MÃ EDIT: Tìm chính xác theo ID, ngăn chặn lỗi nháy đơn
+        // BẢO VỆ MÃ EDIT: Tìm chính xác theo ID (Không phụ thuộc vào Tên Khách)
         function openEditModal(rowIndex) {
             const item = allValidData.find(r => String(r._rowIndex) === String(rowIndex)); 
             if (!item) {
@@ -827,12 +839,12 @@
 
         document.querySelectorAll('.money-input').forEach(input => { input.addEventListener('input', function(e) { let value = e.target.value.replace(/\D/g, ''); e.target.value = value !== '' ? new Intl.NumberFormat('vi-VN').format(value) : ''; }); });
 
+        // KHÔI PHỤC CONFIRM THANH TOÁN
         async function markPaid(rowIndex) {
             let item = allValidData.find(r => String(r._rowIndex) === String(rowIndex));
             if (!item) return;
             let name = item['Khách hàng'] || findVal(item, 'khách') || 'Khách hàng';
             
-            // ĐÃ KHÔI PHỤC CONFIRM THANH TOÁN
             if (!confirm(`Xác nhận khách hàng "${name}" đã thanh toán toàn bộ số tiền còn lại?`)) return;
             
             let conLaiKey = Object.keys(item).find(k => k.toLowerCase().includes('còn lại')) || 'Còn lại'; 
