@@ -102,7 +102,6 @@
         }
         body.modal-open { overflow: hidden; position: fixed; width: 100%; height: 100%; }
 
-        /* TOAST THÔNG BÁO CHO TÍNH NĂNG ẨN THÁNG */
         .toast-msg {
             position: fixed; top: 85px; left: 50%; transform: translateX(-50%) scale(0.9);
             background: var(--card-bg); backdrop-filter: blur(20px) saturate(150%); -webkit-backdrop-filter: blur(20px) saturate(150%);
@@ -158,7 +157,6 @@
         .day-content { display: none; } .day-content.show { display: block; animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
         .toggle-icon { transition: transform 0.25s ease; font-size: 11px; opacity: 0.8; }
 
-        /* THIẾT KẾ CHO THU GỌN BUỔI SÁNG/CHIỀU */
         .session-divider { display: flex; align-items: center; margin: 26px 0 18px 24px; font-size: 11.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; -webkit-tap-highlight-color: transparent;}
         .session-content { display: block; overflow: hidden; animation: fadeIn 0.3s ease; }
         .session-content.collapsed { display: none; }
@@ -263,6 +261,19 @@
         .btn-pay:active { transform: scale(0.96); opacity: 0.8; }
         
         .loader { text-align: center; padding: 50px; color: var(--accent-gold); font-weight: 700; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; }
+
+        /* DANH SÁCH QUẢN LÝ LỊCH ẨN */
+        .hidden-item-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 14px 18px; margin-bottom: 12px; border-radius: 16px;
+        }
+        .btn-restore {
+            background: rgba(39, 174, 96, 0.15); color: var(--success-green);
+            border: 1px solid rgba(39, 174, 96, 0.2); padding: 8px 16px; 
+            border-radius: 10px; font-weight: 800; font-size: 11.5px; 
+            text-transform: uppercase; cursor: pointer; transition: transform 0.15s;
+        }
+        .btn-restore:active { transform: scale(0.9); }
     </style>
 </head>
 <body>
@@ -272,6 +283,18 @@
     <div class="app-bg"></div>
     <div class="app-overlay"></div>
 
+    <!-- MODAL QUẢN LÝ LỊCH ẨN -->
+    <div class="modal" id="modalRestore" onclick="if(event.target === this) closeRestoreModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 id="modalRestoreTitle">LỊCH ĐANG ẨN</h3>
+                <span class="close-btn" onclick="closeRestoreModal()">✕</span>
+            </div>
+            <div id="hiddenItemsContainer"></div>
+            <button class="btn-submit" style="margin-top:10px; background: rgba(0,0,0,0.05); color: var(--text-main); border: 1px solid var(--divider-line); box-shadow: none;" onclick="restoreAllHidden()">KHÔI PHỤC TẤT CẢ</button>
+        </div>
+    </div>
+
     <div class="container">
         <div class="header glass-fx" style="border-radius: 26px; margin-bottom: 26px;">
             <img src="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png" alt="ChuToan Foto Logo">
@@ -280,6 +303,7 @@
 
         <div class="calendar-swipe-header" id="swipeHandle">
             <div class="calendar-title-text">LỊCH CHỤP</div>
+            <div style="font-size:10px; font-weight:600; color:var(--text-muted); margin-top:4px;">Chạm vào đây để xem lịch đang ẩn</div>
         </div>
         
         <div id="bookingList"><div class="loader">Đang tải dữ liệu...</div></div>
@@ -455,7 +479,6 @@
                 });
             }
 
-            // Phục hồi trạng thái thu gọn của các Buổi
             if (state.collapsedSessions) {
                 state.collapsedSessions.forEach(id => {
                     let el = document.getElementById(id);
@@ -469,15 +492,75 @@
             }
         }
 
-        // Bỏ tính năng vuốt, bấm vào chữ LỊCH CHỤP để hiện lại tất cả
+        // TÍNH NĂNG MỚI: DANH SÁCH QUẢN LÝ LỊCH ẨN
         document.getElementById('swipeHandle').addEventListener('click', function() {
-            let hidden = document.querySelectorAll('.hidden-step');
-            if (hidden.length > 0) { 
-                hidden.forEach(el => el.classList.remove('hidden-step')); 
-                saveUIState(); 
-                showToast("Đã khôi phục toàn bộ lịch ẩn.");
-            } 
+            let hiddenBlocks = document.querySelectorAll('.hidden-step');
+            if (hiddenBlocks.length === 0) {
+                showToast("Hiện không có lịch nào đang bị ẩn.");
+                return;
+            }
+            
+            let container = document.getElementById('hiddenItemsContainer');
+            let html = '';
+            
+            hiddenBlocks.forEach(block => {
+                let id = block.id;
+                let title = '';
+                let y = block.getAttribute('data-year');
+                let m = block.getAttribute('data-month');
+                let d = block.getAttribute('data-day');
+
+                if (block.classList.contains('year-block')) {
+                    title = `NĂM ${y}`;
+                } else if (block.classList.contains('month-block')) {
+                    title = `THÁNG ${m} / ${y}`;
+                } else if (block.classList.contains('day-block')) {
+                    title = `NGÀY ${("0"+d).slice(-2)}/${("0"+m).slice(-2)}/${y}`;
+                }
+                
+                html += `<div class="hidden-item-row glass-fx" onclick="restoreSingle('${id}')">
+                    <span style="font-size:14.5px; font-weight:800; color:var(--text-main);">${ICON_CALENDAR} ${title}</span>
+                    <button type="button" class="btn-restore">Hiện</button>
+                </div>`;
+            });
+            
+            container.innerHTML = html;
+            document.body.classList.add('modal-open'); 
+            document.getElementById('modalRestore').style.display = 'flex';
         });
+
+        function closeRestoreModal() {
+            document.getElementById('modalRestore').style.display = 'none';
+            if(document.getElementById('modalForm').style.display !== 'flex') {
+                document.body.classList.remove('modal-open');
+            }
+        }
+        
+        function restoreSingle(id) {
+            let el = document.getElementById(id);
+            if (el) {
+                el.classList.remove('hidden-step');
+                saveUIState();
+                
+                // Cập nhật lại danh sách hiện tại
+                let hiddenBlocks = document.querySelectorAll('.hidden-step');
+                if (hiddenBlocks.length === 0) {
+                    closeRestoreModal();
+                    showToast("Đã khôi phục toàn bộ lịch ẩn.");
+                } else {
+                    document.getElementById('swipeHandle').click(); // Refresh danh sách
+                    showToast("Đã hiển thị lại lịch.");
+                }
+            }
+        }
+        
+        function restoreAllHidden() {
+            let hidden = document.querySelectorAll('.hidden-step');
+            hidden.forEach(el => el.classList.remove('hidden-step')); 
+            saveUIState(); 
+            closeRestoreModal();
+            showToast("Đã khôi phục toàn bộ lịch ẩn.");
+        }
 
         function parseNum(val) { if (val === undefined || val === null) return 0; let str = String(val).replace(/\D/g, ''); return parseInt(str, 10) || 0; }
         function formatMoney(num) { return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(parseNum(num)); }
@@ -544,7 +627,7 @@
                 let displayDate = dObj ? formatDateDisplay(dObj) : (findVal(row, 'ngày') || 'Không rõ ngày');
 
                 let timeStr = (findVal(row, 'thời gian') || '').toString().trim().toLowerCase();
-                let sessionStr = 'Chụp 2 Buổi'; // Đổi tên mặc định thành Chụp 2 Buổi
+                let sessionStr = 'Chụp 2 Buổi'; 
                 if (timeStr.startsWith('sáng')) sessionStr = 'Sáng';
                 else if (timeStr.startsWith('chiều')) sessionStr = 'Chiều';
                 else if (timeStr.startsWith('tối') || timeStr.startsWith('đêm')) sessionStr = 'Tối';
@@ -569,10 +652,10 @@
 
                 htmlStr += `<div class="year-block" id="yb-${yIndex}" data-year="${yearNum}"><div class="year-header glass-fx" id="yh-${yIndex}" 
                              onclick="toggleSection('year-content-${yIndex}', this)"
-                             ontouchstart="startLongPress(event, 'yb-${yIndex}', 'Năm')"
+                             ontouchstart="startLongPress(event, 'yb-${yIndex}', 'Năm ${yearStr}')"
                              ontouchend="cancelLongPress()"
                              ontouchmove="cancelLongPress()"
-                             onmousedown="startLongPress(event, 'yb-${yIndex}', 'Năm')"
+                             onmousedown="startLongPress(event, 'yb-${yIndex}', 'Năm ${yearStr}')"
                              onmouseup="cancelLongPress()"
                              onmouseleave="cancelLongPress()"><span style="display:flex; align-items:center;">${ICON_CALENDAR} NĂM ${yearStr}</span><span class="toggle-icon" style="transform: ${iconRotate}">▼</span></div><div class="year-content ${isYearShow}" id="year-content-${yIndex}">`;
                 
@@ -583,10 +666,10 @@
                     htmlStr += `<div class="month-block" id="mb-${yIndex}-${mIndex}" data-year="${yearNum}" data-month="${monthNum}">
                         <div class="month-header glass-fx" id="mh-${yIndex}-${mIndex}" 
                              onclick="toggleSection('month-content-${yIndex}-${mIndex}', this)"
-                             ontouchstart="startLongPress(event, 'mb-${yIndex}-${mIndex}', 'Tháng')"
+                             ontouchstart="startLongPress(event, 'mb-${yIndex}-${mIndex}', '${monthStr}')"
                              ontouchend="cancelLongPress()"
                              ontouchmove="cancelLongPress()"
-                             onmousedown="startLongPress(event, 'mb-${yIndex}-${mIndex}', 'Tháng')"
+                             onmousedown="startLongPress(event, 'mb-${yIndex}-${mIndex}', '${monthStr}')"
                              onmouseup="cancelLongPress()"
                              onmouseleave="cancelLongPress()">
                             <span style="display:flex; align-items:center;">${ICON_CALENDAR} ${monthStr}</span><span class="toggle-icon">▼</span>
@@ -600,10 +683,10 @@
                         htmlStr += `<div class="day-block" id="db-${yIndex}-${mIndex}-${dIndex}" data-year="${yearNum}" data-month="${monthNum}" data-day="${dayNum}">
                         <div class="day-header glass-fx" id="dh-${yIndex}-${mIndex}-${dIndex}" 
                              onclick="toggleSection('day-content-${yIndex}-${mIndex}-${dIndex}', this)"
-                             ontouchstart="startLongPress(event, 'db-${yIndex}-${mIndex}-${dIndex}', 'Ngày')"
+                             ontouchstart="startLongPress(event, 'db-${yIndex}-${mIndex}-${dIndex}', 'Ngày ${dateStr}')"
                              ontouchend="cancelLongPress()"
                              ontouchmove="cancelLongPress()"
-                             onmousedown="startLongPress(event, 'db-${yIndex}-${mIndex}-${dIndex}', 'Ngày')"
+                             onmousedown="startLongPress(event, 'db-${yIndex}-${mIndex}-${dIndex}', 'Ngày ${dateStr}')"
                              onmouseup="cancelLongPress()"
                              onmouseleave="cancelLongPress()">
                             <span style="display:flex; align-items:center;">${ICON_CALENDAR} ${dateStr}</span><span class="toggle-icon">▼</span>
@@ -615,7 +698,6 @@
                         sessionsInDay.forEach(session => {
                             let sessionDisplayText = session === 'Chụp 2 Buổi' ? session : `Buổi ${session}`;
                             
-                            // TẠO THẺ SESSION CLICK ĐƯỢC
                             htmlStr += `<div class="session-divider" onclick="toggleSession('sc-${yIndex}-${mIndex}-${dIndex}-${sIndex}', this)">
                                 <span>${sessionIcons[session]} ${sessionDisplayText} <i class="toggle-icon" style="display:inline-block; margin-left:6px; transform:rotate(180deg); font-style:normal;">▼</i></span>
                             </div>
@@ -700,7 +782,7 @@
                                     </div>`;
                             });
                             
-                            htmlStr += `</div>`; // Đóng session-content
+                            htmlStr += `</div>`; 
                             sIndex++;
                         });
                         htmlStr += `</div></div>`; dIndex++;
@@ -722,7 +804,6 @@
             }
         }
 
-        // HÀM TOGGLE DÀNH RIÊNG CHO SESSION
         function toggleSession(id, headerEl) {
             const el = document.getElementById(id);
             if (el) {
