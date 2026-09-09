@@ -102,6 +102,7 @@
         }
         body.modal-open { overflow: hidden; position: fixed; width: 100%; height: 100%; }
 
+        /* TOAST THÔNG BÁO CHO TÍNH NĂNG ẨN THÁNG */
         .toast-msg {
             position: fixed; top: 85px; left: 50%; transform: translateX(-50%) scale(0.9);
             background: var(--card-bg); backdrop-filter: blur(20px) saturate(150%); -webkit-backdrop-filter: blur(20px) saturate(150%);
@@ -152,7 +153,7 @@
         .month-header { padding: 16px 20px; margin: 12px 0 8px 8px; border-radius: 20px; border-left: 3px solid var(--accent-gold); color: var(--accent-gold); font-weight: 700; font-size: 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none;}
         .month-content { display: none; } .month-content.show { display: block; animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
 
-        .day-header { padding: 14px 18px; margin: 8px 0 8px 16px; border-radius: 18px; border-left: 2px solid var(--text-muted); color: var(--text-main); font-weight: 700; font-size: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .day-header { padding: 14px 18px; margin: 8px 0 8px 16px; border-radius: 18px; border-left: 2px solid var(--text-muted); color: var(--text-main); font-weight: 700; font-size: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none;}
         @media (prefers-color-scheme: light) { .day-header { border-left-color: var(--accent-gold); } }
         .day-content { display: none; } .day-content.show { display: block; animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
         .toggle-icon { transition: transform 0.25s ease; font-size: 11px; opacity: 0.8; }
@@ -395,13 +396,13 @@
         }
 
         let pressTimer;
-        function startLongPress(e, monthBlockId) {
+        function startLongPress(e, monthBlockId, labelText) {
             pressTimer = setTimeout(() => {
                 let block = document.getElementById(monthBlockId);
                 if (block) {
                     block.classList.add('hidden-step');
                     saveUIState();
-                    showToast("Đã ẩn Tháng. Vuốt xuống để hiện lại.");
+                    showToast(`Đã ẩn ${labelText}. Chạm vào chữ LỊCH CHỤP để hiện lại.`);
                 }
             }, 600);
         }
@@ -445,90 +446,14 @@
             });
         }
 
-        let touchStartY = 0; let isSwiping = false;
-        document.addEventListener('touchstart', function(e) {
-            if (window.scrollY <= 10) { touchStartY = e.touches[0].clientY; isSwiping = true; }
-        }, {passive: true});
-
-        document.addEventListener('touchend', function(e) {
-            if (!isSwiping) return;
-            let deltaY = e.changedTouches[0].clientY - touchStartY;
-            if (deltaY < -60) { hideNextStep(); } 
-            else if (deltaY > 60) { showNextStep(); }
-            isSwiping = false;
-        });
-
         document.getElementById('swipeHandle').addEventListener('click', function() {
             let hidden = document.querySelectorAll('.hidden-step');
-            if (hidden.length > 0) { hidden.forEach(el => el.classList.remove('hidden-step')); saveUIState(); } 
-            else { hideNextStep(); hideNextStep(); hideNextStep(); hideNextStep(); }
+            if (hidden.length > 0) { 
+                hidden.forEach(el => el.classList.remove('hidden-step')); 
+                saveUIState(); 
+                showToast("Đã khôi phục toàn bộ lịch ẩn.");
+            } 
         });
-
-        function hideNextStep() {
-            let todayObj = new Date(); todayObj.setHours(0,0,0,0);
-            let currentYear = todayObj.getFullYear(); let currentMonth = todayObj.getMonth() + 1;
-
-            let pastDays = [];
-            document.querySelectorAll('.day-block').forEach(el => {
-                let y = parseInt(el.getAttribute('data-year')); let m = parseInt(el.getAttribute('data-month')); let d = parseInt(el.getAttribute('data-day'));
-                if (y && m && d) {
-                    let elDate = new Date(y, m - 1, d);
-                    if (elDate < todayObj && !el.classList.contains('hidden-step')) { pastDays.push(el); }
-                }
-            });
-
-            if (pastDays.length > 0) { pastDays.forEach(el => el.classList.add('hidden-step')); setTimeout(saveUIState, 100); return; }
-
-            let futureYears = Array.from(document.querySelectorAll('.year-block')).filter(el => parseInt(el.getAttribute('data-year')) > currentYear && !el.classList.contains('hidden-step'));
-            if (futureYears.length > 0) {
-                futureYears.sort((a, b) => parseInt(b.getAttribute('data-year')) - parseInt(a.getAttribute('data-year')));
-                futureYears[0].classList.add('hidden-step'); setTimeout(saveUIState, 100); return;
-            }
-
-            let pastItems = [];
-            document.querySelectorAll('.year-block').forEach(el => {
-                if (parseInt(el.getAttribute('data-year')) < currentYear && !el.classList.contains('hidden-step')) pastItems.push(el);
-            });
-            document.querySelectorAll('.month-block').forEach(el => {
-                let y = parseInt(el.getAttribute('data-year')); let m = parseInt(el.getAttribute('data-month'));
-                if ((y < currentYear || (y === currentYear && m < currentMonth)) && !el.classList.contains('hidden-step')) pastItems.push(el);
-            });
-
-            if (pastItems.length > 0) { pastItems.forEach(el => el.classList.add('hidden-step')); setTimeout(saveUIState, 100); }
-        }
-
-        function showNextStep() {
-            let todayObj = new Date(); todayObj.setHours(0,0,0,0);
-            let currentYear = todayObj.getFullYear(); let currentMonth = todayObj.getMonth() + 1;
-
-            let pastItems = [];
-            document.querySelectorAll('.year-block').forEach(el => {
-                if (parseInt(el.getAttribute('data-year')) < currentYear && el.classList.contains('hidden-step')) pastItems.push(el);
-            });
-            document.querySelectorAll('.month-block').forEach(el => {
-                let y = parseInt(el.getAttribute('data-year')); let m = parseInt(el.getAttribute('data-month'));
-                if ((y < currentYear || (y === currentYear && m < currentMonth)) && el.classList.contains('hidden-step')) pastItems.push(el);
-            });
-
-            if (pastItems.length > 0) { pastItems.forEach(el => el.classList.remove('hidden-step')); setTimeout(saveUIState, 100); return; }
-
-            let futureYears = Array.from(document.querySelectorAll('.year-block')).filter(el => parseInt(el.getAttribute('data-year')) > currentYear && el.classList.contains('hidden-step'));
-            if (futureYears.length > 0) {
-                futureYears.sort((a, b) => parseInt(a.getAttribute('data-year')) - parseInt(b.getAttribute('data-year')));
-                futureYears[0].classList.remove('hidden-step'); setTimeout(saveUIState, 100); return;
-            }
-
-            let pastDays = [];
-            document.querySelectorAll('.day-block').forEach(el => {
-                let y = parseInt(el.getAttribute('data-year')); let m = parseInt(el.getAttribute('data-month')); let d = parseInt(el.getAttribute('data-day'));
-                if (y && m && d) {
-                    let elDate = new Date(y, m - 1, d);
-                    if (elDate < todayObj && el.classList.contains('hidden-step')) { pastDays.push(el); }
-                }
-            });
-
-            if (pastDays.length > 0) { pastDays.forEach(el => el.classList.remove('hidden-step')); setTimeout(saveUIState, 100); }
-        }
 
         function parseNum(val) { if (val === undefined || val === null) return 0; let str = String(val).replace(/\D/g, ''); return parseInt(str, 10) || 0; }
         function formatMoney(num) { return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(parseNum(num)); }
@@ -619,7 +544,14 @@
                 let iconRotate = (yIndex === 0) ? 'rotate(180deg)' : 'rotate(0deg)';
                 let yearNum = parseInt(yearStr);
 
-                htmlStr += `<div class="year-block" id="yb-${yIndex}" data-year="${yearNum}"><div class="year-header glass-fx" id="yh-${yIndex}" onclick="toggleSection('year-content-${yIndex}', this)"><span style="display:flex; align-items:center;">${ICON_CALENDAR} NĂM ${yearStr}</span><span class="toggle-icon" style="transform: ${iconRotate}">▼</span></div><div class="year-content ${isYearShow}" id="year-content-${yIndex}">`;
+                htmlStr += `<div class="year-block" id="yb-${yIndex}" data-year="${yearNum}"><div class="year-header glass-fx" id="yh-${yIndex}" 
+                             onclick="toggleSection('year-content-${yIndex}', this)"
+                             ontouchstart="startLongPress(event, 'yb-${yIndex}', 'Năm')"
+                             ontouchend="cancelLongPress()"
+                             ontouchmove="cancelLongPress()"
+                             onmousedown="startLongPress(event, 'yb-${yIndex}', 'Năm')"
+                             onmouseup="cancelLongPress()"
+                             onmouseleave="cancelLongPress()"><span style="display:flex; align-items:center;">${ICON_CALENDAR} NĂM ${yearStr}</span><span class="toggle-icon" style="transform: ${iconRotate}">▼</span></div><div class="year-content ${isYearShow}" id="year-content-${yIndex}">`;
                 
                 let mIndex = 0;
                 for (let monthStr in groupedData[yearStr]) {
@@ -628,10 +560,10 @@
                     htmlStr += `<div class="month-block" id="mb-${yIndex}-${mIndex}" data-year="${yearNum}" data-month="${monthNum}">
                         <div class="month-header glass-fx" id="mh-${yIndex}-${mIndex}" 
                              onclick="toggleSection('month-content-${yIndex}-${mIndex}', this)"
-                             ontouchstart="startLongPress(event, 'mb-${yIndex}-${mIndex}')"
+                             ontouchstart="startLongPress(event, 'mb-${yIndex}-${mIndex}', 'Tháng')"
                              ontouchend="cancelLongPress()"
                              ontouchmove="cancelLongPress()"
-                             onmousedown="startLongPress(event, 'mb-${yIndex}-${mIndex}')"
+                             onmousedown="startLongPress(event, 'mb-${yIndex}-${mIndex}', 'Tháng')"
                              onmouseup="cancelLongPress()"
                              onmouseleave="cancelLongPress()">
                             <span style="display:flex; align-items:center;">${ICON_CALENDAR} ${monthStr}</span><span class="toggle-icon">▼</span>
@@ -642,7 +574,17 @@
                     
                     for (let dateStr in groupedData[yearStr][monthStr]) {
                         let dayNum = dateStr.includes('/') ? parseInt(dateStr.split('/')[0]) : 0;
-                        htmlStr += `<div class="day-block" id="db-${yIndex}-${mIndex}-${dIndex}" data-year="${yearNum}" data-month="${monthNum}" data-day="${dayNum}"><div class="day-header glass-fx" id="dh-${yIndex}-${mIndex}-${dIndex}" onclick="toggleSection('day-content-${yIndex}-${mIndex}-${dIndex}', this)"><span style="display:flex; align-items:center;">${ICON_CALENDAR} ${dateStr}</span><span class="toggle-icon">▼</span></div><div class="day-content" id="day-content-${yIndex}-${mIndex}-${dIndex}">`;
+                        htmlStr += `<div class="day-block" id="db-${yIndex}-${mIndex}-${dIndex}" data-year="${yearNum}" data-month="${monthNum}" data-day="${dayNum}">
+                        <div class="day-header glass-fx" id="dh-${yIndex}-${mIndex}-${dIndex}" 
+                             onclick="toggleSection('day-content-${yIndex}-${mIndex}-${dIndex}', this)"
+                             ontouchstart="startLongPress(event, 'db-${yIndex}-${mIndex}-${dIndex}', 'Ngày')"
+                             ontouchend="cancelLongPress()"
+                             ontouchmove="cancelLongPress()"
+                             onmousedown="startLongPress(event, 'db-${yIndex}-${mIndex}-${dIndex}', 'Ngày')"
+                             onmouseup="cancelLongPress()"
+                             onmouseleave="cancelLongPress()">
+                            <span style="display:flex; align-items:center;">${ICON_CALENDAR} ${dateStr}</span><span class="toggle-icon">▼</span>
+                        </div><div class="day-content" id="day-content-${yIndex}-${mIndex}-${dIndex}">`;
                         
                         let sessionsInDay = Object.keys(groupedData[yearStr][monthStr][dateStr]).sort((a, b) => sessionOrder[a] - sessionOrder[b]);
                         
@@ -747,7 +689,6 @@
             }
         }
 
-        // THUẬT TOÁN ĐẾM JOB THÔNG MINH - SỬ DỤNG SĐT HOẶC ZALO HOẶC FB
         function updateStatsUI() {
             let fYear = document.getElementById('filterYear').value; 
             let fMonth = document.getElementById('filterMonth').value; 
