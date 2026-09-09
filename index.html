@@ -158,7 +158,10 @@
         .day-content { display: none; } .day-content.show { display: block; animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
         .toggle-icon { transition: transform 0.25s ease; font-size: 11px; opacity: 0.8; }
 
-        .session-divider { display: flex; align-items: center; margin: 26px 0 18px 24px; font-size: 11.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; }
+        /* THIẾT KẾ CHO THU GỌN BUỔI SÁNG/CHIỀU */
+        .session-divider { display: flex; align-items: center; margin: 26px 0 18px 24px; font-size: 11.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; -webkit-tap-highlight-color: transparent;}
+        .session-content { display: block; overflow: hidden; animation: fadeIn 0.3s ease; }
+        .session-content.collapsed { display: none; }
         .session-divider span { 
             display: inline-flex; align-items: center; 
             background: var(--badge-bg); 
@@ -169,7 +172,9 @@
             box-shadow: var(--badge-shadow); 
             backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); 
             position: relative; z-index: 2;
+            transition: transform 0.15s ease;
         }
+        .session-divider:active span { transform: scale(0.95); }
         .session-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent-gold), transparent); margin-left: 14px; opacity: 0.4; }
 
         .card { border-radius: var(--radius-card); padding: 22px; margin: 0 0 16px 24px; cursor: pointer; transition: transform 0.15s ease; }
@@ -413,7 +418,8 @@
         function saveUIState() {
             let state = {
                 shows: Array.from(document.querySelectorAll('.show')).map(el => el.id).filter(id => id),
-                hiddens: Array.from(document.querySelectorAll('.hidden-step')).map(el => el.id).filter(id => id)
+                hiddens: Array.from(document.querySelectorAll('.hidden-step')).map(el => el.id).filter(id => id),
+                collapsedSessions: Array.from(document.querySelectorAll('.session-content.collapsed')).map(el => el.id).filter(id => id)
             };
             localStorage.setItem('chutoanUIState', JSON.stringify(state));
         }
@@ -430,22 +436,40 @@
                 }
             });
 
-            state.shows.forEach(id => {
-                let el = document.getElementById(id);
-                if (el) {
-                    el.classList.add('show');
-                    if(el.previousElementSibling && el.previousElementSibling.querySelector('.toggle-icon')) {
-                        el.previousElementSibling.querySelector('.toggle-icon').style.transform = 'rotate(180deg)';
+            if (state.shows) {
+                state.shows.forEach(id => {
+                    let el = document.getElementById(id);
+                    if (el) {
+                        el.classList.add('show');
+                        if(el.previousElementSibling && el.previousElementSibling.querySelector('.toggle-icon')) {
+                            el.previousElementSibling.querySelector('.toggle-icon').style.transform = 'rotate(180deg)';
+                        }
                     }
-                }
-            });
+                });
+            }
 
-            state.hiddens.forEach(id => {
-                let el = document.getElementById(id);
-                if (el) el.classList.add('hidden-step');
-            });
+            if (state.hiddens) {
+                state.hiddens.forEach(id => {
+                    let el = document.getElementById(id);
+                    if (el) el.classList.add('hidden-step');
+                });
+            }
+
+            // Phục hồi trạng thái thu gọn của các Buổi
+            if (state.collapsedSessions) {
+                state.collapsedSessions.forEach(id => {
+                    let el = document.getElementById(id);
+                    if (el) {
+                        el.classList.add('collapsed');
+                        if(el.previousElementSibling && el.previousElementSibling.querySelector('.toggle-icon')) {
+                            el.previousElementSibling.querySelector('.toggle-icon').style.transform = 'rotate(0deg)';
+                        }
+                    }
+                });
+            }
         }
 
+        // Bỏ tính năng vuốt, bấm vào chữ LỊCH CHỤP để hiện lại tất cả
         document.getElementById('swipeHandle').addEventListener('click', function() {
             let hidden = document.querySelectorAll('.hidden-step');
             if (hidden.length > 0) { 
@@ -520,11 +544,10 @@
                 let displayDate = dObj ? formatDateDisplay(dObj) : (findVal(row, 'ngày') || 'Không rõ ngày');
 
                 let timeStr = (findVal(row, 'thời gian') || '').toString().trim().toLowerCase();
-                let sessionStr = 'Khác';
+                let sessionStr = 'Chụp 2 Buổi'; // Đổi tên mặc định thành Chụp 2 Buổi
                 if (timeStr.startsWith('sáng')) sessionStr = 'Sáng';
                 else if (timeStr.startsWith('chiều')) sessionStr = 'Chiều';
                 else if (timeStr.startsWith('tối') || timeStr.startsWith('đêm')) sessionStr = 'Tối';
-                else if (timeStr !== '') sessionStr = 'Khác';
 
                 if (!groupedData[yearStr]) groupedData[yearStr] = {};
                 if (!groupedData[yearStr][monthStr]) groupedData[yearStr][monthStr] = {};
@@ -535,8 +558,8 @@
             });
 
             let sortedYears = Object.keys(groupedData).sort((a, b) => b.localeCompare(a));
-            const sessionOrder = { 'Sáng': 1, 'Chiều': 2, 'Tối': 3, 'Khác': 4 };
-            const sessionIcons = { 'Sáng': ICON_SUN, 'Chiều': ICON_SUNSET, 'Tối': ICON_MOON, 'Khác': ICON_CALENDAR };
+            const sessionOrder = { 'Sáng': 1, 'Chiều': 2, 'Tối': 3, 'Chụp 2 Buổi': 4 };
+            const sessionIcons = { 'Sáng': ICON_SUN, 'Chiều': ICON_SUNSET, 'Tối': ICON_MOON, 'Chụp 2 Buổi': ICON_CALENDAR };
 
             let htmlStr = ''; let yIndex = 0;
             sortedYears.forEach(yearStr => {
@@ -588,8 +611,15 @@
                         
                         let sessionsInDay = Object.keys(groupedData[yearStr][monthStr][dateStr]).sort((a, b) => sessionOrder[a] - sessionOrder[b]);
                         
+                        let sIndex = 0;
                         sessionsInDay.forEach(session => {
-                            htmlStr += `<div class="session-divider"><span>${sessionIcons[session]} Buổi ${session}</span></div>`;
+                            let sessionDisplayText = session === 'Chụp 2 Buổi' ? session : `Buổi ${session}`;
+                            
+                            // TẠO THẺ SESSION CLICK ĐƯỢC
+                            htmlStr += `<div class="session-divider" onclick="toggleSession('sc-${yIndex}-${mIndex}-${dIndex}-${sIndex}', this)">
+                                <span>${sessionIcons[session]} ${sessionDisplayText} <i class="toggle-icon" style="display:inline-block; margin-left:6px; transform:rotate(180deg); font-style:normal;">▼</i></span>
+                            </div>
+                            <div class="session-content" id="sc-${yIndex}-${mIndex}-${dIndex}-${sIndex}">`;
 
                             groupedData[yearStr][monthStr][dateStr][session].forEach(row => {
                                 let gia = parseNum(findVal(row, 'giá')); let phi = parseNum(findVal(row, 'phí')); let coc = parseNum(findVal(row, 'cọc'));
@@ -669,6 +699,9 @@
                                         </div>
                                     </div>`;
                             });
+                            
+                            htmlStr += `</div>`; // Đóng session-content
+                            sIndex++;
                         });
                         htmlStr += `</div></div>`; dIndex++;
                     }
@@ -685,6 +718,19 @@
             if (el) {
                 el.classList.toggle('show');
                 if (!isCard) { const icon = headerEl.querySelector('.toggle-icon'); icon.style.transform = el.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)'; }
+                setTimeout(saveUIState, 100);
+            }
+        }
+
+        // HÀM TOGGLE DÀNH RIÊNG CHO SESSION
+        function toggleSession(id, headerEl) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.classList.toggle('collapsed');
+                const icon = headerEl.querySelector('.toggle-icon'); 
+                if (icon) {
+                    icon.style.transform = el.classList.contains('collapsed') ? 'rotate(0deg)' : 'rotate(180deg)';
+                }
                 setTimeout(saveUIState, 100);
             }
         }
