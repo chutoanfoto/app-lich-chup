@@ -168,18 +168,19 @@
         /* Ô TÌM KIẾM MỚI */
         #liveSearch {
             background: transparent; border: none; outline: none;
-            color: var(--text-main); font-size: 14.5px; font-weight: 600;
+            color: var(--text-main); font-size: 15px; font-weight: 700;
             width: 100%; padding: 4px 0; font-family: inherit;
         }
-        #liveSearch::placeholder { color: var(--text-sub); font-weight: 500; font-size: 14px; }
+        #liveSearch::placeholder { color: var(--text-sub); font-weight: 600; font-size: 14.5px; }
 
-        .widget-status {
+        .widget-search-btn {
             display: flex; align-items: center; justify-content: center;
             width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
-            background: var(--success-bg); color: var(--success-green);
+            background: var(--tag-gold-bg); color: var(--accent-gold);
             cursor: pointer; transition: transform 0.2s;
         }
-        .widget-status:active { transform: scale(0.85); }
+        .widget-search-btn:active { transform: scale(0.85); }
+        
         .widget-actions-row {
             display: flex; gap: 10px; justify-content: space-between;
         }
@@ -200,9 +201,12 @@
         }
         .widget-btn span { font-size: 10px; font-weight: 700; color: var(--text-main); text-align: center; text-transform: uppercase;}
 
-        .container { position: relative; z-index: 2; width: 100%; padding: 16px; max-width: 580px; margin: 0 auto; padding-bottom: 50px; }
+        .container { position: relative; z-index: 2; width: 100%; padding: 16px; max-width: 580px; margin: 0 auto; padding-bottom: 150px; }
         
         .section-title { font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 14px; text-transform: uppercase; margin-left: 4px; }
+
+        .calendar-swipe-header { text-align: center; margin-bottom: 20px; cursor: pointer; user-select: none; }
+        .calendar-swipe-header span { font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; background:var(--widget-inner-bg); padding:6px 14px; border-radius:20px;}
 
         .year-block, .month-block, .day-block { transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease, margin 0.3s ease; max-height: 8000px; opacity: 1; overflow: hidden; transform-origin: top; }
         .hidden-step { max-height: 0 !important; opacity: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important; pointer-events: none; border: none !important; }
@@ -238,6 +242,8 @@
 
         .card { border-radius: var(--radius-card); padding: 22px; margin: 0 0 16px 24px; cursor: pointer; transition: transform 0.15s ease; }
         .card:active { transform: scale(0.985); }
+        .card.search-hidden { display: none !important; }
+        
         .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
         
         .client-name-container { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; }
@@ -367,20 +373,20 @@
 
     <div class="container">
         
-        <!-- WIDGET ĐIỀU KHIỂN CHUẨN iOS MỚI -->
-        <div class="ios-widget-container glass-fx">
+        <!-- WIDGET ĐIỀU KHIỂN CHUẨN iOS -->
+        <div class="ios-widget-container glass-fx" style="margin-top: 10px;">
             <!-- THANH TÌM KIẾM LIVE SEARCH -->
             <div class="widget-top-bar">
                 <div class="widget-top-bar-left">
                     <img src="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png" alt="ChuToan Foto Logo">
-                    <input type="text" id="liveSearch" placeholder="Tìm tên, SĐT, Facebook..." autocomplete="off">
+                    <input type="text" id="liveSearch" placeholder="Tìm Kiếm..." autocomplete="off">
                 </div>
-                <div class="widget-status" onclick="event.stopPropagation(); location.reload();">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <div class="widget-search-btn" onclick="document.getElementById('liveSearch').focus()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                 </div>
             </div>
             
-            <!-- HÀNG 5 NÚT CHỨC NĂNG -->
+            <!-- HÀNG 5 NÚT CHỨC NĂNG CÓ NÚT SHEET -->
             <div class="widget-actions-row">
                 <div class="widget-btn" onclick="openModal()">
                     <div class="widget-icon-circle">
@@ -400,13 +406,14 @@
                     </div>
                     <span>Thống Kê</span>
                 </div>
-                <!-- BẠN HÃY THAY LINK GOOGLE SHEET CỦA BẠN VÀO DÒNG BÊN DƯỚI NHÉ -->
-                <div class="widget-btn" onclick="window.open('https://docs.google.com/spreadsheets/', '_blank')">
+                
+                <div class="widget-btn" onclick="window.open('https://docs.google.com/spreadsheets/d/1zb3LCIylD1MlADhoOTJGGY3q3yfA5dH5uX1KQRUklsA/edit?usp=sharing', '_blank')">
                     <div class="widget-icon-circle">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="8" y1="13" x2="16" y2="13"></line><line x1="8" y1="17" x2="16" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
                     </div>
                     <span>Sheet</span>
                 </div>
+                
                 <div class="widget-btn" onclick="location.reload()">
                     <div class="widget-icon-circle">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
@@ -414,6 +421,11 @@
                     <span>Làm Mới</span>
                 </div>
             </div>
+        </div>
+        <!-- END WIDGET ĐIỀU KHIỂN -->
+
+        <div class="calendar-swipe-header" id="swipeHandle">
+            <span style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; background:var(--widget-inner-bg); padding:6px 16px; border-radius:20px; box-shadow: var(--widget-inner-shadow);">Chạm để hiện lại các mục đã ẩn</span>
         </div>
         
         <div id="bookingList"><div class="loader">Đang tải dữ liệu...</div></div>
@@ -434,83 +446,11 @@
         </div>
     </div>
 
-    <!-- MODAL TẠO SỬA LỊCH -->
-    <div class="modal" id="modalForm" onclick="if(event.target === this) closeModal()">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <div class="modal-header"><h3 id="modalTitle">TẠO LỊCH MỚI</h3><span class="close-btn" onclick="closeModal()">✕</span></div>
-            
-            <div id="tab-create" class="tab-panel active">
-                <form id="formCreate" onsubmit="submitCreate(event)">
-                    <div class="form-group"><label>Ngày chụp</label><input type="date" id="c_ngay" class="form-control" required></div>
-                    <div class="form-group"><label>Thời gian (Sáng/Chiều/Tối)</label><input type="text" id="c_thoigian" class="form-control" placeholder="Ví dụ: Sáng 7h"></div>
-                    <div class="form-group"><label>Khách hàng (Tên)</label><input type="text" id="c_khach" class="form-control" required placeholder="Tên khách hàng"></div>
-                    <div class="form-group"><label>Địa điểm chụp</label><input type="text" id="c_diadiem" class="form-control" placeholder="Nơi chụp chính"></div>
-                    
-                    <div class="form-group">
-                        <label>Gói dịch vụ</label>
-                        <select id="c_noidung" class="form-select">
-                            <option value="Phóng Sự Cưới">Phóng Sự Cưới</option><option value="Ăn Hỏi">Ăn Hỏi</option><option value="Chụp Studio">Chụp Studio</option><option value="Sự Kiện">Sự Kiện</option><option value="Tốt Nghiệp">Tốt Nghiệp</option><option value="Kỷ Yếu Đơn">Kỷ Yếu Đơn</option><option value="Kỷ Yếu Nhóm 2">Kỷ Yếu Nhóm 2</option><option value="Kỷ Yếu Nhóm 3">Kỷ Yếu Nhóm 3</option><option value="Khác">Khác</option>
-                        </select>
-                    </div>
-                    <div class="form-group"><label>Giá gói chụp (VNĐ)</label><input type="text" id="c_gia" class="form-control money-input" placeholder="0"></div>
-                    <div class="form-group"><label>Phí đi lại (VNĐ)</label><input type="text" id="c_phi" class="form-control money-input" placeholder="0"></div>
-                    <div class="form-group"><label>Tiền cọc (VNĐ)</label><input type="text" id="c_coc" class="form-control money-input" placeholder="0"></div>
-                    <div class="form-group"><label>Số điện thoại khách (Để gọi)</label><input type="tel" id="c_sdt" class="form-control" placeholder="Ví dụ: 0987654321"></div>
-                    
-                    <div class="form-group"><label>Ghi chú / Timeline</label><textarea id="c_ghichu" class="form-control" rows="3" placeholder="Nhập lịch trình chi tiết..."></textarea></div>
-                    
-                    <div class="form-group"><label>Link Maps (Vị trí)</label><input type="url" id="c_linkmaps" class="form-control" placeholder="https://maps.app.goo.gl/..."></div>
-                    <div style="display:flex; gap:12px;">
-                        <div class="form-group" style="flex:1;"><label>Link FB</label><input type="url" id="c_linkfb" class="form-control" placeholder="https://fb.com/..."></div>
-                        <div class="form-group" style="flex:1;"><label>SĐT Zalo</label><input type="tel" id="c_zalo" class="form-control" placeholder="0987654321"></div>
-                    </div>
-                    <div class="form-group"><label>Link Instagram</label><input type="url" id="c_ig" class="form-control" placeholder="https://instagram.com/..."></div>
-                    <div class="form-group"><label>Link Drive (Bàn giao)</label><input type="url" id="c_linkdrive" class="form-control" placeholder="https://drive.google.com/..."></div>
-                    
-                    <button type="submit" class="btn-submit" id="btnCreate">TẠO LỊCH & ĐỒNG BỘ</button>
-                </form>
-            </div>
-
-            <div id="tab-edit" class="tab-panel">
-                <form id="formEdit" onsubmit="submitEdit(event)">
-                    <input type="hidden" id="e_rowindex">
-                    <div class="form-group"><label>Ngày chụp</label><input type="date" id="e_ngay" class="form-control" required></div>
-                    <div class="form-group"><label>Thời gian (Sáng/Chiều/Tối)</label><input type="text" id="e_thoigian" class="form-control"></div>
-                    <div class="form-group"><label>Khách hàng (Tên)</label><input type="text" id="e_khach" class="form-control" required></div>
-                    <div class="form-group"><label>Địa điểm chụp</label><input type="text" id="e_diadiem" class="form-control"></div>
-                    
-                    <div class="form-group">
-                        <label>Gói dịch vụ</label>
-                        <select id="e_noidung" class="form-select">
-                            <option value="Phóng Sự Cưới">Phóng Sự Cưới</option><option value="Ăn Hỏi">Ăn Hỏi</option><option value="Chụp Studio">Chụp Studio</option><option value="Sự Kiện">Sự Kiện</option><option value="Tốt Nghiệp">Tốt Nghiệp</option><option value="Kỷ Yếu Đơn">Kỷ Yếu Đơn</option><option value="Kỷ Yếu Nhóm 2">Kỷ Yếu Nhóm 2</option><option value="Kỷ Yếu Nhóm 3">Kỷ Yếu Nhóm 3</option><option value="Khác">Khác</option>
-                        </select>
-                    </div>
-                    <div class="form-group"><label>Giá gói chụp (VNĐ)</label><input type="text" id="e_gia" class="form-control money-input"></div>
-                    <div class="form-group"><label>Phí đi lại (VNĐ)</label><input type="text" id="e_phi" class="form-control money-input"></div>
-                    <div class="form-group"><label>Tiền cọc (VNĐ)</label><input type="text" id="e_coc" class="form-control money-input"></div>
-                    <div class="form-group"><label>Số điện thoại khách (Để gọi)</label><input type="tel" id="e_sdt" class="form-control" placeholder="Ví dụ: 0987654321"></div>
-                    
-                    <div class="form-group"><label>Ghi chú / Timeline</label><textarea id="e_ghichu" class="form-control" rows="3"></textarea></div>
-
-                    <div class="form-group"><label>Link Maps (Vị trí)</label><input type="url" id="e_linkmaps" class="form-control" placeholder="https://maps.app.goo.gl/..."></div>
-                    <div style="display:flex; gap:12px;">
-                        <div class="form-group" style="flex:1;"><label>Link FB</label><input type="url" id="e_linkfb" class="form-control" placeholder="https://fb.com/..."></div>
-                        <div class="form-group" style="flex:1;"><label>SĐT Zalo</label><input type="tel" id="e_zalo" class="form-control" placeholder="0987654321"></div>
-                    </div>
-                    <div class="form-group"><label>Link Instagram</label><input type="url" id="e_ig" class="form-control" placeholder="https://instagram.com/..."></div>
-                    <div class="form-group"><label>Link Drive (Bàn giao)</label><input type="url" id="e_linkdrive" class="form-control" placeholder="https://drive.google.com/..."></div>
-                    
-                    <button type="submit" class="btn-submit" id="btnEdit">LƯU CẬP NHẬT</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbyxTm4XHr7HF1WujMPs9oWARimjrmkUV50hbV0ko59oj1njSyWg7rQd1T4PryjGbeJm/exec";
         let allValidData = []; let isFirstLoad = true;
 
-        /* ==== MÃ PIN BẢO MẬT MỚI ==== */
+        /* ==== MÃ PIN BẢO MẬT: 0901 ==== */
         const MASTER_PIN = "0901";
         
         let pendingAction = null;
@@ -532,6 +472,70 @@
         const FB_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>`;
         const ZALO_ICON = `<span style="background:#0068FF; color:#fff; font-size:10px; font-weight:800; padding:0 6px; border-radius:5px; height:18px; line-height:18px; display:inline-block;">Zalo</span>`;
         const IG_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" fill="url(#ig-grad)"><defs><linearGradient id="ig-grad" x1="2" y1="2" x2="22" y2="22"><stop offset="0%" stop-color="#f09433"/><stop offset="25%" stop-color="#e6683c"/><stop offset="50%" stop-color="#dc2743"/><stop offset="75%" stop-color="#cc2366"/><stop offset="100%" stop-color="#bc1888"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="url(#ig-grad)" stroke-width="2"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="url(#ig-grad)" stroke-width="2"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="url(#ig-grad)" stroke-width="2"></line></svg>`;
+
+        // === THUẬT TOÁN TÌM KIẾM TIẾNG VIỆT KHÔNG DẤU (SIÊU TỐC) ===
+        function normalizeStr(str) {
+            if(!str) return '';
+            return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase();
+        }
+
+        document.getElementById('liveSearch').addEventListener('input', function(e) {
+            let kw = normalizeStr(e.target.value.trim());
+            
+            document.querySelectorAll('.card').forEach(card => {
+                let searchData = card.getAttribute('data-search');
+                if (searchData.includes(kw)) {
+                    card.style.display = 'block';
+                    card.classList.remove('search-hidden');
+                } else {
+                    card.style.display = 'none';
+                    card.classList.add('search-hidden');
+                }
+            });
+
+            // Tự động thu gọn các khối rỗng
+            document.querySelectorAll('.year-block').forEach(yb => {
+                let hasVisibleCards = Array.from(yb.querySelectorAll('.card')).some(c => c.style.display !== 'none');
+                yb.style.display = hasVisibleCards ? 'block' : 'none';
+                
+                if (hasVisibleCards) {
+                    yb.querySelectorAll('.month-block').forEach(mb => {
+                        let mbHasVisible = Array.from(mb.querySelectorAll('.card')).some(c => c.style.display !== 'none');
+                        mb.style.display = mbHasVisible ? 'block' : 'none';
+                        
+                        if (mbHasVisible) {
+                            mb.querySelectorAll('.day-block').forEach(db => {
+                                let dbHasVisible = Array.from(db.querySelectorAll('.card')).some(c => c.style.display !== 'none');
+                                db.style.display = dbHasVisible ? 'block' : 'none';
+                                
+                                if (dbHasVisible) {
+                                    db.querySelectorAll('.session-divider').forEach(sd => {
+                                        let scId = sd.getAttribute('onclick').match(/'([^']+)'/)[1]; 
+                                        let sc = document.getElementById(scId);
+                                        if(sc) {
+                                            let scHasVisible = Array.from(sc.querySelectorAll('.card')).some(c => c.style.display !== 'none');
+                                            sd.style.display = scHasVisible ? 'flex' : 'none';
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+            
+            if (kw !== '') {
+                // Bung tất cả lịch để xem kết quả
+                document.querySelectorAll('.hidden-step').forEach(el => el.classList.remove('hidden-step'));
+                document.querySelectorAll('.year-content, .month-content, .day-content, .session-content').forEach(el => {
+                    el.classList.add('show');
+                    el.classList.remove('collapsed');
+                });
+                document.querySelectorAll('.toggle-icon').forEach(icon => icon.style.transform = 'rotate(180deg)');
+            } else {
+                restoreUIState(); // Khôi phục trạng thái ban đầu khi xóa tìm kiếm
+            }
+        });
 
         function showToast(message) {
             let toast = document.getElementById('appToast');
@@ -710,63 +714,6 @@
             showToast("Đã khôi phục toàn bộ lịch ẩn.");
         }
 
-        /* ===== TÍNH NĂNG TÌM KIẾM LIVE SEARCH ===== */
-        document.getElementById('liveSearch').addEventListener('input', function(e) {
-            let kw = e.target.value.toLowerCase().trim();
-            
-            document.querySelectorAll('.card').forEach(card => {
-                let textContent = card.innerText.toLowerCase();
-                let fbLinkNode = card.querySelector('.social-icon[href*="facebook"], .social-icon[href*="fb"]');
-                let fbLink = fbLinkNode ? fbLinkNode.getAttribute('href').toLowerCase() : "";
-                
-                if (textContent.includes(kw) || fbLink.includes(kw)) {
-                    card.style.display = 'block';
-                    card.classList.remove('search-hidden');
-                } else {
-                    card.style.display = 'none';
-                    card.classList.add('search-hidden');
-                }
-            });
-
-            // Ẩn các khối không có lịch nào hiển thị
-            document.querySelectorAll('.year-block').forEach(yb => {
-                let hasVisibleCards = Array.from(yb.querySelectorAll('.card')).some(c => c.style.display !== 'none');
-                yb.style.display = hasVisibleCards ? 'block' : 'none';
-                
-                if (hasVisibleCards) {
-                    yb.querySelectorAll('.month-block').forEach(mb => {
-                        let mbHasVisible = Array.from(mb.querySelectorAll('.card')).some(c => c.style.display !== 'none');
-                        mb.style.display = mbHasVisible ? 'block' : 'none';
-                        
-                        if (mbHasVisible) {
-                            mb.querySelectorAll('.day-block').forEach(db => {
-                                let dbHasVisible = Array.from(db.querySelectorAll('.card')).some(c => c.style.display !== 'none');
-                                db.style.display = dbHasVisible ? 'block' : 'none';
-                                
-                                if (dbHasVisible) {
-                                    db.querySelectorAll('.session-divider').forEach(sd => {
-                                        let scId = sd.getAttribute('onclick').match(/'([^']+)'/)[1]; 
-                                        let sc = document.getElementById(scId);
-                                        let scHasVisible = Array.from(sc.querySelectorAll('.card')).some(c => c.style.display !== 'none');
-                                        sd.style.display = scHasVisible ? 'flex' : 'none';
-                                    });
-                                }
-                            });
-                        }
-                    });
-                }
-            });
-            
-            // Tự động bung tất cả để dễ nhìn kết quả
-            if (kw !== '') {
-                document.querySelectorAll('.hidden-step').forEach(el => el.classList.remove('hidden-step'));
-                document.querySelectorAll('.year-content, .month-content, .day-content').forEach(el => el.classList.add('show'));
-                document.querySelectorAll('.toggle-icon').forEach(icon => icon.style.transform = 'rotate(180deg)');
-            } else {
-                restoreUIState(); // Khôi phục trạng thái ban đầu khi xóa trắng
-            }
-        });
-
         function parseNum(val) { if (val === undefined || val === null) return 0; let str = String(val).replace(/\D/g, ''); return parseInt(str, 10) || 0; }
         function formatMoney(num) { return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(parseNum(num)); }
         function formatInputMoney(num) { let n = parseNum(num); return n === 0 ? '' : new Intl.NumberFormat('vi-VN').format(n); }
@@ -923,6 +870,9 @@
                                 let noteVal = findVal(row, 'ghi chú');
                                 let rawClientName = row['Khách hàng'] || findVal(row, 'khách') || '';
 
+                                // TẠO DATA-SEARCH ĐỂ TÌM KIẾM SIÊU TỐC
+                                let searchString = normalizeStr(rawClientName + ' ' + sdtVal + ' ' + fbVal);
+
                                 let socialLinks = '';
                                 if (fbVal) socialLinks += `<a href="${fbVal}" target="_blank" class="social-icon" onclick="event.stopPropagation()">${FB_ICON}</a>`;
                                 if (zaloVal) {
@@ -965,7 +915,7 @@
                                 if (noteVal) { noteHTML = `<div class="detail-note" onclick="event.stopPropagation()"><div class="detail-note-label" style="color: var(--text-muted);">${ICON_NOTE} GHI CHÚ / TIMELINE</div><div class="detail-note-content">${noteVal}</div></div>`; }
 
                                 htmlStr += `
-                                    <div class="card glass-fx" onclick="toggleSection('expanded-${rowIndex}', this, true)">
+                                    <div class="card glass-fx" data-search="${searchString}" onclick="toggleSection('expanded-${rowIndex}', this, true)">
                                         <div class="card-header">
                                             <div><h2 class="client-name">${clientNameHTML}</h2><span class="tag-package">${findVal(row, 'nội dung') || 'Gói Chụp'}</span></div>
                                             <span class="tag-session">${findVal(row, 'thời gian') || 'Cả ngày'}</span>
@@ -998,12 +948,32 @@
             });
             list.innerHTML = htmlStr; updateStatsUI();
             
-            // Tìm kiếm trực tiếp nếu ô tìm kiếm đang có text
             let currentKw = document.getElementById('liveSearch').value;
             if(currentKw.trim() !== '') {
                 document.getElementById('liveSearch').dispatchEvent(new Event('input'));
             } else {
                 restoreUIState();
+            }
+        }
+
+        function toggleSection(id, headerEl, isCard = false) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.classList.toggle('show');
+                if (!isCard) { const icon = headerEl.querySelector('.toggle-icon'); icon.style.transform = el.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)'; }
+                setTimeout(saveUIState, 100);
+            }
+        }
+
+        function toggleSession(id, headerEl) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.classList.toggle('collapsed');
+                const icon = headerEl.querySelector('.toggle-icon'); 
+                if (icon) {
+                    icon.style.transform = el.classList.contains('collapsed') ? 'rotate(0deg)' : 'rotate(180deg)';
+                }
+                setTimeout(saveUIState, 100);
             }
         }
 
