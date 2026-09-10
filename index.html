@@ -112,7 +112,6 @@
         }
         body.modal-open { overflow: hidden; position: fixed; width: 100%; height: 100%; }
 
-        /* SỬA LỖI: TRIỆT TIÊU HOÀN TOÀN KHUNG RỖNG BẰNG DISPLAY: NONE */
         .toast-msg {
             display: none;
             visibility: hidden;
@@ -210,7 +209,8 @@
 
         .container { position: relative; z-index: 2; width: 100%; padding: 16px; max-width: 580px; margin: 0 auto; padding-bottom: 150px; }
         
-        .section-title { font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 14px; text-transform: uppercase; margin-left: 4px; }
+        .calendar-swipe-header { text-align: center; margin-bottom: 20px; cursor: pointer; user-select: none; }
+        .calendar-swipe-header span { font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; background:var(--widget-inner-bg); padding:6px 16px; border-radius:20px; box-shadow: var(--widget-inner-shadow);}
 
         .year-block, .month-block, .day-block { transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease, margin 0.3s ease; max-height: 8000px; opacity: 1; overflow: hidden; transform-origin: top; }
         .hidden-step { max-height: 0 !important; opacity: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important; pointer-events: none; border: none !important; }
@@ -295,16 +295,32 @@
         .btn-edit { background: var(--btn-secondary-bg); color: var(--accent-gold); } 
         .btn-delete { background: var(--alert-bg); color: var(--alert-red); border-color: transparent;}
 
+        /* CSS TÙY CHỈNH CHO MODAL THỐNG KÊ CHI TIẾT PRO MAX */
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
-        .stat-card { border-radius: 22px; padding: 20px; }
+        .stat-card { border-radius: 22px; padding: 20px; display: flex; flex-direction: column; justify-content: center;}
         .stat-label { font-size: 11px; font-weight: 800; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;}
-        .stat-value { font-size: 20px; font-weight: 800; letter-spacing: -0.3px; }
-        .stat-value.gold { color: var(--accent-gold); text-shadow: 0 0 15px rgba(223, 185, 110, 0.4); } .stat-value.green { color: var(--success-green); } .stat-value.red { color: var(--alert-red); }
+        .stat-value { font-size: 20px; font-weight: 800; letter-spacing: -0.3px; line-height: 1.2;}
+        .stat-value.gold { color: var(--accent-gold); text-shadow: 0 0 15px rgba(223, 185, 110, 0.4); } 
+        .stat-value.green { color: var(--success-green); } 
+        .stat-value.red { color: var(--alert-red); }
 
-        .select-filter { width: 100%; padding: 16px 18px; border-radius: 18px; color: var(--text-main); font-size: 15px; font-weight: 700; outline: none; border-color: var(--card-border); appearance: none; -webkit-appearance: none; background: url('data:image/svg+xml;utf8,<svg fill="%23dfb96e" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>') no-repeat right 14px center; }
+        .progress-container { margin-bottom: 24px; }
+        .progress-header { display: flex; justify-content: space-between; font-size: 12px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px;}
+        .progress-bar-bg { width: 100%; height: 10px; background: rgba(0,0,0,0.05); border-radius: 10px; overflow: hidden; border: 1px solid var(--divider-line);}
+        @media (prefers-color-scheme: dark) { .progress-bar-bg { background: rgba(255,255,255,0.05); } }
+        .progress-bar-fill { height: 100%; background: var(--success-green); border-radius: 10px; transition: width 0.5s ease; box-shadow: 0 0 10px rgba(39, 174, 96, 0.5);}
+
+        .service-list-container { display: flex; flex-direction: column; gap: 10px; }
+        .service-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background: var(--widget-inner-bg); border-radius: 16px; border: 1px solid var(--divider-line); box-shadow: var(--widget-inner-shadow);}
+        .service-info { display: flex; flex-direction: column; gap: 4px; }
+        .service-name { font-size: 13.5px; font-weight: 800; color: var(--text-main); }
+        .service-count { font-size: 11.5px; font-weight: 600; color: var(--text-muted); }
+        .service-revenue { font-size: 14.5px; font-weight: 800; color: var(--accent-gold); }
+
+        .select-filter { width: 100%; padding: 16px 18px; border-radius: 18px; color: var(--text-main); font-size: 15px; font-weight: 700; outline: none; border-color: var(--glass-border); appearance: none; -webkit-appearance: none; background: url('data:image/svg+xml;utf8,<svg fill="%23dfb96e" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>') no-repeat right 14px center; }
 
         .modal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); justify-content: center; align-items: flex-end; overscroll-behavior: contain; width: 100vw; }
-        .modal-content { background: var(--modal-bg); border-top: 1px solid var(--card-border-top); border-radius: 32px 32px 0 0; width: 100%; max-width: 580px; max-height: 88vh; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; padding: 30px 24px 40px 24px; box-shadow: 0 -20px 60px rgba(0,0,0,0.6); animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .modal-content { background: var(--modal-bg); border-top: 1px solid var(--glass-border-top); border-radius: 32px 32px 0 0; width: 100%; max-width: 580px; max-height: 88vh; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; padding: 30px 24px 40px 24px; box-shadow: 0 -20px 60px rgba(0,0,0,0.6); animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } } @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; } 
@@ -349,6 +365,7 @@
     <div class="app-bg"></div>
     <div class="app-overlay"></div>
 
+    <!-- MODAL BẢO MẬT: NHẬP MÃ PIN -->
     <div class="modal" id="modalSecurity" onclick="if(event.target === this) closeSecurityModal()" style="z-index: 2000;">
         <div class="modal-content glass-fx" onclick="event.stopPropagation()" style="max-width: 320px; margin: auto; border-radius: 32px; padding: 30px 24px;">
             <div class="modal-header" style="justify-content: center; margin-bottom: 20px;">
@@ -362,6 +379,7 @@
         </div>
     </div>
 
+    <!-- MODAL QUẢN LÝ LỊCH ẨN -->
     <div class="modal" id="modalRestore" onclick="if(event.target === this) closeRestoreModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <div class="modal-header">
@@ -373,31 +391,64 @@
         </div>
     </div>
 
+    <!-- MODAL THỐNG KÊ DOANH THU CHUYÊN SÂU PRO MAX -->
     <div class="modal" id="modalStats" onclick="if(event.target === this) closeStatsModal()">
-        <div class="modal-content" onclick="event.stopPropagation()">
+        <div class="modal-content glass-fx" onclick="event.stopPropagation()">
             <div class="modal-header">
-                <h3 style="margin: 0; font-size: 20px; color: var(--accent-gold); font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase;">THỐNG KÊ DOANH THU</h3>
+                <h3 style="margin: 0; font-size: 20px; color: var(--accent-gold); font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase;">BÁO CÁO TÀI CHÍNH</h3>
                 <span class="close-btn" onclick="closeStatsModal()">✕</span>
             </div>
             
             <div style="display: flex; gap: 14px; margin-bottom: 24px;">
-                <select id="filterYear" class="select-filter glass-fx" style="flex: 1;" onchange="updateStatsUI()"><option value="ALL">Tất cả năm</option></select>
-                <select id="filterMonth" class="select-filter glass-fx" style="flex: 1;" onchange="updateStatsUI()">
+                <select id="filterYear" class="select-filter glass-fx" style="flex: 1; border: 1px solid var(--divider-line);" onchange="updateStatsUI()"><option value="ALL">Tất cả năm</option></select>
+                <select id="filterMonth" class="select-filter glass-fx" style="flex: 1; border: 1px solid var(--divider-line);" onchange="updateStatsUI()">
                     <option value="ALL">Cả năm</option><option value="0">Tháng 1</option><option value="1">Tháng 2</option><option value="2">Tháng 3</option><option value="3">Tháng 4</option><option value="4">Tháng 5</option><option value="5">Tháng 6</option><option value="6">Tháng 7</option><option value="7">Tháng 8</option><option value="8">Tháng 9</option><option value="9">Tháng 10</option><option value="10">Tháng 11</option><option value="11">Tháng 12</option>
                 </select>
             </div>
 
-            <div class="stats-grid" style="margin-bottom: 0;">
-                <div class="stat-card glass-fx"><div class="stat-label">Tổng Doanh Thu</div><div class="stat-value gold" id="totalRevenue">0 đ</div></div>
-                <div class="stat-card glass-fx"><div class="stat-label">Đã Thu Thực Tế</div><div class="stat-value green" id="totalCollected">0 đ</div></div>
-                <div class="stat-card glass-fx"><div class="stat-label">Chưa Thanh Toán</div><div class="stat-value red" id="totalDebt">0 đ</div></div>
-                <div class="stat-card glass-fx"><div class="stat-label">Tổng số Job</div><div class="stat-value" id="totalShows">0</div></div>
+            <!-- THANH TIẾN ĐỘ THU TIỀN -->
+            <div class="progress-container">
+                <div class="progress-header">
+                    <span>Tiến độ thu nợ</span>
+                    <span id="collectionPercent" style="color: var(--success-green);">0%</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="collectionBar" style="width: 0%;"></div>
+                </div>
+            </div>
+
+            <div class="stats-grid" style="margin-bottom: 20px;">
+                <div class="stat-card glass-fx" style="border: 1px solid var(--divider-line);"><div class="stat-label">Tổng Doanh Thu</div><div class="stat-value gold" id="totalRevenue">0 đ</div></div>
+                <div class="stat-card glass-fx" style="border: 1px solid var(--divider-line);"><div class="stat-label">Đã Thu Thực Tế</div><div class="stat-value green" id="totalCollected">0 đ</div></div>
+                <div class="stat-card glass-fx" style="border: 1px solid var(--divider-line);"><div class="stat-label">Chưa Thanh Toán</div><div class="stat-value red" id="totalDebt">0 đ</div></div>
+                <div class="stat-card glass-fx" style="border: 1px solid var(--divider-line);"><div class="stat-label">Tổng số Job (KH)</div><div class="stat-value" id="totalShows">0</div></div>
+            </div>
+
+            <!-- CHỈ SỐ CHI TIẾT -->
+            <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 12px; margin-top: 10px; text-transform: uppercase;">📊 Chỉ số mở rộng</div>
+            <div class="stats-grid" style="margin-bottom: 24px; gap: 10px;">
+                <div class="stat-card glass-fx" style="padding: 16px; border: 1px solid var(--divider-line);">
+                    <div class="stat-label" style="font-size: 10px;">Doanh Thu / 1 Job</div>
+                    <div class="stat-value" id="avgRevenue" style="font-size: 16px;">0 đ</div>
+                </div>
+                <div class="stat-card glass-fx" style="padding: 16px; border: 1px solid var(--divider-line);">
+                    <div class="stat-label" style="font-size: 10px;">Tổng Phụ Phí (Đi lại)</div>
+                    <div class="stat-value" id="totalTravelFee" style="font-size: 16px; color: var(--text-muted);">0 đ</div>
+                </div>
+            </div>
+
+            <!-- CƠ CẤU GÓI CHỤP -->
+            <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 12px; text-transform: uppercase;">🏷️ CƠ CẤU GÓI CHỤP</div>
+            <div class="service-list-container" id="serviceBreakdownList">
+                <!-- Danh sách gói chụp sẽ hiện ở đây -->
             </div>
         </div>
     </div>
 
     <div class="container">
+        <!-- WIDGET ĐIỀU KHIỂN CHUẨN iOS -->
         <div class="ios-widget-container glass-fx" style="margin-top: 10px;">
+            <!-- THANH TÌM KIẾM LIVE SEARCH KHÔNG DẤU -->
             <div class="widget-top-bar">
                 <div class="widget-top-bar-left">
                     <img src="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png" alt="ChuToan Foto Logo">
@@ -408,6 +459,7 @@
                 </div>
             </div>
             
+            <!-- HÀNG 5 NÚT CHỨC NĂNG CÓ NÚT SHEET -->
             <div class="widget-actions-row">
                 <div class="widget-btn" onclick="event.stopPropagation(); openModal()">
                     <div class="widget-icon-circle">
@@ -443,9 +495,16 @@
                 </div>
             </div>
         </div>
+        <!-- END WIDGET ĐIỀU KHIỂN -->
+
+        <div class="calendar-swipe-header" id="swipeHandle" style="margin-bottom: 20px;">
+            <span style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; background:var(--widget-inner-bg); padding:6px 16px; border-radius:20px; box-shadow: var(--widget-inner-shadow);">Chạm để hiện lại các mục đã ẩn</span>
+        </div>
+        
         <div id="bookingList"><div class="loader">Đang tải dữ liệu...</div></div>
     </div>
 
+    <!-- MODAL TẠO SỬA LỊCH -->
     <div class="modal" id="modalForm" onclick="if(event.target === this) closeModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <div class="modal-header"><h3 id="modalTitle">TẠO LỊCH MỚI</h3><span class="close-btn" onclick="closeModal()">✕</span></div>
@@ -505,7 +564,7 @@
 
                     <div class="form-group"><label>Link Maps (Vị trí)</label><input type="url" id="e_linkmaps" class="form-control" placeholder="https://maps.app.goo.gl/..."></div>
                     <div style="display:flex; gap:12px;">
-                        <div class="form-group" style="flex:1;"><label>Link FB</label><input type="url" id="c_linkfb" class="form-control" placeholder="https://fb.com/..."></div>
+                        <div class="form-group" style="flex:1;"><label>Link FB</label><input type="url" id="e_linkfb" class="form-control" placeholder="https://fb.com/..."></div>
                         <div class="form-group" style="flex:1;"><label>SĐT Zalo</label><input type="tel" id="e_zalo" class="form-control" placeholder="0987654321"></div>
                     </div>
                     <div class="form-group"><label>Link Instagram</label><input type="url" id="e_ig" class="form-control" placeholder="https://instagram.com/..."></div>
@@ -544,6 +603,7 @@
         const ZALO_ICON = `<span style="background:#0068FF; color:#fff; font-size:10px; font-weight:800; padding:0 6px; border-radius:5px; height:18px; line-height:18px; display:inline-block;">Zalo</span>`;
         const IG_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" fill="url(#ig-grad)"><defs><linearGradient id="ig-grad" x1="2" y1="2" x2="22" y2="22"><stop offset="0%" stop-color="#f09433"/><stop offset="25%" stop-color="#e6683c"/><stop offset="50%" stop-color="#dc2743"/><stop offset="75%" stop-color="#cc2366"/><stop offset="100%" stop-color="#bc1888"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="url(#ig-grad)" stroke-width="2"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="url(#ig-grad)" stroke-width="2"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="url(#ig-grad)" stroke-width="2"></line></svg>`;
 
+        // === THUẬT TOÁN TÌM KIẾM TIẾNG VIỆT KHÔNG DẤU (SIÊU TỐC) ===
         function normalizeStr(str) {
             if(!str) return '';
             return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase();
@@ -563,6 +623,7 @@
                 }
             });
 
+            // Tự động thu gọn các khối rỗng
             document.querySelectorAll('.year-block').forEach(yb => {
                 let hasVisibleCards = Array.from(yb.querySelectorAll('.card')).some(c => c.style.display !== 'none');
                 yb.style.display = hasVisibleCards ? 'block' : 'none';
@@ -594,6 +655,7 @@
             });
             
             if (kw !== '') {
+                // Bung tất cả lịch để xem kết quả
                 document.querySelectorAll('.hidden-step').forEach(el => el.classList.remove('hidden-step'));
                 document.querySelectorAll('.year-content, .month-content, .day-content, .session-content').forEach(el => {
                     el.classList.add('show');
@@ -601,7 +663,7 @@
                 });
                 document.querySelectorAll('.toggle-icon').forEach(icon => icon.style.transform = 'rotate(180deg)');
             } else {
-                restoreUIState();
+                restoreUIState(); // Khôi phục trạng thái ban đầu khi xóa tìm kiếm
             }
         });
 
@@ -1040,33 +1102,14 @@
             }
         }
 
-        function toggleSection(id, headerEl, isCard = false) {
-            const el = document.getElementById(id);
-            if (el) {
-                el.classList.toggle('show');
-                if (!isCard) { const icon = headerEl.querySelector('.toggle-icon'); icon.style.transform = el.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)'; }
-                setTimeout(saveUIState, 100);
-            }
-        }
-
-        function toggleSession(id, headerEl) {
-            const el = document.getElementById(id);
-            if (el) {
-                el.classList.toggle('collapsed');
-                const icon = headerEl.querySelector('.toggle-icon'); 
-                if (icon) {
-                    icon.style.transform = el.classList.contains('collapsed') ? 'rotate(0deg)' : 'rotate(180deg)';
-                }
-                setTimeout(saveUIState, 100);
-            }
-        }
-
+        // TÍNH TOÁN BÁO CÁO THỐNG KÊ CHI TIẾT MỚI
         function updateStatsUI() {
             let fYear = document.getElementById('filterYear').value; 
             let fMonth = document.getElementById('filterMonth').value; 
-            let tRev = 0, tPaid = 0, tDebt = 0;
+            let tRev = 0, tPaid = 0, tDebt = 0, tTravelFee = 0;
             
             let nameMap = {}; 
+            let serviceMap = {}; // Lưu trữ thống kê gói chụp
             
             allValidData.forEach(row => {
                 let dObj = row._dateObj; let matchY = true, matchM = true;
@@ -1074,11 +1117,20 @@
                 if (fMonth !== "ALL") { if (!dObj || dObj.getMonth().toString() !== fMonth) matchM = false; }
                 
                 if (matchY && matchM) {
-                    let gia = parseNum(findVal(row, 'giá')); let phi = parseNum(findVal(row, 'phí')); let coc = parseNum(findVal(row, 'cọc')); 
-                    let tt = parseNum(findVal(row, 'thanh toán thêm')) || 0; let conLai = parseNum(findVal(row, 'còn lại'));
+                    let gia = parseNum(findVal(row, 'giá')); 
+                    let phi = parseNum(findVal(row, 'phí')); 
+                    let coc = parseNum(findVal(row, 'cọc')); 
+                    let tt = parseNum(findVal(row, 'thanh toán thêm')) || 0; 
+                    let conLai = parseNum(findVal(row, 'còn lại'));
+                    let pkgName = findVal(row, 'nội dung') || 'Khác';
                     
-                    tRev += (gia + phi); tPaid += (coc + tt); tDebt += conLai; 
+                    tRev += (gia + phi); tPaid += (coc + tt); tDebt += conLai; tTravelFee += phi;
                     
+                    // Thống kê Gói dịch vụ
+                    if (!serviceMap[pkgName]) serviceMap[pkgName] = { count: 0, revenue: 0 };
+                    serviceMap[pkgName].count += 1;
+                    serviceMap[pkgName].revenue += (gia + phi);
+
                     let rawName = row['Khách hàng'] || findVal(row, 'khách') || "";
                     let clientName = rawName.toString().trim().toLowerCase().replace(/\s+/g, ' ');
                     
@@ -1106,18 +1158,44 @@
             for (let name in nameMap) {
                 let contactSet = nameMap[name];
                 let validContacts = Array.from(contactSet).filter(c => c !== "no-contact");
-                
-                if (validContacts.length > 0) {
-                    totalJobs += validContacts.length;
-                } else {
-                    totalJobs += 1;
-                }
+                totalJobs += (validContacts.length > 0) ? validContacts.length : 1;
             }
             
             document.getElementById('totalRevenue').innerText = formatMoney(tRev); 
             document.getElementById('totalCollected').innerText = formatMoney(tPaid); 
             document.getElementById('totalDebt').innerText = formatMoney(tDebt); 
             document.getElementById('totalShows').innerText = totalJobs;
+
+            // XỬ LÝ CHỈ SỐ MỞ RỘNG
+            document.getElementById('totalTravelFee').innerText = formatMoney(tTravelFee);
+            let avgRev = totalJobs > 0 ? Math.round(tRev / totalJobs) : 0;
+            document.getElementById('avgRevenue').innerText = formatMoney(avgRev);
+
+            // XỬ LÝ THANH TIẾN ĐỘ THU TIỀN
+            let collectionRate = tRev > 0 ? Math.round((tPaid / tRev) * 100) : 0;
+            document.getElementById('collectionPercent').innerText = collectionRate + "%";
+            document.getElementById('collectionBar').style.width = collectionRate + "%";
+
+            // XỬ LÝ CƠ CẤU GÓI CHỤP (Sắp xếp theo doanh thu giảm dần)
+            let sortedServices = Object.keys(serviceMap).sort((a, b) => serviceMap[b].revenue - serviceMap[a].revenue);
+            let serviceHtml = '';
+            sortedServices.forEach(pkg => {
+                serviceHtml += `
+                    <div class="service-item">
+                        <div class="service-info">
+                            <span class="service-name">${pkg}</span>
+                            <span class="service-count">${serviceMap[pkg].count} show đã nhận</span>
+                        </div>
+                        <span class="service-revenue">${formatMoney(serviceMap[pkg].revenue)}</span>
+                    </div>`;
+            });
+            
+            let container = document.getElementById('serviceBreakdownList');
+            if(sortedServices.length === 0) {
+                container.innerHTML = `<div style="text-align:center; font-size:12px; color:var(--text-muted); padding:10px;">Chưa có dữ liệu gói chụp</div>`;
+            } else {
+                container.innerHTML = serviceHtml;
+            }
         }
         
         loadData(); 
