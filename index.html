@@ -16,9 +16,16 @@
 
     <title>ChuToan Foto - Quản Lý Lịch Chụp</title>
     <style>
-        *, *::before, *::after { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        *, *::before, *::after { box-sizing: border-box; }
 
-        /* ======== LIGHT MODE: TRUE LIQUID GLASS (Chuẩn iOS) ======== */
+        /* LỆNH THẦN THÁNH CHỮA BỆNH LIỆT CẢM ỨNG TRÊN iOS SAFARI */
+        [onclick] {
+            cursor: pointer;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* ======== LIGHT MODE: TRUE LIQUID GLASS ======== */
         :root {
             --bg-base: #f4f5f7; 
             --bg-mesh: 
@@ -53,13 +60,12 @@
             --header-bg: rgba(244, 245, 247, 0.75); 
             --logo-filter: invert(1); --radius-card: 22px;
 
-            /* WIDGET VARIABLES */
             --widget-inner-bg: rgba(255, 255, 255, 0.85);
             --widget-inner-shadow: 0 4px 10px rgba(0,0,0,0.03);
             --widget-icon-bg: #f4f5f7;
         }
 
-        /* ======== DARK MODE: HOÀN HẢO GIỮ NGUYÊN 100% ======== */
+        /* ======== DARK MODE: HOÀN HẢO ======== */
         @media (prefers-color-scheme: dark) {
             :root {
                 --bg-base: #060606; 
@@ -94,28 +100,30 @@
                 --header-bg: rgba(6, 6, 6, 0.7); 
                 --logo-filter: none;
 
-                /* WIDGET VARIABLES */
                 --widget-inner-bg: rgba(45, 45, 42, 0.6);
                 --widget-inner-shadow: 0 4px 10px rgba(0,0,0,0.3);
                 --widget-icon-bg: rgba(255,255,255,0.05);
             }
         }
 
-        /* NỀN CỐ ĐỊNH CHỐNG MẢNG TRẮNG ĐÁY MÀN HÌNH */
-        html { background-color: var(--bg-base); min-height: 100vh; }
-        body { 
-            margin: 0; padding: 0; width: 100vw; max-width: 100%; overflow-x: hidden; overscroll-behavior-x: none; 
+        /* NỀN CỐ ĐỊNH CHỐNG MẢNG TRẮNG, KHÔNG DÙNG THẺ ẢO GÂY LỖI CẢM ỨNG */
+        html, body { 
+            margin: 0; padding: 0; width: 100%; min-height: 100vh;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif; 
-            background-color: var(--bg-base); color: var(--text-main); min-height: 100vh;
+            color: var(--text-main); 
+            background: var(--bg-base);
+            -webkit-text-size-adjust: 100%;
+        }
+        body::before {
+            content: ""; position: fixed; inset: 0;
+            background-color: var(--bg-base); background-image: var(--bg-mesh);
+            background-size: cover; background-position: center;
+            z-index: -1; pointer-events: none;
         }
         body.modal-open { overflow: hidden; position: fixed; width: 100%; height: 100%; }
 
-        /* LỚP NỀN ẢO TÁCH BIỆT, KHÔNG CHẶN CẢM ỨNG */
-        .app-bg { position: fixed; inset: 0; background-color: var(--bg-base); background-image: var(--bg-mesh); background-size: cover; background-position: center; z-index: -2; pointer-events: none;}
-        .app-overlay { position: fixed; inset: 0; background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.1) 100%); z-index: -1; pointer-events: none;}
-
         .toast-msg {
-            display: none !important; visibility: hidden !important;
+            display: none; visibility: hidden;
             position: fixed; top: 85px; left: 50%; transform: translateX(-50%) scale(0.9);
             background: var(--widget-inner-bg); backdrop-filter: blur(20px) saturate(150%); -webkit-backdrop-filter: blur(20px) saturate(150%);
             color: var(--text-main); padding: 12px 24px; border-radius: 30px;
@@ -128,8 +136,7 @@
             display: block !important; visibility: visible !important; opacity: 1 !important; transform: translateX(-50%) scale(1); 
         }
 
-        /* ===== ĐẠI PHẪU KÍNH LỎNG: FIX TRIỆT ĐỂ LỖI HIT-TEST SAFARI ===== */
-        /* TÍCH HỢP TRỰC TIẾP SHINE VÀO BACKGROUND, XÓA HOÀN TOÀN ::BEFORE VÀ Z-INDEX ẢO */
+        /* LÕI KÍNH LIQUID GLASS (ÉP THÀNH 1 LỚP DUY NHẤT CHỐNG LIỆT CẢM ỨNG) */
         .glass-fx { 
             background-color: var(--glass-bg);
             background-image: var(--glass-shine); 
@@ -139,13 +146,13 @@
             border-top-color: var(--glass-border-top);
             border-left-color: var(--glass-border-left);
             box-shadow: var(--glass-shadow); 
-            position: relative; /* PHẢI CÓ ĐỂ CHẶN Z-INDEX TRÀN MÀN HÌNH */
+            border-radius: inherit;
         }
 
         /* WIDGET ĐIỀU KHIỂN CHUẨN iOS */
         .ios-widget-container {
             width: 100%; margin-bottom: 24px; border-radius: 30px; padding: 16px;
-            display: flex; flex-direction: column; gap: 12px;
+            display: flex; flex-direction: column; gap: 12px; position: relative; z-index: 50; 
         }
         .widget-top-bar {
             background: var(--widget-inner-bg); border-radius: 20px; padding: 10px 14px;
@@ -164,7 +171,7 @@
         .widget-search-btn {
             display: flex; align-items: center; justify-content: center;
             width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
-            background: var(--tag-gold-bg); color: var(--accent-gold); cursor: pointer; transition: transform 0.2s;
+            background: var(--tag-gold-bg); color: var(--accent-gold);
         }
         .widget-search-btn:active { transform: scale(0.85); }
         
@@ -172,7 +179,7 @@
         .widget-btn {
             flex: 1; background: var(--widget-inner-bg); border-radius: 18px; padding: 14px 4px;
             display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
-            box-shadow: var(--widget-inner-shadow); cursor: pointer; transition: transform 0.15s ease, opacity 0.15s;
+            box-shadow: var(--widget-inner-shadow); transition: transform 0.15s ease, opacity 0.15s;
         }
         .widget-btn:active { transform: scale(0.92); opacity: 0.8; }
         .widget-icon-circle {
@@ -181,24 +188,24 @@
         }
         .widget-btn span { font-size: 10px; font-weight: 700; color: var(--text-main); text-align: center; text-transform: uppercase;}
 
-        .container { width: 100%; padding: 16px; max-width: 580px; margin: 0 auto; padding-bottom: 150px;}
+        .container { position: relative; z-index: 10; width: 100%; padding: 16px; max-width: 580px; margin: 0 auto; padding-bottom: 150px; }
 
-        /* FIX ẨN LỊCH: DÙNG DISPLAY NONE ĐỂ CẮT ĐỨT HOÀN TOÀN TƯƠNG TÁC VÔ HÌNH */
-        .year-block, .month-block, .day-block { transition: opacity 0.3s ease; }
+        /* LỆNH HỦY BOUNCE / MAX-HEIGHT GÂY LỖI HITBOX SAFARI */
+        .year-block, .month-block, .day-block { opacity: 1; transition: opacity 0.3s ease; }
         .hidden-step { display: none !important; }
 
-        .year-header { padding: 20px 22px; margin: 16px 0 12px 0; border-radius: 24px; color: var(--accent-gold); font-weight: 800; font-size: 17px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; text-transform: uppercase; letter-spacing: 2px; }
+        .year-header { padding: 20px 22px; margin: 16px 0 12px 0; border-radius: 24px; color: var(--accent-gold); font-weight: 800; font-size: 17px; display: flex; justify-content: space-between; align-items: center; text-transform: uppercase; letter-spacing: 2px; }
         .year-content { display: none; } .year-content.show { display: block; animation: fadeIn 0.3s ease; }
 
-        .month-header { padding: 16px 20px; margin: 12px 0 8px 8px; border-radius: 20px; border-left: 3px solid var(--accent-gold); color: var(--accent-gold); font-weight: 700; font-size: 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none;}
+        .month-header { padding: 16px 20px; margin: 12px 0 8px 8px; border-radius: 20px; border-left: 3px solid var(--accent-gold); color: var(--accent-gold); font-weight: 700; font-size: 15px; display: flex; justify-content: space-between; align-items: center; user-select: none;}
         .month-content { display: none; } .month-content.show { display: block; animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
 
-        .day-header { padding: 14px 18px; margin: 8px 0 8px 16px; border-radius: 18px; border-left: 2px solid var(--text-muted); color: var(--text-main); font-weight: 700; font-size: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none;}
+        .day-header { padding: 14px 18px; margin: 8px 0 8px 16px; border-radius: 18px; border-left: 2px solid var(--text-muted); color: var(--text-main); font-weight: 700; font-size: 14px; display: flex; justify-content: space-between; align-items: center; user-select: none;}
         @media (prefers-color-scheme: light) { .day-header { border-left-color: var(--accent-gold); } }
         .day-content { display: none; } .day-content.show { display: block; animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
         .toggle-icon { transition: transform 0.25s ease; font-size: 11px; opacity: 0.8; }
 
-        .session-divider { display: flex; align-items: center; margin: 26px 0 18px 24px; font-size: 11.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; cursor: pointer;}
+        .session-divider { display: flex; align-items: center; margin: 26px 0 18px 24px; font-size: 11.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; }
         .session-content { display: block; overflow: hidden; animation: fadeIn 0.3s ease; }
         .session-content.collapsed { display: none; }
         .session-divider span { 
@@ -209,7 +216,7 @@
         .session-divider:active span { transform: scale(0.95); }
         .session-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent-gold), transparent); margin-left: 14px; opacity: 0.4; }
 
-        .card { border-radius: var(--radius-card); padding: 22px; margin: 0 0 16px 24px; cursor: pointer; transition: transform 0.15s ease; }
+        .card { border-radius: var(--radius-card); padding: 22px; margin: 0 0 16px 24px; transition: transform 0.15s ease; }
         .card:active { transform: scale(0.985); }
         .card.search-hidden { display: none !important; }
         
@@ -252,7 +259,7 @@
         .btn-card-action { 
             flex: 1; display:flex; justify-content:center; align-items:center; 
             padding: 14px 0; border: none; border-radius: 12px; font-size: 12.5px; 
-            font-weight: 700; cursor: pointer; text-transform: uppercase; 
+            font-weight: 700; text-transform: uppercase; 
             letter-spacing: 0.5px; border: 1px solid var(--divider-line); 
             transition: all 0.15s ease;
         }
@@ -260,7 +267,7 @@
         .btn-edit { background: var(--btn-secondary-bg); color: var(--accent-gold); } 
         .btn-delete { background: var(--alert-bg); color: var(--alert-red); border-color: transparent;}
 
-        /* CSS TÙY CHỈNH CHO MODAL THỐNG KÊ CHI TIẾT PRO MAX */
+        /* CSS MODAL THỐNG KÊ CHI TIẾT PRO MAX */
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
         .stat-card { border-radius: 22px; padding: 20px; display: flex; flex-direction: column; justify-content: center; transition: transform 0.1s ease;}
         .stat-card.clickable-card:active { transform: scale(0.96); opacity: 0.8; }
@@ -285,13 +292,13 @@
 
         .select-filter { width: 100%; padding: 16px 18px; border-radius: 18px; color: var(--text-main); font-size: 15px; font-weight: 700; outline: none; border-color: var(--glass-border); appearance: none; -webkit-appearance: none; background: url('data:image/svg+xml;utf8,<svg fill="%23dfb96e" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>') no-repeat right 14px center; }
 
-        .modal { display: none; position: fixed; inset: 0; z-index: 2000; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); justify-content: center; align-items: flex-end; overscroll-behavior: contain; width: 100vw; pointer-events: auto; }
+        .modal { display: none; position: fixed; inset: 0; z-index: 2000; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); justify-content: center; align-items: flex-end; overscroll-behavior: contain; width: 100vw; }
         .modal-content { background: var(--modal-bg); border-top: 1px solid var(--glass-border-top); border-radius: 32px 32px 0 0; width: 100%; max-width: 580px; max-height: 88vh; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; padding: 30px 24px 40px 24px; box-shadow: 0 -20px 60px rgba(0,0,0,0.6); animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } } @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; } 
         .modal-header h3 { margin: 0; font-size: 20px; color: var(--accent-gold); font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase;} 
-        .close-btn { font-size: 16px; color: var(--text-main); cursor: pointer; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: var(--btn-secondary-bg); border-radius: 50%; border: 1px solid var(--divider-line); }
+        .close-btn { font-size: 16px; color: var(--text-main); width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: var(--btn-secondary-bg); border-radius: 50%; border: 1px solid var(--divider-line); }
         
         .tab-panel { display: none; } .tab-panel.active { display: block; }
         .form-group { margin-bottom: 18px; display: flex; flex-direction: column; width: 100%; } 
@@ -302,11 +309,11 @@
         .form-control:focus, .form-select:focus { border-color: var(--accent-gold) !important; box-shadow: 0 0 0 3px rgba(223, 185, 110, 0.15), inset 0 2px 5px rgba(0,0,0,0.02); }
         textarea.form-control { resize: vertical; min-height: 90px; font-family: inherit; line-height: 1.5; } 
 
-        .btn-submit { width: 100%; padding: 20px; border: none; border-radius: 16px; font-weight: 800; font-size: 15px; color: #fff; margin-top: 16px; cursor: pointer; background: linear-gradient(135deg, var(--accent-gold), #997328); box-shadow: 0 8px 25px rgba(197, 155, 39, 0.25); text-transform: uppercase; letter-spacing: 1px; transition: all 0.15s;} 
+        .btn-submit { width: 100%; padding: 20px; border: none; border-radius: 16px; font-weight: 800; font-size: 15px; color: #fff; margin-top: 16px; background: linear-gradient(135deg, var(--accent-gold), #997328); box-shadow: 0 8px 25px rgba(197, 155, 39, 0.25); text-transform: uppercase; letter-spacing: 1px; transition: all 0.15s;} 
         @media (prefers-color-scheme: dark) { .btn-submit { color: #000; } }
         .btn-submit:active { transform: scale(0.98); opacity: 0.8;}
         
-        .btn-pay { display:flex; justify-content:center; align-items:center; background: rgba(39, 174, 96, 0.12); color: var(--success-green); width: 100%; padding: 16px; border: 1px solid rgba(39, 174, 96, 0.3); border-radius: 14px; font-weight: 800; font-size: 14px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: all 0.15s;} 
+        .btn-pay { display:flex; justify-content:center; align-items:center; background: rgba(39, 174, 96, 0.12); color: var(--success-green); width: 100%; padding: 16px; border: 1px solid rgba(39, 174, 96, 0.3); border-radius: 14px; font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; transition: all 0.15s;} 
         .btn-pay:active { transform: scale(0.96); opacity: 0.8; }
         
         .loader { text-align: center; padding: 50px; color: var(--accent-gold); font-weight: 700; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; }
@@ -319,16 +326,13 @@
             background: rgba(39, 174, 96, 0.15); color: var(--success-green);
             border: 1px solid rgba(39, 174, 96, 0.2); padding: 8px 16px; 
             border-radius: 10px; font-weight: 800; font-size: 11.5px; 
-            text-transform: uppercase; cursor: pointer; transition: transform 0.15s;
+            text-transform: uppercase; transition: transform 0.15s;
         }
         .btn-restore:active { transform: scale(0.9); }
     </style>
 </head>
 <body>
 
-    <div class="app-bg"></div>
-    <div class="app-overlay"></div>
-    
     <div id="appToast" class="toast-msg"></div>
 
     <!-- MODAL BẢO MẬT: NHẬP MÃ PIN -->
@@ -386,7 +390,7 @@
             <div class="stats-grid" style="margin-bottom: 20px;">
                 <div class="stat-card glass-fx" style="border: 1px solid var(--divider-line);"><div class="stat-label">Tổng Doanh Thu</div><div class="stat-value gold" id="totalRevenue">0 đ</div></div>
                 <!-- NÚT BẤM XEM CHI TIẾT DÒNG TIỀN -->
-                <div class="stat-card glass-fx clickable-card" style="border: 1px solid var(--divider-line); cursor: pointer;" onclick="toggleCollectionDetails()">
+                <div class="stat-card glass-fx clickable-card" style="border: 1px solid var(--divider-line);" onclick="toggleCollectionDetails()">
                     <div class="stat-label">Đã Thu Thực Tế <span id="toggleColIcon" style="display:inline-block; transition: transform 0.2s; margin-left:2px;">▼</span></div>
                     <div class="stat-value green" id="totalCollected">0 đ</div>
                 </div>
@@ -440,7 +444,7 @@
                 </div>
             </div>
             
-            <!-- HÀNG 5 NÚT CHỨC NĂNG CÓ NÚT SHEET -->
+            <!-- HÀNG 5 NÚT CHỨC NĂNG -->
             <div class="widget-actions-row">
                 <div class="widget-btn" onclick="event.stopPropagation(); openModal()">
                     <div class="widget-icon-circle">
@@ -476,7 +480,6 @@
                 </div>
             </div>
         </div>
-        <!-- END WIDGET ĐIỀU KHIỂN -->
 
         <div id="bookingList"><div class="loader">Đang tải dữ liệu...</div></div>
     </div>
@@ -581,7 +584,7 @@
         const ZALO_ICON = `<span style="background:#0068FF; color:#fff; font-size:10px; font-weight:800; padding:0 6px; border-radius:5px; height:18px; line-height:18px; display:inline-block;">Zalo</span>`;
         const IG_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" fill="url(#ig-grad)"><defs><linearGradient id="ig-grad" x1="2" y1="2" x2="22" y2="22"><stop offset="0%" stop-color="#f09433"/><stop offset="25%" stop-color="#e6683c"/><stop offset="50%" stop-color="#dc2743"/><stop offset="75%" stop-color="#cc2366"/><stop offset="100%" stop-color="#bc1888"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="url(#ig-grad)" stroke-width="2"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="url(#ig-grad)" stroke-width="2"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="url(#ig-grad)" stroke-width="2"></line></svg>`;
 
-        // === THUẬT TOÁN TÌM KIẾM TIẾNG VIỆT KHÔNG DẤU (SIÊU TỐC) ===
+        // === THUẬT TOÁN TÌM KIẾM TIẾNG VIỆT KHÔNG DẤU ===
         function normalizeStr(str) {
             if(!str) return '';
             return str.toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase();
@@ -601,7 +604,6 @@
                 }
             });
 
-            // Tự động thu gọn các khối rỗng
             document.querySelectorAll('.year-block').forEach(yb => {
                 let hasVisibleCards = Array.from(yb.querySelectorAll('.card')).some(c => c.style.display !== 'none');
                 yb.style.display = hasVisibleCards ? 'block' : 'none';
@@ -636,7 +638,6 @@
             });
             
             if (kw !== '') {
-                // Bung tất cả lịch để xem kết quả
                 document.querySelectorAll('.hidden-step').forEach(el => el.classList.remove('hidden-step'));
                 document.querySelectorAll('.year-content, .month-content, .day-content, .session-content').forEach(el => {
                     el.classList.add('show');
@@ -644,7 +645,7 @@
                 });
                 document.querySelectorAll('.toggle-icon').forEach(icon => icon.style.transform = 'rotate(180deg)');
             } else {
-                restoreUIState(); // Khôi phục trạng thái ban đầu khi xóa tìm kiếm
+                restoreUIState();
             }
         });
 
@@ -1096,7 +1097,6 @@
             }
         }
 
-        // TÍNH TOÁN BÁO CÁO THỐNG KÊ CHI TIẾT + LẬP DANH SÁCH "ĐÃ THU"
         function updateStatsUI() {
             let fYear = document.getElementById('filterYear').value; 
             let fMonth = document.getElementById('filterMonth').value; 
@@ -1104,7 +1104,7 @@
             
             let nameMap = {}; 
             let serviceMap = {}; 
-            let collectedArr = []; // Mảng lưu trữ chi tiết các khoản đã thu
+            let collectedArr = []; 
             
             allValidData.forEach(row => {
                 let dObj = row._dateObj; let matchY = true, matchM = true;
@@ -1130,7 +1130,6 @@
                     let rawName = (row['Khách hàng'] || findVal(row, 'khách') || "Khách hàng").toString().trim();
                     let displayDate = dObj ? formatDateDisplay(dObj) : (findVal(row, 'ngày') || 'Không rõ ngày');
 
-                    // Nếu có doanh thu thực tế, đưa vào mảng chi tiết
                     if (thuThucTe > 0) {
                         collectedArr.push({
                             name: rawName,
@@ -1142,22 +1141,17 @@
                     }
                     
                     let clientName = rawName.toLowerCase().replace(/\s+/g, ' ');
-                    
                     let rawPhone = findVal(row, 'sđt') || findVal(row, 'điện thoại') || row['SĐT'] || "";
                     let phoneNum = rawPhone.toString().replace(/\D/g, '');
-                    
                     let rawZalo = findVal(row, 'zalo') || row['SĐT Zalo'] || "";
                     let zaloNum = rawZalo.toString().replace(/\D/g, '');
-                    
                     let rawFb = findVal(row, 'facebook') || findVal(row, 'fb') || row['Link Facebook'] || "";
                     let fbLink = rawFb.toString().trim().toLowerCase().replace(/(\?|&)(mibextid|fbclid|locale|eav|paipv)=[^&]*/g, '').replace(/[?&]$/, '').replace(/^https?:\/\/(www\.|m\.)?(facebook\.com|fb\.com|instagram\.com)\//, '').replace(/\/$/, '');
                     
                     let contactKey = phoneNum || zaloNum || fbLink || "no-contact";
 
                     if (clientName !== "") {
-                        if (!nameMap[clientName]) {
-                            nameMap[clientName] = new Set();
-                        }
+                        if (!nameMap[clientName]) { nameMap[clientName] = new Set(); }
                         nameMap[clientName].add(contactKey);
                     }
                 }
@@ -1183,7 +1177,7 @@
             document.getElementById('collectionPercent').innerText = collectionRate + "%";
             document.getElementById('collectionBar').style.width = collectionRate + "%";
 
-            // XỬ LÝ KHUNG CHI TIẾT "ĐÃ THU THỰC TẾ"
+            // CHI TIẾT "ĐÃ THU THỰC TẾ"
             collectedArr.sort((a,b) => (b.dObj ? b.dObj.getTime() : 0) - (a.dObj ? a.dObj.getTime() : 0));
             let collectionHtml = `<div style="font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 12px; margin-top: 4px; text-transform: uppercase; display: flex; align-items: center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px; margin-top:-2px"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg> CHI TIẾT DÒNG TIỀN VÀO</div><div class="service-list-container">`;
 
@@ -1206,7 +1200,7 @@
             collectionHtml += `</div>`;
             document.getElementById('collectionDetailsContainer').innerHTML = collectionHtml;
 
-            // VẼ BIỂU ĐỒ PRO MAX CHO TỪNG GÓI DỊCH VỤ
+            // CƠ CẤU GÓI CHỤP
             let sortedServices = Object.keys(serviceMap).sort((a, b) => serviceMap[b].revenue - serviceMap[a].revenue);
             let serviceHtml = '';
             sortedServices.forEach(pkg => {
@@ -1231,11 +1225,11 @@
                     </div>`;
             });
             
-            let container = document.getElementById('serviceBreakdownList');
+            let containerBreakdown = document.getElementById('serviceBreakdownList');
             if(sortedServices.length === 0) {
-                container.innerHTML = `<div style="text-align:center; font-size:12px; color:var(--text-muted); padding:10px;">Chưa có dữ liệu gói chụp</div>`;
+                containerBreakdown.innerHTML = `<div style="text-align:center; font-size:12px; color:var(--text-muted); padding:10px;">Chưa có dữ liệu gói chụp</div>`;
             } else {
-                container.innerHTML = serviceHtml;
+                containerBreakdown.innerHTML = serviceHtml;
             }
         }
         
