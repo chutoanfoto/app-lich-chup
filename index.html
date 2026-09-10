@@ -106,7 +106,7 @@
             position: fixed; top: 85px; left: 50%; transform: translateX(-50%) scale(0.9);
             background: var(--card-bg); backdrop-filter: blur(20px) saturate(150%); -webkit-backdrop-filter: blur(20px) saturate(150%);
             color: var(--text-main); padding: 12px 24px; border-radius: 30px;
-            font-size: 13px; font-weight: 700; z-index: 1000;
+            font-size: 13px; font-weight: 700; z-index: 2000;
             border: 1px solid var(--accent-gold); box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             opacity: 0; pointer-events: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             text-align: center; white-space: nowrap;
@@ -283,6 +283,20 @@
     <div class="app-bg"></div>
     <div class="app-overlay"></div>
 
+    <!-- MODAL BẢO MẬT: NHẬP MÃ PIN -->
+    <div class="modal" id="modalSecurity" onclick="if(event.target === this) closeSecurityModal()" style="z-index: 2000;">
+        <div class="modal-content glass-fx" onclick="event.stopPropagation()" style="max-width: 320px; margin: auto; border-radius: 32px; padding: 30px 24px;">
+            <div class="modal-header" style="justify-content: center; margin-bottom: 20px;">
+                <h3 id="securityTitle" style="text-align: center; color: var(--text-main); font-size: 16px;">🔐 XÁC THỰC BẢO MẬT</h3>
+            </div>
+            <div class="form-group">
+                <input type="password" id="securityPin" class="form-control" placeholder="Nhập PIN" style="text-align: center; letter-spacing: 8px; font-size: 20px; font-weight: 800;" autocomplete="off" inputmode="numeric" onkeypress="if(event.key === 'Enter') verifyPin()">
+            </div>
+            <div style="color: var(--alert-red); font-size: 12px; text-align: center; margin-bottom: 16px; height: 14px; font-weight: 600;" id="securityError"></div>
+            <button type="button" class="btn-submit" onclick="verifyPin()">XÁC NHẬN</button>
+        </div>
+    </div>
+
     <!-- MODAL QUẢN LÝ LỊCH ẨN -->
     <div class="modal" id="modalRestore" onclick="if(event.target === this) closeRestoreModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
@@ -401,6 +415,12 @@
         const API_URL = "https://script.google.com/macros/s/AKfycbyxTm4XHr7HF1WujMPs9oWARimjrmkUV50hbV0ko59oj1njSyWg7rQd1T4PryjGbeJm/exec";
         let allValidData = []; let isFirstLoad = true;
 
+        /* ==== THIẾT LẬP MÃ PIN BẢO MẬT Ở ĐÂY ==== */
+        const MASTER_PIN = "0901";
+        
+        let pendingAction = null;
+        let pendingRowIndex = null;
+
         const ICON_CALENDAR = `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px"><rect x="3" y="4" width="18" height="18" rx="2.5" ry="2.5"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`;
         const ICON_SUN = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><circle cx="12" cy="12" r="4.5"></circle><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 4.9l1.4 1.4"></path></svg>`;
         const ICON_SUNSET = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><path d="M12 3v2M4.9 7.1l1.4 1.4M19.1 7.1l-1.4 1.4M2 17h20M16 17a4 4 0 0 0-8 0"></path></svg>`;
@@ -423,6 +443,43 @@
             toast.classList.add('show');
             setTimeout(() => { toast.classList.remove('show'); }, 3000);
         }
+
+        // --- HỆ THỐNG BẢO MẬT ---
+        function requireSecurity(action, rowIndex) {
+            pendingAction = action;
+            pendingRowIndex = rowIndex;
+            document.getElementById('securityPin').value = '';
+            document.getElementById('securityError').innerText = '';
+            document.body.classList.add('modal-open');
+            document.getElementById('modalSecurity').style.display = 'flex';
+            setTimeout(() => document.getElementById('securityPin').focus(), 100);
+        }
+
+        function closeSecurityModal() {
+            document.getElementById('modalSecurity').style.display = 'none';
+            if(document.getElementById('modalForm').style.display !== 'flex' && document.getElementById('modalRestore').style.display !== 'flex') {
+                document.body.classList.remove('modal-open');
+            }
+            pendingAction = null;
+            pendingRowIndex = null;
+        }
+
+        function verifyPin() {
+            let pin = document.getElementById('securityPin').value;
+            if (pin === MASTER_PIN) {
+                closeSecurityModal();
+                if (pendingAction === 'edit') {
+                    proceedOpenEditModal(pendingRowIndex);
+                } else if (pendingAction === 'delete') {
+                    proceedDeleteBooking(pendingRowIndex);
+                }
+            } else {
+                document.getElementById('securityError').innerText = 'Sai mật khẩu!';
+                document.getElementById('securityPin').value = '';
+                document.getElementById('securityPin').focus();
+            }
+        }
+        // -------------------------
 
         let pressTimer;
         function startLongPress(e, monthBlockId, labelText) {
@@ -492,7 +549,6 @@
             }
         }
 
-        // TÍNH NĂNG MỚI: DANH SÁCH QUẢN LÝ LỊCH ẨN
         document.getElementById('swipeHandle').addEventListener('click', function() {
             let hiddenBlocks = document.querySelectorAll('.hidden-step');
             if (hiddenBlocks.length === 0) {
@@ -531,7 +587,7 @@
 
         function closeRestoreModal() {
             document.getElementById('modalRestore').style.display = 'none';
-            if(document.getElementById('modalForm').style.display !== 'flex') {
+            if(document.getElementById('modalForm').style.display !== 'flex' && document.getElementById('modalSecurity').style.display !== 'flex') {
                 document.body.classList.remove('modal-open');
             }
         }
@@ -542,13 +598,12 @@
                 el.classList.remove('hidden-step');
                 saveUIState();
                 
-                // Cập nhật lại danh sách hiện tại
                 let hiddenBlocks = document.querySelectorAll('.hidden-step');
                 if (hiddenBlocks.length === 0) {
                     closeRestoreModal();
                     showToast("Đã khôi phục toàn bộ lịch ẩn.");
                 } else {
-                    document.getElementById('swipeHandle').click(); // Refresh danh sách
+                    document.getElementById('swipeHandle').click();
                     showToast("Đã hiển thị lại lịch.");
                 }
             }
@@ -753,12 +808,13 @@
 
                                 let paidBtnHTML = '';
                                 if (conLai > 0) { 
-                                    paidBtnHTML = `<div style="margin-top: 12px;"><button type="button" class="btn-pay" onclick="event.stopPropagation(); markPaid('${rowIndex}')">${ICON_CHECK} ĐÃ THANH TOÁN</button></div>`; 
+                                    paidBtnHTML = `<div style="margin-top: 12px;"><button type="button" class="btn-pay" onclick="event.stopPropagation(); requireSecurity('pay', '${rowIndex}')">${ICON_CHECK} ĐÃ THANH TOÁN</button></div>`; 
                                 }
 
                                 let noteHTML = '';
                                 if (noteVal) { noteHTML = `<div class="detail-note" onclick="event.stopPropagation()"><div class="detail-note-label" style="color: var(--text-muted);">${ICON_NOTE} GHI CHÚ / TIMELINE</div><div class="detail-note-content">${noteVal}</div></div>`; }
 
+                                /* GẮN HÀM GỌI MODAL BẢO MẬT VÀO NÚT BẤM */
                                 htmlStr += `
                                     <div class="card glass-fx" onclick="toggleSection('expanded-${rowIndex}', this, true)">
                                         <div class="card-header">
@@ -775,8 +831,8 @@
                                             ${noteHTML}
                                             ${paidBtnHTML}
                                             <div class="card-btns-row">
-                                                <button type="button" class="btn-card-action btn-edit" onclick="event.stopPropagation(); openEditModal('${rowIndex}')">${ICON_EDIT} SỬA LỊCH</button>
-                                                <button type="button" class="btn-card-action btn-delete" onclick="event.stopPropagation(); deleteBooking('${rowIndex}')">${ICON_DELETE} XÓA LỊCH</button>
+                                                <button type="button" class="btn-card-action btn-edit" onclick="event.stopPropagation(); requireSecurity('edit', '${rowIndex}')">${ICON_EDIT} SỬA LỊCH</button>
+                                                <button type="button" class="btn-card-action btn-delete" onclick="event.stopPropagation(); requireSecurity('delete', '${rowIndex}')">${ICON_DELETE} XÓA LỊCH</button>
                                             </div>
                                         </div>
                                     </div>`;
@@ -880,7 +936,8 @@
         function openModal() { document.getElementById('modalTitle').innerText = "TẠO LỊCH MỚI"; document.getElementById('tab-create').classList.add('active'); document.getElementById('tab-edit').classList.remove('active'); document.body.classList.add('modal-open'); document.getElementById('modalForm').style.display = 'flex'; }
         function closeModal() { document.body.classList.remove('modal-open'); document.getElementById('modalForm').style.display = 'none'; }
 
-        function openEditModal(rowIndex) {
+        // BẢN THỰC THI SỬA LỊCH (SAU KHI NHẬP ĐÚNG PIN)
+        function proceedOpenEditModal(rowIndex) {
             const item = allValidData.find(r => String(r._rowIndex) === String(rowIndex)); 
             if (!item) {
                 alert("Hệ thống đang đồng bộ, vui lòng thử lại sau giây lát.");
@@ -923,7 +980,8 @@
 
         document.querySelectorAll('.money-input').forEach(input => { input.addEventListener('input', function(e) { let value = e.target.value.replace(/\D/g, ''); e.target.value = value !== '' ? new Intl.NumberFormat('vi-VN').format(value) : ''; }); });
 
-        async function markPaid(rowIndex) {
+        // BẢN THỰC THI THANH TOÁN
+        async function proceedMarkPaid(rowIndex) {
             let item = allValidData.find(r => String(r._rowIndex) === String(rowIndex));
             if (!item) return;
             let name = item['Khách hàng'] || findVal(item, 'khách') || 'Khách hàng';
@@ -956,12 +1014,13 @@
             fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).then(() => silentFetchData());
         }
 
-        async function deleteBooking(rowIndex) {
+        // BẢN THỰC THI XÓA LỊCH (SAU KHI NHẬP ĐÚNG PIN)
+        async function proceedDeleteBooking(rowIndex) {
             let item = allValidData.find(r => String(r._rowIndex) === String(rowIndex));
             if (!item) return;
             let name = item['Khách hàng'] || findVal(item, 'khách') || 'Khách hàng';
             
-            if (!confirm(`Bạn có chắc chắn muốn XÓA lịch của khách "${name}" không? Thao tác này không thể hoàn tác.`)) return;
+            if (!confirm(`Hành động này KHÔNG THỂ HOÀN TÁC.\nBạn có chắc chắn muốn XÓA vĩnh viễn lịch của khách "${name}" không?`)) return;
             
             allValidData = allValidData.filter(r => String(r._rowIndex) !== String(rowIndex)); 
             renderUI(allValidData);
