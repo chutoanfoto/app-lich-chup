@@ -201,9 +201,10 @@
         }
         .widget-btn span { font-size: 10px; font-weight: 700; color: var(--text-main); text-align: center; text-transform: uppercase;}
 
-        .container { position: relative; z-index: 2; width: 100%; padding: 16px; max-width: 580px; margin: 0 auto; padding-bottom: 150px; }
+        .container { position: relative; z-index: 2; width: 100%; padding: 16px; max-width: 580px; margin: 0 auto; padding-bottom: 50px; }
         
-        .section-title { font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 14px; text-transform: uppercase; margin-left: 4px; }
+        .calendar-swipe-header { text-align: center; margin-bottom: 20px; cursor: pointer; user-select: none; }
+        .calendar-swipe-header span { font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; background:var(--widget-inner-bg); padding:6px 16px; border-radius:20px; box-shadow: var(--widget-inner-shadow);}
 
         .year-block, .month-block, .day-block { transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease, margin 0.3s ease; max-height: 8000px; opacity: 1; overflow: hidden; transform-origin: top; }
         .hidden-step { max-height: 0 !important; opacity: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important; pointer-events: none; border: none !important; }
@@ -368,9 +369,32 @@
         </div>
     </div>
 
+    <!-- MODAL THỐNG KÊ DOANH THU -->
+    <div class="modal" id="modalStats" onclick="if(event.target === this) closeStatsModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 style="margin: 0; font-size: 20px; color: var(--accent-gold); font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase;">THỐNG KÊ DOANH THU</h3>
+                <span class="close-btn" onclick="closeStatsModal()">✕</span>
+            </div>
+            
+            <div style="display: flex; gap: 14px; margin-bottom: 24px;">
+                <select id="filterYear" class="select-filter glass-fx" style="flex: 1;" onchange="updateStatsUI()"><option value="ALL">Tất cả năm</option></select>
+                <select id="filterMonth" class="select-filter glass-fx" style="flex: 1;" onchange="updateStatsUI()">
+                    <option value="ALL">Cả năm</option><option value="0">Tháng 1</option><option value="1">Tháng 2</option><option value="2">Tháng 3</option><option value="3">Tháng 4</option><option value="4">Tháng 5</option><option value="5">Tháng 6</option><option value="6">Tháng 7</option><option value="7">Tháng 8</option><option value="8">Tháng 9</option><option value="9">Tháng 10</option><option value="10">Tháng 11</option><option value="11">Tháng 12</option>
+                </select>
+            </div>
+
+            <div class="stats-grid" style="margin-bottom: 0;">
+                <div class="stat-card glass-fx"><div class="stat-label">Tổng Doanh Thu</div><div class="stat-value gold" id="totalRevenue">0 đ</div></div>
+                <div class="stat-card glass-fx"><div class="stat-label">Đã Thu Thực Tế</div><div class="stat-value green" id="totalCollected">0 đ</div></div>
+                <div class="stat-card glass-fx"><div class="stat-label">Chưa Thanh Toán</div><div class="stat-value red" id="totalDebt">0 đ</div></div>
+                <div class="stat-card glass-fx"><div class="stat-label">Tổng số Job</div><div class="stat-value" id="totalShows">0</div></div>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
-        
-        <!-- WIDGET ĐIỀU KHIỂN CHUẨN iOS MỚI -->
+        <!-- WIDGET ĐIỀU KHIỂN CHUẨN iOS -->
         <div class="ios-widget-container glass-fx" style="margin-top: 10px;">
             <!-- THANH TÌM KIẾM LIVE SEARCH KHÔNG DẤU -->
             <div class="widget-top-bar">
@@ -383,35 +407,35 @@
                 </div>
             </div>
             
-            <!-- HÀNG 5 NÚT CHỨC NĂNG CÓ NÚT SHEET -->
+            <!-- HÀNG 5 NÚT CHỨC NĂNG -->
             <div class="widget-actions-row">
-                <div class="widget-btn" onclick="openModal()">
+                <div class="widget-btn" onclick="event.stopPropagation(); openModal()">
                     <div class="widget-icon-circle">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                     </div>
                     <span>Tạo Lịch</span>
                 </div>
-                <div class="widget-btn" onclick="openHiddenManager()">
+                <div class="widget-btn" onclick="event.stopPropagation(); openHiddenManager()">
                     <div class="widget-icon-circle">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                     </div>
                     <span>Lịch Ẩn</span>
                 </div>
-                <div class="widget-btn" onclick="document.getElementById('thong-ke-section').scrollIntoView({behavior: 'smooth'})">
+                <div class="widget-btn" onclick="event.stopPropagation(); openStatsModal()">
                     <div class="widget-icon-circle">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
                     </div>
                     <span>Thống Kê</span>
                 </div>
                 
-                <div class="widget-btn" onclick="window.location.href='https://docs.google.com/spreadsheets/d/1zb3LCIylD1MlADhoOTJGGY3q3yfA5dH5uX1KQRUklsA/edit?usp=sharing'">
+                <div class="widget-btn" onclick="event.stopPropagation(); window.open('https://docs.google.com/spreadsheets/d/1zb3LCIylD1MlADhoOTJGGY3q3yfA5dH5uX1KQRUklsA/edit?usp=sharing', '_blank')">
                     <div class="widget-icon-circle">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
                     </div>
                     <span>Sheet</span>
                 </div>
                 
-                <div class="widget-btn" onclick="location.reload()">
+                <div class="widget-btn" onclick="event.stopPropagation(); location.reload()">
                     <div class="widget-icon-circle">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
                     </div>
@@ -420,22 +444,79 @@
             </div>
         </div>
         <!-- END WIDGET ĐIỀU KHIỂN -->
-        
+
         <div id="bookingList"><div class="loader">Đang tải dữ liệu...</div></div>
+    </div>
 
-        <div class="section-title" id="thong-ke-section" style="margin-top: 40px;">THỐNG KÊ DOANH THU</div>
-        <div style="display: flex; gap: 14px; margin-bottom: 18px;">
-            <select id="filterYear" class="select-filter glass-fx" style="flex: 1;" onchange="updateStatsUI()"><option value="ALL">Tất cả năm</option></select>
-            <select id="filterMonth" class="select-filter glass-fx" style="flex: 1;" onchange="updateStatsUI()">
-                <option value="ALL">Cả năm</option><option value="0">Tháng 1</option><option value="1">Tháng 2</option><option value="2">Tháng 3</option><option value="3">Tháng 4</option><option value="4">Tháng 5</option><option value="5">Tháng 6</option><option value="6">Tháng 7</option><option value="7">Tháng 8</option><option value="8">Tháng 9</option><option value="9">Tháng 10</option><option value="10">Tháng 11</option><option value="11">Tháng 12</option>
-            </select>
-        </div>
+    <!-- MODAL TẠO SỬA LỊCH -->
+    <div class="modal" id="modalForm" onclick="if(event.target === this) closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header"><h3 id="modalTitle">TẠO LỊCH MỚI</h3><span class="close-btn" onclick="closeModal()">✕</span></div>
+            
+            <div id="tab-create" class="tab-panel active">
+                <form id="formCreate" onsubmit="submitCreate(event)">
+                    <div class="form-group"><label>Ngày chụp</label><input type="date" id="c_ngay" class="form-control" required></div>
+                    <div class="form-group"><label>Thời gian (Sáng/Chiều/Tối)</label><input type="text" id="c_thoigian" class="form-control" placeholder="Ví dụ: Sáng 7h"></div>
+                    <div class="form-group"><label>Khách hàng (Tên)</label><input type="text" id="c_khach" class="form-control" required placeholder="Tên khách hàng"></div>
+                    <div class="form-group"><label>Địa điểm chụp</label><input type="text" id="c_diadiem" class="form-control" placeholder="Nơi chụp chính"></div>
+                    
+                    <div class="form-group">
+                        <label>Gói dịch vụ</label>
+                        <select id="c_noidung" class="form-select">
+                            <option value="Phóng Sự Cưới">Phóng Sự Cưới</option><option value="Ăn Hỏi">Ăn Hỏi</option><option value="Chụp Studio">Chụp Studio</option><option value="Sự Kiện">Sự Kiện</option><option value="Tốt Nghiệp">Tốt Nghiệp</option><option value="Kỷ Yếu Đơn">Kỷ Yếu Đơn</option><option value="Kỷ Yếu Nhóm 2">Kỷ Yếu Nhóm 2</option><option value="Kỷ Yếu Nhóm 3">Kỷ Yếu Nhóm 3</option><option value="Khác">Khác</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Giá gói chụp (VNĐ)</label><input type="text" id="c_gia" class="form-control money-input" placeholder="0"></div>
+                    <div class="form-group"><label>Phí đi lại (VNĐ)</label><input type="text" id="c_phi" class="form-control money-input" placeholder="0"></div>
+                    <div class="form-group"><label>Tiền cọc (VNĐ)</label><input type="text" id="c_coc" class="form-control money-input" placeholder="0"></div>
+                    <div class="form-group"><label>Số điện thoại khách (Để gọi)</label><input type="tel" id="c_sdt" class="form-control" placeholder="Ví dụ: 0987654321"></div>
+                    
+                    <div class="form-group"><label>Ghi chú / Timeline</label><textarea id="c_ghichu" class="form-control" rows="3" placeholder="Nhập lịch trình chi tiết..."></textarea></div>
+                    
+                    <div class="form-group"><label>Link Maps (Vị trí)</label><input type="url" id="c_linkmaps" class="form-control" placeholder="https://maps.app.goo.gl/..."></div>
+                    <div style="display:flex; gap:12px;">
+                        <div class="form-group" style="flex:1;"><label>Link FB</label><input type="url" id="c_linkfb" class="form-control" placeholder="https://fb.com/..."></div>
+                        <div class="form-group" style="flex:1;"><label>SĐT Zalo</label><input type="tel" id="c_zalo" class="form-control" placeholder="0987654321"></div>
+                    </div>
+                    <div class="form-group"><label>Link Instagram</label><input type="url" id="c_ig" class="form-control" placeholder="https://instagram.com/..."></div>
+                    <div class="form-group"><label>Link Drive (Bàn giao)</label><input type="url" id="c_linkdrive" class="form-control" placeholder="https://drive.google.com/..."></div>
+                    
+                    <button type="submit" class="btn-submit" id="btnCreate">TẠO LỊCH & ĐỒNG BỘ</button>
+                </form>
+            </div>
 
-        <div class="stats-grid">
-            <div class="stat-card glass-fx"><div class="stat-label">Tổng Doanh Thu</div><div class="stat-value gold" id="totalRevenue">0 đ</div></div>
-            <div class="stat-card glass-fx"><div class="stat-label">Đã Thu Thực Tế</div><div class="stat-value green" id="totalCollected">0 đ</div></div>
-            <div class="stat-card glass-fx"><div class="stat-label">Chưa Thanh Toán</div><div class="stat-value red" id="totalDebt">0 đ</div></div>
-            <div class="stat-card glass-fx"><div class="stat-label">Tổng số Job</div><div class="stat-value" id="totalShows">0</div></div>
+            <div id="tab-edit" class="tab-panel">
+                <form id="formEdit" onsubmit="submitEdit(event)">
+                    <input type="hidden" id="e_rowindex">
+                    <div class="form-group"><label>Ngày chụp</label><input type="date" id="e_ngay" class="form-control" required></div>
+                    <div class="form-group"><label>Thời gian (Sáng/Chiều/Tối)</label><input type="text" id="e_thoigian" class="form-control"></div>
+                    <div class="form-group"><label>Khách hàng (Tên)</label><input type="text" id="e_khach" class="form-control" required></div>
+                    <div class="form-group"><label>Địa điểm chụp</label><input type="text" id="e_diadiem" class="form-control"></div>
+                    
+                    <div class="form-group">
+                        <label>Gói dịch vụ</label>
+                        <select id="e_noidung" class="form-select">
+                            <option value="Phóng Sự Cưới">Phóng Sự Cưới</option><option value="Ăn Hỏi">Ăn Hỏi</option><option value="Chụp Studio">Chụp Studio</option><option value="Sự Kiện">Sự Kiện</option><option value="Tốt Nghiệp">Tốt Nghiệp</option><option value="Kỷ Yếu Đơn">Kỷ Yếu Đơn</option><option value="Kỷ Yếu Nhóm 2">Kỷ Yếu Nhóm 2</option><option value="Kỷ Yếu Nhóm 3">Kỷ Yếu Nhóm 3</option><option value="Khác">Khác</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Giá gói chụp (VNĐ)</label><input type="text" id="e_gia" class="form-control money-input"></div>
+                    <div class="form-group"><label>Phí đi lại (VNĐ)</label><input type="text" id="e_phi" class="form-control money-input"></div>
+                    <div class="form-group"><label>Tiền cọc (VNĐ)</label><input type="text" id="e_coc" class="form-control money-input"></div>
+                    <div class="form-group"><label>Số điện thoại khách (Để gọi)</label><input type="tel" id="e_sdt" class="form-control" placeholder="Ví dụ: 0987654321"></div>
+                    
+                    <div class="form-group"><label>Ghi chú / Timeline</label><textarea id="e_ghichu" class="form-control" rows="3"></textarea></div>
+
+                    <div class="form-group"><label>Link Maps (Vị trí)</label><input type="url" id="e_linkmaps" class="form-control" placeholder="https://maps.app.goo.gl/..."></div>
+                    <div style="display:flex; gap:12px;">
+                        <div class="form-group" style="flex:1;"><label>Link FB</label><input type="url" id="e_linkfb" class="form-control" placeholder="https://fb.com/..."></div>
+                        <div class="form-group" style="flex:1;"><label>SĐT Zalo</label><input type="tel" id="e_zalo" class="form-control" placeholder="0987654321"></div>
+                    </div>
+                    <div class="form-group"><label>Link Instagram</label><input type="url" id="e_ig" class="form-control" placeholder="https://instagram.com/..."></div>
+                    <div class="form-group"><label>Link Drive (Bàn giao)</label><input type="url" id="e_linkdrive" class="form-control" placeholder="https://drive.google.com/..."></div>
+                    
+                    <button type="submit" class="btn-submit" id="btnEdit">LƯU CẬP NHẬT</button>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -443,7 +524,7 @@
         const API_URL = "https://script.google.com/macros/s/AKfycbyxTm4XHr7HF1WujMPs9oWARimjrmkUV50hbV0ko59oj1njSyWg7rQd1T4PryjGbeJm/exec";
         let allValidData = []; let isFirstLoad = true;
 
-        /* ==== MÃ PIN BẢO MẬT: 0901 ==== */
+        /* ==== MÃ PIN BẢO MẬT ĐÃ ĐƯỢC ĐỔI THÀNH 0901 ==== */
         const MASTER_PIN = "0901";
         
         let pendingAction = null;
@@ -460,6 +541,8 @@
         const ICON_EDIT = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:5px; margin-top:-2px"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>`;
         const ICON_DELETE = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:5px; margin-top:-2px"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>`;
         const ICON_CHECK = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px; margin-top:-2px"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+        
+        // ICON DRIVE XỊN SÒ MỚI
         const ICON_DRIVE = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:5px; margin-top:-2px"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path></svg>`;
 
         const FB_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>`;
@@ -537,6 +620,27 @@
             setTimeout(() => { toast.classList.remove('show'); }, 3000);
         }
 
+        // HỆ THỐNG KIỂM TRA ĐÓNG MODAL THÔNG MINH
+        function removeModalOpenClass() {
+            if (document.getElementById('modalForm').style.display !== 'flex' &&
+                document.getElementById('modalSecurity').style.display !== 'flex' &&
+                document.getElementById('modalRestore').style.display !== 'flex' &&
+                document.getElementById('modalStats').style.display !== 'flex') {
+                document.body.classList.remove('modal-open');
+            }
+        }
+
+        // THỐNG KÊ DOANH THU ĐÃ CHUYỂN VÀO MODAL
+        function openStatsModal() {
+            document.body.classList.add('modal-open');
+            document.getElementById('modalStats').style.display = 'flex';
+            updateStatsUI();
+        }
+        function closeStatsModal() {
+            document.getElementById('modalStats').style.display = 'none';
+            removeModalOpenClass();
+        }
+
         function requireSecurity(action, rowIndex) {
             pendingAction = action;
             pendingRowIndex = rowIndex;
@@ -549,9 +653,8 @@
 
         function closeSecurityModal() {
             document.getElementById('modalSecurity').style.display = 'none';
-            if(document.getElementById('modalForm').style.display !== 'flex' && document.getElementById('modalRestore').style.display !== 'flex') {
-                document.body.classList.remove('modal-open');
-            }
+            pendingAction = null; pendingRowIndex = null;
+            removeModalOpenClass();
         }
 
         function verifyPin() {
@@ -559,7 +662,7 @@
             if (pin === MASTER_PIN) {
                 let act = pendingAction; let rIdx = pendingRowIndex;
                 closeSecurityModal();
-                pendingAction = null; pendingRowIndex = null;
+                
                 setTimeout(() => {
                     if (act === 'edit') proceedOpenEditModal(rIdx);
                     else if (act === 'delete') proceedDeleteBooking(rIdx);
@@ -677,9 +780,7 @@
 
         function closeRestoreModal() {
             document.getElementById('modalRestore').style.display = 'none';
-            if(document.getElementById('modalForm').style.display !== 'flex' && document.getElementById('modalSecurity').style.display !== 'flex') {
-                document.body.classList.remove('modal-open');
-            }
+            removeModalOpenClass();
         }
         
         function restoreSingle(id) {
@@ -1031,8 +1132,20 @@
         
         loadData(); 
 
-        function openModal() { document.getElementById('modalTitle').innerText = "TẠO LỊCH MỚI"; document.getElementById('tab-create').classList.add('active'); document.getElementById('tab-edit').classList.remove('active'); document.body.classList.add('modal-open'); document.getElementById('modalForm').style.display = 'flex'; }
-        function closeModal() { document.body.classList.remove('modal-open'); document.getElementById('modalForm').style.display = 'none'; }
+        // FORM TẠO MỚI (LÀM SẠCH NGAY KHI MỞ)
+        function openModal() { 
+            document.getElementById('modalTitle').innerText = "TẠO LỊCH MỚI"; 
+            document.getElementById('tab-create').classList.add('active'); 
+            document.getElementById('tab-edit').classList.remove('active'); 
+            document.body.classList.add('modal-open'); 
+            document.getElementById('modalForm').style.display = 'flex'; 
+            document.getElementById('formCreate').reset();
+        }
+
+        function closeModal() { 
+            document.getElementById('modalForm').style.display = 'none'; 
+            removeModalOpenClass();
+        }
 
         function proceedOpenEditModal(rowIndex) {
             const item = allValidData.find(r => String(r._rowIndex) === String(rowIndex)); 
