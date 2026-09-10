@@ -112,15 +112,18 @@
         }
         body.modal-open { overflow: hidden; position: fixed; width: 100%; height: 100%; }
 
+        /* KHẮC PHỤC TRIỆT ĐỂ OVERLAY VÔ HÌNH CHẶN CẢM ỨNG */
+        .app-bg, .app-overlay { display: none !important; pointer-events: none !important; z-index: -10; }
+
         .toast-msg {
-            display: none;
-            visibility: hidden;
+            display: none !important;
+            visibility: hidden !important;
             position: fixed; top: 85px; left: 50%; transform: translateX(-50%) scale(0.9);
             background: var(--widget-inner-bg); backdrop-filter: blur(20px) saturate(150%); -webkit-backdrop-filter: blur(20px) saturate(150%);
             color: var(--text-main); padding: 12px 24px; border-radius: 30px;
             font-size: 13px; font-weight: 700; z-index: 3000;
             border: 1px solid var(--accent-gold); box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            opacity: 0; pointer-events: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0; pointer-events: none !important; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             text-align: center; white-space: nowrap;
         }
         .toast-msg.show { 
@@ -157,6 +160,7 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+            position: relative; z-index: 20; /* Tách biệt z-index */
         }
         .widget-top-bar {
             background: var(--widget-inner-bg);
@@ -207,10 +211,11 @@
         }
         .widget-btn span { font-size: 10px; font-weight: 700; color: var(--text-main); text-align: center; text-transform: uppercase;}
 
-        .container { position: relative; z-index: 2; width: 100%; padding: 16px; max-width: 580px; margin: 0 auto; padding-bottom: 150px; }
-        
+        .container { position: relative; z-index: 10; width: 100%; padding: 16px; max-width: 580px; margin: 0 auto; padding-bottom: 150px; pointer-events: auto; }
+        #bookingList { position: relative; z-index: 15; pointer-events: auto; }
+
         .year-block, .month-block, .day-block { transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease, margin 0.3s ease; max-height: 8000px; opacity: 1; overflow: hidden; transform-origin: top; }
-        .hidden-step { max-height: 0 !important; opacity: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important; pointer-events: none; border: none !important; }
+        .hidden-step { max-height: 0 !important; opacity: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important; pointer-events: none !important; border: none !important; }
 
         .year-header { padding: 20px 22px; margin: 16px 0 12px 0; border-radius: 24px; color: var(--accent-gold); font-weight: 800; font-size: 17px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; text-transform: uppercase; letter-spacing: 2px; }
         .year-content { display: none; } .year-content.show { display: block; animation: fadeIn 0.3s ease; }
@@ -242,7 +247,7 @@
         .session-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent-gold), transparent); margin-left: 14px; opacity: 0.4; }
 
         .card { border-radius: var(--radius-card); padding: 22px; margin: 0 0 16px 24px; cursor: pointer; transition: transform 0.15s ease; }
-        .card:active { transform: scale(0.985); }
+        .card:active { transform: scale(0.985); opacity: 0.9; }
         .card.search-hidden { display: none !important; }
         
         .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
@@ -316,7 +321,7 @@
 
         .select-filter { width: 100%; padding: 16px 18px; border-radius: 18px; color: var(--text-main); font-size: 15px; font-weight: 700; outline: none; border-color: var(--glass-border); appearance: none; -webkit-appearance: none; background: url('data:image/svg+xml;utf8,<svg fill="%23dfb96e" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>') no-repeat right 14px center; }
 
-        .modal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); justify-content: center; align-items: flex-end; overscroll-behavior: contain; width: 100vw; }
+        .modal { display: none; position: fixed; inset: 0; z-index: 2000; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); justify-content: center; align-items: flex-end; overscroll-behavior: contain; width: 100vw; pointer-events: auto; }
         .modal-content { background: var(--modal-bg); border-top: 1px solid var(--glass-border-top); border-radius: 32px 32px 0 0; width: 100%; max-width: 580px; max-height: 88vh; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; padding: 30px 24px 40px 24px; box-shadow: 0 -20px 60px rgba(0,0,0,0.6); animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } } @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
@@ -363,7 +368,7 @@
     <div class="app-overlay"></div>
 
     <!-- MODAL BẢO MẬT: NHẬP MÃ PIN -->
-    <div class="modal" id="modalSecurity" onclick="if(event.target === this) closeSecurityModal()" style="z-index: 2000;">
+    <div class="modal" id="modalSecurity" onclick="if(event.target === this) closeSecurityModal()">
         <div class="modal-content glass-fx" onclick="event.stopPropagation()" style="max-width: 320px; margin: auto; border-radius: 32px; padding: 30px 24px;">
             <div class="modal-header" style="justify-content: center; margin-bottom: 20px;">
                 <h3 id="securityTitle" style="text-align: center; color: var(--text-main); font-size: 16px;">🔐 XÁC THỰC BẢO MẬT</h3>
@@ -503,6 +508,78 @@
         <div id="bookingList"><div class="loader">Đang tải dữ liệu...</div></div>
     </div>
 
+    <!-- MODAL TẠO SỬA LỊCH -->
+    <div class="modal" id="modalForm" onclick="if(event.target === this) closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header"><h3 id="modalTitle">TẠO LỊCH MỚI</h3><span class="close-btn" onclick="closeModal()">✕</span></div>
+            
+            <div id="tab-create" class="tab-panel active">
+                <form id="formCreate" onsubmit="submitCreate(event)">
+                    <div class="form-group"><label>Ngày chụp</label><input type="date" id="c_ngay" class="form-control" required></div>
+                    <div class="form-group"><label>Thời gian (Sáng/Chiều/Tối)</label><input type="text" id="c_thoigian" class="form-control" placeholder="Ví dụ: Sáng 7h"></div>
+                    <div class="form-group"><label>Khách hàng (Tên)</label><input type="text" id="c_khach" class="form-control" required placeholder="Tên khách hàng"></div>
+                    <div class="form-group"><label>Địa điểm chụp</label><input type="text" id="c_diadiem" class="form-control" placeholder="Nơi chụp chính"></div>
+                    
+                    <div class="form-group">
+                        <label>Gói dịch vụ</label>
+                        <select id="c_noidung" class="form-select">
+                            <option value="Phóng Sự Cưới">Phóng Sự Cưới</option><option value="Ăn Hỏi">Ăn Hỏi</option><option value="Chụp Studio">Chụp Studio</option><option value="Sự Kiện">Sự Kiện</option><option value="Tốt Nghiệp">Tốt Nghiệp</option><option value="Kỷ Yếu Đơn">Kỷ Yếu Đơn</option><option value="Kỷ Yếu Nhóm 2">Kỷ Yếu Nhóm 2</option><option value="Kỷ Yếu Nhóm 3">Kỷ Yếu Nhóm 3</option><option value="Khác">Khác</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Giá gói chụp (VNĐ)</label><input type="text" id="c_gia" class="form-control money-input" placeholder="0"></div>
+                    <div class="form-group"><label>Phí đi lại (VNĐ)</label><input type="text" id="c_phi" class="form-control money-input" placeholder="0"></div>
+                    <div class="form-group"><label>Tiền cọc (VNĐ)</label><input type="text" id="c_coc" class="form-control money-input" placeholder="0"></div>
+                    <div class="form-group"><label>Số điện thoại khách (Để gọi)</label><input type="tel" id="c_sdt" class="form-control" placeholder="Ví dụ: 0987654321"></div>
+                    
+                    <div class="form-group"><label>Ghi chú / Timeline</label><textarea id="c_ghichu" class="form-control" rows="3" placeholder="Nhập lịch trình chi tiết..."></textarea></div>
+                    
+                    <div class="form-group"><label>Link Maps (Vị trí)</label><input type="url" id="c_linkmaps" class="form-control" placeholder="https://maps.app.goo.gl/..."></div>
+                    <div style="display:flex; gap:12px;">
+                        <div class="form-group" style="flex:1;"><label>Link FB</label><input type="url" id="c_linkfb" class="form-control" placeholder="https://fb.com/..."></div>
+                        <div class="form-group" style="flex:1;"><label>SĐT Zalo</label><input type="tel" id="c_zalo" class="form-control" placeholder="0987654321"></div>
+                    </div>
+                    <div class="form-group"><label>Link Instagram</label><input type="url" id="c_ig" class="form-control" placeholder="https://instagram.com/..."></div>
+                    <div class="form-group"><label>Link Drive (Bàn giao)</label><input type="url" id="c_linkdrive" class="form-control" placeholder="https://drive.google.com/..."></div>
+                    
+                    <button type="submit" class="btn-submit" id="btnCreate">TẠO LỊCH & ĐỒNG BỘ</button>
+                </form>
+            </div>
+
+            <div id="tab-edit" class="tab-panel">
+                <form id="formEdit" onsubmit="submitEdit(event)">
+                    <input type="hidden" id="e_rowindex">
+                    <div class="form-group"><label>Ngày chụp</label><input type="date" id="e_ngay" class="form-control" required></div>
+                    <div class="form-group"><label>Thời gian (Sáng/Chiều/Tối)</label><input type="text" id="e_thoigian" class="form-control"></div>
+                    <div class="form-group"><label>Khách hàng (Tên)</label><input type="text" id="e_khach" class="form-control" required></div>
+                    <div class="form-group"><label>Địa điểm chụp</label><input type="text" id="e_diadiem" class="form-control"></div>
+                    
+                    <div class="form-group">
+                        <label>Gói dịch vụ</label>
+                        <select id="e_noidung" class="form-select">
+                            <option value="Phóng Sự Cưới">Phóng Sự Cưới</option><option value="Ăn Hỏi">Ăn Hỏi</option><option value="Chụp Studio">Chụp Studio</option><option value="Sự Kiện">Sự Kiện</option><option value="Tốt Nghiệp">Tốt Nghiệp</option><option value="Kỷ Yếu Đơn">Kỷ Yếu Đơn</option><option value="Kỷ Yếu Nhóm 2">Kỷ Yếu Nhóm 2</option><option value="Kỷ Yếu Nhóm 3">Kỷ Yếu Nhóm 3</option><option value="Khác">Khác</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Giá gói chụp (VNĐ)</label><input type="text" id="e_gia" class="form-control money-input"></div>
+                    <div class="form-group"><label>Phí đi lại (VNĐ)</label><input type="text" id="e_phi" class="form-control money-input"></div>
+                    <div class="form-group"><label>Tiền cọc (VNĐ)</label><input type="text" id="e_coc" class="form-control money-input"></div>
+                    <div class="form-group"><label>Số điện thoại khách (Để gọi)</label><input type="tel" id="e_sdt" class="form-control" placeholder="Ví dụ: 0987654321"></div>
+                    
+                    <div class="form-group"><label>Ghi chú / Timeline</label><textarea id="e_ghichu" class="form-control" rows="3"></textarea></div>
+
+                    <div class="form-group"><label>Link Maps (Vị trí)</label><input type="url" id="e_linkmaps" class="form-control" placeholder="https://maps.app.goo.gl/..."></div>
+                    <div style="display:flex; gap:12px;">
+                        <div class="form-group" style="flex:1;"><label>Link FB</label><input type="url" id="e_linkfb" class="form-control" placeholder="https://fb.com/..."></div>
+                        <div class="form-group" style="flex:1;"><label>SĐT Zalo</label><input type="tel" id="e_zalo" class="form-control" placeholder="0987654321"></div>
+                    </div>
+                    <div class="form-group"><label>Link Instagram</label><input type="url" id="e_ig" class="form-control" placeholder="https://instagram.com/..."></div>
+                    <div class="form-group"><label>Link Drive (Bàn giao)</label><input type="url" id="e_linkdrive" class="form-control" placeholder="https://drive.google.com/..."></div>
+                    
+                    <button type="submit" class="btn-submit" id="btnEdit">LƯU CẬP NHẬT</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbyxTm4XHr7HF1WujMPs9oWARimjrmkUV50hbV0ko59oj1njSyWg7rQd1T4PryjGbeJm/exec";
         let allValidData = []; let isFirstLoad = true;
@@ -551,7 +628,6 @@
                 }
             });
 
-            // Tự động thu gọn các khối rỗng
             document.querySelectorAll('.year-block').forEach(yb => {
                 let hasVisibleCards = Array.from(yb.querySelectorAll('.card')).some(c => c.style.display !== 'none');
                 yb.style.display = hasVisibleCards ? 'block' : 'none';
@@ -583,7 +659,6 @@
             });
             
             if (kw !== '') {
-                // Bung tất cả lịch để xem kết quả
                 document.querySelectorAll('.hidden-step').forEach(el => el.classList.remove('hidden-step'));
                 document.querySelectorAll('.year-content, .month-content, .day-content, .session-content').forEach(el => {
                     el.classList.add('show');
@@ -591,7 +666,7 @@
                 });
                 document.querySelectorAll('.toggle-icon').forEach(icon => icon.style.transform = 'rotate(180deg)');
             } else {
-                restoreUIState(); // Khôi phục trạng thái ban đầu khi xóa tìm kiếm
+                restoreUIState();
             }
         });
 
@@ -945,7 +1020,9 @@
                                 let noteVal = findVal(row, 'ghi chú');
                                 let rawClientName = row['Khách hàng'] || findVal(row, 'khách') || '';
 
-                                let searchString = normalizeStr(rawClientName + ' ' + sdtVal + ' ' + fbVal);
+                                // SANITIZE TRIỆT ĐỂ: KHÔNG CHỨA NGOẶC KÉP, NGOẶC ĐƠN ĐỂ TRÁNH LỖI HTML
+                                let searchString = normalizeStr(rawClientName + ' ' + sdtVal + ' ' + fbVal).replace(/['"]/g, '');
+                                let safeClientName = rawClientName.replace(/['"]/g, '');
 
                                 let socialLinks = '';
                                 if (fbVal) socialLinks += `<a href="${fbVal}" target="_blank" class="social-icon" onclick="event.stopPropagation()">${FB_ICON}</a>`;
@@ -958,7 +1035,7 @@
                                 if (igVal) socialLinks += `<a href="${igVal}" target="_blank" class="social-icon" onclick="event.stopPropagation()">${IG_ICON}</a>`;
 
                                 let clientNameHTML = `<div class="client-name-container">
-                                    <span>${rawClientName}</span>
+                                    <span>${safeClientName}</span>
                                     ${socialLinks ? `<div class="social-links-row">${socialLinks}</div>` : ''}
                                 </div>`;
 
@@ -1030,7 +1107,7 @@
             }
         }
 
-        // TÍNH TOÁN BÁO CÁO THỐNG KÊ CHI TIẾT PRO MAX (VẼ BIỂU ĐỒ %)
+        // TÍNH TOÁN BÁO CÁO THỐNG KÊ CHI TIẾT PRO MAX
         function updateStatsUI() {
             let fYear = document.getElementById('filterYear').value; 
             let fMonth = document.getElementById('filterMonth').value; 
