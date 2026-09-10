@@ -52,6 +52,11 @@
             --divider-line: rgba(0, 0, 0, 0.06);
             --header-bg: rgba(244, 245, 247, 0.75); 
             --logo-filter: invert(1); --radius-card: 22px;
+
+            /* WIDGET VARIABLES */
+            --widget-inner-bg: rgba(255, 255, 255, 0.85);
+            --widget-inner-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            --widget-icon-bg: #f4f5f7;
         }
 
         /* ======== DARK MODE: HOÀN HẢO GIỮ NGUYÊN 100% ======== */
@@ -88,6 +93,11 @@
                 --divider-line: rgba(255, 255, 255, 0.06);
                 --header-bg: rgba(6, 6, 6, 0.7); 
                 --logo-filter: none;
+
+                /* WIDGET VARIABLES */
+                --widget-inner-bg: rgba(45, 45, 42, 0.6);
+                --widget-inner-shadow: 0 4px 10px rgba(0,0,0,0.3);
+                --widget-icon-bg: rgba(255,255,255,0.05);
             }
         }
 
@@ -102,7 +112,6 @@
         }
         body.modal-open { overflow: hidden; position: fixed; width: 100%; height: 100%; }
 
-        /* TOAST THÔNG BÁO */
         .toast-msg {
             position: fixed; top: 85px; left: 50%; transform: translateX(-50%) scale(0.9);
             background: var(--card-bg); backdrop-filter: blur(20px) saturate(150%); -webkit-backdrop-filter: blur(20px) saturate(150%);
@@ -132,16 +141,59 @@
         }
         .glass-fx > * { position: relative; z-index: 1; }
 
-        .header { position: sticky; top: 0; z-index: 50; width: 100%; padding: 14px 20px; background: var(--header-bg); backdrop-filter: blur(40px) saturate(180%); -webkit-backdrop-filter: blur(40px) saturate(180%); border-bottom: 1px solid var(--divider-line); display: flex; justify-content: space-between; align-items: center; }
-        .header img { height: 30px; object-fit: contain; filter: var(--logo-filter); position: relative; z-index: 2;}
-        .status-badge { position: relative; z-index: 2; display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 20px; background: var(--success-bg); color: var(--success-green); font-size: 12px; font-weight: 700; border: 1px solid rgba(48, 209, 88, 0.2); }
-        .status-dot { width: 6px; height: 6px; background: var(--success-green); border-radius: 50%; box-shadow: 0 0 8px var(--success-green); }
+        /* WIDGET ĐIỀU KHIỂN CHUẨN iOS */
+        .ios-widget-container {
+            width: 100%;
+            margin-bottom: 30px;
+            border-radius: 30px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .widget-top-bar {
+            background: var(--widget-inner-bg);
+            border-radius: 20px;
+            padding: 14px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--widget-inner-shadow);
+        }
+        .widget-top-bar-left { display: flex; align-items: center; gap: 10px; }
+        .widget-top-bar-left img { height: 26px; object-fit: contain; filter: var(--logo-filter); }
+        .widget-status {
+            display: flex; align-items: center; justify-content: center;
+            width: 32px; height: 32px; border-radius: 50%;
+            background: var(--success-bg); color: var(--success-green);
+            cursor: pointer; transition: transform 0.2s;
+        }
+        .widget-status:active { transform: scale(0.85); }
+        .widget-actions-row {
+            display: flex; gap: 12px; justify-content: space-between;
+        }
+        .widget-btn {
+            flex: 1; background: var(--widget-inner-bg);
+            border-radius: 20px; padding: 16px 8px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+            box-shadow: var(--widget-inner-shadow);
+            cursor: pointer; transition: transform 0.15s ease, opacity 0.15s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .widget-btn:active { transform: scale(0.92); opacity: 0.8; }
+        .widget-icon-circle {
+            width: 38px; height: 38px; border-radius: 50%;
+            background: var(--widget-icon-bg);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--accent-gold);
+        }
+        .widget-btn span { font-size: 11px; font-weight: 700; color: var(--text-main); text-align: center; }
 
-        .container { position: relative; z-index: 2; width: 100%; padding: 16px; max-width: 580px; margin: 0 auto; padding-bottom: 150px; }
+        .container { position: relative; z-index: 2; width: 100%; padding: 16px; max-width: 580px; margin: 0 auto; padding-bottom: 50px; }
         
         .section-title { font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 14px; text-transform: uppercase; margin-left: 4px; }
 
-        .calendar-swipe-header { text-align: center; margin-bottom: 20px; padding-top: 10px; cursor: pointer; user-select: none; }
+        .calendar-swipe-header { text-align: center; margin-bottom: 20px; margin-top: 10px; cursor: default; user-select: none; }
         .calendar-title-text { font-size: 15px; font-weight: 800; color: var(--accent-gold); letter-spacing: 4px; text-transform: uppercase; text-shadow: 0 0 20px rgba(223, 185, 110, 0.3); }
 
         .year-block, .month-block, .day-block { transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease, margin 0.3s ease; max-height: 8000px; opacity: 1; overflow: hidden; transform-origin: top; }
@@ -233,10 +285,6 @@
 
         .select-filter { width: 100%; padding: 16px 18px; border-radius: 18px; color: var(--text-main); font-size: 15px; font-weight: 700; outline: none; border-color: var(--card-border); appearance: none; -webkit-appearance: none; background: url('data:image/svg+xml;utf8,<svg fill="%23dfb96e" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>') no-repeat right 14px center; }
 
-        .fab { position: fixed; bottom: 32px; right: 24px; width: 60px; height: 60px; background: linear-gradient(135deg, var(--accent-gold), #a38228); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 30px; font-weight: 300; box-shadow: 0 12px 30px rgba(197, 155, 39, 0.4); cursor: pointer; z-index: 80; border: 1px solid rgba(255,255,255,0.4); }
-        @media (prefers-color-scheme: dark) { .fab { color: #000; box-shadow: 0 12px 30px rgba(223, 185, 110, 0.3); border-color: rgba(255,255,255,0.2);} }
-        .fab:active { transform: scale(0.92); }
-
         .modal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); justify-content: center; align-items: flex-end; overscroll-behavior: contain; width: 100vw; }
         .modal-content { background: var(--modal-bg); border-top: 1px solid var(--card-border-top); border-radius: 32px 32px 0 0; width: 100%; max-width: 580px; max-height: 88vh; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; padding: 30px 24px 40px 24px; box-shadow: 0 -20px 60px rgba(0,0,0,0.6); animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } } @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -263,7 +311,6 @@
         
         .loader { text-align: center; padding: 50px; color: var(--accent-gold); font-weight: 700; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; }
 
-        /* DANH SÁCH QUẢN LÝ LỊCH ẨN */
         .hidden-item-row {
             display: flex; justify-content: space-between; align-items: center;
             padding: 14px 18px; margin-bottom: 12px; border-radius: 16px;
@@ -311,19 +358,53 @@
     </div>
 
     <div class="container">
-        <div class="header glass-fx" style="border-radius: 26px; margin-bottom: 26px;">
-            <img src="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png" alt="ChuToan Foto Logo">
-            <div class="status-badge"><span class="status-dot"></span> Đã kết nối</div>
+        <!-- WIDGET ĐIỀU KHIỂN CHUẨN iOS -->
+        <div class="ios-widget-container glass-fx">
+            <div class="widget-top-bar" onclick="openModal()">
+                <div class="widget-top-bar-left">
+                    <img src="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png" alt="ChuToan Foto Logo">
+                    <span style="font-weight:700; font-size:15px; color:var(--text-main)">Tạo lịch chụp mới</span>
+                </div>
+                <div class="widget-status" onclick="event.stopPropagation(); location.reload();">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </div>
+            </div>
+            <div class="widget-actions-row">
+                <div class="widget-btn" onclick="openModal()">
+                    <div class="widget-icon-circle">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    </div>
+                    <span>Tạo Lịch</span>
+                </div>
+                <div class="widget-btn" onclick="openHiddenManager()">
+                    <div class="widget-icon-circle">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    </div>
+                    <span>Lịch Ẩn</span>
+                </div>
+                <div class="widget-btn" onclick="document.getElementById('thong-ke-section').scrollIntoView({behavior: 'smooth'})">
+                    <div class="widget-icon-circle">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                    </div>
+                    <span>Thống Kê</span>
+                </div>
+                <div class="widget-btn" onclick="location.reload()">
+                    <div class="widget-icon-circle">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                    </div>
+                    <span>Làm Mới</span>
+                </div>
+            </div>
         </div>
+        <!-- END WIDGET ĐIỀU KHIỂN -->
 
         <div class="calendar-swipe-header" id="swipeHandle">
-            <div class="calendar-title-text">LỊCH CHỤP</div>
-            <div style="font-size:10px; font-weight:600; color:var(--text-muted); margin-top:4px;">Chạm vào đây để xem lịch đang ẩn</div>
+            <div class="calendar-title-text">DANH SÁCH LỊCH CHỤP</div>
         </div>
         
         <div id="bookingList"><div class="loader">Đang tải dữ liệu...</div></div>
 
-        <div class="section-title" style="margin-top: 40px;">THỐNG KÊ DOANH THU</div>
+        <div class="section-title" id="thong-ke-section" style="margin-top: 40px;">THỐNG KÊ DOANH THU</div>
         <div style="display: flex; gap: 14px; margin-bottom: 18px;">
             <select id="filterYear" class="select-filter glass-fx" style="flex: 1;" onchange="updateStatsUI()"><option value="ALL">Tất cả năm</option></select>
             <select id="filterMonth" class="select-filter glass-fx" style="flex: 1;" onchange="updateStatsUI()">
@@ -339,7 +420,7 @@
         </div>
     </div>
 
-    <div class="fab glass-fx" style="border-radius: 50%;" onclick="openModal()">+</div>
+    <!-- NÚT FAB CŨ ĐÃ BỊ LOẠI BỎ VÌ ĐÃ CÓ WIDGET -->
 
     <div class="modal" id="modalForm" onclick="if(event.target === this) closeModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
@@ -416,9 +497,7 @@
         const API_URL = "https://script.google.com/macros/s/AKfycbyxTm4XHr7HF1WujMPs9oWARimjrmkUV50hbV0ko59oj1njSyWg7rQd1T4PryjGbeJm/exec";
         let allValidData = []; let isFirstLoad = true;
 
-        /* ==== THIẾT LẬP MÃ PIN BẢO MẬT Ở ĐÂY ==== */
-        const MASTER_PIN = "0901";
-        
+        const MASTER_PIN = "6868";
         let pendingAction = null;
         let pendingRowIndex = null;
 
@@ -445,7 +524,6 @@
             setTimeout(() => { toast.classList.remove('show'); }, 3000);
         }
 
-        // --- HỆ THỐNG BẢO MẬT ĐÃ ĐƯỢC FIX LỖI ---
         function requireSecurity(action, rowIndex) {
             pendingAction = action;
             pendingRowIndex = rowIndex;
@@ -466,33 +544,19 @@
         function verifyPin() {
             let pin = document.getElementById('securityPin').value;
             if (pin === MASTER_PIN) {
-                // LƯU LẠI HÀNH ĐỘNG VÀO BIẾN TẠM TRƯỚC KHI ĐÓNG MODAL
-                let act = pendingAction;
-                let rIdx = pendingRowIndex;
-                
+                let act = pendingAction; let rIdx = pendingRowIndex;
                 closeSecurityModal();
-                
-                // Giải phóng biến gốc
-                pendingAction = null;
-                pendingRowIndex = null;
-                
-                // Thực thi hành động dựa trên biến tạm
+                pendingAction = null; pendingRowIndex = null;
                 setTimeout(() => {
-                    if (act === 'edit') {
-                        proceedOpenEditModal(rIdx);
-                    } else if (act === 'delete') {
-                        proceedDeleteBooking(rIdx);
-                    } else if (act === 'pay') {
-                        proceedMarkPaid(rIdx);
-                    }
-                }, 50); // Chờ 50ms để giao diện đóng mượt mà trước khi mở bảng khác
+                    if (act === 'edit') proceedOpenEditModal(rIdx);
+                    else if (act === 'delete') proceedDeleteBooking(rIdx);
+                    else if (act === 'pay') proceedMarkPaid(rIdx);
+                }, 50); 
             } else {
                 document.getElementById('securityError').innerText = 'Sai mật khẩu!';
-                document.getElementById('securityPin').value = '';
-                document.getElementById('securityPin').focus();
+                document.getElementById('securityPin').value = ''; document.getElementById('securityPin').focus();
             }
         }
-        // -------------------------
 
         let pressTimer;
         function startLongPress(e, monthBlockId, labelText) {
@@ -562,7 +626,7 @@
             }
         }
 
-        document.getElementById('swipeHandle').addEventListener('click', function() {
+        function openHiddenManager() {
             let hiddenBlocks = document.querySelectorAll('.hidden-step');
             if (hiddenBlocks.length === 0) {
                 showToast("Hiện không có lịch nào đang bị ẩn.");
@@ -596,7 +660,7 @@
             container.innerHTML = html;
             document.body.classList.add('modal-open'); 
             document.getElementById('modalRestore').style.display = 'flex';
-        });
+        }
 
         function closeRestoreModal() {
             document.getElementById('modalRestore').style.display = 'none';
@@ -616,7 +680,7 @@
                     closeRestoreModal();
                     showToast("Đã khôi phục toàn bộ lịch ẩn.");
                 } else {
-                    document.getElementById('swipeHandle').click();
+                    openHiddenManager();
                     showToast("Đã hiển thị lại lịch.");
                 }
             }
@@ -948,7 +1012,6 @@
         function openModal() { document.getElementById('modalTitle').innerText = "TẠO LỊCH MỚI"; document.getElementById('tab-create').classList.add('active'); document.getElementById('tab-edit').classList.remove('active'); document.body.classList.add('modal-open'); document.getElementById('modalForm').style.display = 'flex'; }
         function closeModal() { document.body.classList.remove('modal-open'); document.getElementById('modalForm').style.display = 'none'; }
 
-        // BẢN THỰC THI SỬA LỊCH
         function proceedOpenEditModal(rowIndex) {
             const item = allValidData.find(r => String(r._rowIndex) === String(rowIndex)); 
             if (!item) {
@@ -992,7 +1055,6 @@
 
         document.querySelectorAll('.money-input').forEach(input => { input.addEventListener('input', function(e) { let value = e.target.value.replace(/\D/g, ''); e.target.value = value !== '' ? new Intl.NumberFormat('vi-VN').format(value) : ''; }); });
 
-        // BẢN THỰC THI THANH TOÁN
         async function proceedMarkPaid(rowIndex) {
             let item = allValidData.find(r => String(r._rowIndex) === String(rowIndex));
             if (!item) return;
@@ -1026,7 +1088,6 @@
             fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).then(() => silentFetchData());
         }
 
-        // BẢN THỰC THI XÓA LỊCH
         async function proceedDeleteBooking(rowIndex) {
             let item = allValidData.find(r => String(r._rowIndex) === String(rowIndex));
             if (!item) return;
