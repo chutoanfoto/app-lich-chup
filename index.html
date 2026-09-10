@@ -101,35 +101,17 @@
             }
         }
 
-        /* KHẮC PHỤC LỖI SAFARI HIT-TEST: TUYỆT ĐỐI KHÔNG DÙNG OVERFLOW-X: HIDDEN TRÊN HTML/BODY */
-        html { 
-            background-color: var(--bg-base); 
-        }
+        /* NỀN CỐ ĐỊNH CHỐNG MẢNG TRẮNG ĐÁY MÀN HÌNH */
+        html { background-color: var(--bg-base); min-height: 100vh; }
         body { 
-            margin: 0; padding: 0; 
+            margin: 0; padding: 0; width: 100vw; max-width: 100%; overflow-x: hidden; overscroll-behavior-x: none; 
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif; 
-            background-color: transparent; 
-            color: var(--text-main); 
-            min-height: 100vh;
+            background-color: var(--bg-base); color: var(--text-main); min-height: 100vh;
         }
         body.modal-open { overflow: hidden; position: fixed; width: 100%; height: 100%; }
 
-        /* NỀN CỐ ĐỊNH CHỐNG MẢNG TRẮNG */
-        .app-bg { 
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
-            background-color: var(--bg-base); 
-            background-image: var(--bg-mesh); 
-            background-size: cover; 
-            background-position: center; 
-            z-index: -2; 
-            pointer-events: none;
-        }
-        .app-overlay { 
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
-            background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.1) 100%); 
-            z-index: -1; 
-            pointer-events: none;
-        }
+        .app-bg { position: fixed; inset: 0; background-color: var(--bg-base); background-image: var(--bg-mesh); background-size: cover; background-position: center; z-index: -2; pointer-events: none;}
+        .app-overlay { position: fixed; inset: 0; background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.1) 100%); z-index: -1; pointer-events: none;}
 
         .toast-msg {
             display: none !important; visibility: hidden !important;
@@ -145,7 +127,7 @@
             display: block !important; visibility: visible !important; opacity: 1 !important; transform: translateX(-50%) scale(1); 
         }
 
-        /* LÕI KÍNH (LIQUID GLASS) CHUẨN MỰC CHỐNG LỖI SAFARI */
+        /* LÕI KÍNH LIQUID GLASS (1 LỚP DUY NHẤT CHỐNG LIỆT CẢM ỨNG SAFARI) */
         .glass-fx { 
             background-color: var(--glass-bg);
             background-image: var(--glass-shine); 
@@ -156,13 +138,12 @@
             border-left-color: var(--glass-border-left);
             box-shadow: var(--glass-shadow); 
             border-radius: inherit;
-            position: relative;
         }
 
         /* WIDGET ĐIỀU KHIỂN CHUẨN iOS */
         .ios-widget-container {
             width: 100%; margin-bottom: 24px; border-radius: 30px; padding: 16px;
-            display: flex; flex-direction: column; gap: 12px;
+            display: flex; flex-direction: column; gap: 12px; position: relative; z-index: 50; 
         }
         .widget-top-bar {
             background: var(--widget-inner-bg); border-radius: 20px; padding: 10px 14px;
@@ -190,6 +171,7 @@
             flex: 1; background: var(--widget-inner-bg); border-radius: 18px; padding: 14px 4px;
             display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
             box-shadow: var(--widget-inner-shadow); cursor: pointer; transition: transform 0.15s ease, opacity 0.15s;
+            -webkit-tap-highlight-color: transparent;
         }
         .widget-btn:active { transform: scale(0.92); opacity: 0.8; }
         .widget-icon-circle {
@@ -198,9 +180,10 @@
         }
         .widget-btn span { font-size: 10px; font-weight: 700; color: var(--text-main); text-align: center; text-transform: uppercase;}
 
-        .container { width: 100%; padding: 16px; max-width: 580px; margin: 0 auto; padding-bottom: 100px; }
+        .container { position: relative; z-index: 10; width: 100%; padding: 16px; max-width: 580px; margin: 0 auto; padding-bottom: 150px; pointer-events: auto;}
+        #bookingList { position: relative; z-index: 60; pointer-events: auto; }
 
-        .year-block, .month-block, .day-block { transition: max-height 0.4s ease, opacity 0.3s ease, margin 0.3s ease; max-height: 8000px; opacity: 1; transform-origin: top;}
+        .year-block, .month-block, .day-block { transition: max-height 0.4s ease, opacity 0.3s ease, margin 0.3s ease; max-height: 8000px; opacity: 1; transform-origin: top; pointer-events: auto;}
         .hidden-step { max-height: 0 !important; opacity: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important; pointer-events: none !important; border: none !important; overflow: hidden !important;}
 
         .year-header { padding: 20px 22px; margin: 16px 0 12px 0; border-radius: 24px; color: var(--accent-gold); font-weight: 800; font-size: 17px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; text-transform: uppercase; letter-spacing: 2px; }
@@ -225,7 +208,7 @@
         .session-divider:active span { transform: scale(0.95); }
         .session-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent-gold), transparent); margin-left: 14px; opacity: 0.4; }
 
-        .card { border-radius: var(--radius-card); padding: 22px; margin: 0 0 16px 24px; cursor: pointer; transition: transform 0.15s ease; }
+        .card { border-radius: var(--radius-card); padding: 22px; margin: 0 0 16px 24px; cursor: pointer; transition: transform 0.15s ease; pointer-events: auto;}
         .card:active { transform: scale(0.985); }
         .card.search-hidden { display: none !important; }
         
@@ -278,7 +261,8 @@
 
         /* CSS TÙY CHỈNH CHO MODAL THỐNG KÊ CHI TIẾT PRO MAX */
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
-        .stat-card { border-radius: 22px; padding: 20px; display: flex; flex-direction: column; justify-content: center;}
+        .stat-card { border-radius: 22px; padding: 20px; display: flex; flex-direction: column; justify-content: center; transition: transform 0.1s ease;}
+        .stat-card.clickable-card:active { transform: scale(0.96); opacity: 0.8; }
         .stat-label { font-size: 11px; font-weight: 800; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;}
         .stat-value { font-size: 20px; font-weight: 800; letter-spacing: -0.3px; line-height: 1.2;}
         .stat-value.gold { color: var(--accent-gold); text-shadow: 0 0 15px rgba(223, 185, 110, 0.4); } 
@@ -300,7 +284,7 @@
 
         .select-filter { width: 100%; padding: 16px 18px; border-radius: 18px; color: var(--text-main); font-size: 15px; font-weight: 700; outline: none; border-color: var(--glass-border); appearance: none; -webkit-appearance: none; background: url('data:image/svg+xml;utf8,<svg fill="%23dfb96e" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>') no-repeat right 14px center; }
 
-        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 2000; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); justify-content: center; align-items: flex-end; }
+        .modal { display: none; position: fixed; inset: 0; z-index: 2000; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); justify-content: center; align-items: flex-end; overscroll-behavior: contain; width: 100vw; pointer-events: auto; }
         .modal-content { background: var(--modal-bg); border-top: 1px solid var(--glass-border-top); border-radius: 32px 32px 0 0; width: 100%; max-width: 580px; max-height: 88vh; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; padding: 30px 24px 40px 24px; box-shadow: 0 -20px 60px rgba(0,0,0,0.6); animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } } @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
@@ -346,7 +330,6 @@
     
     <div id="appToast" class="toast-msg"></div>
 
-    <!-- MODAL BẢO MẬT: NHẬP MÃ PIN -->
     <div class="modal" id="modalSecurity" onclick="if(event.target === this) closeSecurityModal()">
         <div class="modal-content glass-fx" onclick="event.stopPropagation()" style="max-width: 320px; margin: auto; border-radius: 32px; padding: 30px 24px;">
             <div class="modal-header" style="justify-content: center; margin-bottom: 20px;">
@@ -360,7 +343,6 @@
         </div>
     </div>
 
-    <!-- MODAL QUẢN LÝ LỊCH ẨN -->
     <div class="modal" id="modalRestore" onclick="if(event.target === this) closeRestoreModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <div class="modal-header">
@@ -372,7 +354,6 @@
         </div>
     </div>
 
-    <!-- MODAL THỐNG KÊ DOANH THU CHUYÊN SÂU PRO MAX -->
     <div class="modal" id="modalStats" onclick="if(event.target === this) closeStatsModal()">
         <div class="modal-content glass-fx" onclick="event.stopPropagation()">
             <div class="modal-header">
@@ -387,7 +368,6 @@
                 </select>
             </div>
 
-            <!-- THANH TIẾN ĐỘ THU TIỀN -->
             <div class="progress-container">
                 <div class="progress-header">
                     <span>Tiến độ thu nợ</span>
@@ -400,12 +380,17 @@
 
             <div class="stats-grid" style="margin-bottom: 20px;">
                 <div class="stat-card glass-fx" style="border: 1px solid var(--divider-line);"><div class="stat-label">Tổng Doanh Thu</div><div class="stat-value gold" id="totalRevenue">0 đ</div></div>
-                <div class="stat-card glass-fx" style="border: 1px solid var(--divider-line);"><div class="stat-label">Đã Thu Thực Tế</div><div class="stat-value green" id="totalCollected">0 đ</div></div>
+                <div class="stat-card glass-fx clickable-card" style="border: 1px solid var(--divider-line); cursor: pointer;" onclick="toggleCollectionDetails()">
+                    <div class="stat-label">Đã Thu Thực Tế <span id="toggleColIcon" style="display:inline-block; transition: transform 0.2s; margin-left:2px;">▼</span></div>
+                    <div class="stat-value green" id="totalCollected">0 đ</div>
+                </div>
                 <div class="stat-card glass-fx" style="border: 1px solid var(--divider-line);"><div class="stat-label">Chưa Thanh Toán</div><div class="stat-value red" id="totalDebt">0 đ</div></div>
                 <div class="stat-card glass-fx" style="border: 1px solid var(--divider-line);"><div class="stat-label">Tổng số Job (KH)</div><div class="stat-value" id="totalShows">0</div></div>
             </div>
+            
+            <div id="collectionDetailsContainer" style="display: none; margin-bottom: 24px; animation: fadeIn 0.3s ease;">
+                </div>
 
-            <!-- CHỈ SỐ CHI TIẾT ĐÃ ĐƯỢC CHUYỂN SANG ICON VECTOR -->
             <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 12px; margin-top: 10px; text-transform: uppercase; display: flex; align-items: center;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px; margin-top:-2px"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg> 
                 Chỉ số mở rộng
@@ -421,21 +406,17 @@
                 </div>
             </div>
 
-            <!-- CƠ CẤU GÓI CHỤP THÔNG MINH CÓ BIỂU ĐỒ ĐÃ CHUYỂN SANG ICON VECTOR -->
             <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 12px; text-transform: uppercase; display: flex; align-items: center;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px; margin-top:-2px"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
                 CƠ CẤU GÓI CHỤP
             </div>
             <div class="service-list-container" id="serviceBreakdownList">
-                <!-- Danh sách gói chụp sẽ hiện ở đây -->
-            </div>
+                </div>
         </div>
     </div>
 
     <div class="container">
-        <!-- WIDGET ĐIỀU KHIỂN CHUẨN iOS -->
         <div class="ios-widget-container glass-fx" style="margin-top: 10px;">
-            <!-- THANH TÌM KIẾM LIVE SEARCH KHÔNG DẤU -->
             <div class="widget-top-bar">
                 <div class="widget-top-bar-left">
                     <img src="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png" alt="ChuToan Foto Logo">
@@ -446,7 +427,6 @@
                 </div>
             </div>
             
-            <!-- HÀNG 5 NÚT CHỨC NĂNG CÓ NÚT SHEET -->
             <div class="widget-actions-row">
                 <div class="widget-btn" onclick="event.stopPropagation(); openModal()">
                     <div class="widget-icon-circle">
@@ -467,7 +447,7 @@
                     <span>Thống Kê</span>
                 </div>
                 
-                <div class="widget-btn" onclick="event.stopPropagation(); window.open('https://docs.google.com/spreadsheets/d/1zb3LCIylD1MlADhoOTJGGY3q3yfA5dH5uX1KQRUklsA/edit?usp=sharing', '_blank')">
+                <div class="widget-btn" onclick="event.stopPropagation(); window.location.href='https://docs.google.com/spreadsheets/d/1zb3LCIylD1MlADhoOTJGGY3q3yfA5dH5uX1KQRUklsA/edit?usp=sharing'">
                     <div class="widget-icon-circle">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
                     </div>
@@ -482,12 +462,9 @@
                 </div>
             </div>
         </div>
-        <!-- END WIDGET ĐIỀU KHIỂN -->
-
         <div id="bookingList"><div class="loader">Đang tải dữ liệu...</div></div>
     </div>
 
-    <!-- MODAL TẠO SỬA LỊCH -->
     <div class="modal" id="modalForm" onclick="if(event.target === this) closeModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <div class="modal-header"><h3 id="modalTitle">TẠO LỊCH MỚI</h3><span class="close-btn" onclick="closeModal()">✕</span></div>
@@ -587,7 +564,7 @@
         const ZALO_ICON = `<span style="background:#0068FF; color:#fff; font-size:10px; font-weight:800; padding:0 6px; border-radius:5px; height:18px; line-height:18px; display:inline-block;">Zalo</span>`;
         const IG_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" fill="url(#ig-grad)"><defs><linearGradient id="ig-grad" x1="2" y1="2" x2="22" y2="22"><stop offset="0%" stop-color="#f09433"/><stop offset="25%" stop-color="#e6683c"/><stop offset="50%" stop-color="#dc2743"/><stop offset="75%" stop-color="#cc2366"/><stop offset="100%" stop-color="#bc1888"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="url(#ig-grad)" stroke-width="2"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="url(#ig-grad)" stroke-width="2"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="url(#ig-grad)" stroke-width="2"></line></svg>`;
 
-        // === THUẬT TOÁN TÌM KIẾM TIẾNG VIỆT KHÔNG DẤU (SIÊU TỐC) ===
+        // === THUẬT TOÁN TÌM KIẾM TIẾNG VIỆT KHÔNG DẤU (SIÊU TỐC & AN TOÀN) ===
         function normalizeStr(str) {
             if(!str) return '';
             return str.toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase();
@@ -846,6 +823,18 @@
             showToast("Đã khôi phục toàn bộ lịch ẩn.");
         }
 
+        function toggleCollectionDetails() {
+            let container = document.getElementById('collectionDetailsContainer');
+            let icon = document.getElementById('toggleColIcon');
+            if (container.style.display === 'none') {
+                container.style.display = 'block';
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                container.style.display = 'none';
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
         function parseNum(val) { if (val === undefined || val === null) return 0; let str = String(val).replace(/\D/g, ''); return parseInt(str, 10) || 0; }
         function formatMoney(num) { return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(parseNum(num)); }
         function formatInputMoney(num) { let n = parseNum(num); return n === 0 ? '' : new Intl.NumberFormat('vi-VN').format(n); }
@@ -1088,27 +1077,7 @@
             }
         }
 
-        function toggleSection(id, headerEl, isCard = false) {
-            const el = document.getElementById(id);
-            if (el) {
-                el.classList.toggle('show');
-                if (!isCard) { const icon = headerEl.querySelector('.toggle-icon'); icon.style.transform = el.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)'; }
-                setTimeout(saveUIState, 100);
-            }
-        }
-
-        function toggleSession(id, headerEl) {
-            const el = document.getElementById(id);
-            if (el) {
-                el.classList.toggle('collapsed');
-                const icon = headerEl.querySelector('.toggle-icon'); 
-                if (icon) {
-                    icon.style.transform = el.classList.contains('collapsed') ? 'rotate(0deg)' : 'rotate(180deg)';
-                }
-                setTimeout(saveUIState, 100);
-            }
-        }
-
+        // TÍNH TOÁN BÁO CÁO THỐNG KÊ CHI TIẾT + LẬP DANH SÁCH "ĐÃ THU"
         function updateStatsUI() {
             let fYear = document.getElementById('filterYear').value; 
             let fMonth = document.getElementById('filterMonth').value; 
@@ -1116,6 +1085,7 @@
             
             let nameMap = {}; 
             let serviceMap = {}; 
+            let collectedArr = []; // Mảng lưu trữ chi tiết các khoản đã thu
             
             allValidData.forEach(row => {
                 let dObj = row._dateObj; let matchY = true, matchM = true;
@@ -1130,14 +1100,29 @@
                     let conLai = parseNum(findVal(row, 'còn lại'));
                     let pkgName = findVal(row, 'nội dung') || 'Khác';
                     
-                    tRev += (gia + phi); tPaid += (coc + tt); tDebt += conLai; tTravelFee += phi;
+                    let thuThucTe = coc + tt;
+
+                    tRev += (gia + phi); tPaid += thuThucTe; tDebt += conLai; tTravelFee += phi;
                     
                     if (!serviceMap[pkgName]) serviceMap[pkgName] = { count: 0, revenue: 0 };
                     serviceMap[pkgName].count += 1;
                     serviceMap[pkgName].revenue += (gia + phi);
 
-                    let rawName = row['Khách hàng'] || findVal(row, 'khách') || "";
-                    let clientName = rawName.toString().trim().toLowerCase().replace(/\s+/g, ' ');
+                    let rawName = (row['Khách hàng'] || findVal(row, 'khách') || "Khách hàng").toString().trim();
+                    let displayDate = dObj ? formatDateDisplay(dObj) : (findVal(row, 'ngày') || 'Không rõ ngày');
+
+                    // Nếu có doanh thu thực tế, đưa vào mảng chi tiết
+                    if (thuThucTe > 0) {
+                        collectedArr.push({
+                            name: rawName,
+                            date: displayDate,
+                            pkg: pkgName,
+                            amount: thuThucTe,
+                            dObj: dObj
+                        });
+                    }
+                    
+                    let clientName = rawName.toLowerCase().replace(/\s+/g, ' ');
                     
                     let rawPhone = findVal(row, 'sđt') || findVal(row, 'điện thoại') || row['SĐT'] || "";
                     let phoneNum = rawPhone.toString().replace(/\D/g, '');
@@ -1179,6 +1164,30 @@
             document.getElementById('collectionPercent').innerText = collectionRate + "%";
             document.getElementById('collectionBar').style.width = collectionRate + "%";
 
+            // XỬ LÝ KHUNG CHI TIẾT "ĐÃ THU THỰC TẾ"
+            collectedArr.sort((a,b) => (b.dObj ? b.dObj.getTime() : 0) - (a.dObj ? a.dObj.getTime() : 0));
+            let collectionHtml = `<div style="font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 12px; margin-top: 4px; text-transform: uppercase; display: flex; align-items: center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px; margin-top:-2px"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg> CHI TIẾT DÒNG TIỀN VÀO</div><div class="service-list-container">`;
+
+            if(collectedArr.length === 0) {
+                collectionHtml += `<div style="text-align:center; font-size:12px; color:var(--text-muted); padding:10px;">Chưa có khoản thu nào trong thời gian này</div>`;
+            } else {
+                collectedArr.forEach(item => {
+                    collectionHtml += `
+                    <div class="service-item" style="padding: 12px 16px;">
+                        <div style="display:flex; justify-content: space-between; align-items:center;">
+                            <div class="service-info" style="gap:2px;">
+                                <span class="service-name" style="font-size:14px;">${item.name}</span>
+                                <span class="service-count">${item.date} • ${item.pkg}</span>
+                            </div>
+                            <span class="service-revenue" style="color: var(--success-green); font-size: 14px;">+${formatMoney(item.amount)}</span>
+                        </div>
+                    </div>`;
+                });
+            }
+            collectionHtml += `</div>`;
+            document.getElementById('collectionDetailsContainer').innerHTML = collectionHtml;
+
+            // VẼ BIỂU ĐỒ PRO MAX CHO TỪNG GÓI DỊCH VỤ
             let sortedServices = Object.keys(serviceMap).sort((a, b) => serviceMap[b].revenue - serviceMap[a].revenue);
             let serviceHtml = '';
             sortedServices.forEach(pkg => {
