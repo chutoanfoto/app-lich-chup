@@ -101,20 +101,26 @@
             }
         }
 
+        /* NỀN CỐ ĐỊNH XÓA LỖI REPANT TRÊN SAFARI */
+        .app-bg-fixed {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--bg-base);
+            background-image: var(--bg-mesh);
+            background-size: cover;
+            background-position: center;
+            z-index: -100;
+            pointer-events: none;
+        }
+
         html, body { 
             margin: 0; padding: 0; width: 100vw; max-width: 100%; overflow-x: hidden; overscroll-behavior-x: none; 
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif; 
-            background-color: var(--bg-base);
-            background-image: var(--bg-mesh);
-            background-attachment: fixed;
-            background-size: cover;
             color: var(--text-main); min-height: 100vh; -webkit-tap-highlight-color: transparent; 
         }
         body.modal-open { overflow: hidden; position: fixed; width: 100%; height: 100%; }
 
         .toast-msg {
-            display: none !important;
-            visibility: hidden !important;
+            display: none !important; visibility: hidden !important;
             position: fixed; top: 85px; left: 50%; transform: translateX(-50%) scale(0.9);
             background: var(--widget-inner-bg); backdrop-filter: blur(20px) saturate(150%); -webkit-backdrop-filter: blur(20px) saturate(150%);
             color: var(--text-main); padding: 12px 24px; border-radius: 30px;
@@ -124,52 +130,32 @@
             text-align: center; white-space: nowrap;
         }
         .toast-msg.show { 
-            display: block !important; 
-            visibility: visible !important; 
-            opacity: 1 !important; 
-            transform: translateX(-50%) scale(1); 
+            display: block !important; visibility: visible !important; opacity: 1 !important; transform: translateX(-50%) scale(1); 
         }
 
-        /* FIX LỖI CẢM ỨNG SAFARI: ĐÃ XÓA BỎ transform: translateZ(0) & overflow: hidden */
+        /* FIX TUYỆT ĐỐI LỖI CHẠM (HIT-TEST BUG) CỦA iOS SAFARI: Gộp hình nền và viền, xóa ::before */
         .glass-fx { 
-            background: var(--glass-bg); 
-            backdrop-filter: blur(35px) saturate(200%); 
-            -webkit-backdrop-filter: blur(35px) saturate(200%); 
+            background-image: var(--glass-shine);
+            background-color: var(--glass-bg); 
+            backdrop-filter: blur(25px) saturate(200%); 
+            -webkit-backdrop-filter: blur(25px) saturate(200%); 
             border: 1px solid var(--glass-border); 
             border-top-color: var(--glass-border-top);
             border-left-color: var(--glass-border-left);
             box-shadow: var(--glass-shadow); 
-            position: relative;
-            border-radius: inherit; 
+            border-radius: inherit;
         }
-        .glass-fx::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: var(--glass-shine); pointer-events: none; z-index: 0; border-radius: inherit;
-        }
-        .glass-fx > * { position: relative; z-index: 1; }
 
         /* WIDGET ĐIỀU KHIỂN CHUẨN iOS */
         .ios-widget-container {
-            width: 100%;
-            margin-bottom: 24px;
-            border-radius: 30px;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+            width: 100%; margin-bottom: 24px; border-radius: 30px; padding: 16px;
+            display: flex; flex-direction: column; gap: 12px;
         }
         .widget-top-bar {
-            background: var(--widget-inner-bg);
-            border-radius: 20px;
-            padding: 10px 14px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: var(--widget-inner-shadow);
+            background: var(--widget-inner-bg); border-radius: 20px; padding: 10px 14px;
+            display: flex; justify-content: space-between; align-items: center; box-shadow: var(--widget-inner-shadow);
         }
-        .widget-top-bar-left { 
-            display: flex; align-items: center; flex: 1; margin-right: 12px; gap: 10px;
-        }
+        .widget-top-bar-left { display: flex; align-items: center; flex: 1; margin-right: 12px; gap: 10px; }
         .widget-top-bar-left img { height: 26px; object-fit: contain; filter: var(--logo-filter); flex-shrink: 0; }
         
         #liveSearch {
@@ -187,30 +173,24 @@
         }
         .widget-search-btn:active { transform: scale(0.85); }
         
-        .widget-actions-row {
-            display: flex; gap: 10px; justify-content: space-between;
-        }
+        .widget-actions-row { display: flex; gap: 10px; justify-content: space-between; }
         .widget-btn {
-            flex: 1; background: var(--widget-inner-bg);
-            border-radius: 18px; padding: 14px 4px;
+            flex: 1; background: var(--widget-inner-bg); border-radius: 18px; padding: 14px 4px;
             display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
-            box-shadow: var(--widget-inner-shadow);
-            cursor: pointer; transition: transform 0.15s ease, opacity 0.15s;
+            box-shadow: var(--widget-inner-shadow); cursor: pointer; transition: transform 0.15s ease, opacity 0.15s;
             -webkit-tap-highlight-color: transparent;
         }
         .widget-btn:active { transform: scale(0.92); opacity: 0.8; }
         .widget-icon-circle {
-            width: 36px; height: 36px; border-radius: 50%;
-            background: var(--widget-icon-bg);
-            display: flex; align-items: center; justify-content: center;
-            color: var(--accent-gold);
+            width: 36px; height: 36px; border-radius: 50%; background: var(--widget-icon-bg);
+            display: flex; align-items: center; justify-content: center; color: var(--accent-gold);
         }
         .widget-btn span { font-size: 10px; font-weight: 700; color: var(--text-main); text-align: center; text-transform: uppercase;}
 
         .container { width: 100%; padding: 16px; max-width: 580px; margin: 0 auto; padding-bottom: 150px; }
 
-        .year-block, .month-block, .day-block { transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease, margin 0.3s ease; max-height: 8000px; opacity: 1; overflow: hidden; transform-origin: top;}
-        .hidden-step { max-height: 0 !important; opacity: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important; pointer-events: none !important; border: none !important; }
+        .year-block, .month-block, .day-block { transition: max-height 0.4s ease, opacity 0.3s ease, margin 0.3s ease; max-height: 8000px; opacity: 1; transform-origin: top;}
+        .hidden-step { max-height: 0 !important; opacity: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important; pointer-events: none !important; border: none !important; overflow: hidden !important;}
 
         .year-header { padding: 20px 22px; margin: 16px 0 12px 0; border-radius: 24px; color: var(--accent-gold); font-weight: 800; font-size: 17px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; text-transform: uppercase; letter-spacing: 2px; }
         .year-content { display: none; } .year-content.show { display: block; animation: fadeIn 0.3s ease; }
@@ -227,16 +207,9 @@
         .session-content { display: block; overflow: hidden; animation: fadeIn 0.3s ease; }
         .session-content.collapsed { display: none; }
         .session-divider span { 
-            display: inline-flex; align-items: center; 
-            background: var(--badge-bg); 
-            padding: 8px 20px; 
-            border-radius: 30px; 
-            color: var(--accent-gold); 
-            border: var(--badge-border); 
-            box-shadow: var(--badge-shadow); 
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); 
-            position: relative; z-index: 2;
-            transition: transform 0.15s ease;
+            display: inline-flex; align-items: center; background: var(--badge-bg); padding: 8px 20px; border-radius: 30px; 
+            color: var(--accent-gold); border: var(--badge-border); box-shadow: var(--badge-shadow); 
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); transition: transform 0.15s ease;
         }
         .session-divider:active span { transform: scale(0.95); }
         .session-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent-gold), transparent); margin-left: 14px; opacity: 0.4; }
@@ -357,6 +330,8 @@
 </head>
 <body>
 
+    <div class="app-bg-fixed"></div>
+
     <div id="appToast" class="toast-msg"></div>
 
     <!-- MODAL BẢO MẬT: NHẬP MÃ PIN -->
@@ -418,7 +393,7 @@
                 <div class="stat-card glass-fx" style="border: 1px solid var(--divider-line);"><div class="stat-label">Tổng số Job (KH)</div><div class="stat-value" id="totalShows">0</div></div>
             </div>
 
-            <!-- CHỈ SỐ CHI TIẾT ĐÃ ĐƯỢC CHUYỂN SANG ICON VECTOR -->
+            <!-- CHỈ SỐ CHI TIẾT -->
             <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 12px; margin-top: 10px; text-transform: uppercase; display: flex; align-items: center;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px; margin-top:-2px"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg> 
                 Chỉ số mở rộng
@@ -434,7 +409,7 @@
                 </div>
             </div>
 
-            <!-- CƠ CẤU GÓI CHỤP THÔNG MINH CÓ BIỂU ĐỒ ĐÃ CHUYỂN SANG ICON VECTOR -->
+            <!-- CƠ CẤU GÓI CHỤP THÔNG MINH CÓ BIỂU ĐỒ -->
             <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 12px; text-transform: uppercase; display: flex; align-items: center;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px; margin-top:-2px"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
                 CƠ CẤU GÓI CHỤP
@@ -459,7 +434,7 @@
                 </div>
             </div>
             
-            <!-- HÀNG 5 NÚT CHỨC NĂNG CÓ NÚT SHEET -->
+            <!-- HÀNG 5 NÚT CHỨC NĂNG -->
             <div class="widget-actions-row">
                 <div class="widget-btn" onclick="event.stopPropagation(); openModal()">
                     <div class="widget-icon-circle">
@@ -603,7 +578,7 @@
         // === THUẬT TOÁN TÌM KIẾM TIẾNG VIỆT KHÔNG DẤU (SIÊU TỐC) ===
         function normalizeStr(str) {
             if(!str) return '';
-            return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase();
+            return str.toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase();
         }
 
         document.getElementById('liveSearch').addEventListener('input', function(e) {
@@ -611,7 +586,7 @@
             
             document.querySelectorAll('.card').forEach(card => {
                 let searchData = card.getAttribute('data-search');
-                if (searchData.includes(kw)) {
+                if (searchData && searchData.includes(kw)) {
                     card.style.display = 'block';
                     card.classList.remove('search-hidden');
                 } else {
@@ -620,7 +595,6 @@
                 }
             });
 
-            // Tự động thu gọn các khối rỗng
             document.querySelectorAll('.year-block').forEach(yb => {
                 let hasVisibleCards = Array.from(yb.querySelectorAll('.card')).some(c => c.style.display !== 'none');
                 yb.style.display = hasVisibleCards ? 'block' : 'none';
@@ -652,7 +626,6 @@
             });
             
             if (kw !== '') {
-                // Bung tất cả lịch để xem kết quả
                 document.querySelectorAll('.hidden-step').forEach(el => el.classList.remove('hidden-step'));
                 document.querySelectorAll('.year-content, .month-content, .day-content, .session-content').forEach(el => {
                     el.classList.add('show');
@@ -660,7 +633,7 @@
                 });
                 document.querySelectorAll('.toggle-icon').forEach(icon => icon.style.transform = 'rotate(180deg)');
             } else {
-                restoreUIState(); // Khôi phục trạng thái ban đầu khi xóa tìm kiếm
+                restoreUIState();
             }
         });
 
@@ -1014,7 +987,6 @@
                                 let noteVal = findVal(row, 'ghi chú');
                                 let rawClientName = (row['Khách hàng'] || findVal(row, 'khách') || '').toString();
 
-                                // SANITIZE TRIỆT ĐỂ: KHÔNG CHỨA NGOẶC KÉP, NGOẶC ĐƠN ĐỂ TRÁNH LỖI HTML
                                 let searchString = normalizeStr(rawClientName + ' ' + sdtVal + ' ' + fbVal).replace(/['"]/g, '');
                                 let safeClientName = rawClientName.replace(/['"]/g, '');
 
