@@ -16,14 +16,14 @@
 
     <title>ChuToan Foto - Quản Lý Lịch Chụp</title>
     <style>
-        *, *::before, *::after { box-sizing: border-box; }
-
-        /* LỆNH THẦN THÁNH CHỮA BỆNH LIỆT CẢM ỨNG TRÊN iOS SAFARI */
-        [onclick] {
-            cursor: pointer;
-            touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent;
+        /* ÉP BUỘC CHẠM LÀ NHẬN LỆNH (CHỐNG LỖI HIT-TEST CỦA SAFARI) */
+        *, *::before, *::after { 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent; 
         }
+        
+        /* CHẶN SVGs VÀ ẢNH CƯỚP ĐIỂM CHẠM CỦA NÚT BẤM */
+        svg, img { pointer-events: none; }
 
         /* ======== LIGHT MODE: TRUE LIQUID GLASS ======== */
         :root {
@@ -57,7 +57,6 @@
             
             --btn-secondary-bg: rgba(255, 255, 255, 0.8); --btn-secondary-text: #141414;
             --divider-line: rgba(0, 0, 0, 0.06);
-            --header-bg: rgba(244, 245, 247, 0.75); 
             --logo-filter: invert(1); --radius-card: 22px;
 
             --widget-inner-bg: rgba(255, 255, 255, 0.85);
@@ -65,7 +64,7 @@
             --widget-icon-bg: #f4f5f7;
         }
 
-        /* ======== DARK MODE: HOÀN HẢO ======== */
+        /* ======== DARK MODE ======== */
         @media (prefers-color-scheme: dark) {
             :root {
                 --bg-base: #060606; 
@@ -97,7 +96,6 @@
                 
                 --btn-secondary-bg: rgba(255, 255, 255, 0.08); --btn-secondary-text: #dfb96e;
                 --divider-line: rgba(255, 255, 255, 0.06);
-                --header-bg: rgba(6, 6, 6, 0.7); 
                 --logo-filter: none;
 
                 --widget-inner-bg: rgba(45, 45, 42, 0.6);
@@ -106,24 +104,21 @@
             }
         }
 
-        /* NỀN CỐ ĐỊNH CHỐNG MẢNG TRẮNG, KHÔNG DÙNG THẺ ẢO GÂY LỖI CẢM ỨNG */
+        /* NỀN CỐ ĐỊNH CHỐNG MẢNG TRẮNG, GỘP LỚP ĐỂ CHỐNG LỖI CẢM ỨNG */
         html, body { 
             margin: 0; padding: 0; width: 100%; min-height: 100vh;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif; 
             color: var(--text-main); 
-            background: var(--bg-base);
-            -webkit-text-size-adjust: 100%;
+            background-color: var(--bg-base);
+            background-image: var(--bg-mesh);
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
         }
-        body::before {
-            content: ""; position: fixed; inset: 0;
-            background-color: var(--bg-base); background-image: var(--bg-mesh);
-            background-size: cover; background-position: center;
-            z-index: -1; pointer-events: none;
-        }
-        body.modal-open { overflow: hidden; position: fixed; width: 100%; height: 100%; }
+        body.modal-open { overflow: hidden; height: 100vh; }
 
         .toast-msg {
-            display: none; visibility: hidden;
+            display: none !important; visibility: hidden !important;
             position: fixed; top: 85px; left: 50%; transform: translateX(-50%) scale(0.9);
             background: var(--widget-inner-bg); backdrop-filter: blur(20px) saturate(150%); -webkit-backdrop-filter: blur(20px) saturate(150%);
             color: var(--text-main); padding: 12px 24px; border-radius: 30px;
@@ -136,7 +131,7 @@
             display: block !important; visibility: visible !important; opacity: 1 !important; transform: translateX(-50%) scale(1); 
         }
 
-        /* LÕI KÍNH LIQUID GLASS (ÉP THÀNH 1 LỚP DUY NHẤT CHỐNG LIỆT CẢM ỨNG) */
+        /* LÕI KÍNH LIQUID GLASS: AN TOÀN TUYỆT ĐỐI CHO SAFARI */
         .glass-fx { 
             background-color: var(--glass-bg);
             background-image: var(--glass-shine); 
@@ -171,7 +166,8 @@
         .widget-search-btn {
             display: flex; align-items: center; justify-content: center;
             width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
-            background: var(--tag-gold-bg); color: var(--accent-gold);
+            background: var(--tag-gold-bg); color: var(--accent-gold); cursor: pointer; transition: transform 0.2s;
+            touch-action: manipulation;
         }
         .widget-search-btn:active { transform: scale(0.85); }
         
@@ -179,7 +175,8 @@
         .widget-btn {
             flex: 1; background: var(--widget-inner-bg); border-radius: 18px; padding: 14px 4px;
             display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
-            box-shadow: var(--widget-inner-shadow); transition: transform 0.15s ease, opacity 0.15s;
+            box-shadow: var(--widget-inner-shadow); cursor: pointer; transition: transform 0.15s ease, opacity 0.15s;
+            text-decoration: none; touch-action: manipulation;
         }
         .widget-btn:active { transform: scale(0.92); opacity: 0.8; }
         .widget-icon-circle {
@@ -188,9 +185,16 @@
         }
         .widget-btn span { font-size: 10px; font-weight: 700; color: var(--text-main); text-align: center; text-transform: uppercase;}
 
-        .container { position: relative; z-index: 10; width: 100%; padding: 16px; max-width: 580px; margin: 0 auto; padding-bottom: 150px; }
+        .container { position: relative; z-index: 10; width: 100%; padding: 16px; max-width: 580px; margin: 0 auto; padding-bottom: 150px;}
 
-        /* LỆNH HỦY BOUNCE / MAX-HEIGHT GÂY LỖI HITBOX SAFARI */
+        /* BẢO MẬT CẢM ỨNG 100%: XÓA SẠCH MAX-HEIGHT GÂY TRAN NGẬP BỘ NHỚ TRÊN SAFARI */
+        .year-header, .month-header, .day-header, .session-divider, .card {
+            cursor: pointer;
+            touch-action: manipulation;
+            position: relative;
+            z-index: 20;
+        }
+
         .year-block, .month-block, .day-block { opacity: 1; transition: opacity 0.3s ease; }
         .hidden-step { display: none !important; }
 
@@ -206,7 +210,7 @@
         .toggle-icon { transition: transform 0.25s ease; font-size: 11px; opacity: 0.8; }
 
         .session-divider { display: flex; align-items: center; margin: 26px 0 18px 24px; font-size: 11.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; }
-        .session-content { display: block; overflow: hidden; animation: fadeIn 0.3s ease; }
+        .session-content { display: block; animation: fadeIn 0.3s ease; }
         .session-content.collapsed { display: none; }
         .session-divider span { 
             display: inline-flex; align-items: center; background: var(--badge-bg); padding: 8px 20px; border-radius: 30px; 
@@ -226,7 +230,7 @@
         .client-name { font-size: 18px; font-weight: 800; color: var(--text-main); margin: 0; letter-spacing: -0.2px; }
         
         .social-links-row { display: flex; align-items: center; gap: 8px; }
-        .social-icon { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; transition: opacity 0.2s; opacity: 1;}
+        .social-icon { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; transition: opacity 0.2s; opacity: 1; pointer-events: auto;}
         .social-icon:active { opacity: 0.5; }
 
         .tag-package { display: inline-block; padding: 5px 12px; border-radius: 8px; font-size: 11.5px; font-weight: 700; background: var(--tag-gold-bg); color: var(--tag-gold-text); border: 1px solid rgba(223, 185, 110, 0.2); }
@@ -237,7 +241,7 @@
         .location-value { font-weight: 500; }
 
         .action-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; margin-bottom: 18px; }
-        .action-link-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 11.5px; font-weight: 700; border: 1px solid var(--divider-line); background: var(--btn-secondary-bg); color: var(--text-main); text-transform: uppercase; letter-spacing: 0.5px;}
+        .action-link-btn { pointer-events: auto; display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 11.5px; font-weight: 700; border: 1px solid var(--divider-line); background: var(--btn-secondary-bg); color: var(--text-main); text-transform: uppercase; letter-spacing: 0.5px;}
         @media (prefers-color-scheme: dark) { .action-link-btn { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.05); } }
 
         .money-bar { background: rgba(0,0,0,0.02); border-radius: 14px; border: 1px solid var(--divider-line); padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.01); }
@@ -257,11 +261,12 @@
         .card-btns-row { display: flex; gap: 12px; margin-top: 18px; position: relative; z-index: 10;}
         
         .btn-card-action { 
+            pointer-events: auto;
             flex: 1; display:flex; justify-content:center; align-items:center; 
             padding: 14px 0; border: none; border-radius: 12px; font-size: 12.5px; 
-            font-weight: 700; text-transform: uppercase; 
+            font-weight: 700; cursor: pointer; text-transform: uppercase; 
             letter-spacing: 0.5px; border: 1px solid var(--divider-line); 
-            transition: all 0.15s ease;
+            transition: all 0.15s ease; touch-action: manipulation;
         }
         .btn-card-action:active { transform: scale(0.92); opacity: 0.8; filter: brightness(0.9); }
         .btn-edit { background: var(--btn-secondary-bg); color: var(--accent-gold); } 
@@ -298,7 +303,7 @@
 
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; } 
         .modal-header h3 { margin: 0; font-size: 20px; color: var(--accent-gold); font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase;} 
-        .close-btn { font-size: 16px; color: var(--text-main); width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: var(--btn-secondary-bg); border-radius: 50%; border: 1px solid var(--divider-line); }
+        .close-btn { font-size: 16px; color: var(--text-main); cursor: pointer; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: var(--btn-secondary-bg); border-radius: 50%; border: 1px solid var(--divider-line); }
         
         .tab-panel { display: none; } .tab-panel.active { display: block; }
         .form-group { margin-bottom: 18px; display: flex; flex-direction: column; width: 100%; } 
@@ -309,11 +314,11 @@
         .form-control:focus, .form-select:focus { border-color: var(--accent-gold) !important; box-shadow: 0 0 0 3px rgba(223, 185, 110, 0.15), inset 0 2px 5px rgba(0,0,0,0.02); }
         textarea.form-control { resize: vertical; min-height: 90px; font-family: inherit; line-height: 1.5; } 
 
-        .btn-submit { width: 100%; padding: 20px; border: none; border-radius: 16px; font-weight: 800; font-size: 15px; color: #fff; margin-top: 16px; background: linear-gradient(135deg, var(--accent-gold), #997328); box-shadow: 0 8px 25px rgba(197, 155, 39, 0.25); text-transform: uppercase; letter-spacing: 1px; transition: all 0.15s;} 
+        .btn-submit { width: 100%; padding: 20px; border: none; border-radius: 16px; font-weight: 800; font-size: 15px; color: #fff; margin-top: 16px; cursor: pointer; background: linear-gradient(135deg, var(--accent-gold), #997328); box-shadow: 0 8px 25px rgba(197, 155, 39, 0.25); text-transform: uppercase; letter-spacing: 1px; transition: all 0.15s; touch-action: manipulation;} 
         @media (prefers-color-scheme: dark) { .btn-submit { color: #000; } }
         .btn-submit:active { transform: scale(0.98); opacity: 0.8;}
         
-        .btn-pay { display:flex; justify-content:center; align-items:center; background: rgba(39, 174, 96, 0.12); color: var(--success-green); width: 100%; padding: 16px; border: 1px solid rgba(39, 174, 96, 0.3); border-radius: 14px; font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; transition: all 0.15s;} 
+        .btn-pay { pointer-events: auto; display:flex; justify-content:center; align-items:center; background: rgba(39, 174, 96, 0.12); color: var(--success-green); width: 100%; padding: 16px; border: 1px solid rgba(39, 174, 96, 0.3); border-radius: 14px; font-weight: 800; font-size: 14px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: all 0.15s; touch-action: manipulation;} 
         .btn-pay:active { transform: scale(0.96); opacity: 0.8; }
         
         .loader { text-align: center; padding: 50px; color: var(--accent-gold); font-weight: 700; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; }
@@ -321,12 +326,14 @@
         .hidden-item-row {
             display: flex; justify-content: space-between; align-items: center;
             padding: 14px 18px; margin-bottom: 12px; border-radius: 16px;
+            cursor: pointer; touch-action: manipulation;
         }
         .btn-restore {
             background: rgba(39, 174, 96, 0.15); color: var(--success-green);
             border: 1px solid rgba(39, 174, 96, 0.2); padding: 8px 16px; 
             border-radius: 10px; font-weight: 800; font-size: 11.5px; 
-            text-transform: uppercase; transition: transform 0.15s;
+            text-transform: uppercase; cursor: pointer; transition: transform 0.15s;
+            pointer-events: auto; touch-action: manipulation;
         }
         .btn-restore:active { transform: scale(0.9); }
     </style>
@@ -376,7 +383,6 @@
                 </select>
             </div>
 
-            <!-- THANH TIẾN ĐỘ THU TIỀN -->
             <div class="progress-container">
                 <div class="progress-header">
                     <span>Tiến độ thu nợ</span>
@@ -389,8 +395,7 @@
 
             <div class="stats-grid" style="margin-bottom: 20px;">
                 <div class="stat-card glass-fx" style="border: 1px solid var(--divider-line);"><div class="stat-label">Tổng Doanh Thu</div><div class="stat-value gold" id="totalRevenue">0 đ</div></div>
-                <!-- NÚT BẤM XEM CHI TIẾT DÒNG TIỀN -->
-                <div class="stat-card glass-fx clickable-card" style="border: 1px solid var(--divider-line);" onclick="toggleCollectionDetails()">
+                <div class="stat-card glass-fx clickable-card" style="border: 1px solid var(--divider-line); cursor: pointer;" onclick="toggleCollectionDetails()">
                     <div class="stat-label">Đã Thu Thực Tế <span id="toggleColIcon" style="display:inline-block; transition: transform 0.2s; margin-left:2px;">▼</span></div>
                     <div class="stat-value green" id="totalCollected">0 đ</div>
                 </div>
@@ -398,12 +403,9 @@
                 <div class="stat-card glass-fx" style="border: 1px solid var(--divider-line);"><div class="stat-label">Tổng số Job (KH)</div><div class="stat-value" id="totalShows">0</div></div>
             </div>
             
-            <!-- KHUNG HIỂN THỊ CHI TIẾT CÁC KHOẢN ĐÃ THU -->
-            <div id="collectionDetailsContainer" style="display: none; margin-bottom: 24px; animation: fadeIn 0.3s ease;">
-                <!-- Dữ liệu sẽ đổ vào đây -->
-            </div>
+            <!-- KHUNG CHI TIẾT CÁC KHOẢN ĐÃ THU -->
+            <div id="collectionDetailsContainer" style="display: none; margin-bottom: 24px; animation: fadeIn 0.3s ease;"></div>
 
-            <!-- CHỈ SỐ CHI TIẾT -->
             <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 12px; margin-top: 10px; text-transform: uppercase; display: flex; align-items: center;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px; margin-top:-2px"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg> 
                 Chỉ số mở rộng
@@ -419,21 +421,17 @@
                 </div>
             </div>
 
-            <!-- CƠ CẤU GÓI CHỤP THÔNG MINH CÓ BIỂU ĐỒ -->
             <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 12px; text-transform: uppercase; display: flex; align-items: center;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px; margin-top:-2px"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
                 CƠ CẤU GÓI CHỤP
             </div>
-            <div class="service-list-container" id="serviceBreakdownList">
-                <!-- Danh sách gói chụp sẽ hiện ở đây -->
-            </div>
+            <div class="service-list-container" id="serviceBreakdownList"></div>
         </div>
     </div>
 
     <div class="container">
         <!-- WIDGET ĐIỀU KHIỂN CHUẨN iOS -->
         <div class="ios-widget-container glass-fx" style="margin-top: 10px;">
-            <!-- THANH TÌM KIẾM LIVE SEARCH KHÔNG DẤU -->
             <div class="widget-top-bar">
                 <div class="widget-top-bar-left">
                     <img src="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png" alt="ChuToan Foto Logo">
@@ -444,35 +442,35 @@
                 </div>
             </div>
             
-            <!-- HÀNG 5 NÚT CHỨC NĂNG -->
             <div class="widget-actions-row">
-                <div class="widget-btn" onclick="event.stopPropagation(); openModal()">
+                <div class="widget-btn" onclick="openModal()">
                     <div class="widget-icon-circle">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                     </div>
                     <span>Tạo Lịch</span>
                 </div>
-                <div class="widget-btn" onclick="event.stopPropagation(); openHiddenManager()">
+                <div class="widget-btn" onclick="openHiddenManager()">
                     <div class="widget-icon-circle">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                     </div>
                     <span>Lịch Ẩn</span>
                 </div>
-                <div class="widget-btn" onclick="event.stopPropagation(); openStatsModal()">
+                <div class="widget-btn" onclick="openStatsModal()">
                     <div class="widget-icon-circle">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
                     </div>
                     <span>Thống Kê</span>
                 </div>
                 
-                <div class="widget-btn" onclick="event.stopPropagation(); window.open('https://docs.google.com/spreadsheets/d/1zb3LCIylD1MlADhoOTJGGY3q3yfA5dH5uX1KQRUklsA/edit?usp=sharing', '_blank')">
+                <!-- NÚT SHEET ĐƯỢC CHUYỂN THÀNH THẺ <a> ĐỂ MỞ APP TRỰC TIẾP TRÊN iOS -->
+                <a class="widget-btn" href="https://docs.google.com/spreadsheets/d/1zb3LCIylD1MlADhoOTJGGY3q3yfA5dH5uX1KQRUklsA/edit?usp=sharing" target="_blank" style="text-decoration: none;">
                     <div class="widget-icon-circle">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
                     </div>
                     <span>Sheet</span>
-                </div>
+                </a>
                 
-                <div class="widget-btn" onclick="event.stopPropagation(); location.reload()">
+                <div class="widget-btn" onclick="location.reload()">
                     <div class="widget-icon-circle">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
                     </div>
@@ -480,6 +478,7 @@
                 </div>
             </div>
         </div>
+        <!-- END WIDGET ĐIỀU KHIỂN -->
 
         <div id="bookingList"><div class="loader">Đang tải dữ liệu...</div></div>
     </div>
@@ -581,7 +580,7 @@
         const ICON_MINI_STAR = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px; color: var(--accent-gold);"><circle cx="12" cy="12" r="10"></circle></svg>`;
 
         const FB_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>`;
-        const ZALO_ICON = `<span style="background:#0068FF; color:#fff; font-size:10px; font-weight:800; padding:0 6px; border-radius:5px; height:18px; line-height:18px; display:inline-block;">Zalo</span>`;
+        const ZALO_ICON = `<span style="background:#0068FF; color:#fff; font-size:10px; font-weight:800; padding:0 6px; border-radius:5px; height:18px; line-height:18px; display:inline-block; pointer-events:none;">Zalo</span>`;
         const IG_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" fill="url(#ig-grad)"><defs><linearGradient id="ig-grad" x1="2" y1="2" x2="22" y2="22"><stop offset="0%" stop-color="#f09433"/><stop offset="25%" stop-color="#e6683c"/><stop offset="50%" stop-color="#dc2743"/><stop offset="75%" stop-color="#cc2366"/><stop offset="100%" stop-color="#bc1888"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="url(#ig-grad)" stroke-width="2"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="url(#ig-grad)" stroke-width="2"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="url(#ig-grad)" stroke-width="2"></line></svg>`;
 
         // === THUẬT TOÁN TÌM KIẾM TIẾNG VIỆT KHÔNG DẤU ===
