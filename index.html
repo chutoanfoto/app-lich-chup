@@ -129,18 +129,17 @@
             display: block !important; visibility: visible !important; opacity: 1 !important; transform: translateX(-50%) scale(1); 
         }
 
-        /* ==== LÕI KÍNH LIQUID GLASS (FIX TẬN GỐC LỖI HIT-TEST SAFARI) ==== */
+        /* ==== LÕI KÍNH LIQUID GLASS ==== */
         .glass-fx { 
             position: relative;
-            z-index: 1; /* Tạo không gian render độc lập */
+            z-index: 1;
         }
-        /* Phủ lớp kính mờ ra phía SAU nội dung để không che cảm ứng */
         .glass-fx::before {
             content: '';
             position: absolute;
             inset: 0;
             z-index: -1;
-            pointer-events: none !important; /* Tuyệt đối không chặn chạm */
+            pointer-events: none !important;
             border-radius: inherit;
             background-color: var(--glass-bg);
             background-image: var(--glass-shine); 
@@ -195,10 +194,9 @@
 
         .container { position: relative; z-index: 10; width: 100%; padding: 16px; max-width: 580px; margin: 0 auto; padding-bottom: 150px; }
 
-        /* BẢO MẬT CẢM ỨNG 100% CỦA CÁC LỚP LỊCH */
         .year-header, .month-header, .day-header, .session-divider, .card {
             cursor: pointer;
-            touch-action: manipulation; /* KHÓA ĐIỂM CHẠM */
+            touch-action: manipulation;
         }
 
         .year-block, .month-block, .day-block { opacity: 1; transition: opacity 0.3s ease; }
@@ -277,7 +275,6 @@
         .btn-edit { background: var(--btn-secondary-bg); color: var(--accent-gold); } 
         .btn-delete { background: var(--alert-bg); color: var(--alert-red); border-color: transparent;}
 
-        /* CSS TÙY CHỈNH CHO MODAL THỐNG KÊ CHI TIẾT PRO MAX */
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
         .stat-card { border-radius: 22px; padding: 20px; display: flex; flex-direction: column; justify-content: center; transition: transform 0.1s ease;}
         .stat-card.clickable-card:active { transform: scale(0.96); opacity: 0.8; }
@@ -300,7 +297,6 @@
         .service-count { font-size: 11.5px; font-weight: 600; color: var(--text-muted); }
         .service-revenue { font-size: 15px; font-weight: 800; color: var(--accent-gold); }
 
-        /* FIX CSS CỦA THẺ SELECT ĐỂ KHÔNG BỊ TRONG SUỐT VÔ HÌNH TRÊN iOS */
         .select-filter { 
             width: 100%; padding: 16px 18px; border-radius: 18px; color: var(--text-main); 
             font-size: 15px; font-weight: 700; outline: none; border: 1px solid var(--glass-border); 
@@ -719,7 +715,6 @@
             }
         }
 
-        /* THAY THẾ LONG-PRESS INLINE BẰNG JS ĐỂ CHỐNG LỖI CẢM ỨNG SAFARI */
         let pressTimer;
         function handleTouchStart(monthBlockId, labelText) {
             pressTimer = setTimeout(() => {
@@ -900,7 +895,24 @@
         }
 
         function silentFetchData() {
-            fetch(API_URL).then(res => res.json()).then(data => { localStorage.setItem('chutoanFotoCache', JSON.stringify(data)); }).catch(e => console.log(e));
+            fetch(API_URL)
+                .then(res => res.json())
+                .then(data => {
+                    localStorage.setItem('chutoanFotoCache', JSON.stringify(data));
+                    let validData = data.filter(r => r['Khách hàng'] || findVal(r, 'khách'));
+                    validData.forEach(r => { 
+                        let dateStr = r['Ngày chụp'] || findVal(r, 'ngày'); 
+                        r._dateObj = parseDateCustom(dateStr); 
+                    });
+                    validData.sort((a, b) => { 
+                        if (!a._dateObj) return 1; 
+                        if (!b._dateObj) return -1; 
+                        return a._dateObj - b._dateObj; 
+                    }); 
+                    allValidData = validData;
+                    renderUI(allValidData);
+                })
+                .catch(e => console.log(e));
         }
 
         function renderUI(data) {
@@ -1328,7 +1340,12 @@
             let conLaiKey = Object.keys(item).find(k => k.toLowerCase().includes('còn lại')) || 'Còn lại'; 
             item[conLaiKey] = 0; 
             renderUI(allValidData); 
-            fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: "MARK_PAID", rowIndex: rowIndex }) }).then(() => silentFetchData());
+            fetch(API_URL, { 
+                method: 'POST', 
+                mode: 'no-cors', 
+                headers: { 'Content-Type': 'application/json' }, 
+                body: JSON.stringify({ action: "MARK_PAID", rowIndex: rowIndex, khachHang: name }) 
+            }).then(() => setTimeout(silentFetchData, 800));
         }
 
         async function submitCreate(e) {
@@ -1337,7 +1354,12 @@
             let newItem = { "Ngày chụp": payload.ngayChup, "Thời gian": payload.thoiGian, "Khách hàng": payload.khachHang, "Link Facebook": payload.linkFacebook, "SĐT Zalo": payload.zalo, "Link Instagram": payload.instagram, "Địa điểm": payload.diaDiem, "Link Maps": payload.linkMaps, "Link Drive": payload.linkDrive, "Nội dung": payload.noiDung, "Giá gói": payload.giaGoi, "Phí đi lại": payload.phiDiLai, "Cọc": payload.coc, "Còn lại": (payload.giaGoi + payload.phiDiLai) - payload.coc, "Ghi chú": payload.ghiChu, "SĐT": payload.sdt, "_rowIndex": Date.now() };
             newItem._dateObj = parseDateCustom(payload.ngayChup); allValidData.push(newItem);
             renderUI(allValidData); closeModal(); document.getElementById('formCreate').reset(); btn.innerText = "TẠO LỊCH & ĐỒNG BỘ"; btn.style.opacity = 1; btn.disabled = false;
-            fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).then(() => silentFetchData());
+            fetch(API_URL, { 
+                method: 'POST', 
+                mode: 'no-cors', 
+                headers: { 'Content-Type': 'application/json' }, 
+                body: JSON.stringify(payload) 
+            }).then(() => setTimeout(silentFetchData, 1200));
         }
 
         async function submitEdit(e) {
@@ -1348,7 +1370,12 @@
                 let keys = Object.keys(item); item[keys.find(k=>k.toLowerCase().includes('ngày')) || 'Ngày chụp'] = payload.ngayChup; item[keys.find(k=>k.toLowerCase().includes('thời gian')) || 'Thời gian'] = payload.thoiGian; item[keys.find(k=>k.toLowerCase().includes('khách')) || 'Khách hàng'] = payload.khachHang; item['Link Facebook'] = payload.linkFacebook; item['SĐT Zalo'] = payload.zalo; item['Link Instagram'] = payload.instagram; item[keys.find(k=>k.toLowerCase().includes('địa điểm')) || 'Địa điểm'] = payload.diaDiem; item['Link Maps'] = payload.linkMaps; item['Link Drive'] = payload.linkDrive; item[keys.find(k=>k.toLowerCase().includes('nội dung')) || 'Nội dung'] = payload.noiDung; item[keys.find(k=>k.toLowerCase().includes('giá')) || 'Giá gói'] = payload.giaGoi; item[keys.find(k=>k.toLowerCase().includes('phí')) || 'Phí đi lại'] = payload.phiDiLai; item[keys.find(k=>k.toLowerCase().includes('cọc')) || 'Cọc'] = payload.coc; let tt = parseNum(findVal(item, 'thanh toán thêm')) || 0; item[keys.find(k=>k.toLowerCase().includes('còn lại')) || 'Còn lại'] = (payload.giaGoi + payload.phiDiLai) - (payload.coc + tt); item[keys.find(k=>k.toLowerCase().includes('ghi chú')) || 'Ghi chú'] = payload.ghiChu; item[keys.find(k=>k.toLowerCase().includes('sđt')) || 'SĐT'] = payload.sdt; item._dateObj = parseDateCustom(payload.ngayChup);
             }
             renderUI(allValidData); closeModal(); btn.innerText = "LƯU CẬP NHẬT"; btn.style.opacity = 1; btn.disabled = false;
-            fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).then(() => silentFetchData());
+            fetch(API_URL, { 
+                method: 'POST', 
+                mode: 'no-cors', 
+                headers: { 'Content-Type': 'application/json' }, 
+                body: JSON.stringify(payload) 
+            }).then(() => setTimeout(silentFetchData, 800));
         }
 
         async function proceedDeleteBooking(rowIndex) {
@@ -1360,7 +1387,12 @@
             
             allValidData = allValidData.filter(r => String(r._rowIndex) !== String(rowIndex)); 
             renderUI(allValidData);
-            fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: "DELETE_ROW", rowIndex: rowIndex }) }).then(() => silentFetchData());
+            fetch(API_URL, { 
+                method: 'POST', 
+                mode: 'no-cors', 
+                headers: { 'Content-Type': 'application/json' }, 
+                body: JSON.stringify({ action: "DELETE_ROW", rowIndex: rowIndex, khachHang: name }) 
+            }).then(() => setTimeout(silentFetchData, 800));
         }
     </script>
 </body>
