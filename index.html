@@ -783,12 +783,18 @@
                     <div class="stat-label">Đã Thu Thực Tế <span id="toggleColIcon" style="display:inline-block; transition: transform 0.2s; margin-left:2px;">▼</span></div>
                     <div class="stat-value green" id="totalCollected">0 đ</div>
                 </div>
-                <div class="stat-card glass-fx"><div class="stat-label">Chưa Thanh Toán</div><div class="stat-value red" id="totalDebt">0 đ</div></div>
+                <div class="stat-card glass-fx clickable-card" style="cursor: pointer; touch-action: manipulation;" onclick="toggleDebtDetails()">
+                    <div class="stat-label">Chưa Thanh Toán <span id="toggleDebtIcon" style="display:inline-block; transition: transform 0.2s; margin-left:2px;">▼</span></div>
+                    <div class="stat-value red" id="totalDebt">0 đ</div>
+                </div>
                 <div class="stat-card glass-fx"><div class="stat-label">Tổng số Job (KH)</div><div class="stat-value" id="totalShows">0</div></div>
             </div>
             
             <!-- KHUNG CHI TIẾT CÁC KHOẢN ĐÃ THU -->
             <div id="collectionDetailsContainer" style="display: none; margin-bottom: 24px; animation: fadeIn 0.3s ease;"></div>
+            
+            <!-- KHUNG CHI TIẾT CHƯA THANH TOÁN -->
+            <div id="debtDetailsContainer" style="display: none; margin-bottom: 24px; animation: fadeIn 0.3s ease;"></div>
 
             <!-- CHỈ SỐ CHI TIẾT & CỌC CHỜ CHỤP -->
             <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 12px; margin-top: 10px; text-transform: uppercase; display: flex; align-items: center;">
@@ -922,7 +928,7 @@
         const ICON_MOON = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
         
         // Icon Google Maps chuẩn màu Google
-        const ICON_PIN = `<svg width="15" height="15" viewBox="0 0 48 48" style="margin-right:5px; margin-top:2px; flex-shrink:0"><path fill="#4285F4" d="M38.5 11.7C35.7 7.5 31.1 4.5 25.8 3.5c-1.2-.2-2.4-.3-3.7-.3-6 0-11.4 2.2-15.5 5.8-1.5 1.3-2.8 2.8-4 4.5L24 24.1l14.5-12.4z"/><path fill="#34A853" d="M38.5 11.7l-14.5 12.4 5.6 7.4 8.7-11.7c1-1.6 1.7-3.4 2-5.3.1-.9.1-1.8 0-2.8z"/><path fill="#FBBC05" d="M2.6 13.5C1 16.4.1 19.6.1 23.1c0 3 .6 5.8 1.6 8.3 1.9 4.8 5 9.1 8.8 13.5L24 24.1 2.6 13.5z"/><path fill="#EA4335" d="M10.5 44.9C15 50.4 19.1 54.7 22.1 61.2c.4.8.8 1.8 1.1 2.8.6 1.9 1.6 4 3 4 1.4 0 2.4-2.1 3-4 .3-1 .6-1.9 1.1-2.8 2.1-4.6 4.9-8.4 8.1-12.5L24 24.1l-13.5 20.8z"/></svg>`;
+        const ICON_PIN = `<svg width="15" height="15" viewBox="0 0 256 256" style="margin-right:5px; margin-top:2px; flex-shrink:0"><path d="M128,0a88.1,88.1,0,0,0-88,88c0,75.3,80,161.2,84.7,166.1a4.8,4.8,0,0,0,6.6,0C136,249.2,216,163.3,216,88A88.1,88.1,0,0,0,128,0Z" fill="url(#map-grad)"/><circle cx="128" cy="88" r="40" fill="#212121"/><defs><linearGradient id="map-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#EA4335" /><stop offset="25%" stop-color="#FBBC05" /><stop offset="50%" stop-color="#34A853" /><stop offset="100%" stop-color="#4285F4" /></linearGradient></defs></svg>`;
         
         const ICON_PHONE = `<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="margin-right:6px; flex-shrink:0; margin-top:3px; color:var(--accent-gold);"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>`;
         
@@ -934,7 +940,7 @@
         const ICON_CHECK = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px; margin-top:-2px"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
         
         // Icon Google Drive chuẩn màu Google
-        const ICON_DRIVE = `<svg width="16" height="16" viewBox="0 0 87.3 78" style="margin-right:5px; margin-top:-2px"><path d="m58 78 29.3-50.7H29.2L0 78h58z" fill="#0066da"/><path d="m58 78-29.2-50.7L58 0h29.3L58 78z" fill="#00ac47"/><path d="M0 78 29.2 27.3 58 0 28.8 0 0 50.7 0 78z" fill="#ea4335"/><path d="M29.2 27.3h58L58 78H0l29.2-50.7z" fill="#00832d"/><path d="m28.8 0 29.2 50.7L29.2 78 0 27.3 28.8 0z" fill="#2684fc"/><path d="M58 0 28.8 50.7 58 78h29.3L58 0z" fill="#ffba00"/></svg>`;
+        const ICON_DRIVE = `<svg width="16" height="16" viewBox="0 0 512 512" style="margin-right:5px; margin-top:-2px"><path fill="#FFC107" d="M170.67 341.33 85.33 489.28 0 341.33h170.67z"/><path fill="#1976D2" d="M170.67 341.33H512L426.67 489.28H85.33z"/><path fill="#4CAF50" d="M341.33 45.44 512 341.33 426.67 489.28 256 193.39z"/></svg>`;
         
         const ICON_MINI_STAR = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px; color: var(--accent-gold);"><circle cx="12" cy="12" r="10"></circle></svg>`;
         const FB_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>`;
@@ -1477,6 +1483,18 @@
             }
         }
 
+        function toggleDebtDetails() {
+            let container = document.getElementById('debtDetailsContainer');
+            let icon = document.getElementById('toggleDebtIcon');
+            if (container.style.display === 'none') {
+                container.style.display = 'block';
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                container.style.display = 'none';
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
         function toggleTravelFeeDetails() {
             let container = document.getElementById('travelFeeDetailsContainer');
             let icon = document.getElementById('toggleTravelIcon');
@@ -1711,6 +1729,7 @@
             let nameMap = {}; 
             let serviceMap = {}; 
             let collectedArr = []; 
+            let debtArr = []; 
             let travelFeeArr = [];
             let futureDepositArr = [];
             
@@ -1759,6 +1778,17 @@
                             pkg: pkgName,
                             amount: thuThucTe,
                             label: moneyLabel,
+                            dObj: dObj,
+                            rowIndex: row._rowIndex
+                        });
+                    }
+                    
+                    if (conLai > 0) {
+                        debtArr.push({
+                            name: rawName,
+                            date: displayDate,
+                            pkg: pkgName,
+                            amount: conLai,
                             dObj: dObj,
                             rowIndex: row._rowIndex
                         });
@@ -1837,13 +1867,36 @@
             }
             collectionHtml += `</div>`;
             document.getElementById('collectionDetailsContainer').innerHTML = collectionHtml;
+            
+            // CHI TIẾT "CHƯA THANH TOÁN"
+            debtArr.sort((a,b) => (a.dObj ? a.dObj.getTime() : 0) - (b.dObj ? b.dObj.getTime() : 0));
+            let debtHtml = `<div style="font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 12px; margin-top: 4px; text-transform: uppercase; display: flex; align-items: center;">${ICON_CALENDAR} CHI TIẾT CHƯA THANH TOÁN</div><div class="service-list-container">`;
+
+            if(debtArr.length === 0) {
+                debtHtml += `<div style="text-align:center; font-size:12px; color:var(--text-muted); padding:10px;">Không có khách hàng nào đang nợ</div>`;
+            } else {
+                debtArr.forEach(item => {
+                    debtHtml += `
+                    <div class="service-item clickable-card" style="padding: 12px 16px; cursor: pointer;" onclick="scrollToCard('${item.rowIndex}')">
+                        <div style="display:flex; justify-content: space-between; align-items:center;">
+                            <div class="service-info" style="gap:2px;">
+                                <span class="service-name" style="font-size:14px;">${item.name}</span>
+                                <span class="service-count">${item.date} • ${item.pkg}</span>
+                            </div>
+                            <span class="service-revenue" style="color: var(--alert-red); font-size: 14px;">${formatMoney(item.amount)}</span>
+                        </div>
+                    </div>`;
+                });
+            }
+            debtHtml += `</div>`;
+            document.getElementById('debtDetailsContainer').innerHTML = debtHtml;
 
             // CHI TIẾT "TIỀN CỌC ĐÃ THU"
             futureDepositArr.sort((a,b) => (a.dObj ? a.dObj.getTime() : 0) - (b.dObj ? b.dObj.getTime() : 0));
             let fdHtml = `<div style="font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 12px; margin-top: 4px; text-transform: uppercase; display: flex; align-items: center;">${ICON_CALENDAR} CHI TIẾT TIỀN CỌC ĐÃ THU</div><div class="service-list-container">`;
 
             if(futureDepositArr.length === 0) {
-                fdHtml += `<div style="text-align:center; font-size:12px; color:var(--text-muted); padding:10px;">Không có khách hàng nào đang nợ (chưa tất toán)</div>`;
+                fdHtml += `<div style="text-align:center; font-size:12px; color:var(--text-muted); padding:10px;">Không có khoản cọc nào chưa tất toán</div>`;
             } else {
                 futureDepositArr.forEach(item => {
                     fdHtml += `
