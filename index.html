@@ -100,7 +100,7 @@
                 --accent-gold: #cca53f; 
                 --tag-gold-bg: rgba(204, 165, 63, 0.16); --tag-gold-text: #e2b740;
                 --alert-red: #ff453a; --alert-bg: rgba(255, 69, 58, 0.15);
-                --success-green: #32d74b; --success-bg: rgba(52, 168, 83, 0.15);
+                --success-green: #34A853; --success-bg: rgba(52, 168, 83, 0.15);
                 
                 --modal-bg: rgba(28, 28, 30, 0.95); 
                 --input-bg: rgba(44, 44, 46, 0.7); 
@@ -248,25 +248,23 @@
             align-items: center;
             margin-bottom: 24px;
             padding: 0;
-            width: 100%;
+            gap: 4px;
         }
         .ios-cal-month-title {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 800;
             color: var(--accent-gold);
             text-transform: uppercase;
             display: flex;
             align-items: center;
-            gap: 8px;
-            white-space: nowrap; 
-            overflow: hidden;
-            text-overflow: ellipsis;
+            gap: 6px;
+            white-space: nowrap;
             flex-shrink: 1;
         }
         .ios-cal-month-badge {
             font-size: 11px;
             font-weight: 800;
-            padding: 6px 12px;
+            padding: 4px 8px;
             border-radius: 20px;
             background: var(--tag-gold-bg);
             color: var(--tag-gold-text);
@@ -277,12 +275,12 @@
         .ios-cal-nav {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             flex-shrink: 0;
         }
         .ios-cal-nav-btn {
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             border: 1px solid var(--divider-line);
             background: var(--btn-secondary-bg);
@@ -298,13 +296,13 @@
         }
         .ios-cal-nav-btn:active { transform: scale(0.85); }
         .ios-cal-today-btn {
-            padding: 0 12px;
-            height: 36px;
-            border-radius: 18px;
+            padding: 0 10px;
+            height: 32px;
+            border-radius: 16px;
             border: 1px solid var(--divider-line);
             background: var(--btn-secondary-bg);
             color: var(--text-main);
-            font-size: 11px;
+            font-size: 10.5px;
             font-weight: 800;
             text-transform: uppercase;
             cursor: pointer;
@@ -378,6 +376,7 @@
             position: absolute;
             bottom: 3px;
         }
+        /* Phóng to chấm lịch và phân biệt màu rõ ràng */
         .ios-cal-dot {
             width: 7.5px;
             height: 7.5px;
@@ -412,8 +411,8 @@
             background: var(--tag-gold-bg);
             color: var(--accent-gold);
             border: 1px solid rgba(223, 185, 110, 0.4);
-            padding: 10px 16px;
-            border-radius: 14px;
+            padding: 8px 12px;
+            border-radius: 12px;
             font-size: 11px;
             font-weight: 800;
             text-transform: uppercase;
@@ -485,6 +484,7 @@
                 box-shadow: inset 0 1px 2px rgba(255,255,255,0.08), 0 2px 6px rgba(0,0,0,0.4);
             }
         }
+        /* Khóa chống rớt dòng cho các chữ nút bấm mobile */
         .widget-btn span { font-size: 10px; font-weight: 800; color: var(--text-main); text-align: center; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;}
 
         .container { position: relative; z-index: 10; width: 100%; padding: 16px; max-width: 580px; margin: 0 auto; padding-bottom: 140px; }
@@ -926,7 +926,6 @@
         const ICON_SUNSET = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><path d="M12 3v2M4.9 7.1l1.4 1.4M19.1 7.1l-1.4 1.4M2 17h20M16 17a4 4 0 0 0-8 0"></path></svg>`;
         const ICON_MOON = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
         
-        // Icon Google Maps & Drive thẻ IMG chuẩn link user
         const ICON_PIN = `<img src="https://res.cloudinary.com/uogkte7b/image/upload/v1792472347/Google_Maps_icon__2026.svg.png" width="14" height="14" style="margin-right:4px; margin-top:-2px" alt="Maps">`;
         const ICON_DRIVE = `<img src="https://res.cloudinary.com/uogkte7b/image/upload/v1792472346/Google_Drive_Logo_05.2026.png" width="16" height="16" style="margin-right:5px; margin-top:-2px" alt="Drive">`;
         
@@ -1057,27 +1056,35 @@
             let parentContent = card.closest('.session-content');
             if (parentContent) parentContent.classList.remove('collapsed');
 
-            let dayContent = card.closest('.day-content');
-            if (dayContent) { 
-                dayContent.classList.add('show'); 
-                if(dayContent.previousElementSibling) dayContent.previousElementSibling.querySelector('.toggle-icon').style.transform = 'rotate(180deg)'; 
+            let ybId = card.closest('.year-block').id;
+            let mbId = card.closest('.month-block').id;
+            let dbId = card.closest('.day-block').id;
+
+            let ycId = ybId.replace('yb-', 'yc-');
+            let mcId = mbId.replace('mb-', 'mc-');
+            let dcId = dbId.replace('db-', 'dc-');
+
+            let yearContent = document.getElementById(ycId);
+            if (yearContent) {
+                yearContent.classList.add('show');
+                if(yearContent.previousElementSibling) yearContent.previousElementSibling.querySelector('.toggle-icon').style.transform = 'rotate(180deg)';
             }
 
-            let monthContent = card.closest('.month-content');
-            if (monthContent) { 
-                monthContent.classList.add('show'); 
-                if(monthContent.previousElementSibling) monthContent.previousElementSibling.querySelector('.toggle-icon').style.transform = 'rotate(180deg)'; 
+            let monthContent = document.getElementById(mcId);
+            if (monthContent) {
+                monthContent.classList.add('show');
+                if(monthContent.previousElementSibling) monthContent.previousElementSibling.querySelector('.toggle-icon').style.transform = 'rotate(180deg)';
             }
 
-            let yearContent = card.closest('.year-content');
-            if (yearContent) { 
-                yearContent.classList.add('show'); 
-                if(yearContent.previousElementSibling) yearContent.previousElementSibling.querySelector('.toggle-icon').style.transform = 'rotate(180deg)'; 
+            let dayContent = document.getElementById(dcId);
+            if (dayContent) {
+                dayContent.classList.add('show');
+                if(dayContent.previousElementSibling) dayContent.previousElementSibling.querySelector('.toggle-icon').style.transform = 'rotate(180deg)';
             }
 
-            let yb = card.closest('.year-block'); if(yb) yb.classList.remove('hidden-step');
-            let mb = card.closest('.month-block'); if(mb) mb.classList.remove('hidden-step');
-            let db = card.closest('.day-block'); if(db) db.classList.remove('hidden-step');
+            let yb = document.getElementById(ybId); if(yb) yb.classList.remove('hidden-step');
+            let mb = document.getElementById(mbId); if(mb) mb.classList.remove('hidden-step');
+            let db = document.getElementById(dbId); if(db) db.classList.remove('hidden-step');
 
             if(!contentDiv.classList.contains('show')) {
                 toggleSection(expId, card, true);
@@ -1615,52 +1622,62 @@
                 let iconRotate = (yIndex === 0) ? 'rotate(180deg)' : 'rotate(0deg)';
                 let yearNum = parseInt(yearStr);
 
-                htmlStr += `<div class="year-block" id="yb-${yIndex}" data-year="${yearNum}">
-                            <div class="year-header glass-fx" id="yh-${yIndex}" 
-                             onclick="toggleSection('year-content-${yIndex}', this)"
-                             onpointerdown="handleTouchStart('yb-${yIndex}', 'Năm ${yearStr}')"
+                let ybId = `yb-${yearNum}`;
+                let ycId = `yc-${yearNum}`;
+
+                htmlStr += `<div class="year-block" id="${ybId}" data-year="${yearNum}">
+                            <div class="year-header glass-fx" 
+                             onclick="toggleSection('${ycId}', this)"
+                             onpointerdown="handleTouchStart('${ybId}', 'Năm ${yearStr}')"
                              onpointerup="handleTouchEnd()"
                              onpointercancel="handleTouchEnd()">
                                 <span style="display:flex; align-items:center;">${ICON_CALENDAR} NĂM ${yearStr}</span><span class="toggle-icon" style="transform: ${iconRotate}">▼</span>
-                            </div><div class="year-content ${isYearShow}" id="year-content-${yIndex}">`;
+                            </div><div class="year-content ${isYearShow}" id="${ycId}">`;
                 
                 let mIndex = 0;
                 for (let monthStr in groupedData[yearStr]) {
                     let monthNum = parseInt(monthStr.replace(/\D/g, '')) || 0;
+                    let mbId = `mb-${yearNum}-${monthNum}`;
+                    let mcId = `mc-${yearNum}-${monthNum}`;
                     
-                    htmlStr += `<div class="month-block" id="mb-${yIndex}-${mIndex}" data-year="${yearNum}" data-month="${monthNum}">
-                        <div class="month-header glass-fx" id="mh-${yIndex}-${mIndex}" 
-                             onclick="toggleSection('month-content-${yIndex}-${mIndex}', this)"
-                             onpointerdown="handleTouchStart('mb-${yIndex}-${mIndex}', '${monthStr}')"
+                    htmlStr += `<div class="month-block" id="${mbId}" data-year="${yearNum}" data-month="${monthNum}">
+                        <div class="month-header glass-fx" 
+                             onclick="toggleSection('${mcId}', this)"
+                             onpointerdown="handleTouchStart('${mbId}', '${monthStr}')"
                              onpointerup="handleTouchEnd()"
                              onpointercancel="handleTouchEnd()">
                             <span style="display:flex; align-items:center;">${ICON_CALENDAR} ${monthStr}</span><span class="toggle-icon">▼</span>
                         </div>
-                        <div class="month-content" id="month-content-${yIndex}-${mIndex}">`;
+                        <div class="month-content" id="${mcId}">`;
                     
                     let dIndex = 0;
                     
                     for (let dateStr in groupedData[yearStr][monthStr]) {
                         let dayNum = dateStr.includes('/') ? parseInt(dateStr.split('/')[0]) : 0;
-                        htmlStr += `<div class="day-block" id="db-${yIndex}-${mIndex}-${dIndex}" data-year="${yearNum}" data-month="${monthNum}" data-day="${dayNum}">
-                        <div class="day-header glass-fx" id="dh-${yIndex}-${mIndex}-${dIndex}" 
-                             onclick="toggleSection('day-content-${yIndex}-${mIndex}-${dIndex}', this)"
-                             onpointerdown="handleTouchStart('db-${yIndex}-${mIndex}-${dIndex}', 'Ngày ${dateStr}')"
+                        let dbId = `db-${yearNum}-${monthNum}-${dayNum}`;
+                        let dcId = `dc-${yearNum}-${monthNum}-${dayNum}`;
+                        
+                        htmlStr += `<div class="day-block" id="${dbId}" data-year="${yearNum}" data-month="${monthNum}" data-day="${dayNum}">
+                        <div class="day-header glass-fx" 
+                             onclick="toggleSection('${dcId}', this)"
+                             onpointerdown="handleTouchStart('${dbId}', 'Ngày ${dateStr}')"
                              onpointerup="handleTouchEnd()"
                              onpointercancel="handleTouchEnd()">
                             <span style="display:flex; align-items:center;">${ICON_CALENDAR} ${dateStr}</span><span class="toggle-icon">▼</span>
-                        </div><div class="day-content" id="day-content-${yIndex}-${mIndex}-${dIndex}">`;
+                        </div><div class="day-content" id="${dcId}">`;
                         
                         let sessionsInDay = Object.keys(groupedData[yearStr][monthStr][dateStr]).sort((a, b) => sessionOrder[a] - sessionOrder[b]);
                         
                         let sIndex = 0;
                         sessionsInDay.forEach(session => {
                             let sessionDisplayText = session === 'Chụp 2 Buổi' ? session : `Buổi ${session}`;
+                            let sCode = sessionOrder[session];
+                            let scId = `sc-${yearNum}-${monthNum}-${dayNum}-${sCode}`;
                             
-                            htmlStr += `<div class="session-divider" onclick="toggleSession('sc-${yIndex}-${mIndex}-${dIndex}-${sIndex}', this)">
+                            htmlStr += `<div class="session-divider" onclick="toggleSession('${scId}', this)">
                                 <span>${sessionIcons[session]} ${sessionDisplayText} <i class="toggle-icon" style="display:inline-block; margin-left:6px; transform:rotate(180deg); font-style:normal;">▼</i></span>
                             </div>
-                            <div class="session-content" id="sc-${yIndex}-${mIndex}-${dIndex}-${sIndex}">`;
+                            <div class="session-content" id="${scId}">`;
 
                             groupedData[yearStr][monthStr][dateStr][session].forEach(row => {
                                 htmlStr += buildCardHTML(row, 'expanded');
