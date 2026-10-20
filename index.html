@@ -97,10 +97,10 @@
                 --badge-shadow: 0 8px 20px rgba(0,0,0,0.6), inset 0 1px 0.5px rgba(255,255,255,0.1);
 
                 --text-main: #f5f5f7; --text-muted: #86868b; --text-sub: rgba(240, 240, 240, 0.5);
-                --accent-gold: #cca53f; 
-                --tag-gold-bg: rgba(204, 165, 63, 0.16); --tag-gold-text: #e2b740;
+                --accent-gold: #e2b740; 
+                --tag-gold-bg: rgba(223, 185, 110, 0.16); --tag-gold-text: #e2b740;
                 --alert-red: #ff453a; --alert-bg: rgba(255, 69, 58, 0.15);
-                --success-green: #34A853; --success-bg: rgba(52, 168, 83, 0.15);
+                --success-green: #32d74b; --success-bg: rgba(50, 215, 75, 0.15);
                 
                 --modal-bg: rgba(28, 28, 30, 0.95); 
                 --input-bg: rgba(44, 44, 46, 0.7); 
@@ -246,7 +246,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 24px;
-            padding: 0 4px;
+            padding: 0;
+            gap: 6px;
         }
         .ios-cal-month-title {
             font-size: 20px;
@@ -255,25 +256,29 @@
             text-transform: uppercase;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
+            white-space: nowrap; /* Chống rớt dòng */
         }
         .ios-cal-month-badge {
-            font-size: 12px;
-            font-weight: 700;
-            padding: 6px 14px;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 6px 12px;
             border-radius: 20px;
             background: var(--tag-gold-bg);
             color: var(--tag-gold-text);
             border: none;
+            white-space: nowrap; /* Chống rớt dòng */
+            flex-shrink: 0;
         }
         .ios-cal-nav {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            flex-shrink: 0;
         }
         .ios-cal-nav-btn {
-            width: 38px;
-            height: 38px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             border: 1px solid var(--divider-line);
             background: var(--btn-secondary-bg);
@@ -285,22 +290,25 @@
             transition: transform 0.15s ease;
             touch-action: manipulation;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            flex-shrink: 0;
         }
         .ios-cal-nav-btn:active { transform: scale(0.85); }
         .ios-cal-today-btn {
-            padding: 0 16px;
-            height: 38px;
-            border-radius: 19px;
+            padding: 0 12px;
+            height: 36px;
+            border-radius: 18px;
             border: 1px solid var(--divider-line);
             background: var(--btn-secondary-bg);
             color: var(--text-main);
-            font-size: 12.5px;
+            font-size: 11px;
             font-weight: 800;
             text-transform: uppercase;
             cursor: pointer;
             transition: transform 0.15s ease;
             touch-action: manipulation;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            white-space: nowrap; /* Chống rớt dòng */
+            flex-shrink: 0;
         }
         .ios-cal-today-btn:active { transform: scale(0.9); }
 
@@ -308,10 +316,10 @@
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             text-align: center;
-            font-size: 13.5px;
+            font-size: 13px;
             font-weight: 700;
             color: var(--text-muted);
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             padding-bottom: 8px;
             border-bottom: none;
         }
@@ -354,21 +362,22 @@
         .ios-cal-cell.is-selected {
             background: var(--accent-gold);
             color: #ffffff;
-            box-shadow: 0 4px 15px rgba(204, 165, 63, 0.4);
+            box-shadow: 0 8px 24px rgba(197, 155, 39, 0.4);
             border: none;
         }
         @media (prefers-color-scheme: dark) {
-            .ios-cal-cell.is-selected { color: #ffffff; box-shadow: 0 4px 15px rgba(204, 165, 63, 0.25); }
+            .ios-cal-cell.is-selected { color: #ffffff; box-shadow: 0 8px 24px rgba(223, 185, 110, 0.25); }
         }
         .ios-cal-dots {
             display: flex;
             gap: 4px;
             position: absolute;
-            bottom: 2px;
+            bottom: 3px;
         }
+        /* Phóng to chấm lịch và phân biệt màu rõ ràng */
         .ios-cal-dot {
-            width: 6px;
-            height: 6px;
+            width: 7.5px;
+            height: 7.5px;
             border-radius: 50%;
         }
         .ios-cal-dot.paid { background: #34A853; }
@@ -466,7 +475,8 @@
                 box-shadow: inset 0 1px 2px rgba(255,255,255,0.08), 0 2px 6px rgba(0,0,0,0.4);
             }
         }
-        .widget-btn span { font-size: 11px; font-weight: 800; color: var(--text-main); text-align: center; text-transform: uppercase; letter-spacing: 0.3px;}
+        /* Khóa chống rớt dòng cho các chữ nút bấm mobile */
+        .widget-btn span { font-size: 10px; font-weight: 800; color: var(--text-main); text-align: center; text-transform: uppercase; letter-spacing: 0.3px; white-space: nowrap;}
 
         .container { position: relative; z-index: 10; width: 100%; padding: 16px; max-width: 580px; margin: 0 auto; padding-bottom: 140px; }
 
@@ -697,7 +707,7 @@
             <div class="ios-cal-box glass-fx" id="iosCalTouchArea">
                 <div class="ios-cal-top">
                     <div class="ios-cal-month-title">
-                        <span id="iosCalMonthLabel">THÁNG 10 / 2026</span>
+                        <span id="iosCalMonthLabel">10 / 2026</span>
                         <span class="ios-cal-month-badge" id="iosCalMonthCount">0 lịch</span>
                     </div>
                     <div class="ios-cal-nav">
@@ -1194,7 +1204,8 @@
         }
 
         function renderCalendarView() {
-            document.getElementById('iosCalMonthLabel').innerText = `THÁNG ${calViewMonth + 1} / ${calViewYear}`;
+            // Định dạng lại tiêu đề hiển thị tháng
+            document.getElementById('iosCalMonthLabel').innerText = `${("0" + (calViewMonth + 1)).slice(-2)} / ${calViewYear}`;
 
             let monthBookings = allValidData.filter(r => r._dateObj && r._dateObj.getFullYear() === calViewYear && r._dateObj.getMonth() === calViewMonth);
             document.getElementById('iosCalMonthCount').innerText = `${monthBookings.length} lịch`;
@@ -1260,21 +1271,6 @@
                 cardsContainer.innerHTML = cardsHTML;
             }
         }
-
-        (function initCalendarSwipe() {
-            let touchStartX = 0;
-            let touchEndX = 0;
-            const calArea = document.getElementById('iosCalTouchArea');
-            if (!calArea) return;
-            calArea.addEventListener('touchstart', function(e) {
-                touchStartX = e.changedTouches[0].screenX;
-            }, { passive: true });
-            calArea.addEventListener('touchend', function(e) {
-                touchEndX = e.changedTouches[0].screenX;
-                if (touchStartX - touchEndX > 55) changeCalendarMonth(1);
-                else if (touchEndX - touchStartX > 55) changeCalendarMonth(-1);
-            }, { passive: true });
-        })();
 
         function openStatsModal() {
             const el = document.getElementById('inlineStatsSection');
@@ -1731,7 +1727,7 @@
                     let rawName = (row['Khách hàng'] || findVal(row, 'khách') || "Khách hàng").toString().trim();
                     let displayDate = dObj ? formatDateDisplay(dObj) : (findVal(row, 'ngày') || 'Không rõ ngày');
 
-                    // Tiền cọc đã thu (lấy tất cả khoản cọc của khách đang nợ)
+                    // Tiền cọc đã thu (lấy tất cả các lịch chưa tất toán)
                     if (conLai > 0 && coc > 0) {
                         tFutureDeposit += coc;
                         futureDepositArr.push({
