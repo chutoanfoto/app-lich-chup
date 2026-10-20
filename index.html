@@ -100,7 +100,7 @@
                 --accent-gold: #cca53f; 
                 --tag-gold-bg: rgba(204, 165, 63, 0.16); --tag-gold-text: #e2b740;
                 --alert-red: #ff453a; --alert-bg: rgba(255, 69, 58, 0.15);
-                --success-green: #34A853; --success-bg: rgba(52, 168, 83, 0.15);
+                --success-green: #32d74b; --success-bg: rgba(52, 168, 83, 0.15);
                 
                 --modal-bg: rgba(28, 28, 30, 0.95); 
                 --input-bg: rgba(44, 44, 46, 0.7); 
@@ -237,6 +237,7 @@
             background: #ffffff;
             box-shadow: 0 8px 30px rgba(0,0,0,0.05);
             border: 1px solid rgba(0,0,0,0.02);
+            width: 100%;
         }
         @media (prefers-color-scheme: dark) {
             .ios-cal-box { background: #1c1c1e; border: 1px solid rgba(255,255,255,0.05); }
@@ -247,23 +248,25 @@
             align-items: center;
             margin-bottom: 24px;
             padding: 0;
-            gap: 4px;
+            width: 100%;
         }
         .ios-cal-month-title {
-            font-size: 17px;
+            font-size: 18px;
             font-weight: 800;
             color: var(--accent-gold);
             text-transform: uppercase;
             display: flex;
             align-items: center;
-            gap: 6px;
-            white-space: nowrap;
+            gap: 8px;
+            white-space: nowrap; 
+            overflow: hidden;
+            text-overflow: ellipsis;
             flex-shrink: 1;
         }
         .ios-cal-month-badge {
             font-size: 11px;
             font-weight: 800;
-            padding: 4px 8px;
+            padding: 6px 12px;
             border-radius: 20px;
             background: var(--tag-gold-bg);
             color: var(--tag-gold-text);
@@ -274,12 +277,12 @@
         .ios-cal-nav {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             flex-shrink: 0;
         }
         .ios-cal-nav-btn {
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             border: 1px solid var(--divider-line);
             background: var(--btn-secondary-bg);
@@ -295,13 +298,13 @@
         }
         .ios-cal-nav-btn:active { transform: scale(0.85); }
         .ios-cal-today-btn {
-            padding: 0 10px;
-            height: 32px;
-            border-radius: 16px;
+            padding: 0 12px;
+            height: 36px;
+            border-radius: 18px;
             border: 1px solid var(--divider-line);
             background: var(--btn-secondary-bg);
             color: var(--text-main);
-            font-size: 10.5px;
+            font-size: 11px;
             font-weight: 800;
             text-transform: uppercase;
             cursor: pointer;
@@ -375,7 +378,6 @@
             position: absolute;
             bottom: 3px;
         }
-        /* Phóng to chấm lịch và phân biệt màu rõ ràng */
         .ios-cal-dot {
             width: 7.5px;
             height: 7.5px;
@@ -393,14 +395,14 @@
             justify-content: space-between;
             align-items: center;
             margin: 24px 0 16px 0;
+            width: 100%;
             gap: 8px;
         }
         .ios-cal-day-title {
-            font-size: 12.5px;
+            font-size: 13.5px;
             font-weight: 800;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -410,8 +412,8 @@
             background: var(--tag-gold-bg);
             color: var(--accent-gold);
             border: 1px solid rgba(223, 185, 110, 0.4);
-            padding: 8px 12px;
-            border-radius: 12px;
+            padding: 10px 16px;
+            border-radius: 14px;
             font-size: 11px;
             font-weight: 800;
             text-transform: uppercase;
@@ -461,7 +463,7 @@
         
         .widget-actions-row { display: flex; gap: 10px; justify-content: space-between; }
         .widget-btn {
-            flex: 1; background: #ffffff; border-radius: 20px; padding: 14px 4px;
+            flex: 1; background: #ffffff; border-radius: 20px; padding: 12px 2px;
             display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.03);
             border: 1px solid rgba(0,0,0,0.02);
@@ -483,8 +485,7 @@
                 box-shadow: inset 0 1px 2px rgba(255,255,255,0.08), 0 2px 6px rgba(0,0,0,0.4);
             }
         }
-        /* Khóa chống rớt dòng cho các chữ nút bấm mobile */
-        .widget-btn span { font-size: 10px; font-weight: 800; color: var(--text-main); text-align: center; text-transform: uppercase; letter-spacing: 0.3px; white-space: nowrap;}
+        .widget-btn span { font-size: 10px; font-weight: 800; color: var(--text-main); text-align: center; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;}
 
         .container { position: relative; z-index: 10; width: 100%; padding: 16px; max-width: 580px; margin: 0 auto; padding-bottom: 140px; }
 
@@ -556,7 +557,7 @@
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
         .stat-card { border-radius: 22px; padding: 16px; display: flex; flex-direction: column; justify-content: center; transition: transform 0.1s ease; overflow: hidden;}
         .stat-card.clickable-card:active { transform: scale(0.96); opacity: 0.8; }
-        .stat-label { font-size: 9.5px; font-weight: 800; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; width: 100%;}
+        .stat-label { font-size: 9.5px; font-weight: 800; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; width: 100%;}
         .stat-value { font-size: 20px; font-weight: 800; letter-spacing: -0.3px; line-height: 1.2;}
         .stat-value.gold { color: var(--accent-gold); text-shadow: 0 0 15px rgba(223, 185, 110, 0.35); } 
         .stat-value.green { color: var(--success-green); } 
@@ -794,7 +795,7 @@
             <div id="debtDetailsContainer" style="display: none; margin-bottom: 24px; animation: fadeIn 0.3s ease;"></div>
 
             <!-- CHỈ SỐ CHI TIẾT & CỌC CHỜ CHỤP -->
-            <div style="font-size: 11.5px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 12px; margin-top: 10px; text-transform: uppercase; display: flex; align-items: center; white-space: nowrap;">
+            <div style="font-size: 11.5px; font-weight: 800; color: var(--text-muted); margin-bottom: 12px; margin-top: 10px; text-transform: uppercase; display: flex; align-items: center; white-space: nowrap;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px; margin-top:-2px"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg> 
                 Chỉ số mở rộng
             </div>
@@ -823,7 +824,7 @@
             <div id="travelFeeDetailsContainer" style="display: none; margin-bottom: 24px; animation: fadeIn 0.3s ease;"></div>
 
             <!-- CƠ CẤU GÓI CHỤP THÔNG MINH CÓ BIỂU ĐỒ -->
-            <div style="font-size: 11.5px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 12px; text-transform: uppercase; display: flex; align-items: center; white-space: nowrap;">
+            <div style="font-size: 11.5px; font-weight: 800; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; display: flex; align-items: center; white-space: nowrap;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px; margin-top:-2px"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
                 CƠ CẤU GÓI CHỤP
             </div>
@@ -925,7 +926,7 @@
         const ICON_SUNSET = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><path d="M12 3v2M4.9 7.1l1.4 1.4M19.1 7.1l-1.4 1.4M2 17h20M16 17a4 4 0 0 0-8 0"></path></svg>`;
         const ICON_MOON = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
         
-        // Icon Google Maps & Drive nhúng mã SVG path trực tiếp (100% tỷ lệ gốc)
+        // Icon Google Maps & Drive thẻ IMG chuẩn link user
         const ICON_PIN = `<img src="https://res.cloudinary.com/uogkte7b/image/upload/v1792472347/Google_Maps_icon__2026.svg.png" width="14" height="14" style="margin-right:4px; margin-top:-2px" alt="Maps">`;
         const ICON_DRIVE = `<img src="https://res.cloudinary.com/uogkte7b/image/upload/v1792472346/Google_Drive_Logo_05.2026.png" width="16" height="16" style="margin-right:5px; margin-top:-2px" alt="Drive">`;
         
@@ -1008,10 +1009,13 @@
         }
 
         // ======== HÀM TOGGLE ĐỔI VIEW LIST VÀ CALENDAR ========
-        function toggleViewMode() {
+        function toggleViewMode(forceMode = null) {
             const btnSpan = document.getElementById('viewToggleBtnText');
             const btnIcon = document.getElementById('viewToggleBtnIcon');
-            if (currentViewMode === 'list') {
+            
+            let targetMode = forceMode ? forceMode : (currentViewMode === 'list' ? 'calendar' : 'list');
+            
+            if (targetMode === 'calendar') {
                 currentViewMode = 'calendar';
                 document.getElementById('bookingList').style.display = 'none';
                 document.getElementById('calendarViewContainer').style.display = 'block';
@@ -1025,6 +1029,7 @@
                 btnSpan.innerText = 'Xem Lịch';
                 btnIcon.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2.5" ry="2.5"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`;
             }
+            if (!forceMode) setTimeout(saveUIState, 100);
         }
 
         function removeModalOpenClass() {
@@ -1040,7 +1045,7 @@
 
         // ======== HÀM CUỘN VÀ TÌM ĐẾN LỊCH ========
         function scrollToCard(rowIndex) {
-            if (currentViewMode === 'calendar') { toggleViewMode(); }
+            if (currentViewMode === 'calendar') { toggleViewMode('list'); }
 
             let expId = `expanded-${rowIndex}`;
             let contentDiv = document.getElementById(expId);
@@ -1212,7 +1217,6 @@
         }
 
         function renderCalendarView() {
-            // Định dạng lại tiêu đề hiển thị tháng
             document.getElementById('iosCalMonthLabel').innerText = `${("0" + (calViewMonth + 1)).slice(-2)} / ${calViewYear}`;
 
             let monthBookings = allValidData.filter(r => r._dateObj && r._dateObj.getFullYear() === calViewYear && r._dateObj.getMonth() === calViewMonth);
@@ -1338,7 +1342,8 @@
             let state = {
                 shows: Array.from(document.querySelectorAll('#bookingList .show')).map(el => el.id).filter(id => id),
                 hiddens: Array.from(document.querySelectorAll('.hidden-step')).map(el => el.id).filter(id => id),
-                collapsedSessions: Array.from(document.querySelectorAll('.session-content.collapsed')).map(el => el.id).filter(id => id)
+                collapsedSessions: Array.from(document.querySelectorAll('.session-content.collapsed')).map(el => el.id).filter(id => id),
+                viewMode: currentViewMode
             };
             localStorage.setItem('chutoanUIState', JSON.stringify(state));
         }
@@ -1347,6 +1352,10 @@
             let saved = localStorage.getItem('chutoanUIState');
             if (!saved) return;
             let state = JSON.parse(saved);
+
+            if (state.viewMode && state.viewMode !== currentViewMode) {
+                toggleViewMode(state.viewMode);
+            }
 
             document.querySelectorAll('#bookingList .show').forEach(el => {
                 el.classList.remove('show');
@@ -1684,7 +1693,7 @@
             const el = document.getElementById(id);
             if (el) {
                 el.classList.toggle('show');
-                if (!isCard) { const icon = headerEl.querySelector('.toggle-icon'); icon.style.transform = el.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)'; }
+                if (!isCard) { const icon = headerEl.querySelector('.toggle-icon'); if(icon) icon.style.transform = el.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)'; }
                 setTimeout(saveUIState, 100);
             }
         }
