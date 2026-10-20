@@ -49,10 +49,10 @@
             --badge-shadow: 0 6px 16px rgba(179, 136, 20, 0.15), inset 0 1px 1px rgba(255, 255, 255, 1);
 
             --text-main: #1d1d1f; --text-muted: #86868b; --text-sub: #96928a;
-            --accent-gold: #c59b27; 
-            --tag-gold-bg: rgba(197, 155, 39, 0.15); --tag-gold-text: #b38814;
+            --accent-gold: #cca53f; 
+            --tag-gold-bg: rgba(204, 165, 63, 0.15); --tag-gold-text: #b38814;
             --alert-red: #d35400; --alert-bg: rgba(211, 84, 0, 0.1);
-            --success-green: #219653; --success-bg: rgba(39, 174, 96, 0.12);
+            --success-green: #34A853; --success-bg: rgba(52, 168, 83, 0.12);
             
             --modal-bg: rgba(246, 245, 242, 0.9); 
             --input-bg: rgba(255, 255, 255, 0.85); 
@@ -218,11 +218,12 @@
             font-size: 18px;
             color: var(--accent-gold);
             font-weight: 800;
-            letter-spacing: 0.8px;
+            letter-spacing: 0.5px;
             text-transform: uppercase;
             display: flex;
             align-items: center;
             gap: 8px;
+            white-space: nowrap !important;
         }
 
         /* ==== GIAO DIỆN LỊCH IPHONE (iOS CALENDAR) MỚI TÍCH HỢP TRÊN TRANG CHỦ ==== */
@@ -248,7 +249,7 @@
             align-items: center;
             margin-bottom: 24px;
             padding: 0;
-            gap: 4px;
+            width: 100%;
         }
         .ios-cal-month-title {
             font-size: 20px;
@@ -258,10 +259,10 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            white-space: nowrap; 
-            overflow: hidden;
-            text-overflow: ellipsis;
-            flex-shrink: 1;
+            white-space: nowrap !important; 
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            flex-shrink: 1 !important;
         }
         .ios-cal-month-badge {
             font-size: 11px;
@@ -271,14 +272,14 @@
             background: var(--tag-gold-bg);
             color: var(--tag-gold-text);
             border: none;
-            white-space: nowrap;
-            flex-shrink: 0;
+            white-space: nowrap !important;
+            flex-shrink: 0 !important;
         }
         .ios-cal-nav {
             display: flex;
             align-items: center;
             gap: 8px;
-            flex-shrink: 0;
+            flex-shrink: 0 !important;
         }
         .ios-cal-nav-btn {
             width: 36px;
@@ -294,7 +295,7 @@
             transition: transform 0.15s ease;
             touch-action: manipulation;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            flex-shrink: 0;
+            flex-shrink: 0 !important;
         }
         .ios-cal-nav-btn:active { transform: scale(0.85); }
         .ios-cal-today-btn {
@@ -311,8 +312,8 @@
             transition: transform 0.15s ease;
             touch-action: manipulation;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            white-space: nowrap;
-            flex-shrink: 0;
+            white-space: nowrap !important;
+            flex-shrink: 0 !important;
         }
         .ios-cal-today-btn:active { transform: scale(0.9); }
 
@@ -378,6 +379,7 @@
             position: absolute;
             bottom: 3px;
         }
+        /* Phóng to chấm lịch và phân biệt màu rõ ràng */
         .ios-cal-dot {
             width: 7.5px;
             height: 7.5px;
@@ -403,10 +405,10 @@
             font-weight: 800;
             color: var(--text-muted);
             text-transform: uppercase;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            flex-shrink: 1;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            flex-shrink: 1 !important;
         }
         .ios-cal-add-day-btn {
             background: var(--tag-gold-bg);
@@ -420,8 +422,8 @@
             cursor: pointer;
             transition: transform 0.15s ease;
             touch-action: manipulation;
-            white-space: nowrap;
-            flex-shrink: 0;
+            white-space: nowrap !important;
+            flex-shrink: 0 !important;
         }
         .ios-cal-add-day-btn:active { transform: scale(0.92); }
         #calSelectedDayCards .card {
@@ -469,6 +471,7 @@
             border: 1px solid rgba(0,0,0,0.02);
             cursor: pointer; transition: transform 0.15s ease, opacity 0.15s;
             text-decoration: none; touch-action: manipulation;
+            min-width: 0; /* Cho phép co giãn chữ */
         }
         @media (prefers-color-scheme: dark) {
             .widget-btn { background: var(--widget-inner-bg); backdrop-filter: blur(40px) saturate(200%); -webkit-backdrop-filter: blur(40px) saturate(200%); border: 1px solid var(--glass-border); }
@@ -486,7 +489,7 @@
             }
         }
         /* Khóa chống rớt dòng cho các chữ nút bấm mobile */
-        .widget-btn span { font-size: 10px; font-weight: 800; color: var(--text-main); text-align: center; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;}
+        .widget-btn span { font-size: 10px; font-weight: 800; color: var(--text-main); text-align: center; text-transform: uppercase; white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important; width: 100%;}
 
         .container { position: relative; z-index: 10; width: 100%; padding: 16px; max-width: 580px; margin: 0 auto; padding-bottom: 140px; }
 
@@ -498,7 +501,7 @@
         .year-block, .month-block, .day-block { opacity: 1; transition: opacity 0.3s ease; }
         .hidden-step { display: none !important; }
 
-        .year-header { padding: 18px 24px; margin: 16px 0 12px 0; border-radius: 28px; background: #ffffff; color: var(--accent-gold); font-weight: 800; font-size: 16px; display: flex; justify-content: space-between; align-items: center; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02); }
+        .year-header { padding: 18px 24px; margin: 16px 0 12px 0; border-radius: 28px; background: #ffffff; color: var(--accent-gold); font-weight: 800; font-size: 16px; display: flex; justify-content: space-between; align-items: center; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02); }
         @media (prefers-color-scheme: dark) { .year-header { background: #1c1c1e; border: 1px solid rgba(255,255,255,0.05); } }
         .year-content { display: none; } .year-content.show { display: block; animation: fadeIn 0.3s ease; }
 
@@ -506,18 +509,18 @@
         @media (prefers-color-scheme: dark) { .month-header { background: #1c1c1e; border-top: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); } }
         .month-content { display: none; } .month-content.show { display: block; animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
 
-        .day-header { padding: 14px 20px; margin: 10px 0 10px 24px; border-radius: 20px; background: #ffffff; color: var(--text-main); font-weight: 800; font-size: 14px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.02); user-select: none;}
+        .day-header { padding: 14px 20px; margin: 10px 0 10px 24px; border-radius: 20px; background: #ffffff; color: var(--text-main); font-weight: 800; font-size: 14px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.02); user-select: none; white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important; flex-shrink: 1 !important;}
         @media (prefers-color-scheme: dark) { .day-header { background: #1c1c1e; border: 1px solid rgba(255,255,255,0.05); } }
         .day-content { display: none; } .day-content.show { display: block; animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
-        .toggle-icon { transition: transform 0.25s ease; font-size: 11px; opacity: 0.8; }
+        .toggle-icon { transition: transform 0.25s ease; font-size: 11px; opacity: 0.8; flex-shrink: 0 !important;}
 
-        .session-divider { display: flex; align-items: center; margin: 20px 0 14px 32px; font-size: 11.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+        .session-divider { display: flex; align-items: center; margin: 20px 0 14px 32px; font-size: 11.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
         .session-content { display: block; animation: fadeIn 0.3s ease; }
         .session-content.collapsed { display: none; }
         .session-divider span { 
             display: inline-flex; align-items: center; background: #ffffff; padding: 8px 18px; border-radius: 20px; 
             color: var(--accent-gold); border: 1px solid rgba(0,0,0,0.02); box-shadow: 0 2px 10px rgba(0,0,0,0.03); 
-            transition: transform 0.15s ease;
+            transition: transform 0.15s ease; white-space: nowrap !important; flex-shrink: 0 !important;
         }
         @media (prefers-color-scheme: dark) { .session-divider span { background: #1c1c1e; border: 1px solid rgba(255,255,255,0.05); } }
         .session-divider:active span { transform: scale(0.95); }
@@ -537,7 +540,7 @@
         
         .detail-note { margin-top: 14px; padding: 16px; background: rgba(0,0,0,0.02); border-radius: 16px; border: 1px solid var(--divider-line); }
         @media (prefers-color-scheme: dark) { .detail-note { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.06); } }
-        .detail-note-label { font-size: 11.5px; font-weight: 800; color: var(--text-muted); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; text-transform: uppercase; letter-spacing: 1px;}
+        .detail-note-label { font-size: 11.5px; font-weight: 800; color: var(--text-muted); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; text-transform: uppercase; letter-spacing: 0.5px;}
         .detail-note-content { font-size: 14.5px; font-weight: 500; color: var(--text-main); line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
 
         .card-btns-row { display: flex; gap: 12px; margin-top: 18px; position: relative; z-index: 10;}
@@ -558,14 +561,14 @@
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
         .stat-card { border-radius: 22px; padding: 16px; display: flex; flex-direction: column; justify-content: center; transition: transform 0.1s ease; overflow: hidden;}
         .stat-card.clickable-card:active { transform: scale(0.96); opacity: 0.8; }
-        .stat-label { font-size: 9.5px; font-weight: 800; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; width: 100%;}
+        .stat-label { font-size: 9.5px; font-weight: 800; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important; display: block; width: 100%;}
         .stat-value { font-size: 20px; font-weight: 800; letter-spacing: -0.3px; line-height: 1.2;}
         .stat-value.gold { color: var(--accent-gold); text-shadow: 0 0 15px rgba(223, 185, 110, 0.35); } 
         .stat-value.green { color: var(--success-green); } 
         .stat-value.red { color: var(--alert-red); }
 
         .progress-container { margin-bottom: 24px; }
-        .progress-header { display: flex; justify-content: space-between; font-size: 12px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px;}
+        .progress-header { display: flex; justify-content: space-between; font-size: 12px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px;}
         .progress-bar-bg { width: 100%; height: 10px; background: rgba(0,0,0,0.06); border-radius: 10px; overflow: hidden; border: 1px solid var(--divider-line); box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);}
         @media (prefers-color-scheme: dark) { .progress-bar-bg { background: rgba(255,255,255,0.06); } }
         .progress-bar-fill { height: 100%; background: var(--success-green); border-radius: 10px; transition: width 0.5s ease; box-shadow: 0 0 10px rgba(39, 174, 96, 0.5);}
@@ -796,7 +799,7 @@
             <div id="debtDetailsContainer" style="display: none; margin-bottom: 24px; animation: fadeIn 0.3s ease;"></div>
 
             <!-- CHỈ SỐ CHI TIẾT & CỌC CHỜ CHỤP -->
-            <div style="font-size: 11.5px; font-weight: 800; color: var(--text-muted); margin-bottom: 12px; margin-top: 10px; text-transform: uppercase; display: flex; align-items: center; white-space: nowrap;">
+            <div style="font-size: 11.5px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 12px; margin-top: 10px; text-transform: uppercase; display: flex; align-items: center; white-space: nowrap;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px; margin-top:-2px"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg> 
                 Chỉ số mở rộng
             </div>
@@ -825,7 +828,7 @@
             <div id="travelFeeDetailsContainer" style="display: none; margin-bottom: 24px; animation: fadeIn 0.3s ease;"></div>
 
             <!-- CƠ CẤU GÓI CHỤP THÔNG MINH CÓ BIỂU ĐỒ -->
-            <div style="font-size: 11.5px; font-weight: 800; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; display: flex; align-items: center; white-space: nowrap;">
+            <div style="font-size: 11.5px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 12px; text-transform: uppercase; display: flex; align-items: center; white-space: nowrap;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px; margin-top:-2px"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
                 CƠ CẤU GÓI CHỤP
             </div>
@@ -927,7 +930,7 @@
         const ICON_SUNSET = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><path d="M12 3v2M4.9 7.1l1.4 1.4M19.1 7.1l-1.4 1.4M2 17h20M16 17a4 4 0 0 0-8 0"></path></svg>`;
         const ICON_MOON = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
         
-        // Icon Google Maps & Drive
+        // Icon Google Maps & Drive thẻ IMG chuẩn link user
         const ICON_PIN = `<img src="https://res.cloudinary.com/uogkte7b/image/upload/v1792472347/Google_Maps_icon__2026.svg.png" width="14" height="14" style="margin-right:4px; margin-top:-2px" alt="Maps">`;
         const ICON_DRIVE = `<img src="https://res.cloudinary.com/uogkte7b/image/upload/v1792472346/Google_Drive_Logo_05.2026.png" width="16" height="16" style="margin-right:5px; margin-top:-2px" alt="Drive">`;
         
@@ -1009,7 +1012,6 @@
             setTimeout(() => { toast.classList.remove('show'); }, 3000);
         }
 
-        // ======== HÀM TOGGLE ĐỔI VIEW LIST VÀ CALENDAR ========
         function toggleViewMode(forceMode = null) {
             const btnSpan = document.getElementById('viewToggleBtnText');
             const btnIcon = document.getElementById('viewToggleBtnIcon');
@@ -1044,7 +1046,6 @@
             }
         }
 
-        // ======== HÀM CUỘN VÀ TÌM ĐẾN LỊCH ========
         function scrollToCard(rowIndex) {
             if (currentViewMode === 'calendar') { toggleViewMode('list'); }
 
@@ -1557,8 +1558,11 @@
                 .then(res => res.json())
                 .then(data => {
                     localStorage.setItem('chutoanFotoCache', JSON.stringify(data));
-                    let validData = data.filter(r => r['Khách hàng'] || findVal(r, 'khách'));
+                    let rawData = data;
+                    rawData.forEach((r, idx) => { r._rawFallback = idx + 2; });
+                    let validData = rawData.filter(r => r['Khách hàng'] || findVal(r, 'khách'));
                     validData.forEach(r => { 
+                        r._rowIndex = r._rowIndex !== undefined ? r._rowIndex : (r.row !== undefined ? r.row : r._rawFallback);
                         let dateStr = r['Ngày chụp'] || findVal(r, 'ngày'); 
                         r._dateObj = parseDateCustom(dateStr); 
                     });
@@ -1577,8 +1581,14 @@
             const list = document.getElementById('bookingList');
             if (data.length === 0) { list.innerHTML = '<div class="loader">Chưa có lịch chụp nào.</div>'; updateStatsUI(); return; }
 
-            let validData = data.filter(r => r['Khách hàng'] || findVal(r, 'khách'));
-            validData.forEach(r => { let dateStr = r['Ngày chụp'] || findVal(r, 'ngày'); r._dateObj = parseDateCustom(dateStr); });
+            let rawData = data;
+            rawData.forEach((r, idx) => { r._rawFallback = idx + 2; });
+            let validData = rawData.filter(r => r['Khách hàng'] || findVal(r, 'khách'));
+            validData.forEach(r => { 
+                r._rowIndex = r._rowIndex !== undefined ? r._rowIndex : (r.row !== undefined ? r.row : r._rawFallback);
+                let dateStr = r['Ngày chụp'] || findVal(r, 'ngày'); 
+                r._dateObj = parseDateCustom(dateStr); 
+            });
             validData.sort((a, b) => { if (!a._dateObj) return 1; if (!b._dateObj) return -1; return a._dateObj - b._dateObj; }); 
             allValidData = validData;
 
@@ -1702,7 +1712,7 @@
             if(currentKw.trim() !== '') {
                 document.getElementById('liveSearch').dispatchEvent(new Event('input'));
             } else {
-                restoreUIState();
+                setTimeout(() => { restoreUIState(); }, 100);
             }
         }
 
@@ -1761,7 +1771,6 @@
                     let rawName = (row['Khách hàng'] || findVal(row, 'khách') || "Khách hàng").toString().trim();
                     let displayDate = dObj ? formatDateDisplay(dObj) : (findVal(row, 'ngày') || 'Không rõ ngày');
 
-                    // Tiền cọc đã thu (lấy tất cả khoản cọc của khách đang nợ)
                     if (conLai > 0 && coc > 0) {
                         tFutureDeposit += coc;
                         futureDepositArr.push({
@@ -1852,7 +1861,6 @@
             document.getElementById('collectionPercent').innerText = collectionRate + "%";
             document.getElementById('collectionBar').style.width = collectionRate + "%";
 
-            // CHI TIẾT "ĐÃ THU THỰC TẾ"
             collectedArr.sort((a,b) => (b.dObj ? b.dObj.getTime() : 0) - (a.dObj ? a.dObj.getTime() : 0));
             let collectionHtml = `<div style="font-size: 11.5px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 12px; margin-top: 4px; text-transform: uppercase; display: flex; align-items: center; white-space: nowrap;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px; margin-top:-2px"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg> CHI TIẾT DÒNG TIỀN VÀO</div><div class="service-list-container">`;
 
@@ -1876,7 +1884,6 @@
             collectionHtml += `</div>`;
             document.getElementById('collectionDetailsContainer').innerHTML = collectionHtml;
             
-            // CHI TIẾT "CHƯA THANH TOÁN"
             debtArr.sort((a,b) => (a.dObj ? a.dObj.getTime() : 0) - (b.dObj ? b.dObj.getTime() : 0));
             let debtHtml = `<div style="font-size: 11.5px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 12px; margin-top: 4px; text-transform: uppercase; display: flex; align-items: center; white-space: nowrap;">${ICON_CALENDAR} CHI TIẾT CHƯA THANH TOÁN</div><div class="service-list-container">`;
 
@@ -1899,7 +1906,6 @@
             debtHtml += `</div>`;
             document.getElementById('debtDetailsContainer').innerHTML = debtHtml;
 
-            // CHI TIẾT "TIỀN CỌC ĐÃ THU"
             futureDepositArr.sort((a,b) => (a.dObj ? a.dObj.getTime() : 0) - (b.dObj ? b.dObj.getTime() : 0));
             let fdHtml = `<div style="font-size: 11.5px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 12px; margin-top: 4px; text-transform: uppercase; display: flex; align-items: center; white-space: nowrap;">${ICON_CALENDAR} CHI TIẾT TIỀN CỌC ĐÃ THU</div><div class="service-list-container">`;
 
@@ -1922,7 +1928,6 @@
             fdHtml += `</div>`;
             document.getElementById('futureDepositDetailsContainer').innerHTML = fdHtml;
 
-            // CHI TIẾT "PHỤ PHÍ ĐI LẠI"
             travelFeeArr.sort((a,b) => (b.dObj ? b.dObj.getTime() : 0) - (a.dObj ? a.dObj.getTime() : 0));
             let travelFeeHtml = `<div style="font-size: 11.5px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 12px; margin-top: 4px; text-transform: uppercase; display: flex; align-items: center; white-space: nowrap;">${ICON_PIN} CHI TIẾT PHỤ PHÍ ĐI LẠI</div><div class="service-list-container">`;
 
@@ -1945,7 +1950,6 @@
             travelFeeHtml += `</div>`;
             document.getElementById('travelFeeDetailsContainer').innerHTML = travelFeeHtml;
 
-            // CƠ CẤU GÓI CHỤP
             let sortedServices = Object.keys(serviceMap).sort((a, b) => serviceMap[b].revenue - serviceMap[a].revenue);
             let serviceHtml = '';
             sortedServices.forEach(pkg => {
@@ -2055,7 +2059,7 @@
                 mode: 'no-cors', 
                 headers: { 'Content-Type': 'application/json' }, 
                 body: JSON.stringify({ action: "MARK_PAID", rowIndex: rowIndex, khachHang: name }) 
-            }).then(() => setTimeout(silentFetchData, 800));
+            }).then(() => setTimeout(silentFetchData, 3500));
         }
 
         async function submitCreate(e) {
@@ -2074,7 +2078,7 @@
                 mode: 'no-cors', 
                 headers: { 'Content-Type': 'application/json' }, 
                 body: JSON.stringify(payload) 
-            }).then(() => setTimeout(silentFetchData, 1200));
+            }).then(() => setTimeout(silentFetchData, 3500));
         }
 
         async function submitEdit(e) {
@@ -2090,7 +2094,7 @@
                 mode: 'no-cors', 
                 headers: { 'Content-Type': 'application/json' }, 
                 body: JSON.stringify(payload) 
-            }).then(() => setTimeout(silentFetchData, 800));
+            }).then(() => setTimeout(silentFetchData, 3500));
         }
 
         async function proceedDeleteBooking(rowIndex) {
@@ -2107,7 +2111,7 @@
                 mode: 'no-cors', 
                 headers: { 'Content-Type': 'application/json' }, 
                 body: JSON.stringify({ action: "DELETE_ROW", rowIndex: rowIndex, khachHang: name }) 
-            }).then(() => setTimeout(silentFetchData, 800));
+            }).then(() => setTimeout(silentFetchData, 3500));
         }
     </script>
 </body>
