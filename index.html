@@ -246,39 +246,40 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 24px;
-            padding: 0 4px;
-            gap: 6px;
+            padding: 0;
+            gap: 4px;
         }
         .ios-cal-month-title {
-            font-size: 20px;
+            font-size: 17px;
             font-weight: 800;
             color: var(--accent-gold);
             text-transform: uppercase;
             display: flex;
             align-items: center;
-            gap: 8px;
-            white-space: nowrap; /* Chống rớt dòng */
+            gap: 6px;
+            white-space: nowrap;
+            flex-shrink: 1;
         }
         .ios-cal-month-badge {
             font-size: 11px;
             font-weight: 800;
-            padding: 6px 12px;
+            padding: 4px 8px;
             border-radius: 20px;
             background: var(--tag-gold-bg);
             color: var(--tag-gold-text);
             border: none;
-            white-space: nowrap; /* Chống rớt dòng */
+            white-space: nowrap;
             flex-shrink: 0;
         }
         .ios-cal-nav {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             flex-shrink: 0;
         }
         .ios-cal-nav-btn {
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             border: 1px solid var(--divider-line);
             background: var(--btn-secondary-bg);
@@ -294,20 +295,20 @@
         }
         .ios-cal-nav-btn:active { transform: scale(0.85); }
         .ios-cal-today-btn {
-            padding: 0 12px;
-            height: 36px;
-            border-radius: 18px;
+            padding: 0 10px;
+            height: 32px;
+            border-radius: 16px;
             border: 1px solid var(--divider-line);
             background: var(--btn-secondary-bg);
             color: var(--text-main);
-            font-size: 11px;
+            font-size: 10.5px;
             font-weight: 800;
             text-transform: uppercase;
             cursor: pointer;
             transition: transform 0.15s ease;
             touch-action: manipulation;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            white-space: nowrap; /* Chống rớt dòng */
+            white-space: nowrap;
             flex-shrink: 0;
         }
         .ios-cal-today-btn:active { transform: scale(0.9); }
@@ -391,27 +392,34 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 24px 4px 16px 4px;
+            margin: 24px 0 16px 0;
+            gap: 8px;
         }
         .ios-cal-day-title {
-            font-size: 14px;
+            font-size: 12.5px;
             font-weight: 800;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex-shrink: 1;
         }
         .ios-cal-add-day-btn {
             background: var(--tag-gold-bg);
             color: var(--accent-gold);
             border: 1px solid rgba(223, 185, 110, 0.4);
-            padding: 10px 18px;
-            border-radius: 14px;
-            font-size: 12px;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 11px;
             font-weight: 800;
             text-transform: uppercase;
             cursor: pointer;
             transition: transform 0.15s ease;
             touch-action: manipulation;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
         .ios-cal-add-day-btn:active { transform: scale(0.92); }
         #calSelectedDayCards .card {
@@ -545,10 +553,10 @@
         .btn-edit { background: var(--btn-secondary-bg); color: var(--accent-gold); } 
         .btn-delete { background: var(--alert-bg); color: var(--alert-red); border-color: rgba(255, 71, 71, 0.2);}
 
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
-        .stat-card { border-radius: 22px; padding: 20px; display: flex; flex-direction: column; justify-content: center; transition: transform 0.1s ease;}
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+        .stat-card { border-radius: 22px; padding: 16px; display: flex; flex-direction: column; justify-content: center; transition: transform 0.1s ease; overflow: hidden;}
         .stat-card.clickable-card:active { transform: scale(0.96); opacity: 0.8; }
-        .stat-label { font-size: 11px; font-weight: 800; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;}
+        .stat-label { font-size: 9.5px; font-weight: 800; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; width: 100%;}
         .stat-value { font-size: 20px; font-weight: 800; letter-spacing: -0.3px; line-height: 1.2;}
         .stat-value.gold { color: var(--accent-gold); text-shadow: 0 0 15px rgba(223, 185, 110, 0.35); } 
         .stat-value.green { color: var(--success-green); } 
@@ -786,24 +794,24 @@
             <div id="debtDetailsContainer" style="display: none; margin-bottom: 24px; animation: fadeIn 0.3s ease;"></div>
 
             <!-- CHỈ SỐ CHI TIẾT & CỌC CHỜ CHỤP -->
-            <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 12px; margin-top: 10px; text-transform: uppercase; display: flex; align-items: center;">
+            <div style="font-size: 11.5px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 12px; margin-top: 10px; text-transform: uppercase; display: flex; align-items: center; white-space: nowrap;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px; margin-top:-2px"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg> 
                 Chỉ số mở rộng
             </div>
             <div class="stats-grid" style="margin-bottom: 24px; gap: 10px; grid-template-columns: 1fr 1fr;">
                 <!-- TIỀN CỌC ĐÃ THU (TRẢI DÀI 2 CỘT) -->
                 <div class="stat-card glass-fx clickable-card" style="padding: 16px; grid-column: span 2; cursor: pointer; touch-action: manipulation;" onclick="toggleFutureDepositDetails()">
-                    <div class="stat-label" style="font-size: 10px;">Tiền cọc đã thu <span id="toggleFutureDepositIcon" style="display:inline-block; transition: transform 0.2s; margin-left:2px;">▼</span></div>
+                    <div class="stat-label">Tiền cọc đã thu <span id="toggleFutureDepositIcon" style="display:inline-block; transition: transform 0.2s; margin-left:2px;">▼</span></div>
                     <div class="stat-value" id="totalFutureDeposit" style="font-size: 18px; color: var(--accent-gold);">0 đ</div>
                 </div>
                 
                 <div class="stat-card glass-fx" style="padding: 16px;">
-                    <div class="stat-label" style="font-size: 10px;">Doanh Thu / 1 Job</div>
+                    <div class="stat-label">Doanh Thu / 1 Job</div>
                     <div class="stat-value" id="avgRevenue" style="font-size: 16px;">0 đ</div>
                 </div>
                 <!-- PHỤ PHÍ ĐI LẠI (CLICKABLE) -->
                 <div class="stat-card glass-fx clickable-card" style="padding: 16px; cursor: pointer; touch-action: manipulation;" onclick="toggleTravelFeeDetails()">
-                    <div class="stat-label" style="font-size: 10px;">Tổng Phụ Phí (Đi lại) <span id="toggleTravelIcon" style="display:inline-block; transition: transform 0.2s; margin-left:2px;">▼</span></div>
+                    <div class="stat-label">Tổng Phụ Phí (Đi lại) <span id="toggleTravelIcon" style="display:inline-block; transition: transform 0.2s; margin-left:2px;">▼</span></div>
                     <div class="stat-value" id="totalTravelFee" style="font-size: 16px; color: var(--text-muted);">0 đ</div>
                 </div>
             </div>
@@ -815,7 +823,7 @@
             <div id="travelFeeDetailsContainer" style="display: none; margin-bottom: 24px; animation: fadeIn 0.3s ease;"></div>
 
             <!-- CƠ CẤU GÓI CHỤP THÔNG MINH CÓ BIỂU ĐỒ -->
-            <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 12px; text-transform: uppercase; display: flex; align-items: center;">
+            <div style="font-size: 11.5px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 12px; text-transform: uppercase; display: flex; align-items: center; white-space: nowrap;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px; margin-top:-2px"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
                 CƠ CẤU GÓI CHỤP
             </div>
@@ -917,7 +925,7 @@
         const ICON_SUNSET = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><path d="M12 3v2M4.9 7.1l1.4 1.4M19.1 7.1l-1.4 1.4M2 17h20M16 17a4 4 0 0 0-8 0"></path></svg>`;
         const ICON_MOON = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
         
-        // Cập nhật thẻ IMG bằng URL của bạn 
+        // Icon Google Maps & Drive nhúng mã SVG path trực tiếp (100% tỷ lệ gốc)
         const ICON_PIN = `<img src="https://res.cloudinary.com/uogkte7b/image/upload/v1792472347/Google_Maps_icon__2026.svg.png" width="14" height="14" style="margin-right:4px; margin-top:-2px" alt="Maps">`;
         const ICON_DRIVE = `<img src="https://res.cloudinary.com/uogkte7b/image/upload/v1792472346/Google_Drive_Logo_05.2026.png" width="16" height="16" style="margin-right:5px; margin-top:-2px" alt="Drive">`;
         
@@ -1727,7 +1735,7 @@
                     let rawName = (row['Khách hàng'] || findVal(row, 'khách') || "Khách hàng").toString().trim();
                     let displayDate = dObj ? formatDateDisplay(dObj) : (findVal(row, 'ngày') || 'Không rõ ngày');
 
-                    // Tiền cọc đã thu (lấy tất cả các lịch chưa tất toán)
+                    // Tiền cọc đã thu (lấy tất cả khoản cọc của khách đang nợ)
                     if (conLai > 0 && coc > 0) {
                         tFutureDeposit += coc;
                         futureDepositArr.push({
@@ -1820,7 +1828,7 @@
 
             // CHI TIẾT "ĐÃ THU THỰC TẾ"
             collectedArr.sort((a,b) => (b.dObj ? b.dObj.getTime() : 0) - (a.dObj ? a.dObj.getTime() : 0));
-            let collectionHtml = `<div style="font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 12px; margin-top: 4px; text-transform: uppercase; display: flex; align-items: center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px; margin-top:-2px"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg> CHI TIẾT DÒNG TIỀN VÀO</div><div class="service-list-container">`;
+            let collectionHtml = `<div style="font-size: 11.5px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 12px; margin-top: 4px; text-transform: uppercase; display: flex; align-items: center; white-space: nowrap;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px; margin-top:-2px"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg> CHI TIẾT DÒNG TIỀN VÀO</div><div class="service-list-container">`;
 
             if(collectedArr.length === 0) {
                 collectionHtml += `<div style="text-align:center; font-size:12px; color:var(--text-muted); padding:10px;">Chưa có khoản thu nào trong thời gian này</div>`;
@@ -1844,7 +1852,7 @@
             
             // CHI TIẾT "CHƯA THANH TOÁN"
             debtArr.sort((a,b) => (a.dObj ? a.dObj.getTime() : 0) - (b.dObj ? b.dObj.getTime() : 0));
-            let debtHtml = `<div style="font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 12px; margin-top: 4px; text-transform: uppercase; display: flex; align-items: center;">${ICON_CALENDAR} CHI TIẾT CHƯA THANH TOÁN</div><div class="service-list-container">`;
+            let debtHtml = `<div style="font-size: 11.5px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 12px; margin-top: 4px; text-transform: uppercase; display: flex; align-items: center; white-space: nowrap;">${ICON_CALENDAR} CHI TIẾT CHƯA THANH TOÁN</div><div class="service-list-container">`;
 
             if(debtArr.length === 0) {
                 debtHtml += `<div style="text-align:center; font-size:12px; color:var(--text-muted); padding:10px;">Không có khách hàng nào đang nợ</div>`;
@@ -1867,7 +1875,7 @@
 
             // CHI TIẾT "TIỀN CỌC ĐÃ THU"
             futureDepositArr.sort((a,b) => (a.dObj ? a.dObj.getTime() : 0) - (b.dObj ? b.dObj.getTime() : 0));
-            let fdHtml = `<div style="font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 12px; margin-top: 4px; text-transform: uppercase; display: flex; align-items: center;">${ICON_CALENDAR} CHI TIẾT TIỀN CỌC ĐÃ THU</div><div class="service-list-container">`;
+            let fdHtml = `<div style="font-size: 11.5px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 12px; margin-top: 4px; text-transform: uppercase; display: flex; align-items: center; white-space: nowrap;">${ICON_CALENDAR} CHI TIẾT TIỀN CỌC ĐÃ THU</div><div class="service-list-container">`;
 
             if(futureDepositArr.length === 0) {
                 fdHtml += `<div style="text-align:center; font-size:12px; color:var(--text-muted); padding:10px;">Không có khoản cọc nào chưa tất toán</div>`;
@@ -1890,7 +1898,7 @@
 
             // CHI TIẾT "PHỤ PHÍ ĐI LẠI"
             travelFeeArr.sort((a,b) => (b.dObj ? b.dObj.getTime() : 0) - (a.dObj ? a.dObj.getTime() : 0));
-            let travelFeeHtml = `<div style="font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 12px; margin-top: 4px; text-transform: uppercase; display: flex; align-items: center;">${ICON_PIN} CHI TIẾT PHỤ PHÍ ĐI LẠI</div><div class="service-list-container">`;
+            let travelFeeHtml = `<div style="font-size: 11.5px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 12px; margin-top: 4px; text-transform: uppercase; display: flex; align-items: center; white-space: nowrap;">${ICON_PIN} CHI TIẾT PHỤ PHÍ ĐI LẠI</div><div class="service-list-container">`;
 
             if(travelFeeArr.length === 0) {
                 travelFeeHtml += `<div style="text-align:center; font-size:12px; color:var(--text-muted); padding:10px;">Chưa phát sinh phụ phí đi lại</div>`;
