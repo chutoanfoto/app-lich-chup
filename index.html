@@ -796,9 +796,9 @@
                 Chỉ số mở rộng
             </div>
             <div class="stats-grid" style="margin-bottom: 24px; gap: 10px; grid-template-columns: 1fr 1fr;">
-                <!-- TIỀN CỌC ĐÃ THU (LỊCH CHƯA CHỤP) (TRẢI DÀI 2 CỘT) -->
+                <!-- TIỀN CỌC ĐÃ THU (TRẢI DÀI 2 CỘT) -->
                 <div class="stat-card glass-fx clickable-card" style="padding: 16px; grid-column: span 2; cursor: pointer; touch-action: manipulation;" onclick="toggleFutureDepositDetails()">
-                    <div class="stat-label" style="font-size: 10px;">Tiền cọc đã thu (lịch chưa chụp) <span id="toggleFutureDepositIcon" style="display:inline-block; transition: transform 0.2s; margin-left:2px;">▼</span></div>
+                    <div class="stat-label" style="font-size: 10px;">Tiền cọc đã thu <span id="toggleFutureDepositIcon" style="display:inline-block; transition: transform 0.2s; margin-left:2px;">▼</span></div>
                     <div class="stat-value" id="totalFutureDeposit" style="font-size: 18px; color: var(--accent-gold);">0 đ</div>
                 </div>
                 
@@ -1706,9 +1706,6 @@
             let fMonth = document.getElementById('filterMonth').value; 
             let tRev = 0, tPaid = 0, tDebt = 0, tTravelFee = 0;
             
-            // Lấy thời điểm hôm nay lúc 0h00
-            let today0 = new Date();
-            today0.setHours(0, 0, 0, 0);
             let tFutureDeposit = 0; 
             
             let nameMap = {}; 
@@ -1737,8 +1734,8 @@
                     let rawName = (row['Khách hàng'] || findVal(row, 'khách') || "Khách hàng").toString().trim();
                     let displayDate = dObj ? formatDateDisplay(dObj) : (findVal(row, 'ngày') || 'Không rõ ngày');
 
-                    // Tiền cọc đã thu (lịch chưa chụp)
-                    if (dObj && dObj >= today0 && conLai > 0 && coc > 0) {
+                    // Tiền cọc đã thu (lấy tất cả các lịch chưa tất toán)
+                    if (conLai > 0 && coc > 0) {
                         tFutureDeposit += coc;
                         futureDepositArr.push({
                             name: rawName,
@@ -1841,12 +1838,12 @@
             collectionHtml += `</div>`;
             document.getElementById('collectionDetailsContainer').innerHTML = collectionHtml;
 
-            // CHI TIẾT "TIỀN CỌC ĐÃ THU (LỊCH CHƯA CHỤP)"
+            // CHI TIẾT "TIỀN CỌC ĐÃ THU"
             futureDepositArr.sort((a,b) => (a.dObj ? a.dObj.getTime() : 0) - (b.dObj ? b.dObj.getTime() : 0));
-            let fdHtml = `<div style="font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 12px; margin-top: 4px; text-transform: uppercase; display: flex; align-items: center;">${ICON_CALENDAR} CHI TIẾT CỌC CHỜ CHỤP</div><div class="service-list-container">`;
+            let fdHtml = `<div style="font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 12px; margin-top: 4px; text-transform: uppercase; display: flex; align-items: center;">${ICON_CALENDAR} CHI TIẾT TIỀN CỌC ĐÃ THU</div><div class="service-list-container">`;
 
             if(futureDepositArr.length === 0) {
-                fdHtml += `<div style="text-align:center; font-size:12px; color:var(--text-muted); padding:10px;">Không có khách hàng nào đang nợ cọc chờ chụp</div>`;
+                fdHtml += `<div style="text-align:center; font-size:12px; color:var(--text-muted); padding:10px;">Không có khách hàng nào đang nợ (chưa tất toán)</div>`;
             } else {
                 futureDepositArr.forEach(item => {
                     fdHtml += `
