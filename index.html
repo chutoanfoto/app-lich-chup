@@ -49,10 +49,10 @@
             --badge-shadow: 0 6px 16px rgba(179, 136, 20, 0.15), inset 0 1px 1px rgba(255, 255, 255, 1);
 
             --text-main: #1d1d1f; --text-muted: #86868b; --text-sub: #96928a;
-            --accent-gold: #cca53f; 
-            --tag-gold-bg: rgba(204, 165, 63, 0.15); --tag-gold-text: #b38814;
+            --accent-gold: #c59b27; 
+            --tag-gold-bg: rgba(197, 155, 39, 0.15); --tag-gold-text: #b38814;
             --alert-red: #d35400; --alert-bg: rgba(211, 84, 0, 0.1);
-            --success-green: #34A853; --success-bg: rgba(52, 168, 83, 0.12);
+            --success-green: #219653; --success-bg: rgba(39, 174, 96, 0.12);
             
             --modal-bg: rgba(246, 245, 242, 0.9); 
             --input-bg: rgba(255, 255, 255, 0.85); 
@@ -100,7 +100,7 @@
                 --accent-gold: #cca53f; 
                 --tag-gold-bg: rgba(204, 165, 63, 0.16); --tag-gold-text: #e2b740;
                 --alert-red: #ff453a; --alert-bg: rgba(255, 69, 58, 0.15);
-                --success-green: #34A853; --success-bg: rgba(52, 168, 83, 0.15);
+                --success-green: #32d74b; --success-bg: rgba(50, 215, 75, 0.15);
                 
                 --modal-bg: rgba(28, 28, 30, 0.95); 
                 --input-bg: rgba(44, 44, 46, 0.7); 
@@ -251,20 +251,22 @@
             gap: 4px;
         }
         .ios-cal-month-title {
-            font-size: 17px;
+            font-size: 20px;
             font-weight: 800;
             color: var(--accent-gold);
             text-transform: uppercase;
             display: flex;
             align-items: center;
-            gap: 6px;
-            white-space: nowrap;
+            gap: 8px;
+            white-space: nowrap; 
+            overflow: hidden;
+            text-overflow: ellipsis;
             flex-shrink: 1;
         }
         .ios-cal-month-badge {
             font-size: 11px;
             font-weight: 800;
-            padding: 4px 8px;
+            padding: 6px 12px;
             border-radius: 20px;
             background: var(--tag-gold-bg);
             color: var(--tag-gold-text);
@@ -275,12 +277,12 @@
         .ios-cal-nav {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             flex-shrink: 0;
         }
         .ios-cal-nav-btn {
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             border: 1px solid var(--divider-line);
             background: var(--btn-secondary-bg);
@@ -296,13 +298,13 @@
         }
         .ios-cal-nav-btn:active { transform: scale(0.85); }
         .ios-cal-today-btn {
-            padding: 0 10px;
-            height: 32px;
-            border-radius: 16px;
+            padding: 0 12px;
+            height: 36px;
+            border-radius: 18px;
             border: 1px solid var(--divider-line);
             background: var(--btn-secondary-bg);
             color: var(--text-main);
-            font-size: 10.5px;
+            font-size: 11px;
             font-weight: 800;
             text-transform: uppercase;
             cursor: pointer;
@@ -376,7 +378,6 @@
             position: absolute;
             bottom: 3px;
         }
-        /* Phóng to chấm lịch và phân biệt màu rõ ràng */
         .ios-cal-dot {
             width: 7.5px;
             height: 7.5px;
@@ -411,8 +412,8 @@
             background: var(--tag-gold-bg);
             color: var(--accent-gold);
             border: 1px solid rgba(223, 185, 110, 0.4);
-            padding: 8px 12px;
-            border-radius: 12px;
+            padding: 10px 16px;
+            border-radius: 14px;
             font-size: 11px;
             font-weight: 800;
             text-transform: uppercase;
@@ -926,6 +927,7 @@
         const ICON_SUNSET = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><path d="M12 3v2M4.9 7.1l1.4 1.4M19.1 7.1l-1.4 1.4M2 17h20M16 17a4 4 0 0 0-8 0"></path></svg>`;
         const ICON_MOON = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
         
+        // Icon Google Maps & Drive
         const ICON_PIN = `<img src="https://res.cloudinary.com/uogkte7b/image/upload/v1792472347/Google_Maps_icon__2026.svg.png" width="14" height="14" style="margin-right:4px; margin-top:-2px" alt="Maps">`;
         const ICON_DRIVE = `<img src="https://res.cloudinary.com/uogkte7b/image/upload/v1792472346/Google_Drive_Logo_05.2026.png" width="16" height="16" style="margin-right:5px; margin-top:-2px" alt="Drive">`;
         
@@ -1656,7 +1658,7 @@
                         let dayNum = dateStr.includes('/') ? parseInt(dateStr.split('/')[0]) : 0;
                         let dbId = `db-${yearNum}-${monthNum}-${dayNum}`;
                         let dcId = `dc-${yearNum}-${monthNum}-${dayNum}`;
-                        
+
                         htmlStr += `<div class="day-block" id="${dbId}" data-year="${yearNum}" data-month="${monthNum}" data-day="${dayNum}">
                         <div class="day-header glass-fx" 
                              onclick="toggleSection('${dcId}', this)"
@@ -1668,7 +1670,6 @@
                         
                         let sessionsInDay = Object.keys(groupedData[yearStr][monthStr][dateStr]).sort((a, b) => sessionOrder[a] - sessionOrder[b]);
                         
-                        let sIndex = 0;
                         sessionsInDay.forEach(session => {
                             let sessionDisplayText = session === 'Chụp 2 Buổi' ? session : `Buổi ${session}`;
                             let sCode = sessionOrder[session];
@@ -1684,11 +1685,10 @@
                             });
                             
                             htmlStr += `</div>`; 
-                            sIndex++;
                         });
-                        htmlStr += `</div></div>`; dIndex++;
+                        htmlStr += `</div></div>`;
                     }
-                    htmlStr += `</div></div>`; mIndex++;
+                    htmlStr += `</div></div>`;
                 }
                 htmlStr += `</div></div>`; yIndex++;
             });
