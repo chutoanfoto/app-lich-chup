@@ -97,10 +97,10 @@
                 --badge-shadow: 0 8px 20px rgba(0,0,0,0.6), inset 0 1px 0.5px rgba(255,255,255,0.1);
 
                 --text-main: #f5f5f7; --text-muted: #86868b; --text-sub: rgba(240, 240, 240, 0.5);
-                --accent-gold: #e2b740; 
-                --tag-gold-bg: rgba(223, 185, 110, 0.16); --tag-gold-text: #e2b740;
+                --accent-gold: #cca53f; 
+                --tag-gold-bg: rgba(204, 165, 63, 0.16); --tag-gold-text: #e2b740;
                 --alert-red: #ff453a; --alert-bg: rgba(255, 69, 58, 0.15);
-                --success-green: #32d74b; --success-bg: rgba(50, 215, 75, 0.15);
+                --success-green: #34A853; --success-bg: rgba(52, 168, 83, 0.15);
                 
                 --modal-bg: rgba(28, 28, 30, 0.95); 
                 --input-bg: rgba(44, 44, 46, 0.7); 
@@ -246,7 +246,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 24px;
-            padding: 0;
+            padding: 0 4px;
             gap: 6px;
         }
         .ios-cal-month-title {
@@ -917,9 +917,9 @@
         const ICON_SUNSET = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><path d="M12 3v2M4.9 7.1l1.4 1.4M19.1 7.1l-1.4 1.4M2 17h20M16 17a4 4 0 0 0-8 0"></path></svg>`;
         const ICON_MOON = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
         
-        // Icon Google Maps & Drive nhúng mã SVG path trực tiếp (100% tỷ lệ gốc)
-        const ICON_PIN = `<svg width="16" height="16" viewBox="0 0 48 48" style="flex-shrink:0; margin-top:-1px" xmlns="http://www.w3.org/2000/svg"><path fill="#4285F4" d="M38.5 11.7C35.7 7.5 31.1 4.5 25.8 3.5c-1.2-.2-2.4-.3-3.7-.3-6 0-11.4 2.2-15.5 5.8-1.5 1.3-2.8 2.8-4 4.5L24 24.1l14.5-12.4z"/><path fill="#34A853" d="M38.5 11.7l-14.5 12.4 5.6 7.4 8.7-11.7c1-1.6 1.7-3.4 2-5.3.1-.9.1-1.8 0-2.8z"/><path fill="#FBBC05" d="M2.6 13.5C1 16.4.1 19.6.1 23.1c0 3 .6 5.8 1.6 8.3 1.9 4.8 5 9.1 8.8 13.5L24 24.1 2.6 13.5z"/><path fill="#EA4335" d="M10.5 44.9C15 50.4 19.1 54.7 22.1 61.2c.4.8.8 1.8 1.1 2.8.6 1.9 1.6 4 3 4 1.4 0 2.4-2.1 3-4 .3-1 .6-1.9 1.1-2.8 2.1-4.6 4.9-8.4 8.1-12.5L24 24.1l-13.5 20.8z"/></svg>`;
-        const ICON_DRIVE = `<svg width="18" height="18" viewBox="0 0 87.3 78" style="flex-shrink:0" xmlns="http://www.w3.org/2000/svg"><path d="m58 78 29.3-50.7H29.2L0 78h58z" fill="#0066da"/><path d="m58 78-29.2-50.7L58 0h29.3L58 78z" fill="#00ac47"/><path d="M0 78 29.2 27.3 58 0 28.8 0 0 50.7 0 78z" fill="#ea4335"/><path d="M29.2 27.3h58L58 78H0l29.2-50.7z" fill="#00832d"/><path d="m28.8 0 29.2 50.7L29.2 78 0 27.3 28.8 0z" fill="#2684fc"/><path d="M58 0 28.8 50.7 58 78h29.3L58 0z" fill="#ffba00"/></svg>`;
+        // Cập nhật thẻ IMG bằng URL của bạn 
+        const ICON_PIN = `<img src="https://res.cloudinary.com/uogkte7b/image/upload/v1792472347/Google_Maps_icon__2026.svg.png" width="14" height="14" style="margin-right:4px; margin-top:-2px" alt="Maps">`;
+        const ICON_DRIVE = `<img src="https://res.cloudinary.com/uogkte7b/image/upload/v1792472346/Google_Drive_Logo_05.2026.png" width="16" height="16" style="margin-right:5px; margin-top:-2px" alt="Drive">`;
         
         const ICON_PHONE = `<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="margin-right:6px; flex-shrink:0; margin-top:3px; color:var(--accent-gold);"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>`;
         const ICON_NOTE = `<svg width="15" height="15" viewBox="0 0 512 512" style="margin-right:5px; margin-top:-2px"><rect width="512" height="512" rx="115" fill="#f2f2f7"/><path d="M0 130v70h512v-70c0-71.8-58.2-130-130-130H130C58.2 0 0 58.2 0 130z" fill="#ffcc00"/><line x1="80" y1="280" x2="432" y2="280" stroke="#c7c7cc" stroke-width="28" stroke-linecap="round"/><line x1="80" y1="380" x2="432" y2="380" stroke="#c7c7cc" stroke-width="28" stroke-linecap="round"/><line x1="80" y1="480" x2="280" y2="480" stroke="#c7c7cc" stroke-width="28" stroke-linecap="round"/></svg>`;
