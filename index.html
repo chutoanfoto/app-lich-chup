@@ -9,10 +9,70 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Lịch Chụp">
     
-    <link rel="apple-touch-icon" href="https://i.postimg.cc/prXXD19w/logo-app-lich-chup.jpg">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://i.postimg.cc/prXXD19w/logo-app-lich-chup.jpg">
-    <link rel="icon" type="image/jpeg" href="https://i.postimg.cc/prXXD19w/logo-app-lich-chup.jpg">
-    <link rel="shortcut icon" href="https://i.postimg.cc/prXXD19w/logo-app-lich-chup.jpg">
+    <!-- FAVICON & BIỂU TƯỢNG LỊCH CHỤP TRÊN IPHONE -->
+    <link rel="icon" id="appFavicon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='115' fill='%23ffffff'/><path d='M0 115C0 51.5 51.5 0 115 0h282c63.5 0 115 51.5 115 115v55H0v-55z' fill='%23c59b27'/><rect x='125' y='32' width='30' height='72' rx='15' fill='%23ffffff'/><rect x='357' y='32' width='30' height='72' rx='15' fill='%23ffffff'/><rect x='76' y='225' width='92' height='84' rx='20' fill='%23e6e4de'/><rect x='210' y='225' width='92' height='84' rx='20' fill='%23e6e4de'/><rect x='344' y='225' width='92' height='84' rx='20' fill='%23c59b27'/><rect x='76' y='345' width='92' height='84' rx='20' fill='%23e6e4de'/><rect x='210' y='345' width='92' height='84' rx='20' fill='%2334a853'/><rect x='344' y='345' width='92' height='84' rx='20' fill='%23e6e4de'/></svg>">
+    <link rel="apple-touch-icon" id="appleTouchIcon" sizes="180x180" href="">
+    <link rel="shortcut icon" id="shortFavicon" href="">
+    <script>
+        (function() {
+            try {
+                var c = document.createElement('canvas');
+                c.width = 512; c.height = 512;
+                var ctx = c.getContext('2d');
+                function rRect(x, y, w, h, r) {
+                    ctx.beginPath();
+                    ctx.moveTo(x + r, y);
+                    ctx.arcTo(x + w, y, x + w, y + h, r);
+                    ctx.arcTo(x + w, y + h, x, y + h, r);
+                    ctx.arcTo(x, y + h, x, y, r);
+                    ctx.arcTo(x, y, x + w, y, r);
+                    ctx.closePath();
+                }
+                var bgGrad = ctx.createLinearGradient(0, 0, 0, 512);
+                bgGrad.addColorStop(0, '#ffffff');
+                bgGrad.addColorStop(1, '#f3f0e8');
+                ctx.fillStyle = bgGrad;
+                ctx.fillRect(0, 0, 512, 512);
+
+                var headGrad = ctx.createLinearGradient(0, 0, 512, 175);
+                headGrad.addColorStop(0, '#d4af37');
+                headGrad.addColorStop(1, '#997328');
+                ctx.fillStyle = headGrad;
+                ctx.fillRect(0, 0, 512, 172);
+
+                ctx.fillStyle = 'rgba(0,0,0,0.08)';
+                ctx.fillRect(0, 172, 512, 8);
+
+                [122, 358].forEach(function(rx) {
+                    rRect(rx, 38, 32, 76, 16);
+                    ctx.fillStyle = 'rgba(0,0,0,0.22)';
+                    ctx.fill();
+                    rRect(rx, 30, 32, 76, 16);
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fill();
+                });
+
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '900 38px -apple-system, BlinkMacSystemFont, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('LỊCH CHỤP', 256, 132);
+
+                var cols = [76, 210, 344], rows = [224, 348];
+                for (var r = 0; r < 2; r++) {
+                    for (var col = 0; col < 3; col++) {
+                        rRect(cols[col], rows[r], 92, 84, 22);
+                        if (r === 0 && col === 2) ctx.fillStyle = '#c59b27';
+                        else if (r === 1 && col === 1) ctx.fillStyle = '#34A853';
+                        else ctx.fillStyle = '#e5e2dc';
+                        ctx.fill();
+                    }
+                }
+                var pngUrl = c.toDataURL('image/png');
+                document.getElementById('appleTouchIcon').href = pngUrl;
+                document.getElementById('shortFavicon').href = pngUrl;
+            } catch(e) {}
+        })();
+    </script>
 
     <title>ChuToan Foto - Quản Lý Lịch Chụp</title>
     <style>
@@ -1223,7 +1283,6 @@
             const ctx = canvas.getContext('2d');
             const W = 1080;
 
-            // Tính toán chiều cao tự động theo nội dung
             ctx.font = '600 32px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
             const locLines = wrapCanvasText(ctx, location, 560);
 
@@ -1239,7 +1298,6 @@
             canvas.width = W;
             canvas.height = H;
 
-            // Bảng màu theo Theme
             const bgGrad = ctx.createLinearGradient(0, 0, W, H);
             if (isDark) {
                 bgGrad.addColorStop(0, '#0c0c0e');
@@ -1253,14 +1311,12 @@
             ctx.fillStyle = bgGrad;
             ctx.fillRect(0, 0, W, H);
 
-            // Quầng sáng trang trí
             const glow = ctx.createRadialGradient(W * 0.5, 180, 20, W * 0.5, 180, 520);
             glow.addColorStop(0, isDark ? 'rgba(223, 185, 110, 0.16)' : 'rgba(197, 155, 39, 0.18)');
             glow.addColorStop(1, 'rgba(0,0,0,0)');
             ctx.fillStyle = glow;
             ctx.fillRect(0, 0, W, H);
 
-            // Khung Phiếu Chính
             const cardX = 56, cardY = 56, cardW = W - 112, cardH = H - 112;
             ctx.save();
             drawRoundedRect(ctx, cardX, cardY, cardW, cardH, 48);
@@ -1271,7 +1327,6 @@
             ctx.fill();
             ctx.restore();
 
-            // Viền Gold sang trọng
             drawRoundedRect(ctx, cardX, cardY, cardW, cardH, 48);
             ctx.lineWidth = 3;
             ctx.strokeStyle = isDark ? 'rgba(223, 185, 110, 0.42)' : 'rgba(197, 155, 39, 0.45)';
@@ -1287,7 +1342,6 @@
             const textMuted = isDark ? '#9e9ea6' : '#78746c';
             const dividerColor = isDark ? 'rgba(255,255,255,0.09)' : 'rgba(0,0,0,0.08)';
 
-            // Header Thương Hiệu
             let curY = 148;
             ctx.textAlign = 'center';
             ctx.fillStyle = goldColor;
@@ -1299,7 +1353,6 @@
             ctx.font = '700 20px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
             ctx.fillText('DOCUMENTARY WEDDING & EVENT PHOTOGRAPHY', W / 2, curY);
 
-            // Huy hiệu tiêu đề phiếu
             curY += 44;
             const badgeW = 520, badgeH = 66;
             drawRoundedRect(ctx, (W - badgeW) / 2, curY, badgeW, badgeH, 33);
@@ -1313,7 +1366,6 @@
             ctx.font = '800 27px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
             ctx.fillText('PHIẾU XÁC NHẬN LỊCH CHỤP', W / 2, curY + 43);
 
-            // Đường kẻ ngăn cách
             curY += 106;
             ctx.beginPath();
             ctx.setLineDash([10, 10]);
@@ -1324,7 +1376,6 @@
             ctx.stroke();
             ctx.setLineDash([]);
 
-            // Bảng thông tin khách hàng
             const leftX = cardX + 70;
             const rightX = cardX + cardW - 70;
 
@@ -1351,7 +1402,6 @@
             drawRow('Ngày chụp', dateStr);
             drawRow('Thời gian', timeStr);
 
-            // Địa điểm (hỗ trợ nhiều dòng)
             curY += 74;
             ctx.textAlign = 'left';
             ctx.fillStyle = textMuted;
@@ -1366,7 +1416,6 @@
                 ctx.fillText(line, rightX, curY);
             });
 
-            // Khung Ghi chú / Timeline (nếu bật)
             if (noteLines.length > 0) {
                 curY += 46;
                 const noteBoxH = 74 + (noteLines.length * 44);
@@ -1392,7 +1441,6 @@
                 curY += noteBoxH;
             }
 
-            // Khung Tổng Kết Tài Chính
             curY += 52;
             const finBoxH = (phi > 0) ? 350 : 286;
             drawRoundedRect(ctx, leftX, curY, cardW - 140, finBoxH, 28);
@@ -1429,7 +1477,6 @@
             finY += 58;
             drawFinRow('Đã cọc / Thanh toán', formatMoney(daThanhToan), '#27ae60', false);
 
-            // Đường kẻ trong hộp tiền
             finY += 26;
             ctx.beginPath();
             ctx.moveTo(finLeft, finY);
@@ -1445,7 +1492,6 @@
                 drawFinRow('TRẠNG THÁI', 'ĐÃ TẤT TOÁN ✓', '#27ae60', true);
             }
 
-            // Lời cảm ơn chân trang
             curY += finBoxH + 66;
             ctx.textAlign = 'center';
             ctx.fillStyle = goldColor;
