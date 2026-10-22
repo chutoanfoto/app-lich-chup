@@ -9,65 +9,65 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Lịch Chụp">
     
-    <!-- FAVICON & BIỂU TƯỢNG LỊCH CHỤP TRÊN IPHONE -->
-    <link rel="icon" id="appFavicon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='115' fill='%23ffffff'/><path d='M0 115C0 51.5 51.5 0 115 0h282c63.5 0 115 51.5 115 115v55H0v-55z' fill='%23c59b27'/><rect x='125' y='32' width='30' height='72' rx='15' fill='%23ffffff'/><rect x='357' y='32' width='30' height='72' rx='15' fill='%23ffffff'/><rect x='76' y='225' width='92' height='84' rx='20' fill='%23e6e4de'/><rect x='210' y='225' width='92' height='84' rx='20' fill='%23e6e4de'/><rect x='344' y='225' width='92' height='84' rx='20' fill='%23c59b27'/><rect x='76' y='345' width='92' height='84' rx='20' fill='%23e6e4de'/><rect x='210' y='345' width='92' height='84' rx='20' fill='%2334a853'/><rect x='344' y='345' width='92' height='84' rx='20' fill='%23e6e4de'/></svg>">
+    <!-- FAVICON & BIỂU TƯỢNG LỊCH IPHONE ĐỘNG THEO NGÀY THỰC TẾ -->
+    <link rel="icon" id="appFavicon" type="image/png" href="">
     <link rel="apple-touch-icon" id="appleTouchIcon" sizes="180x180" href="">
     <link rel="shortcut icon" id="shortFavicon" href="">
     <script>
-        (function() {
+        (function updateDynamicCalendarIcon() {
             try {
+                var now = new Date();
+                var weekdays = ['CHỦ NHẬT', 'THỨ HAI', 'THỨ BA', 'THỨ TƯ', 'THỨ NĂM', 'THỨ SÁU', 'THỨ BẢY'];
+                var wDay = weekdays[now.getDay()];
+                var dNum = String(now.getDate());
+                var mStr = 'THÁNG ' + (now.getMonth() + 1) + ' • CHUTOAN';
+
                 var c = document.createElement('canvas');
                 c.width = 512; c.height = 512;
                 var ctx = c.getContext('2d');
-                function rRect(x, y, w, h, r) {
-                    ctx.beginPath();
-                    ctx.moveTo(x + r, y);
-                    ctx.arcTo(x + w, y, x + w, y + h, r);
-                    ctx.arcTo(x + w, y + h, x, y + h, r);
-                    ctx.arcTo(x, y + h, x, y, r);
-                    ctx.arcTo(x, y, x + w, y, r);
-                    ctx.closePath();
-                }
+
+                // Nền trắng chuẩn iOS Calendar
                 var bgGrad = ctx.createLinearGradient(0, 0, 0, 512);
                 bgGrad.addColorStop(0, '#ffffff');
-                bgGrad.addColorStop(1, '#f3f0e8');
+                bgGrad.addColorStop(1, '#f4f2ec');
                 ctx.fillStyle = bgGrad;
                 ctx.fillRect(0, 0, 512, 512);
 
-                var headGrad = ctx.createLinearGradient(0, 0, 512, 175);
-                headGrad.addColorStop(0, '#d4af37');
-                headGrad.addColorStop(1, '#997328');
+                // Thanh tiêu đề Thứ phía trên
+                var headGrad = ctx.createLinearGradient(0, 0, 512, 145);
+                headGrad.addColorStop(0, '#d93829');
+                headGrad.addColorStop(1, '#b82518');
                 ctx.fillStyle = headGrad;
-                ctx.fillRect(0, 0, 512, 172);
+                ctx.fillRect(0, 0, 512, 142);
 
-                ctx.fillStyle = 'rgba(0,0,0,0.08)';
-                ctx.fillRect(0, 172, 512, 8);
+                // Đường viền vàng mảnh dưới header
+                ctx.fillStyle = '#dfb96e';
+                ctx.fillRect(0, 142, 512, 8);
 
-                [122, 358].forEach(function(rx) {
-                    rRect(rx, 38, 32, 76, 16);
-                    ctx.fillStyle = 'rgba(0,0,0,0.22)';
-                    ctx.fill();
-                    rRect(rx, 30, 32, 76, 16);
-                    ctx.fillStyle = '#ffffff';
-                    ctx.fill();
-                });
-
+                // Thứ trong tuần
                 ctx.fillStyle = '#ffffff';
-                ctx.font = '900 38px -apple-system, BlinkMacSystemFont, sans-serif';
                 ctx.textAlign = 'center';
-                ctx.fillText('LỊCH CHỤP', 256, 132);
+                ctx.textBaseline = 'middle';
+                ctx.font = '800 50px -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif';
+                ctx.fillText(wDay, 256, 74);
 
-                var cols = [76, 210, 344], rows = [224, 348];
-                for (var r = 0; r < 2; r++) {
-                    for (var col = 0; col < 3; col++) {
-                        rRect(cols[col], rows[r], 92, 84, 22);
-                        if (r === 0 && col === 2) ctx.fillStyle = '#c59b27';
-                        else if (r === 1 && col === 1) ctx.fillStyle = '#34A853';
-                        else ctx.fillStyle = '#e5e2dc';
-                        ctx.fill();
-                    }
-                }
+                // Số Ngày cỡ lớn chính giữa
+                ctx.fillStyle = '#18181a';
+                ctx.font = '800 235px -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif';
+                ctx.fillText(dNum, 256, 298);
+
+                // Huy hiệu Tháng & Thương hiệu phía dưới
+                ctx.fillStyle = 'rgba(197, 155, 39, 0.16)';
+                ctx.beginPath();
+                ctx.roundRect ? ctx.roundRect(76, 422, 360, 54, 27) : ctx.rect(76, 422, 360, 54);
+                ctx.fill();
+
+                ctx.fillStyle = '#9e7711';
+                ctx.font = '800 25px -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif';
+                ctx.fillText(mStr, 256, 450);
+
                 var pngUrl = c.toDataURL('image/png');
+                document.getElementById('appFavicon').href = pngUrl;
                 document.getElementById('appleTouchIcon').href = pngUrl;
                 document.getElementById('shortFavicon').href = pngUrl;
             } catch(e) {}
@@ -112,8 +112,9 @@
             --tag-gold-bg: rgba(197, 155, 39, 0.15); --tag-gold-text: #8f6b0a;
             --alert-red: #d35400; --alert-bg: rgba(211, 84, 0, 0.1);
             --success-green: #219653; --success-bg: rgba(39, 174, 96, 0.12);
+            --purple-edit: #8e44ad; --purple-bg: rgba(142, 68, 173, 0.12);
             
-            --modal-bg: rgba(246, 245, 242, 0.94); 
+            --modal-bg: rgba(246, 245, 242, 0.96); 
             --input-bg: rgba(255, 255, 255, 0.9); 
             --input-border: rgba(0, 0, 0, 0.08);
             --input-text: #141414; --input-placeholder: #a8a398;
@@ -155,6 +156,7 @@
                 --tag-gold-bg: rgba(223, 185, 110, 0.15); --tag-gold-text: #dfb96e;
                 --alert-red: #ff453a; --alert-bg: rgba(255, 69, 58, 0.15);
                 --success-green: #30d158; --success-bg: rgba(48, 209, 88, 0.15);
+                --purple-edit: #c58af9; --purple-bg: rgba(197, 138, 249, 0.15);
                 
                 --modal-bg: rgba(20, 20, 22, 0.96); 
                 --input-bg: rgba(38, 38, 40, 0.75); 
@@ -219,6 +221,119 @@
             border-left-color: var(--glass-border-left);
             box-shadow: var(--glass-shadow); 
         }
+
+        /* ==== THANH LỌC NHANH (QUICK FILTER PILLS) ==== */
+        .quick-filter-row {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 2px 2px 4px 2px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .quick-filter-row::-webkit-scrollbar { display: none; }
+        .filter-pill {
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 13px;
+            border-radius: 16px;
+            background: var(--widget-inner-bg);
+            border: 1px solid var(--divider-line);
+            color: var(--text-muted);
+            font-size: 11.5px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.18s ease;
+            touch-action: manipulation;
+            user-select: none;
+            white-space: nowrap;
+        }
+        .filter-pill:active { transform: scale(0.94); }
+        .filter-pill.active {
+            background: linear-gradient(135deg, var(--accent-gold), #997328);
+            color: #ffffff;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(197, 155, 39, 0.35);
+        }
+        @media (prefers-color-scheme: dark) {
+            .filter-pill.active { color: #050505; }
+        }
+        .filter-pill-count {
+            padding: 1px 6px;
+            border-radius: 10px;
+            font-size: 10px;
+            background: rgba(0, 0, 0, 0.07);
+            color: inherit;
+        }
+        @media (prefers-color-scheme: dark) {
+            .filter-pill-count { background: rgba(255, 255, 255, 0.12); }
+            .filter-pill.active .filter-pill-count { background: rgba(0, 0, 0, 0.2); }
+        }
+
+        /* ==== NHÃN TRẠNG THÁI HẬU KỲ & ĐẾM NGƯỢC TRÊN THẺ ==== */
+        .card-badges-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+            margin-top: 4px;
+        }
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 10.5px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+        .status-pill.waiting { background: rgba(52, 152, 219, 0.13); color: #2980b9; border: 1px solid rgba(52, 152, 219, 0.25); }
+        @media (prefers-color-scheme: dark) {
+            .status-pill.waiting { color: #5dade2; }
+        }
+        .status-pill.editing { background: var(--purple-bg); color: var(--purple-edit); border: 1px solid rgba(142, 68, 173, 0.28); }
+        .status-pill.unpaid { background: var(--alert-bg); color: var(--alert-red); border: 1px solid rgba(211, 84, 0, 0.25); }
+        .status-pill.done { background: var(--success-bg); color: var(--success-green); border: 1px solid rgba(39, 174, 96, 0.28); }
+
+        .countdown-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 9px;
+            border-radius: 8px;
+            font-size: 10.5px;
+            font-weight: 800;
+            background: var(--btn-secondary-bg);
+            color: var(--text-muted);
+            border: 1px solid var(--divider-line);
+            white-space: nowrap;
+        }
+        .countdown-pill.urgent {
+            background: var(--alert-bg);
+            color: var(--alert-red);
+            border-color: rgba(255, 69, 58, 0.35);
+        }
+
+        /* ==== HỘP CẢNH BÁO TRÙNG LỊCH TRONG FORM ==== */
+        .conflict-warning-box {
+            display: none;
+            padding: 12px 14px;
+            margin-bottom: 16px;
+            border-radius: 14px;
+            background: rgba(243, 156, 18, 0.14);
+            border: 1.5px solid rgba(243, 156, 18, 0.5);
+            color: #d35400;
+            font-size: 12.5px;
+            font-weight: 700;
+            line-height: 1.45;
+            animation: fadeIn 0.2s ease;
+        }
+        @media (prefers-color-scheme: dark) {
+            .conflict-warning-box { color: #f39c12; }
+        }
+        .conflict-warning-box.show { display: block; }
 
         /* ==== BANNER NHẮC LỊCH CHỤP TỰ ĐỘNG (HÔM NAY & NGÀY MAI) ==== */
         .upcoming-banner {
@@ -647,6 +762,7 @@
         .card { background: var(--card-solid-bg); border-radius: 26px; padding: 20px; margin: 0 0 16px 24px; transition: transform 0.15s ease, box-shadow 0.3s ease; box-shadow: var(--widget-inner-shadow); border: 1px solid var(--glass-border); }
         .card:active { transform: scale(0.985); }
         .card.search-hidden { display: none !important; }
+        .card.filter-hidden { display: none !important; }
         
         .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; gap: 8px; }
         
@@ -851,6 +967,29 @@
         </svg>
     </button>
 
+    <!-- MODAL THANH TOÁN LINH HOẠT (TẤT TOÁN 100% HOẶC TRẢ THÊM TỪNG ĐỢT) -->
+    <div class="modal" id="modalPayment" onclick="if(event.target === this) closePaymentModal()">
+        <div class="modal-content glass-fx" onclick="event.stopPropagation()" style="max-width: 460px; margin: auto; border-radius: 32px 32px 0 0;">
+            <div class="modal-header" style="margin-bottom: 18px;">
+                <h3>💸 GHI NHẬN THANH TOÁN</h3>
+                <span class="close-btn" onclick="closePaymentModal()">✕</span>
+            </div>
+            <div id="paymentSummaryBox" style="padding: 16px; border-radius: 18px; background: var(--widget-inner-bg); border: 1px solid var(--divider-line); margin-bottom: 18px; font-size: 14px; line-height: 1.7;"></div>
+            
+            <button type="button" class="btn-pay" style="margin-bottom: 18px; padding: 17px;" onclick="confirmFullPayment()">
+                ✓ TẤT TOÁN 100% SỐ NỢ CÒN LẠI
+            </button>
+
+            <div style="text-align: center; font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 14px; letter-spacing: 0.8px;">— HOẶC KHÁCH TRẢ THÊM TỪNG ĐỢT —</div>
+
+            <div class="form-group" style="margin-bottom: 12px;">
+                <label>Số tiền khách trả thêm đợt này (VNĐ)</label>
+                <input type="text" id="partialPayAmount" class="form-control money-input" placeholder="Nhập số tiền trả thêm...">
+            </div>
+            <button type="button" class="btn-submit" style="margin-top: 6px;" onclick="confirmPartialPayment()">CỘNG THÊM KHOẢN THU NÀY</button>
+        </div>
+    </div>
+
     <!-- MODAL XUẤT ẢNH PHIẾU XÁC NHẬN LỊCH CHỤP -->
     <div class="modal" id="modalReceipt" onclick="if(event.target === this) closeReceiptModal()">
         <div class="modal-content glass-fx" onclick="event.stopPropagation()">
@@ -962,6 +1101,22 @@
                     <span>Làm Mới</span>
                 </div>
             </div>
+
+            <!-- THANH LỌC NHANH 1 CHẠM (QUICK FILTER PILLS) -->
+            <div class="quick-filter-row" id="quickFilterBar">
+                <div class="filter-pill active" data-filter="all" onclick="setQuickFilter('all')">
+                    <span>Tất cả</span><span class="filter-pill-count" id="qfCountAll">0</span>
+                </div>
+                <div class="filter-pill" data-filter="upcoming" onclick="setQuickFilter('upcoming')">
+                    <span>🟡 Sắp chụp</span><span class="filter-pill-count" id="qfCountUpcoming">0</span>
+                </div>
+                <div class="filter-pill" data-filter="debt" onclick="setQuickFilter('debt')">
+                    <span>🔴 Còn nợ</span><span class="filter-pill-count" id="qfCountDebt">0</span>
+                </div>
+                <div class="filter-pill" data-filter="nodrive" onclick="setQuickFilter('nodrive')">
+                    <span>🟣 Chờ trả Drive</span><span class="filter-pill-count" id="qfCountNoDrive">0</span>
+                </div>
+            </div>
         </div>
         <!-- END WIDGET ĐIỀU KHIỂN -->
 
@@ -1056,9 +1211,13 @@
                 Chỉ số mở rộng
             </div>
             <div class="stats-grid" style="margin-bottom: 22px; gap: 10px; grid-template-columns: 1fr 1fr;">
-                <div class="stat-card glass-fx clickable-card" style="padding: 16px; grid-column: span 2; cursor: pointer; touch-action: manipulation;" onclick="toggleFutureDepositDetails()">
+                <div class="stat-card glass-fx clickable-card" style="padding: 16px; cursor: pointer; touch-action: manipulation;" onclick="toggleFutureDepositDetails()">
                     <div class="stat-label">Tiền cọc đã thu <span id="toggleFutureDepositIcon" style="display:inline-block; transition: transform 0.2s; margin-left:2px;">▼</span></div>
-                    <div class="stat-value" id="totalFutureDeposit" style="font-size: 18px; color: var(--accent-gold);">0 đ</div>
+                    <div class="stat-value" id="totalFutureDeposit" style="font-size: 17px; color: var(--accent-gold);">0 đ</div>
+                </div>
+                <div class="stat-card glass-fx" style="padding: 16px;">
+                    <div class="stat-label">DT Thuần Gói Chụp</div>
+                    <div class="stat-value" id="netPackageRevenue" style="font-size: 17px; color: var(--success-green);">0 đ</div>
                 </div>
                 
                 <div class="stat-card glass-fx" style="padding: 16px;">
@@ -1094,8 +1253,9 @@
             
             <div id="tab-create" class="tab-panel active">
                 <form id="formCreate" onsubmit="submitCreate(event)">
-                    <div class="form-group"><label>Ngày chụp</label><input type="date" id="c_ngay" class="form-control" required></div>
-                    <div class="form-group"><label>Thời gian (Sáng/Chiều/Tối)</label><input type="text" id="c_thoigian" class="form-control" placeholder="Ví dụ: Sáng 7h"></div>
+                    <div class="form-group"><label>Ngày chụp</label><input type="date" id="c_ngay" class="form-control" required onchange="triggerCreateConflictCheck()"></div>
+                    <div class="form-group"><label>Thời gian (Sáng/Chiều/Tối)</label><input type="text" id="c_thoigian" class="form-control" placeholder="Ví dụ: Sáng 7h" oninput="triggerCreateConflictCheck()"></div>
+                    <div id="createConflictBox" class="conflict-warning-box"></div>
                     <div class="form-group"><label>Khách hàng (Tên)</label><input type="text" id="c_khach" class="form-control" required placeholder="Tên khách hàng"></div>
                     <div class="form-group"><label>Địa điểm chụp</label><input type="text" id="c_diadiem" class="form-control" placeholder="Nơi chụp chính"></div>
                     
@@ -1132,8 +1292,9 @@
             <div id="tab-edit" class="tab-panel">
                 <form id="formEdit" onsubmit="submitEdit(event)">
                     <input type="hidden" id="e_rowindex">
-                    <div class="form-group"><label>Ngày chụp</label><input type="date" id="e_ngay" class="form-control" required></div>
-                    <div class="form-group"><label>Thời gian (Sáng/Chiều/Tối)</label><input type="text" id="e_thoigian" class="form-control"></div>
+                    <div class="form-group"><label>Ngày chụp</label><input type="date" id="e_ngay" class="form-control" required onchange="triggerEditConflictCheck()"></div>
+                    <div class="form-group"><label>Thời gian (Sáng/Chiều/Tối)</label><input type="text" id="e_thoigian" class="form-control" oninput="triggerEditConflictCheck()"></div>
+                    <div id="editConflictBox" class="conflict-warning-box"></div>
                     <div class="form-group"><label>Khách hàng (Tên)</label><input type="text" id="e_khach" class="form-control" required></div>
                     <div class="form-group"><label>Địa điểm chụp</label><input type="text" id="e_diadiem" class="form-control"></div>
                     
@@ -1172,6 +1333,8 @@
         
         let pendingAction = null;
         let pendingRowIndex = null;
+        let currentPaymentRowIndex = null;
+        let currentQuickFilter = 'all';
 
         // BIẾN TRẠNG THÁI CHO LỊCH IPHONE & CHUYỂN VIEW
         let calViewYear = new Date().getFullYear();
@@ -1206,6 +1369,173 @@
         function normalizeStr(str) {
             if(!str) return '';
             return str.toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase();
+        }
+
+        // ======== HỆ THỐNG LỌC KẾT HỢP (TÌM KIẾM + QUICK FILTER PILLS) ========
+        function setQuickFilter(filterType) {
+            currentQuickFilter = filterType;
+            document.querySelectorAll('#quickFilterBar .filter-pill').forEach(pill => {
+                pill.classList.toggle('active', pill.getAttribute('data-filter') === filterType);
+            });
+            if (currentViewMode === 'calendar' && filterType !== 'all') {
+                toggleViewMode('list');
+            }
+            applyCombinedFilters();
+        }
+
+        function updateQuickFilterCounts() {
+            let today0 = new Date();
+            today0.setHours(0, 0, 0, 0);
+            let cAll = allValidData.length;
+            let cUpcoming = 0, cDebt = 0, cNoDrive = 0;
+
+            allValidData.forEach(row => {
+                let dObj = row._dateObj;
+                let conLai = parseNum(findVal(row, 'còn lại'));
+                let driveVal = (findVal(row, 'drive') || row['Link Drive'] || '').toString().trim();
+
+                if (dObj && dObj >= today0) cUpcoming++;
+                if (conLai > 0) cDebt++;
+                if (dObj && dObj < today0 && !driveVal) cNoDrive++;
+            });
+
+            document.getElementById('qfCountAll').innerText = cAll;
+            document.getElementById('qfCountUpcoming').innerText = cUpcoming;
+            document.getElementById('qfCountDebt').innerText = cDebt;
+            document.getElementById('qfCountNoDrive').innerText = cNoDrive;
+        }
+
+        function applyCombinedFilters() {
+            let kw = normalizeStr(document.getElementById('liveSearch').value.trim());
+            let isFiltering = (kw !== '' || currentQuickFilter !== 'all');
+
+            document.querySelectorAll('#bookingList .card').forEach(card => {
+                let searchData = card.getAttribute('data-search') || '';
+                let matchKw = (kw === '' || searchData.includes(kw));
+                let matchQuick = true;
+
+                if (currentQuickFilter === 'upcoming') matchQuick = card.getAttribute('data-upcoming') === '1';
+                else if (currentQuickFilter === 'debt') matchQuick = card.getAttribute('data-debt') === '1';
+                else if (currentQuickFilter === 'nodrive') matchQuick = card.getAttribute('data-nodrive') === '1';
+
+                if (matchKw && matchQuick) {
+                    card.style.display = 'block';
+                    card.classList.remove('search-hidden');
+                } else {
+                    card.style.display = 'none';
+                    card.classList.add('search-hidden');
+                }
+            });
+
+            document.querySelectorAll('.year-block').forEach(yb => {
+                let hasVisibleCards = Array.from(yb.querySelectorAll('.card')).some(c => c.style.display !== 'none');
+                yb.style.display = hasVisibleCards ? 'block' : 'none';
+                if (hasVisibleCards) {
+                    yb.querySelectorAll('.month-block').forEach(mb => {
+                        let mbHasVisible = Array.from(mb.querySelectorAll('.card')).some(c => c.style.display !== 'none');
+                        mb.style.display = mbHasVisible ? 'block' : 'none';
+                        if (mbHasVisible) {
+                            mb.querySelectorAll('.day-block').forEach(db => {
+                                let dbHasVisible = Array.from(db.querySelectorAll('.card')).some(c => c.style.display !== 'none');
+                                db.style.display = dbHasVisible ? 'block' : 'none';
+                                if (dbHasVisible) {
+                                    db.querySelectorAll('.session-divider').forEach(sd => {
+                                        let scIdMatch = sd.getAttribute('onclick').match(/'([^']+)'/);
+                                        if(scIdMatch && scIdMatch[1]) {
+                                            let scId = scIdMatch[1];
+                                            let sc = document.getElementById(scId);
+                                            if(sc) {
+                                                let scHasVisible = Array.from(sc.querySelectorAll('.card')).some(c => c.style.display !== 'none');
+                                                sd.style.display = scHasVisible ? 'flex' : 'none';
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+            
+            if (isFiltering) {
+                document.querySelectorAll('.hidden-step').forEach(el => el.classList.remove('hidden-step'));
+                document.querySelectorAll('.year-content, .month-content, .day-content, .session-content').forEach(el => {
+                    el.classList.add('show');
+                    el.classList.remove('collapsed');
+                });
+                document.querySelectorAll('.toggle-icon').forEach(icon => icon.style.transform = 'rotate(180deg)');
+            } else {
+                restoreUIState();
+            }
+        }
+
+        document.getElementById('liveSearch').addEventListener('input', applyCombinedFilters);
+
+        // ======== CẢNH BÁO CHỐNG TRÙNG LỊCH (CONFLICT DETECTION) ========
+        function getSessionCategory(timeStr) {
+            let t = (timeStr || '').toString().trim().toLowerCase();
+            if (t.startsWith('sáng')) return 'Sáng';
+            if (t.startsWith('chiều')) return 'Chiều';
+            if (t.startsWith('tối') || t.startsWith('đêm')) return 'Tối';
+            return 'Chụp 2 Buổi';
+        }
+
+        function checkScheduleConflict(dateISO, timeStr, excludeRowIndex, boxId) {
+            const box = document.getElementById(boxId);
+            if (!box) return;
+            if (!dateISO) {
+                box.classList.remove('show');
+                box.innerHTML = '';
+                return;
+            }
+            let targetDate = parseDateCustom(dateISO);
+            if (!targetDate) return;
+
+            let targetSession = getSessionCategory(timeStr);
+            let sameDayBookings = allValidData.filter(r => {
+                if (excludeRowIndex && String(r._rowIndex) === String(excludeRowIndex)) return false;
+                return isSameDate(r._dateObj, targetDate);
+            });
+
+            if (sameDayBookings.length === 0) {
+                box.classList.remove('show');
+                box.innerHTML = '';
+                return;
+            }
+
+            let directConflicts = sameDayBookings.filter(r => {
+                let s = getSessionCategory(findVal(r, 'thời gian'));
+                return s === targetSession || s === 'Chụp 2 Buổi' || targetSession === 'Chụp 2 Buổi';
+            });
+
+            let dateDisp = formatDateDisplay(targetDate);
+            if (directConflicts.length > 0) {
+                let names = directConflicts.map(r => `${r['Khách hàng'] || findVal(r, 'khách')} (${findVal(r, 'thời gian') || 'Cả ngày'} - ${findVal(r, 'nội dung') || 'Gói chụp'})`).join(', ');
+                box.innerHTML = `⚠️ <b>CẢNH BÁO TRÙNG BUỔI CHỤP (${dateDisp}):</b><br>Đã có lịch của khách: <b>${names}</b>. Hãy kiểm tra kỹ giờ và sắp xếp thợ máy!`;
+                box.classList.add('show');
+            } else {
+                let otherNames = sameDayBookings.map(r => `${r['Khách hàng'] || findVal(r, 'khách')} (${findVal(r, 'thời gian') || 'Cả ngày'})`).join(', ');
+                box.innerHTML = `ℹ️ <b>Lưu ý ngày ${dateDisp}:</b> Trong ngày này cũng có lịch khác buổi của khách: <b>${otherNames}</b>.`;
+                box.classList.add('show');
+            }
+        }
+
+        function triggerCreateConflictCheck() {
+            checkScheduleConflict(
+                document.getElementById('c_ngay').value,
+                document.getElementById('c_thoigian').value,
+                null,
+                'createConflictBox'
+            );
+        }
+
+        function triggerEditConflictCheck() {
+            checkScheduleConflict(
+                document.getElementById('e_ngay').value,
+                document.getElementById('e_thoigian').value,
+                document.getElementById('e_rowindex').value,
+                'editConflictBox'
+            );
         }
 
         // ======== TÍNH NĂNG ĐỒNG BỘ NHẮC HẸN QUA APP LỊCH IPHONE (.ICS) & BANNER NHẮC LỊCH ========
@@ -1428,7 +1758,6 @@
             banner.innerHTML = html;
             banner.classList.add('show');
 
-            // Gửi thông báo Web Notification nếu trình duyệt hỗ trợ và trong ngày chưa báo
             try {
                 let notifyKey = `notified_${dateToISO(today0)}`;
                 if (!sessionStorage.getItem(notifyKey) && "Notification" in window) {
@@ -1444,62 +1773,6 @@
                 }
             } catch (e) {}
         }
-
-        document.getElementById('liveSearch').addEventListener('input', function(e) {
-            let kw = normalizeStr(e.target.value.trim());
-            
-            document.querySelectorAll('#bookingList .card').forEach(card => {
-                let searchData = card.getAttribute('data-search');
-                if (searchData && searchData.includes(kw)) {
-                    card.style.display = 'block';
-                    card.classList.remove('search-hidden');
-                } else {
-                    card.style.display = 'none';
-                    card.classList.add('search-hidden');
-                }
-            });
-
-            document.querySelectorAll('.year-block').forEach(yb => {
-                let hasVisibleCards = Array.from(yb.querySelectorAll('.card')).some(c => c.style.display !== 'none');
-                yb.style.display = hasVisibleCards ? 'block' : 'none';
-                if (hasVisibleCards) {
-                    yb.querySelectorAll('.month-block').forEach(mb => {
-                        let mbHasVisible = Array.from(mb.querySelectorAll('.card')).some(c => c.style.display !== 'none');
-                        mb.style.display = mbHasVisible ? 'block' : 'none';
-                        if (mbHasVisible) {
-                            mb.querySelectorAll('.day-block').forEach(db => {
-                                let dbHasVisible = Array.from(db.querySelectorAll('.card')).some(c => c.style.display !== 'none');
-                                db.style.display = dbHasVisible ? 'block' : 'none';
-                                if (dbHasVisible) {
-                                    db.querySelectorAll('.session-divider').forEach(sd => {
-                                        let scIdMatch = sd.getAttribute('onclick').match(/'([^']+)'/);
-                                        if(scIdMatch && scIdMatch[1]) {
-                                            let scId = scIdMatch[1];
-                                            let sc = document.getElementById(scId);
-                                            if(sc) {
-                                                let scHasVisible = Array.from(sc.querySelectorAll('.card')).some(c => c.style.display !== 'none');
-                                                sd.style.display = scHasVisible ? 'flex' : 'none';
-                                            }
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    });
-                }
-            });
-            
-            if (kw !== '') {
-                document.querySelectorAll('.hidden-step').forEach(el => el.classList.remove('hidden-step'));
-                document.querySelectorAll('.year-content, .month-content, .day-content, .session-content').forEach(el => {
-                    el.classList.add('show');
-                    el.classList.remove('collapsed');
-                });
-                document.querySelectorAll('.toggle-icon').forEach(icon => icon.style.transform = 'rotate(180deg)');
-            } else {
-                restoreUIState();
-            }
-        });
 
         function showToast(message) {
             let toast = document.getElementById('appToast');
@@ -1537,7 +1810,8 @@
             if (document.getElementById('modalForm').style.display !== 'flex' &&
                 document.getElementById('modalSecurity').style.display !== 'flex' &&
                 document.getElementById('modalRestore').style.display !== 'flex' &&
-                document.getElementById('modalReceipt').style.display !== 'flex') {
+                document.getElementById('modalReceipt').style.display !== 'flex' &&
+                document.getElementById('modalPayment').style.display !== 'flex') {
                 document.body.classList.remove('modal-open');
             }
         }
@@ -1902,6 +2176,9 @@
 
         // ======== CUỘN TỚI LỊCH CHỤP TỪ BÁO CÁO TÀI CHÍNH ========
         function scrollToCard(rowIndex) {
+            if (currentQuickFilter !== 'all') {
+                setQuickFilter('all');
+            }
             if (currentViewMode === 'calendar') { toggleViewMode('list'); }
 
             let expId = `expanded-${rowIndex}`;
@@ -1999,11 +2276,12 @@
             let gia = parseNum(findVal(row, 'giá'));
             let phi = parseNum(findVal(row, 'phí'));
             let coc = parseNum(findVal(row, 'cọc'));
+            let tt = parseNum(findVal(row, 'thanh toán thêm')) || 0;
             let conLai = parseNum(findVal(row, 'còn lại'));
             let rowIndex = row['_rowIndex'];
             
             let mapsVal = findVal(row, 'maps') || row['Link Maps'] || '';
-            let driveVal = findVal(row, 'drive') || row['Link Drive'] || '';
+            let driveVal = (findVal(row, 'drive') || row['Link Drive'] || '').toString().trim();
             let fbVal = findVal(row, 'facebook') || row['Link Facebook'] || '';
             let zaloVal = findVal(row, 'zalo') || row['SĐT Zalo'] || '';
             let igVal = findVal(row, 'instagram') || findVal(row, 'ig') || row['Link Instagram'] || '';
@@ -2014,6 +2292,38 @@
 
             let searchString = normalizeStr(rawClientName + ' ' + sdtVal + ' ' + fbVal).replace(/['"]/g, '');
             let safeClientName = rawClientName.replace(/['"]/g, '');
+
+            // Tính toán trạng thái Hậu kỳ & Đếm ngược ngày chụp
+            let today0 = new Date();
+            today0.setHours(0, 0, 0, 0);
+            let dObj = row._dateObj;
+            let diffDays = dObj ? Math.round((dObj.getTime() - today0.getTime()) / 86400000) : null;
+
+            let isUpcomingAttr = (diffDays !== null && diffDays >= 0) ? '1' : '0';
+            let isDebtAttr = (conLai > 0) ? '1' : '0';
+            let isNoDriveAttr = (diffDays !== null && diffDays < 0 && !driveVal) ? '1' : '0';
+
+            let statusPillHTML = '';
+            if (diffDays !== null && diffDays >= 0) {
+                statusPillHTML = `<span class="status-pill waiting">🟡 Chờ chụp</span>`;
+            } else if (!driveVal) {
+                statusPillHTML = `<span class="status-pill editing">🟣 Chờ trả Drive</span>`;
+            } else if (conLai > 0) {
+                statusPillHTML = `<span class="status-pill unpaid">🟠 Đã trả file • Chờ TT</span>`;
+            } else {
+                statusPillHTML = `<span class="status-pill done">🟢 Hoàn tất</span>`;
+            }
+
+            let countdownHTML = '';
+            if (diffDays === 0) {
+                countdownHTML = `<span class="countdown-pill urgent">🔥 Hôm nay</span>`;
+            } else if (diffDays === 1) {
+                countdownHTML = `<span class="countdown-pill urgent">⏳ Ngày mai</span>`;
+            } else if (diffDays !== null && diffDays > 1 && diffDays <= 30) {
+                countdownHTML = `<span class="countdown-pill">🗓️ Còn ${diffDays} ngày</span>`;
+            } else if (diffDays !== null && diffDays < 0 && (!driveVal || conLai > 0)) {
+                countdownHTML = `<span class="countdown-pill">Đã qua ${Math.abs(diffDays)} ngày</span>`;
+            }
 
             let socialLinks = '';
             if (fbVal) socialLinks += `<a href="${fbVal}" target="_blank" class="social-icon" onclick="event.stopPropagation()">${FB_ICON}</a>`;
@@ -2051,17 +2361,26 @@
 
             let paidBtnHTML = '';
             if (conLai > 0) { 
-                paidBtnHTML = `<div style="margin-top: 12px;"><button type="button" class="btn-pay" onclick="event.stopPropagation(); requireSecurity('pay', '${rowIndex}')">${ICON_CHECK} ĐÃ THANH TOÁN</button></div>`; 
+                paidBtnHTML = `<div style="margin-top: 12px;"><button type="button" class="btn-pay" onclick="event.stopPropagation(); requireSecurity('pay', '${rowIndex}')">${ICON_CHECK} ĐÃ THANH TOÁN / TRẢ THÊM</button></div>`; 
             }
 
             let noteHTML = '';
             if (noteVal) { noteHTML = `<div class="detail-note" onclick="event.stopPropagation()"><div class="detail-note-label" style="color: var(--text-muted);">${ICON_NOTE} GHI CHÚ / TIMELINE</div><div class="detail-note-content">${noteVal}</div></div>`; }
 
+            let extraPaidLine = tt > 0 ? `<div class="detail-item"><span>Đã trả thêm</span><span>${formatMoney(tt)}</span></div>` : '';
+
             let expId = `${idPrefix}-${rowIndex}`;
             return `
-                <div class="card" data-search="${searchString}" onclick="toggleSection('${expId}', this, true)">
+                <div class="card" data-search="${searchString}" data-upcoming="${isUpcomingAttr}" data-debt="${isDebtAttr}" data-nodrive="${isNoDriveAttr}" onclick="toggleSection('${expId}', this, true)">
                     <div class="card-header">
-                        <div><h2 class="client-name">${clientNameHTML}</h2><span class="tag-package">${findVal(row, 'nội dung') || 'Gói Chụp'}</span></div>
+                        <div>
+                            <h2 class="client-name">${clientNameHTML}</h2>
+                            <div class="card-badges-wrap">
+                                <span class="tag-package">${findVal(row, 'nội dung') || 'Gói Chụp'}</span>
+                                ${statusPillHTML}
+                                ${countdownHTML}
+                            </div>
+                        </div>
                         <span class="tag-session">${findVal(row, 'thời gian') || 'Cả ngày'}</span>
                     </div>
                     <div class="location-row"><span class="location-label" style="color: var(--text-muted);">${ICON_PIN} Địa điểm:</span><span class="location-value">${findVal(row, 'địa điểm') || '--'}</span></div>
@@ -2071,6 +2390,7 @@
                     <div class="card-expanded-content" id="${expId}">
                         <div class="detail-item"><span>Phí đi lại</span><span>${formatMoney(phi)}</span></div>
                         <div class="detail-item"><span>Tiền cọc</span><span>${formatMoney(coc)}</span></div>
+                        ${extraPaidLine}
                         ${noteHTML}
                         ${paidBtnHTML}
                         <button type="button" class="btn-receipt" onclick="event.stopPropagation(); openReceiptModal('${rowIndex}')">${ICON_RECEIPT} XUẤT PHIẾU XÁC NHẬN</button>
@@ -2441,6 +2761,8 @@
             validData.sort((a, b) => { if (!a._dateObj) return 1; if (!b._dateObj) return -1; return a._dateObj - b._dateObj; }); 
             allValidData = validData;
 
+            updateQuickFilterCounts();
+
             let yearsForStats = [...new Set(allValidData.map(r => r._dateObj ? r._dateObj.getFullYear() : null).filter(y => y !== null))].sort((a,b) => b-a);
             let yearSelect = document.getElementById('filterYear'); let currentSelectedYear = yearSelect.value;
             yearSelect.innerHTML = `<option value="ALL">Tất cả năm</option>`;
@@ -2551,8 +2873,8 @@
             }
 
             let currentKw = document.getElementById('liveSearch').value;
-            if(currentKw.trim() !== '') {
-                document.getElementById('liveSearch').dispatchEvent(new Event('input'));
+            if(currentKw.trim() !== '' || currentQuickFilter !== 'all') {
+                applyCombinedFilters();
             } else {
                 restoreUIState();
             }
@@ -2589,7 +2911,7 @@
         function updateStatsUI() {
             let fYear = document.getElementById('filterYear').value; 
             let fMonth = document.getElementById('filterMonth').value; 
-            let tRev = 0, tPaid = 0, tDebt = 0, tTravelFee = 0;
+            let tRev = 0, tPaid = 0, tDebt = 0, tTravelFee = 0, tNetPkgRev = 0;
             let tFutureDeposit = 0; 
             
             let nameMap = {}; 
@@ -2614,7 +2936,7 @@
                     
                     let thuThucTe = conLai <= 0 && (gia + phi) > 0 ? (gia + phi) : (coc + tt);
 
-                    tRev += (gia + phi); tPaid += thuThucTe; tDebt += conLai; tTravelFee += phi;
+                    tRev += (gia + phi); tPaid += thuThucTe; tDebt += conLai; tTravelFee += phi; tNetPkgRev += gia;
                     
                     let rawName = (row['Khách hàng'] || findVal(row, 'khách') || "Khách hàng").toString().trim();
                     let displayDate = dObj ? formatDateDisplay(dObj) : (findVal(row, 'ngày') || 'Không rõ ngày');
@@ -2701,6 +3023,7 @@
 
             document.getElementById('totalTravelFee').innerText = formatMoney(tTravelFee);
             document.getElementById('totalFutureDeposit').innerText = formatMoney(tFutureDeposit);
+            document.getElementById('netPackageRevenue').innerText = formatMoney(tNetPkgRev);
 
             let avgRev = totalJobs > 0 ? Math.round(tRev / totalJobs) : 0;
             document.getElementById('avgRevenue').innerText = formatMoney(avgRev);
@@ -2841,11 +3164,13 @@
             document.getElementById('modalTitle').innerText = "TẠO LỊCH MỚI"; 
             document.getElementById('tab-create').classList.add('active'); 
             document.getElementById('tab-edit').classList.remove('active'); 
+            document.getElementById('createConflictBox').classList.remove('show');
             document.body.classList.add('modal-open'); 
             document.getElementById('modalForm').style.display = 'flex'; 
             document.getElementById('formCreate').reset();
             if (prefillDateISO) {
                 document.getElementById('c_ngay').value = prefillDateISO;
+                triggerCreateConflictCheck();
             }
         }
 
@@ -2889,36 +3214,126 @@
 
             document.getElementById('e_linkmaps').value = findVal(item, 'maps') || item['Link Maps'] || ''; document.getElementById('e_linkdrive').value = findVal(item, 'drive') || item['Link Drive'] || ''; document.getElementById('e_ghichu').value = findVal(item, 'ghi chú');
             
+            document.getElementById('editConflictBox').classList.remove('show');
             document.getElementById('tab-create').classList.remove('active'); 
             document.getElementById('tab-edit').classList.add('active'); 
             document.body.classList.add('modal-open'); 
             document.getElementById('modalForm').style.display = 'flex';
+            triggerEditConflictCheck();
         }
 
         document.querySelectorAll('.money-input').forEach(input => { input.addEventListener('input', function(e) { let value = e.target.value.replace(/\D/g, ''); e.target.value = value !== '' ? new Intl.NumberFormat('vi-VN').format(value) : ''; }); });
 
-        async function proceedMarkPaid(rowIndex) {
+        // ======== MODAL THANH TOÁN LINH HOẠT (TẤT TOÁN 100% HOẶC TRẢ THÊM TỪNG ĐỢT) ========
+        function proceedMarkPaid(rowIndex) {
             let item = allValidData.find(r => String(r._rowIndex) === String(rowIndex));
             if (!item) return;
+            currentPaymentRowIndex = rowIndex;
+
             let name = item['Khách hàng'] || findVal(item, 'khách') || 'Khách hàng';
-            
-            if (!confirm(`Xác nhận khách hàng "${name}" đã thanh toán toàn bộ số tiền còn lại?`)) return;
-            
+            let gia = parseNum(findVal(item, 'giá'));
+            let phi = parseNum(findVal(item, 'phí'));
+            let coc = parseNum(findVal(item, 'cọc'));
+            let tt = parseNum(findVal(item, 'thanh toán thêm')) || 0;
+            let conLai = parseNum(findVal(item, 'còn lại'));
+
+            document.getElementById('paymentSummaryBox').innerHTML = `
+                <div>Khách hàng: <b style="color:var(--text-main);">${name}</b></div>
+                <div>Tổng chi phí: <b>${formatMoney(gia + phi)}</b></div>
+                <div>Đã thu trước đó: <b style="color:var(--success-green);">${formatMoney(coc + tt)}</b></div>
+                <div>Còn nợ hiện tại: <b style="color:var(--alert-red); font-size:16px;">${formatMoney(conLai)}</b></div>
+            `;
+            document.getElementById('partialPayAmount').value = '';
+            document.body.classList.add('modal-open');
+            document.getElementById('modalPayment').style.display = 'flex';
+        }
+
+        function closePaymentModal() {
+            document.getElementById('modalPayment').style.display = 'none';
+            currentPaymentRowIndex = null;
+            removeModalOpenClass();
+        }
+
+        function confirmFullPayment() {
+            let item = allValidData.find(r => String(r._rowIndex) === String(currentPaymentRowIndex));
+            if (!item) return;
+            let rIdx = currentPaymentRowIndex;
+            let name = item['Khách hàng'] || findVal(item, 'khách') || 'Khách hàng';
             let conLaiKey = Object.keys(item).find(k => k.toLowerCase().includes('còn lại')) || 'Còn lại';
             let ttKey = Object.keys(item).find(k => k.toLowerCase().includes('thanh toán thêm')) || 'Thanh toán thêm';
             let gia = parseNum(findVal(item, 'giá'));
             let phi = parseNum(findVal(item, 'phí'));
             let coc = parseNum(findVal(item, 'cọc'));
+
             item[ttKey] = Math.max(0, (gia + phi) - coc);
             item[conLaiKey] = 0; 
+            closePaymentModal();
             localStorage.setItem('chutoanFotoCache', JSON.stringify(allValidData));
             renderUI(allValidData); 
-            showToast(`Đã tất toán cho khách "${name}"`);
+            showToast(`Đã tất toán 100% cho khách "${name}"`);
             fetch(API_URL, { 
                 method: 'POST', 
                 mode: 'no-cors', 
                 headers: { 'Content-Type': 'application/json' }, 
-                body: JSON.stringify({ action: "MARK_PAID", rowIndex: rowIndex, khachHang: name }) 
+                body: JSON.stringify({ action: "MARK_PAID", rowIndex: rIdx, khachHang: name }) 
+            }).then(() => setTimeout(silentFetchData, 1000));
+        }
+
+        function confirmPartialPayment() {
+            let item = allValidData.find(r => String(r._rowIndex) === String(currentPaymentRowIndex));
+            if (!item) return;
+            let addAmt = parseNum(document.getElementById('partialPayAmount').value);
+            if (addAmt <= 0) {
+                showToast('Vui lòng nhập số tiền khách trả thêm.');
+                return;
+            }
+            let rIdx = currentPaymentRowIndex;
+            let name = item['Khách hàng'] || findVal(item, 'khách') || 'Khách hàng';
+            let gia = parseNum(findVal(item, 'giá'));
+            let phi = parseNum(findVal(item, 'phí'));
+            let coc = parseNum(findVal(item, 'cọc'));
+            let tt = parseNum(findVal(item, 'thanh toán thêm')) || 0;
+
+            let newCocTotal = coc + tt + addAmt;
+            let newConLai = Math.max(0, (gia + phi) - newCocTotal);
+
+            let cocKey = Object.keys(item).find(k => k.toLowerCase().includes('cọc')) || 'Cọc';
+            let ttKey = Object.keys(item).find(k => k.toLowerCase().includes('thanh toán thêm')) || 'Thanh toán thêm';
+            let conLaiKey = Object.keys(item).find(k => k.toLowerCase().includes('còn lại')) || 'Còn lại';
+
+            item[cocKey] = newCocTotal;
+            item[ttKey] = 0;
+            item[conLaiKey] = newConLai;
+
+            const payload = {
+                action: "EDIT_ROW",
+                rowIndex: rIdx,
+                ngayChup: item._dateObj ? dateToISO(item._dateObj) : (findVal(item, 'ngày') || ''),
+                thoiGian: findVal(item, 'thời gian'),
+                khachHang: name,
+                linkFacebook: findVal(item, 'facebook') || item['Link Facebook'] || '',
+                zalo: findVal(item, 'zalo') || item['SĐT Zalo'] || '',
+                instagram: findVal(item, 'instagram') || findVal(item, 'ig') || item['Link Instagram'] || '',
+                noiDung: findVal(item, 'nội dung') || 'Khác',
+                diaDiem: findVal(item, 'địa điểm'),
+                linkMaps: findVal(item, 'maps') || item['Link Maps'] || '',
+                linkDrive: findVal(item, 'drive') || item['Link Drive'] || '',
+                giaGoi: gia,
+                phiDiLai: phi,
+                coc: newCocTotal,
+                ghiChu: findVal(item, 'ghi chú'),
+                sdt: findVal(item, 'sđt') || findVal(item, 'điện thoại') || item['SĐT'] || ''
+            };
+
+            closePaymentModal();
+            localStorage.setItem('chutoanFotoCache', JSON.stringify(allValidData));
+            renderUI(allValidData);
+            showToast(`Đã cộng thêm ${formatMoney(addAmt)} cho khách "${name}"`);
+            fetch(API_URL, { 
+                method: 'POST', 
+                mode: 'no-cors', 
+                headers: { 'Content-Type': 'application/json' }, 
+                body: JSON.stringify(payload) 
             }).then(() => setTimeout(silentFetchData, 1000));
         }
 
