@@ -7,72 +7,12 @@
     <meta name="theme-color" content="#f0f2f5" media="(prefers-color-scheme: light)">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Lịch Chụp">
+    <meta name="apple-mobile-web-app-title" content="Lịch Chụp Ảnh">
     
-    <!-- FAVICON & BIỂU TƯỢNG LỊCH IPHONE ĐỘNG THEO NGÀY THỰC TẾ -->
-    <link rel="icon" id="appFavicon" type="image/png" href="">
-    <link rel="apple-touch-icon" id="appleTouchIcon" sizes="180x180" href="">
-    <link rel="shortcut icon" id="shortFavicon" href="">
-    <script>
-        (function updateDynamicCalendarIcon() {
-            try {
-                var now = new Date();
-                var weekdays = ['CHỦ NHẬT', 'THỨ HAI', 'THỨ BA', 'THỨ TƯ', 'THỨ NĂM', 'THỨ SÁU', 'THỨ BẢY'];
-                var wDay = weekdays[now.getDay()];
-                var dNum = String(now.getDate());
-                var mStr = 'THÁNG ' + (now.getMonth() + 1) + ' • CHUTOAN';
-
-                var c = document.createElement('canvas');
-                c.width = 512; c.height = 512;
-                var ctx = c.getContext('2d');
-
-                // Nền trắng chuẩn iOS Calendar
-                var bgGrad = ctx.createLinearGradient(0, 0, 0, 512);
-                bgGrad.addColorStop(0, '#ffffff');
-                bgGrad.addColorStop(1, '#f4f2ec');
-                ctx.fillStyle = bgGrad;
-                ctx.fillRect(0, 0, 512, 512);
-
-                // Thanh tiêu đề Thứ phía trên
-                var headGrad = ctx.createLinearGradient(0, 0, 512, 145);
-                headGrad.addColorStop(0, '#d93829');
-                headGrad.addColorStop(1, '#b82518');
-                ctx.fillStyle = headGrad;
-                ctx.fillRect(0, 0, 512, 142);
-
-                // Đường viền vàng mảnh dưới header
-                ctx.fillStyle = '#dfb96e';
-                ctx.fillRect(0, 142, 512, 8);
-
-                // Thứ trong tuần
-                ctx.fillStyle = '#ffffff';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.font = '800 50px -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif';
-                ctx.fillText(wDay, 256, 74);
-
-                // Số Ngày cỡ lớn chính giữa
-                ctx.fillStyle = '#18181a';
-                ctx.font = '800 235px -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif';
-                ctx.fillText(dNum, 256, 298);
-
-                // Huy hiệu Tháng & Thương hiệu phía dưới
-                ctx.fillStyle = 'rgba(197, 155, 39, 0.16)';
-                ctx.beginPath();
-                ctx.roundRect ? ctx.roundRect(76, 422, 360, 54, 27) : ctx.rect(76, 422, 360, 54);
-                ctx.fill();
-
-                ctx.fillStyle = '#9e7711';
-                ctx.font = '800 25px -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif';
-                ctx.fillText(mStr, 256, 450);
-
-                var pngUrl = c.toDataURL('image/png');
-                document.getElementById('appFavicon').href = pngUrl;
-                document.getElementById('appleTouchIcon').href = pngUrl;
-                document.getElementById('shortFavicon').href = pngUrl;
-            } catch(e) {}
-        })();
-    </script>
+    <!-- FAVICON TĨNH & BIỂU TƯỢNG APP IPHONE -->
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png">
+    <link rel="shortcut icon" href="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png">
 
     <title>ChuToan Foto - Quản Lý Lịch Chụp</title>
     <style>
@@ -1253,7 +1193,12 @@
             
             <div id="tab-create" class="tab-panel active">
                 <form id="formCreate" onsubmit="submitCreate(event)">
-                    <div class="form-group"><label>Ngày chụp</label><input type="date" id="c_ngay" class="form-control" required onchange="triggerCreateConflictCheck()"></div>
+                    <div class="form-group"><label>Ngày chụp chính</label><input type="date" id="c_ngay" class="form-control" required onchange="triggerCreateConflictCheck()"></div>
+                    <label style="display:flex; align-items:center; gap:8px; font-size:13px; font-weight:700; color:var(--text-main); margin: 6px 0 12px 4px; cursor:pointer;">
+                        <input type="checkbox" id="c_is_multi_day" onchange="document.getElementById('c_ngay2_group').style.display = this.checked ? 'block' : 'none'" style="width:18px; height:18px; accent-color:var(--accent-gold);">
+                        <span>Chụp 2 ngày liên tiếp (Gộp chung Bill & Drive)</span>
+                    </label>
+                    <div class="form-group" id="c_ngay2_group" style="display:none;"><label>Ngày chụp thứ 2</label><input type="date" id="c_ngay2" class="form-control" onchange="triggerCreateConflictCheck()"></div>
                     <div class="form-group"><label>Thời gian (Sáng/Chiều/Tối)</label><input type="text" id="c_thoigian" class="form-control" placeholder="Ví dụ: Sáng 7h" oninput="triggerCreateConflictCheck()"></div>
                     <div id="createConflictBox" class="conflict-warning-box"></div>
                     <div class="form-group"><label>Khách hàng (Tên)</label><input type="text" id="c_khach" class="form-control" required placeholder="Tên khách hàng"></div>
@@ -1292,7 +1237,12 @@
             <div id="tab-edit" class="tab-panel">
                 <form id="formEdit" onsubmit="submitEdit(event)">
                     <input type="hidden" id="e_rowindex">
-                    <div class="form-group"><label>Ngày chụp</label><input type="date" id="e_ngay" class="form-control" required onchange="triggerEditConflictCheck()"></div>
+                    <div class="form-group"><label>Ngày chụp chính</label><input type="date" id="e_ngay" class="form-control" required onchange="triggerEditConflictCheck()"></div>
+                    <label style="display:flex; align-items:center; gap:8px; font-size:13px; font-weight:700; color:var(--text-main); margin: 6px 0 12px 4px; cursor:pointer;">
+                        <input type="checkbox" id="e_is_multi_day" onchange="document.getElementById('e_ngay2_group').style.display = this.checked ? 'block' : 'none'" style="width:18px; height:18px; accent-color:var(--accent-gold);">
+                        <span>Chụp 2 ngày liên tiếp (Gộp chung Bill & Drive)</span>
+                    </label>
+                    <div class="form-group" id="e_ngay2_group" style="display:none;"><label>Ngày chụp thứ 2</label><input type="date" id="e_ngay2" class="form-control" onchange="triggerEditConflictCheck()"></div>
                     <div class="form-group"><label>Thời gian (Sáng/Chiều/Tối)</label><input type="text" id="e_thoigian" class="form-control" oninput="triggerEditConflictCheck()"></div>
                     <div id="editConflictBox" class="conflict-warning-box"></div>
                     <div class="form-group"><label>Khách hàng (Tên)</label><input type="text" id="e_khach" class="form-control" required></div>
@@ -1494,7 +1444,7 @@
             let targetSession = getSessionCategory(timeStr);
             let sameDayBookings = allValidData.filter(r => {
                 if (excludeRowIndex && String(r._rowIndex) === String(excludeRowIndex)) return false;
-                return isSameDate(r._dateObj, targetDate);
+                return isRowHasDate(r, targetDate);
             });
 
             if (sameDayBookings.length === 0) {
@@ -1697,8 +1647,8 @@
             let today0 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
             let tomorrow0 = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
 
-            let todayShoots = allValidData.filter(r => isSameDate(r._dateObj, today0));
-            let tomorrowShoots = allValidData.filter(r => isSameDate(r._dateObj, tomorrow0));
+            let todayShoots = allValidData.filter(r => isRowHasDate(r, today0));
+            let tomorrowShoots = allValidData.filter(r => isRowHasDate(r, tomorrow0));
 
             if (todayShoots.length === 0 && tomorrowShoots.length === 0) {
                 banner.classList.remove('show');
@@ -2246,7 +2196,10 @@
             if (!d1 || !d2) return false;
             return d1.getFullYear() === d2.getFullYear() && d1.getMonth() === d2.getMonth() && d1.getDate() === d2.getDate();
         }
-
+function isRowHasDate(row, targetDate) {
+            if (!row) return false;
+            return isSameDate(row._dateObj, targetDate) || (row._dateObj2 ? isSameDate(row._dateObj2, targetDate) : false);
+        }
         function changeCalendarMonth(delta) {
             calViewMonth += delta;
             if (calViewMonth > 11) { calViewMonth = 0; calViewYear++; }
@@ -2426,7 +2379,7 @@
                 let isTodayClass = isSameDate(cellDate, today) ? 'is-today' : '';
                 let isSelClass = isSameDate(cellDate, calSelectedDate) ? 'is-selected' : '';
 
-                let dayEvents = allValidData.filter(r => isSameDate(r._dateObj, cellDate));
+                let dayEvents = allValidData.filter(r => isRowHasDate(r, cellDate));
                 let dotsHTML = '';
                 if (dayEvents.length > 0) {
                     let maxDots = Math.min(dayEvents.length, 3);
@@ -2454,7 +2407,7 @@
 
             document.getElementById('iosCalGrid').innerHTML = gridHTML;
 
-            let selectedDayEvents = allValidData.filter(r => isSameDate(r._dateObj, calSelectedDate));
+            let selectedDayEvents = allValidData.filter(r => isRowHasDate(r, calSelectedDate));
             let formattedSelDate = formatDateDisplay(calSelectedDate);
             document.getElementById('iosCalSelectedTitle').innerText = `NGÀY ${formattedSelDate} (${selectedDayEvents.length} LỊCH)`;
 
@@ -2738,8 +2691,9 @@
                     localStorage.setItem('chutoanFotoCache', JSON.stringify(data));
                     let validData = data.filter(r => r['Khách hàng'] || findVal(r, 'khách'));
                     validData.forEach(r => { 
-                        let dateStr = r['Ngày chụp'] || findVal(r, 'ngày'); 
-                        r._dateObj = parseDateCustom(dateStr); 
+                        let dateStr = String(r['Ngày chụp'] || findVal(r, 'ngày') || '').split('|'); 
+                        r._dateObj = parseDateCustom(dateStr[0].trim()); 
+                        if(dateStr[1]) r._dateObj2 = parseDateCustom(dateStr[1].trim());
                     });
                     validData.sort((a, b) => { 
                         if (!a._dateObj) return 1; 
@@ -2757,7 +2711,11 @@
             if (!data || data.length === 0) { list.innerHTML = '<div class="loader">Chưa có lịch chụp nào.</div>'; updateStatsUI(); return; }
 
             let validData = data.filter(r => r['Khách hàng'] || findVal(r, 'khách'));
-            validData.forEach(r => { let dateStr = r['Ngày chụp'] || findVal(r, 'ngày'); r._dateObj = parseDateCustom(dateStr); });
+            validData.forEach(r => { 
+                let dateStr = String(r['Ngày chụp'] || findVal(r, 'ngày') || '').split('|'); 
+                r._dateObj = parseDateCustom(dateStr[0].trim()); 
+                if(dateStr[1]) r._dateObj2 = parseDateCustom(dateStr[1].trim());
+            });
             validData.sort((a, b) => { if (!a._dateObj) return 1; if (!b._dateObj) return -1; return a._dateObj - b._dateObj; }); 
             allValidData = validData;
 
@@ -2776,23 +2734,30 @@
 
             let groupedData = {};
             validData.forEach(row => {
-                let dObj = row._dateObj;
-                let yearStr = dObj ? dObj.getFullYear().toString() : 'Chưa Rõ';
-                let monthStr = dObj ? `Tháng ${dObj.getMonth() + 1}` : 'Tháng Chưa Rõ';
-                let displayDate = dObj ? formatDateDisplay(dObj) : (findVal(row, 'ngày') || 'Không rõ ngày');
-
                 let timeStr = (findVal(row, 'thời gian') || '').toString().trim().toLowerCase();
                 let sessionStr = 'Chụp 2 Buổi'; 
                 if (timeStr.startsWith('sáng')) sessionStr = 'Sáng';
                 else if (timeStr.startsWith('chiều')) sessionStr = 'Chiều';
                 else if (timeStr.startsWith('tối') || timeStr.startsWith('đêm')) sessionStr = 'Tối';
 
-                if (!groupedData[yearStr]) groupedData[yearStr] = {};
-                if (!groupedData[yearStr][monthStr]) groupedData[yearStr][monthStr] = {};
-                if (!groupedData[yearStr][monthStr][displayDate]) groupedData[yearStr][monthStr][displayDate] = {};
-                if (!groupedData[yearStr][monthStr][displayDate][sessionStr]) groupedData[yearStr][monthStr][displayDate][sessionStr] = [];
-                
-                groupedData[yearStr][monthStr][displayDate][sessionStr].push(row);
+                const addToGroup = (dObj) => {
+                    if (!dObj) return;
+                    let yearStr = dObj.getFullYear().toString();
+                    let monthStr = `Tháng ${dObj.getMonth() + 1}`;
+                    let displayDate = formatDateDisplay(dObj);
+
+                    if (!groupedData[yearStr]) groupedData[yearStr] = {};
+                    if (!groupedData[yearStr][monthStr]) groupedData[yearStr][monthStr] = {};
+                    if (!groupedData[yearStr][monthStr][displayDate]) groupedData[yearStr][monthStr][displayDate] = {};
+                    if (!groupedData[yearStr][monthStr][displayDate][sessionStr]) groupedData[yearStr][monthStr][displayDate][sessionStr] = [];
+                    
+                    if (!groupedData[yearStr][monthStr][displayDate][sessionStr].includes(row)) {
+                        groupedData[yearStr][monthStr][displayDate][sessionStr].push(row);
+                    }
+                };
+
+                addToGroup(row._dateObj);
+                if (row._dateObj2) addToGroup(row._dateObj2);
             });
 
             let sortedYears = Object.keys(groupedData).sort((a, b) => b.localeCompare(a));
@@ -3189,7 +3154,16 @@
 
             document.getElementById('modalTitle').innerText = `SỬA LỊCH: ${name}`; 
             document.getElementById('e_rowindex').value = rowIndex;
-            let dObj = item._dateObj; document.getElementById('e_ngay').value = dObj ? dateToISO(dObj) : '';
+            document.getElementById('e_ngay').value = item._dateObj ? dateToISO(item._dateObj) : '';
+if (item._dateObj2) {
+    document.getElementById('e_is_multi_day').checked = true;
+    document.getElementById('e_ngay2_group').style.display = 'block';
+    document.getElementById('e_ngay2').value = dateToISO(item._dateObj2);
+} else {
+    document.getElementById('e_is_multi_day').checked = false;
+    document.getElementById('e_ngay2_group').style.display = 'none';
+    document.getElementById('e_ngay2').value = '';
+}
             document.getElementById('e_thoigian').value = findVal(item, 'thời gian'); document.getElementById('e_khach').value = name;
             
             document.getElementById('e_linkfb').value = findVal(item, 'facebook') || item['Link Facebook'] || ''; 
@@ -3340,7 +3314,11 @@
         async function submitCreate(e) {
             e.preventDefault(); const btn = document.getElementById('btnCreate'); btn.innerText = "ĐANG ĐỒNG BỘ..."; btn.style.opacity = 0.7; btn.disabled = true;
             const autoRemind = document.getElementById('c_auto_remind').checked;
-            const payload = { action: "CREATE", ngayChup: document.getElementById('c_ngay').value, thoiGian: document.getElementById('c_thoigian').value, khachHang: document.getElementById('c_khach').value, linkFacebook: document.getElementById('c_linkfb').value, zalo: document.getElementById('c_zalo').value, instagram: document.getElementById('c_ig').value, diaDiem: document.getElementById('c_diadiem').value, linkMaps: document.getElementById('c_linkmaps').value, linkDrive: document.getElementById('c_linkdrive').value, noiDung: document.getElementById('c_noidung').value, giaGoi: parseNum(document.getElementById('c_gia').value), phiDiLai: parseNum(document.getElementById('c_phi').value), coc: parseNum(document.getElementById('c_coc').value), ghiChu: document.getElementById('c_ghichu').value, sdt: document.getElementById('c_sdt').value };
+            let finalNgayChup = document.getElementById('c_ngay').value;
+if (document.getElementById('c_is_multi_day').checked && document.getElementById('c_ngay2').value) {
+    finalNgayChup += " | " + document.getElementById('c_ngay2').value;
+}
+const payload = { action: "CREATE", ngayChup: finalNgayChup, thoiGian: document.getElementById('c_thoigian').value, khachHang: document.getElementById('c_khach').value, linkFacebook: document.getElementById('c_linkfb').value, zalo: document.getElementById('c_zalo').value, instagram: document.getElementById('c_ig').value, diaDiem: document.getElementById('c_diadiem').value, linkMaps: document.getElementById('c_linkmaps').value, linkDrive: document.getElementById('c_linkdrive').value, noiDung: document.getElementById('c_noidung').value, giaGoi: parseNum(document.getElementById('c_gia').value), phiDiLai: parseNum(document.getElementById('c_phi').value), coc: parseNum(document.getElementById('c_coc').value), ghiChu: document.getElementById('c_ghichu').value, sdt: document.getElementById('c_sdt').value };
             let newRowIdx = Date.now();
             let newItem = { "Ngày chụp": payload.ngayChup, "Thời gian": payload.thoiGian, "Khách hàng": payload.khachHang, "Link Facebook": payload.linkFacebook, "SĐT Zalo": payload.zalo, "Link Instagram": payload.instagram, "Địa điểm": payload.diaDiem, "Link Maps": payload.linkMaps, "Link Drive": payload.linkDrive, "Nội dung": payload.noiDung, "Giá gói": payload.giaGoi, "Phí đi lại": payload.phiDiLai, "Cọc": payload.coc, "Còn lại": (payload.giaGoi + payload.phiDiLai) - payload.coc, "Ghi chú": payload.ghiChu, "SĐT": payload.sdt, "_rowIndex": newRowIdx };
             newItem._dateObj = parseDateCustom(payload.ngayChup); allValidData.push(newItem);
@@ -3365,7 +3343,11 @@
 
         async function submitEdit(e) {
             e.preventDefault(); const btn = document.getElementById('btnEdit'); btn.innerText = "ĐANG LƯU..."; btn.style.opacity = 0.7; btn.disabled = true;
-            const payload = { action: "EDIT_ROW", rowIndex: document.getElementById('e_rowindex').value, ngayChup: document.getElementById('e_ngay').value, thoiGian: document.getElementById('e_thoigian').value, khachHang: document.getElementById('e_khach').value, linkFacebook: document.getElementById('e_linkfb').value, zalo: document.getElementById('e_zalo').value, instagram: document.getElementById('e_ig').value, noiDung: document.getElementById('e_noidung').value, diaDiem: document.getElementById('e_diadiem').value, linkMaps: document.getElementById('e_linkmaps').value, linkDrive: document.getElementById('e_linkdrive').value, giaGoi: parseNum(document.getElementById('e_gia').value), phiDiLai: parseNum(document.getElementById('e_phi').value), coc: parseNum(document.getElementById('e_coc').value), ghiChu: document.getElementById('e_ghichu').value, sdt: document.getElementById('e_sdt').value };
+            let finalNgayChup = document.getElementById('e_ngay').value;
+if (document.getElementById('e_is_multi_day').checked && document.getElementById('e_ngay2').value) {
+    finalNgayChup += " | " + document.getElementById('e_ngay2').value;
+}
+const payload = { action: "EDIT_ROW", rowIndex: document.getElementById('e_rowindex').value, ngayChup: finalNgayChup, thoiGian: document.getElementById('e_thoigian').value, khachHang: document.getElementById('e_khach').value, linkFacebook: document.getElementById('e_linkfb').value, zalo: document.getElementById('e_zalo').value, instagram: document.getElementById('e_ig').value, noiDung: document.getElementById('e_noidung').value, diaDiem: document.getElementById('e_diadiem').value, linkMaps: document.getElementById('e_linkmaps').value, linkDrive: document.getElementById('e_linkdrive').value, giaGoi: parseNum(document.getElementById('e_gia').value), phiDiLai: parseNum(document.getElementById('e_phi').value), coc: parseNum(document.getElementById('e_coc').value), ghiChu: document.getElementById('e_ghichu').value, sdt: document.getElementById('e_sdt').value };
             let item = allValidData.find(r => String(r._rowIndex) === String(payload.rowIndex));
             if (item) {
                 let keys = Object.keys(item); item[keys.find(k=>k.toLowerCase().includes('ngày')) || 'Ngày chụp'] = payload.ngayChup; item[keys.find(k=>k.toLowerCase().includes('thời gian')) || 'Thời gian'] = payload.thoiGian; item[keys.find(k=>k.toLowerCase().includes('khách')) || 'Khách hàng'] = payload.khachHang; item['Link Facebook'] = payload.linkFacebook; item['SĐT Zalo'] = payload.zalo; item['Link Instagram'] = payload.instagram; item[keys.find(k=>k.toLowerCase().includes('địa điểm')) || 'Địa điểm'] = payload.diaDiem; item['Link Maps'] = payload.linkMaps; item['Link Drive'] = payload.linkDrive; item[keys.find(k=>k.toLowerCase().includes('nội dung')) || 'Nội dung'] = payload.noiDung; item[keys.find(k=>k.toLowerCase().includes('giá')) || 'Giá gói'] = payload.giaGoi; item[keys.find(k=>k.toLowerCase().includes('phí')) || 'Phí đi lại'] = payload.phiDiLai; item[keys.find(k=>k.toLowerCase().includes('cọc')) || 'Cọc'] = payload.coc; let tt = parseNum(findVal(item, 'thanh toán thêm')) || 0; item[keys.find(k=>k.toLowerCase().includes('còn lại')) || 'Còn lại'] = (payload.giaGoi + payload.phiDiLai) - (payload.coc + tt); item[keys.find(k=>k.toLowerCase().includes('ghi chú')) || 'Ghi chú'] = payload.ghiChu; item[keys.find(k=>k.toLowerCase().includes('sđt')) || 'SĐT'] = payload.sdt; item._dateObj = parseDateCustom(payload.ngayChup);
