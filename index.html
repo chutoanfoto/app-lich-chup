@@ -9,10 +9,72 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Lịch Chụp Ảnh">
     
-    <!-- FAVICON TĨNH & BIỂU TƯỢNG APP IPHONE -->
-    <link rel="icon" type="image/png" href="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png">
-    <link rel="shortcut icon" href="https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png">
+    <!-- FAVICON TĨNH TỰ VẼ (GIAO DIỆN LỊCH ĐEN ĐỎ + LOGO + CHỮ) -->
+    <link rel="icon" id="appFavicon" type="image/png" href="">
+    <link rel="apple-touch-icon" id="appleTouchIcon" sizes="180x180" href="">
+    <link rel="shortcut icon" id="shortFavicon" href="">
+    <script>
+        (function drawStaticAppIcon() {
+            var c = document.createElement('canvas');
+            c.width = 512; c.height = 512;
+            var ctx = c.getContext('2d');
+
+            function render(logo) {
+                try {
+                    // 1. Nền dưới màu Đen xám để làm nổi Logo Trắng
+                    ctx.fillStyle = '#141414';
+                    ctx.fillRect(0, 0, 512, 512);
+
+                    // 2. Gáy lịch màu Đỏ ở trên cùng
+                    var headGrad = ctx.createLinearGradient(0, 0, 512, 130);
+                    headGrad.addColorStop(0, '#d93829');
+                    headGrad.addColorStop(1, '#b82518');
+                    ctx.fillStyle = headGrad;
+                    ctx.fillRect(0, 0, 512, 130);
+                    
+                    // Đường viền vàng mỏng
+                    ctx.fillStyle = '#dfb96e';
+                    ctx.fillRect(0, 130, 512, 8); 
+
+                    // 3. Chữ trên gáy lịch
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.font = '800 48px -apple-system, BlinkMacSystemFont, sans-serif';
+                    ctx.fillText('CHU TOAN', 256, 65);
+
+                    // 4. Vẽ Logo trắng to ở chính giữa
+                    if (logo) {
+                        var aspect = logo.width / logo.height;
+                        var w = 260; // Kích thước logo
+                        var h = w / aspect;
+                        ctx.drawImage(logo, 256 - w/2, 265 - h/2, w, h);
+                    } else {
+                        ctx.fillStyle = '#ffffff';
+                        ctx.font = '900 60px -apple-system, BlinkMacSystemFont, sans-serif';
+                        ctx.fillText('FOTO', 256, 260);
+                    }
+
+                    // 5. Chữ LỊCH CHỤP ẢNH ở dưới cùng
+                    ctx.fillStyle = '#dfb96e';
+                    ctx.font = '800 38px -apple-system, BlinkMacSystemFont, sans-serif';
+                    ctx.fillText('LỊCH CHỤP ẢNH', 256, 455);
+
+                    // Xuất ảnh áp dụng cho Icon
+                    var pngUrl = c.toDataURL('image/png');
+                    document.getElementById('appFavicon').href = pngUrl;
+                    document.getElementById('appleTouchIcon').href = pngUrl;
+                    document.getElementById('shortFavicon').href = pngUrl;
+                } catch(e) {}
+            }
+
+            var img = new Image();
+            img.crossOrigin = "Anonymous";
+            img.onload = function() { render(img); };
+            img.onerror = function() { render(null); };
+            img.src = "https://i.postimg.cc/wvF7Hr48/chutoanfoto2026-logo-new.png";
+        })();
+    </script>
 
     <title>ChuToan Foto - Quản Lý Lịch Chụp</title>
     <style>
