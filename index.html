@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Lịch Chụp Ảnh">
     
-  <!-- FAVICON TĨNH TỰ VẼ (LIQUID GLASS iOS 27 + LOGO NỔI + MINIMAL GRID) -->
+  <!-- FAVICON TĨNH TỰ VẼ (LIQUID GLASS v2 + LƯỚI LỊCH THÁNG TINH TẾ) -->
     <link rel="icon" id="appFavicon" type="image/png" href="">
     <link rel="apple-touch-icon" id="appleTouchIcon" sizes="180x180" href="">
     <link rel="shortcut icon" id="shortFavicon" href="">
@@ -21,28 +21,28 @@
 
             function render(logo) {
                 try {
-                    // 1. Nền Deep Dark (Không gian sâu)
+                    // 1. Nền Deep Dark Không gian
                     ctx.fillStyle = '#050505';
                     ctx.fillRect(0, 0, 512, 512);
 
                     // 2. Liquid Glass Mesh Glows (Ánh sáng chiếu dưới lớp kính)
                     var glow1 = ctx.createRadialGradient(0, 0, 50, 0, 0, 450);
-                    glow1.addColorStop(0, 'rgba(223, 185, 110, 0.45)'); // Vàng gold góc trên trái
+                    glow1.addColorStop(0, 'rgba(223, 185, 110, 0.45)'); 
                     glow1.addColorStop(1, 'rgba(0, 0, 0, 0)');
                     ctx.fillStyle = glow1; ctx.fillRect(0, 0, 512, 512);
 
                     var glow2 = ctx.createRadialGradient(512, 512, 50, 512, 512, 450);
-                    glow2.addColorStop(0, 'rgba(145, 175, 215, 0.25)'); // Trắng xanh góc dưới phải
+                    glow2.addColorStop(0, 'rgba(145, 175, 215, 0.25)'); 
                     glow2.addColorStop(1, 'rgba(0, 0, 0, 0)');
                     ctx.fillStyle = glow2; ctx.fillRect(0, 0, 512, 512);
 
-                    // 3. Khối Kính lỏng (Thẻ kính bo góc)
+                    // 3. Khối Kính lỏng (Thẻ kính bo góc mượt)
                     ctx.save();
                     ctx.beginPath();
-                    if(ctx.roundRect) ctx.roundRect(32, 32, 448, 448, 80);
+                    if(ctx.roundRect) ctx.roundRect(32, 32, 448, 448, 70);
                     else ctx.rect(32, 32, 448, 448);
                     
-                    // Nền kính mờ bán trong suốt
+                    // Phủ lớp nền kính mờ
                     ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
                     ctx.fill();
                     
@@ -54,10 +54,10 @@
                     ctx.fillStyle = shine;
                     ctx.fill();
 
-                    // Viền kính nổi 3D vát cạnh
-                    ctx.lineWidth = 3;
+                    // Viền kính nổi 3D vát cạnh mỏng nhẹ
+                    ctx.lineWidth = 2.5;
                     var borderGrad = ctx.createLinearGradient(32, 32, 480, 480);
-                    borderGrad.addColorStop(0, 'rgba(255, 255, 255, 0.6)');
+                    borderGrad.addColorStop(0, 'rgba(255, 255, 255, 0.5)');
                     borderGrad.addColorStop(0.3, 'rgba(255, 255, 255, 0.05)');
                     borderGrad.addColorStop(1, 'rgba(255, 255, 255, 0.15)');
                     ctx.strokeStyle = borderGrad;
@@ -66,61 +66,72 @@
 
                     // 4. Vẽ Logo to và đổ bóng sâu để bật hẳn ra khỏi nền
                     ctx.save();
-                    // Đổ bóng (Drop shadow) màu đen siêu đậm phía sau logo
-                    ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
-                    ctx.shadowBlur = 25;
-                    ctx.shadowOffsetY = 10;
+                    ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+                    ctx.shadowBlur = 20;
+                    ctx.shadowOffsetY = 8;
                     
                     if (logo) {
                         var aspect = logo.width / logo.height;
-                        var w = 310; // Kích thước logo bành trướng, cực to rõ
+                        var w = 250; // Trọng tâm Logo kích thước chuẩn
                         var h = w / aspect;
-                        // Căn giữa X, đẩy Y lên trên cùng (Y=190)
-                        ctx.drawImage(logo, 256 - w/2, 190 - h/2, w, h);
+                        ctx.drawImage(logo, 256 - w/2, 160 - h/2, w, h);
                     } else {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign = 'center';
                         ctx.textBaseline = 'middle';
-                        ctx.font = '900 55px Arial, sans-serif';
-                        ctx.fillText('CHU TOAN', 256, 190);
+                        ctx.font = '900 48px -apple-system, sans-serif';
+                        ctx.fillText('CHU TOAN', 256, 160);
                     }
                     ctx.restore();
 
-                    // 5. Lưới lịch Minimalist (Thay cho 35 ô vuông rối mắt)
-                    // Chỉ dùng 7 chấm thủy tinh mờ tinh tế
-                    var dotSpacing = 42;
-                    var startX = 256 - (3 * dotSpacing);
-                    for (var i = 0; i < 7; i++) {
-                        ctx.beginPath();
-                        ctx.arc(startX + i * dotSpacing, 345, 7, 0, Math.PI * 2);
-                        if (i === 4) { // Chấm phát sáng báo hiệu ngày đi chụp
-                            ctx.save();
-                            ctx.fillStyle = '#dfb96e';
-                            ctx.shadowColor = '#dfb96e';
-                            ctx.shadowBlur = 15;
-                            ctx.fill();
-                            ctx.restore();
-                        } else {
-                            ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
-                            ctx.fill();
+                    // 5. Lưới lịch tháng (7x5) phong cách thuỷ tinh mờ
+                    var cols = 7;
+                    var rows = 5;
+                    var wBox = 26; // Ô vuông nhỏ gọn tinh tế
+                    var gapX = 46; // Khoảng cách chiều ngang
+                    var gapY = 36; // Khoảng cách chiều dọc
+                    var startX = 256 - (3 * gapX) - (wBox/2); // Tự động căn giữa lưới
+                    var startY = 265;
+
+                    for (var r = 0; r < rows; r++) {
+                        for (var c = 0; c < cols; c++) {
+                            var x = startX + c * gapX;
+                            var y = startY + r * gapY;
+                            
+                            ctx.beginPath();
+                            if (ctx.roundRect) ctx.roundRect(x, y, wBox, wBox, 8);
+                            else ctx.rect(x, y, wBox, wBox);
+                            
+                            if (r === 2 && c === 4) { // Chấm phát sáng báo hiệu ngày đi chụp
+                                ctx.save();
+                                ctx.fillStyle = '#dfb96e';
+                                ctx.shadowColor = '#dfb96e';
+                                ctx.shadowBlur = 12;
+                                ctx.fill();
+                                ctx.restore();
+                            } else {
+                                // Các ngày khác làm ô kính trong suốt siêu mờ
+                                ctx.fillStyle = 'rgba(255, 255, 255, 0.12)';
+                                ctx.fill();
+                            }
                         }
                     }
 
-                    // 6. Chữ LỊCH CHỤP ẢNH (Phóng to tối đa, Đậm, Phủ bóng glow)
+                    // 6. Chữ LỊCH CHỤP ẢNH (Thanh thoát, sang trọng, không bị thô)
                     ctx.save();
-                    ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
-                    ctx.shadowBlur = 12;
+                    ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+                    ctx.shadowBlur = 10;
                     ctx.shadowOffsetY = 4;
                     
                     ctx.fillStyle = '#dfb96e'; 
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
-                    // Tăng font lên 48px và ép font siêu đậm
-                    ctx.font = '900 48px Arial, "Helvetica Neue", Helvetica, sans-serif';
-                    ctx.fillText('LỊCH CHỤP ẢNH', 256, 425);
+                    // Font Bold (700) mượt mà thay vì Black (900), size vừa vặn 32px
+                    ctx.font = '700 32px -apple-system, BlinkMacSystemFont, "SF Pro Display", Arial, sans-serif';
+                    ctx.fillText('LỊCH CHỤP ẢNH', 256, 455);
                     ctx.restore();
 
-                    // Xuất ảnh
+                    // Xuất ảnh Icon
                     var pngUrl = c.toDataURL('image/png');
                     document.getElementById('appFavicon').href = pngUrl;
                     document.getElementById('appleTouchIcon').href = pngUrl;
