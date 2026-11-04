@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Lịch Chụp Ảnh">
     
-  <!-- FAVICON TĨNH TỰ VẼ (GIAO DIỆN LỊCH NAVY + LOGO + LƯỚI LỊCH) -->
+  <!-- FAVICON TĨNH TỰ VẼ (LIQUID GLASS iOS 27 + LOGO NỔI + MINIMAL GRID) -->
     <link rel="icon" id="appFavicon" type="image/png" href="">
     <link rel="apple-touch-icon" id="appleTouchIcon" sizes="180x180" href="">
     <link rel="shortcut icon" id="shortFavicon" href="">
@@ -21,60 +21,106 @@
 
             function render(logo) {
                 try {
-                    // 1. Nền Xanh Navy Quyền lực
-                    ctx.fillStyle = '#0a1128';
+                    // 1. Nền Deep Dark (Không gian sâu)
+                    ctx.fillStyle = '#050505';
                     ctx.fillRect(0, 0, 512, 512);
 
-                    // 2. Gáy lịch Vàng Gold
-                    var headGrad = ctx.createLinearGradient(0, 0, 512, 130);
-                    headGrad.addColorStop(0, '#dfb96e');
-                    headGrad.addColorStop(1, '#c59b27');
-                    ctx.fillStyle = headGrad;
-                    ctx.fillRect(0, 0, 512, 130);
+                    // 2. Liquid Glass Mesh Glows (Ánh sáng chiếu dưới lớp kính)
+                    var glow1 = ctx.createRadialGradient(0, 0, 50, 0, 0, 450);
+                    glow1.addColorStop(0, 'rgba(223, 185, 110, 0.45)'); // Vàng gold góc trên trái
+                    glow1.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                    ctx.fillStyle = glow1; ctx.fillRect(0, 0, 512, 512);
 
-                    // 3. Đưa Logo trắng lên gáy lịch (thay cho chữ CHU TOAN)
+                    var glow2 = ctx.createRadialGradient(512, 512, 50, 512, 512, 450);
+                    glow2.addColorStop(0, 'rgba(145, 175, 215, 0.25)'); // Trắng xanh góc dưới phải
+                    glow2.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                    ctx.fillStyle = glow2; ctx.fillRect(0, 0, 512, 512);
+
+                    // 3. Khối Kính lỏng (Thẻ kính bo góc)
+                    ctx.save();
+                    ctx.beginPath();
+                    if(ctx.roundRect) ctx.roundRect(32, 32, 448, 448, 80);
+                    else ctx.rect(32, 32, 448, 448);
+                    
+                    // Nền kính mờ bán trong suốt
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+                    ctx.fill();
+                    
+                    // Ánh sáng lướt trên mặt kính (Shine effect)
+                    var shine = ctx.createLinearGradient(32, 32, 480, 480);
+                    shine.addColorStop(0, 'rgba(255, 255, 255, 0.25)');
+                    shine.addColorStop(0.4, 'rgba(255, 255, 255, 0.0)');
+                    shine.addColorStop(1, 'rgba(223, 185, 110, 0.08)');
+                    ctx.fillStyle = shine;
+                    ctx.fill();
+
+                    // Viền kính nổi 3D vát cạnh
+                    ctx.lineWidth = 3;
+                    var borderGrad = ctx.createLinearGradient(32, 32, 480, 480);
+                    borderGrad.addColorStop(0, 'rgba(255, 255, 255, 0.6)');
+                    borderGrad.addColorStop(0.3, 'rgba(255, 255, 255, 0.05)');
+                    borderGrad.addColorStop(1, 'rgba(255, 255, 255, 0.15)');
+                    ctx.strokeStyle = borderGrad;
+                    ctx.stroke();
+                    ctx.restore();
+
+                    // 4. Vẽ Logo to và đổ bóng sâu để bật hẳn ra khỏi nền
+                    ctx.save();
+                    // Đổ bóng (Drop shadow) màu đen siêu đậm phía sau logo
+                    ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
+                    ctx.shadowBlur = 25;
+                    ctx.shadowOffsetY = 10;
+                    
                     if (logo) {
                         var aspect = logo.width / logo.height;
-                        var h = 76; // Kích thước chiều cao logo trên gáy
-                        var w = h * aspect;
-                        // Căn giữa logo
-                        ctx.drawImage(logo, 256 - w/2, 65 - h/2, w, h);
+                        var w = 310; // Kích thước logo bành trướng, cực to rõ
+                        var h = w / aspect;
+                        // Căn giữa X, đẩy Y lên trên cùng (Y=190)
+                        ctx.drawImage(logo, 256 - w/2, 190 - h/2, w, h);
                     } else {
-                        // Dự phòng khi mạng lag không tải được ảnh
-                        ctx.fillStyle = '#0a1128';
+                        ctx.fillStyle = '#ffffff';
                         ctx.textAlign = 'center';
                         ctx.textBaseline = 'middle';
-                        ctx.font = '900 45px Arial, sans-serif';
-                        ctx.fillText('CHU TOAN', 256, 65);
+                        ctx.font = '900 55px Arial, sans-serif';
+                        ctx.fillText('CHU TOAN', 256, 190);
                     }
+                    ctx.restore();
 
-                    // 4. Vẽ lưới lịch (các ô vuông bo góc) ở giữa màn hình
-                    for (var r = 0; r < 5; r++) {
-                        for (var c_idx = 0; c_idx < 7; c_idx++) {
-                            var x = 82 + c_idx * 52;
-                            var y = 165 + r * 52;
-                            
-                            // Tô màu vàng cho 1 ô tượng trưng "ngày hôm nay", các ô khác màu trắng trong suốt
-                            ctx.fillStyle = (r === 2 && c_idx === 4) ? '#dfb96e' : 'rgba(255, 255, 255, 0.12)';
-                            
-                            if (ctx.roundRect) {
-                                ctx.beginPath();
-                                ctx.roundRect(x, y, 36, 36, 10); // Ô vuông 36x36, bo góc 10px
-                                ctx.fill();
-                            } else {
-                                ctx.fillRect(x, y, 36, 36);
-                            }
+                    // 5. Lưới lịch Minimalist (Thay cho 35 ô vuông rối mắt)
+                    // Chỉ dùng 7 chấm thủy tinh mờ tinh tế
+                    var dotSpacing = 42;
+                    var startX = 256 - (3 * dotSpacing);
+                    for (var i = 0; i < 7; i++) {
+                        ctx.beginPath();
+                        ctx.arc(startX + i * dotSpacing, 345, 7, 0, Math.PI * 2);
+                        if (i === 4) { // Chấm phát sáng báo hiệu ngày đi chụp
+                            ctx.save();
+                            ctx.fillStyle = '#dfb96e';
+                            ctx.shadowColor = '#dfb96e';
+                            ctx.shadowBlur = 15;
+                            ctx.fill();
+                            ctx.restore();
+                        } else {
+                            ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+                            ctx.fill();
                         }
                     }
 
-                    // 5. Chữ Lịch Chụp Ảnh (Vàng Gold - Fix triệt để lỗi font tiếng Việt)
-                    ctx.fillStyle = '#dfb96e';
+                    // 6. Chữ LỊCH CHỤP ẢNH (Phóng to tối đa, Đậm, Phủ bóng glow)
+                    ctx.save();
+                    ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
+                    ctx.shadowBlur = 12;
+                    ctx.shadowOffsetY = 4;
+                    
+                    ctx.fillStyle = '#dfb96e'; 
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
-                    ctx.font = 'bold 36px Arial, "Helvetica Neue", Helvetica, sans-serif';
-                    ctx.fillText('LỊCH CHỤP ẢNH', 256, 455);
+                    // Tăng font lên 48px và ép font siêu đậm
+                    ctx.font = '900 48px Arial, "Helvetica Neue", Helvetica, sans-serif';
+                    ctx.fillText('LỊCH CHỤP ẢNH', 256, 425);
+                    ctx.restore();
 
-                    // Xuất ảnh áp dụng cho Icon
+                    // Xuất ảnh
                     var pngUrl = c.toDataURL('image/png');
                     document.getElementById('appFavicon').href = pngUrl;
                     document.getElementById('appleTouchIcon').href = pngUrl;
