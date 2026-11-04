@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Lịch Chụp Ảnh">
     
-    <!-- FAVICON TĨNH TỰ VẼ (GIAO DIỆN LỊCH ĐEN ĐỎ + LOGO + CHỮ) -->
+  <!-- FAVICON TĨNH TỰ VẼ (GIAO DIỆN LỊCH NAVY + LOGO + LƯỚI LỊCH) -->
     <link rel="icon" id="appFavicon" type="image/png" href="">
     <link rel="apple-touch-icon" id="appleTouchIcon" sizes="180x180" href="">
     <link rel="shortcut icon" id="shortFavicon" href="">
@@ -21,43 +21,57 @@
 
             function render(logo) {
                 try {
-                    // 1. Nền dưới màu Đen xám để làm nổi Logo Trắng
-                    ctx.fillStyle = '#141414';
+                    // 1. Nền Xanh Navy Quyền lực
+                    ctx.fillStyle = '#0a1128';
                     ctx.fillRect(0, 0, 512, 512);
 
-                    // 2. Gáy lịch màu Đỏ ở trên cùng
+                    // 2. Gáy lịch Vàng Gold
                     var headGrad = ctx.createLinearGradient(0, 0, 512, 130);
-                    headGrad.addColorStop(0, '#d93829');
-                    headGrad.addColorStop(1, '#b82518');
+                    headGrad.addColorStop(0, '#dfb96e');
+                    headGrad.addColorStop(1, '#c59b27');
                     ctx.fillStyle = headGrad;
                     ctx.fillRect(0, 0, 512, 130);
-                    
-                    // Đường viền vàng mỏng
-                    ctx.fillStyle = '#dfb96e';
-                    ctx.fillRect(0, 130, 512, 8); 
 
-                    // 3. Chữ trên gáy lịch
-                    ctx.fillStyle = '#ffffff';
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    ctx.font = '800 48px -apple-system, BlinkMacSystemFont, sans-serif';
-                    ctx.fillText('CHU TOAN', 256, 65);
-
-                    // 4. Vẽ Logo trắng to ở chính giữa
+                    // 3. Đưa Logo trắng lên gáy lịch (thay cho chữ CHU TOAN)
                     if (logo) {
                         var aspect = logo.width / logo.height;
-                        var w = 260; // Kích thước logo
-                        var h = w / aspect;
-                        ctx.drawImage(logo, 256 - w/2, 265 - h/2, w, h);
+                        var h = 76; // Kích thước chiều cao logo trên gáy
+                        var w = h * aspect;
+                        // Căn giữa logo
+                        ctx.drawImage(logo, 256 - w/2, 65 - h/2, w, h);
                     } else {
-                        ctx.fillStyle = '#ffffff';
-                        ctx.font = '900 60px -apple-system, BlinkMacSystemFont, sans-serif';
-                        ctx.fillText('FOTO', 256, 260);
+                        // Dự phòng khi mạng lag không tải được ảnh
+                        ctx.fillStyle = '#0a1128';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.font = '900 45px Arial, sans-serif';
+                        ctx.fillText('CHU TOAN', 256, 65);
                     }
 
-                    // 5. Chữ LỊCH CHỤP ẢNH ở dưới cùng
+                    // 4. Vẽ lưới lịch (các ô vuông bo góc) ở giữa màn hình
+                    for (var r = 0; r < 5; r++) {
+                        for (var c_idx = 0; c_idx < 7; c_idx++) {
+                            var x = 82 + c_idx * 52;
+                            var y = 165 + r * 52;
+                            
+                            // Tô màu vàng cho 1 ô tượng trưng "ngày hôm nay", các ô khác màu trắng trong suốt
+                            ctx.fillStyle = (r === 2 && c_idx === 4) ? '#dfb96e' : 'rgba(255, 255, 255, 0.12)';
+                            
+                            if (ctx.roundRect) {
+                                ctx.beginPath();
+                                ctx.roundRect(x, y, 36, 36, 10); // Ô vuông 36x36, bo góc 10px
+                                ctx.fill();
+                            } else {
+                                ctx.fillRect(x, y, 36, 36);
+                            }
+                        }
+                    }
+
+                    // 5. Chữ Lịch Chụp Ảnh (Vàng Gold - Fix triệt để lỗi font tiếng Việt)
                     ctx.fillStyle = '#dfb96e';
-                    ctx.font = '800 38px -apple-system, BlinkMacSystemFont, sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.font = 'bold 36px Arial, "Helvetica Neue", Helvetica, sans-serif';
                     ctx.fillText('LỊCH CHỤP ẢNH', 256, 455);
 
                     // Xuất ảnh áp dụng cho Icon
